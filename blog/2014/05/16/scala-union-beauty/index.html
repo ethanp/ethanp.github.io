@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Functional Union of Two Sets - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="I&rsquo;m in the 3rd week of Functional Programming Principles in Scala
+course on Coursera, taught by Martin Odersky, the creator of Scala. The class &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2014/05/16/scala-union-beauty">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>They can't know.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A Functional Union of Two Sets</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-16T19:01:58-07:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&rsquo;m in the 3rd week of <a href="http://www.coursera.org/course/progfun">Functional Programming Principles in Scala</a>
+course on Coursera, taught by Martin Odersky, the creator of Scala. The class
+has been surprisingly awesome so far, but one thing above all struck me as
+impossible: the &ldquo;functional&rdquo; implementation of the <em>union</em> of two immutable
+binary search trees.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="o">((</span><span class="n">left</span> <span class="n">union</span> <span class="n">right</span><span class="o">)</span> <span class="n">union</span> <span class="n">other</span><span class="o">)</span> <span class="n">incl</span> <span class="n">elem</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong><em>WWWHHAATTT??</em></strong></p>
+
+<p>After an intensive investigation, I eventually determined that this operation
+performs what I&rsquo;m calling a <em>&lsquo;post-order insertion&rsquo;</em> of the elements of <code>this</code>
+(non-empty) <code>IntSet</code> into <code>other</code>.</p>
+
+<!-- more -->
+
+
+<p>Ok, you need some context. Odersky defines our <code>IntSet</code> binary search tree as follows:</p>
+
+<h3>Setup</h3>
+
+<figure class='code'><figcaption><span>IntSet</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">trait</span> <span class="nc">IntSet</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">object</span> <span class="nc">Empty</span> <span class="k">extends</span> <span class="nc">IntSet</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="n">other</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="k">val</span> <span class="n">elem</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="k">val</span> <span class="n">left</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">,</span> <span class="k">val</span> <span class="n">right</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">IntSet</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">elem</span><span class="o">)</span> <span class="n">left</span> <span class="n">contains</span> <span class="n">x</span>
+</span><span class='line'>        <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">elem</span><span class="o">)</span> <span class="n">right</span> <span class="n">contains</span> <span class="n">x</span>
+</span><span class='line'>        <span class="k">else</span> <span class="kc">true</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">elem</span><span class="o">)</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">elem</span><span class="o">,</span> <span class="n">left</span> <span class="n">incl</span> <span class="n">x</span><span class="o">,</span> <span class="n">right</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">elem</span><span class="o">)</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">elem</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">right</span> <span class="n">incl</span> <span class="n">x</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">else</span> <span class="k">this</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="o">((</span><span class="n">left</span> <span class="n">union</span> <span class="n">right</span><span class="o">)</span> <span class="n">union</span> <span class="n">other</span><span class="o">)</span> <span class="n">incl</span> <span class="n">elem</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The only thing that&rsquo;s non-obvious is the <em>union</em> method I mentioned above. The
+reader should make sure she understands the other methods before continuing.</p>
+
+<p>At first I wondered, &ldquo;What sort of tree is produced by the union of two
+<code>IntSet</code>?&rdquo; Given fact that the <code>contains</code> method relies on the tree being a
+<em>Binary Search Tree</em>, I wondered how this method could possibly retain the
+sortedness. The short answer is that each element of <code>this</code> is passed through <code>incl</code> to be inserted into <code>other</code>. In the process, I noticed a number of properties of this operation.</p>
+
+<h1>The best explanation I&rsquo;ve got</h1>
+
+<h2>Some preliminary properties of <code>(A union B)</code></h2>
+
+<p>By <strong>post-order insertion</strong>, I mean we do a <a href="http://en.wikipedia.org/wiki/Post-order_traversal">post-order traversal</a>
+of <code>A</code>, inserting each element into <code>B</code>.</p>
+
+<p>First of all, <strong>let &ldquo;<code>int_set</code>&rdquo; be an arbitrary <code>IntSet</code></strong>.</p>
+
+<h4>Prop 1.a:</h4>
+
+<h5><code>(Empty union int_set) == int_set</code></h5>
+
+<p>This is simply the definition of <code>union</code> on <code>Empty</code>.</p>
+
+<h4>Prop 1.b:</h4>
+
+<h5><code>(int_set union Empty)</code> <em>does not neccessarily</em> <code>== int_set</code></h5>
+
+<p><em>Counterexample</em>: the IntSet produced by</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="o">(((</span><span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">))</span> <span class="n">incl</span> <span class="mi">1</span><span class="o">)</span> <span class="n">incl</span> <span class="mi">3</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="../../../../../images/union_lemma_1b.jpg" alt="" /></p>
+
+<h4>Prop 2:</h4>
+
+<h5>Inserting nodes from <code>left</code> into <code>right</code> with the <code>incl</code> method will produce a tree where every element of <code>left</code> is hanging off the left edge of the leftmost element of <code>right</code>.</h5>
+
+<p>We know every element of <code>right</code> is greater than every element of <code>left</code>.
+Therefore each element being added to <code>right</code> from <code>left</code> will travel strictly
+leftwards through the <code>right</code> tree before being deposited.</p>
+
+<h4>Prop 3:</h4>
+
+<h5><code>other</code> is left fully intact in the returned <code>IntSet</code></h5>
+
+<p>Recall that <code>other</code> is the <code>IntSet</code> operand on the right side of the <code>union</code> operator.
+<em>This is explained below.</em></p>
+
+<h2>Watch the operation unfold (<em>this is the meat</em>)</h2>
+
+<p>Let&rsquo;s think of the <code>union</code> operator in terms of how it get&rsquo;s rewritten.</p>
+
+<ul>
+<li><strong>a U b</strong></li>
+<li><strong>((a.left U a.right) U b) incl a.elem</strong>, a substitution of the formula</li>
+<li><strong>(a1 U b) incl a.head</strong>, a rewrite, letting <strong>a.left U a.right := a1</strong></li>
+<li><strong>(((a1.left U a1.right) U b) incl a1.elem) incl a.elem</strong>, by substituting the formula</li>
+<li><strong>((a2 U b) incl a1.elem) incl a.elem</strong>, letting <strong>a1.left U a1.right := a2</strong></li>
+<li>repeat as necessary</li>
+</ul>
+
+
+<h4>So from these few steps we can already see quite a few important things:</h4>
+
+<ol>
+<li>We keep removing one element from <code>IntSet a</code>, and prepending it to a list of single <code>elem</code> to <code>incl</code> into <code>IntSet b</code>.</li>
+<li>So now it is clear that what this function does, is one-by-one <code>incl</code> <code>elem</code> of <code>this</code> into <code>other</code>. This gives us <em>Prop 3</em> above.</li>
+</ol>
+
+
+<h4>What remains to be determined is the <em>order</em> in which these <code>incl</code> occur.</h4>
+
+<ol>
+<li><strong>a.elem</strong> will be the <em>last</em> element included</li>
+<li><strong>a1.elem</strong> will be the <em>second to last</em> element included</li>
+<li>By <em>Prop 3</em> which was demonstrated just a minute ago, <strong>a1.elem</strong> is the root
+node of <strong>a.right</strong></li>
+<li>Now the <em>post-order algorithm</em> goes <em>left, right, root</em>; and we&rsquo;ve got <em>???,
+right, root</em>.</li>
+<li>Instead of spending forever demonstrating why <em>???</em> shall be filled in with left, I&rsquo;ll simply point out that:
+
+<ol>
+<li>In our counterexample demonstration of <em>Prop 1.b</em> above, the root follows the right follows the left.</li>
+<li>There&rsquo;s simply no other element to choose from in a <code>NonEmpty</code> <code>IntSet</code>.</li>
+</ol>
+</li>
+</ol>
+
+
+<h1>Short example of union in action</h1>
+
+<p><img src="../../../../../images/IMG_0945.jpg" alt="" /></p>
+
+<p>Perhaps the notation of this example is a bit hard to parse. Well ain&rsquo;t it
+darn <em>fortuitous</em> that I&rsquo;m here to explain it.</p>
+
+<ol>
+<li><p>At the very top we have a restatement of the formula to be applied upon
+taking the union of two <code>IntSet</code>.</p></li>
+<li><p>Next we have the two <code>IntSet</code> we&rsquo;d like to find the union <em>of</em>, named <code>A</code>
+and <code>B</code>. <code>A</code> references a 3-element Binary Tree containing (3, 5, 7), and
+<code>B</code> references a Tree containing (6, 7, 8).</p></li>
+<li><p>Next we substitute <code>A U B</code> into the equation at the top to give us a
+<strong>problem of reduction</strong> with three components. If we were to define the
+operators to associate to the left we could remove the parentheses, but I
+don&rsquo;t know if that&rsquo;s legal, in Scala or in Math.</p></li>
+<li><p>By following the <em>order of operations</em>, we first determine the result of
+the inner-most parentheses, and proceed outwards, which leaves us the
+desired result.</p></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-16T19:01:58-07:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/coursera/'>Coursera</a>, <a class='category' href='/blog/categories/scala/'>Scala</a>, <a class='category' href='/blog/categories/functional-programming/'>functional programming</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/14/octopress/" title="Previous Post: octopress">&laquo; octopress</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/16/scala-union-beauty/">A Functional Union of Two Sets</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/14/octopress/">Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
