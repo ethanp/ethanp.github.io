@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Multimarkdown to LaTeX - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="I was trying to think of a cool program to write, and I thought, &ldquo;Wouldn&rsquo;t it
+be nice to have a Markdown to LaTeX converter.&rdquo; &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2014/05/22/multimarkdown-to-latex">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>They can't know.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Multimarkdown to LaTeX</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-22T18:32:09-07:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I was trying to think of a cool program to write, and I thought, &ldquo;Wouldn&rsquo;t it
+be nice to have a Markdown to LaTeX converter.&rdquo; Instead of making it, I
+decided to look for any existing ones on the web. That&rsquo;s how I found
+<a href="http://fletcherpenney.net/multimarkdown/">Multimarkdown</a> which is basically a souped up version of regular markdown.</p>
+
+<p>For the uninitiated, <a href="http://daringfireball.net/projects/markdown/">Markdown</a> is a simplified way of writing html markup.
+If you don&rsquo;t know about it please check it out. It is in fact how this very
+webpage was created.</p>
+
+<p>Anyway, the first time it took me a whole day to get this Multimarkdown to
+LaTex conversion working, because I couldn&rsquo;t understand how to do it and no
+one had addressed my issues online before. So today I had to install it all
+over again on a different computer, and to save my future self and you a lot
+of trouble I noted what I did to get it to work (Mac OSX only).</p>
+
+<!-- more -->
+
+
+<h3>Install a lot of software</h3>
+
+<p>First you must install <a href="http://brew.sh/">homebrew</a> the lifesaving Mac package manager.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ruby -e <span class="s2">&quot;$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you should install multimarkdown et al. by running</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew install multimarkdown pkg-config glib gettext
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;m not sure every one of those is necessary, but I don&rsquo;t have another
+computer to test which ones can be left out. Probably at least the first one
+is necessary.</p>
+
+<p>Now go to the Mac App Store and buy <a href="https://itunes.apple.com/us/app/multimarkdown-composer/id593294811?ls=1&amp;amp;mt=12">MultiMarkdown Composer</a> for $12. Or
+don&rsquo;t, it isn&rsquo;t actually necessary, but I like that it live-renders LaTeX
+equations and has a hotkey for exporting markdown to different formats. You
+can export using the command-line too and that&rsquo;s also quite simple.</p>
+
+<p>Install <a href="https://www.tug.org/texworks/">TeXworks</a>. This is a gui for running LaTeX commands, and it&rsquo;s free,
+but again you can use the terminal for anything you can do in here if that&rsquo;s
+your thing.</p>
+
+<h3>Get the base latex installation and multimarkdown template files</h3>
+
+<p>Download the <a href="https://github.com/fletcher/peg-multimarkdown-latex-support/zipball/master">multimarkdown latex support</a> files from github. And put them
+in a (likely <em>new</em>) directory called <code>~/Library/texmf/tex/latex/mmd</code>.
+Personally, I put the files in &hellip;/texmf/tex<strong>t</strong>/latex/&hellip; and that cost me a
+half-hour of my life so do yourself a favor and just copy and paste the
+following command</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p ~/Library/texmf/tex/latex/mmd
+</span><span class='line'>mv myunzipped_latex_support_files ~/Library/texmf/tex/latex/mmd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Install <a href="http://www.tug.org/mactex/">mactex-2013</a>. For whatever amazing reasons, you can&rsquo;t use homebrew
+for this. You have to go to that website, download a 4+ GB file and run the
+installer.</p>
+
+<h3>Create your first latex-ready markdown document</h3>
+
+<p>Now create a file Yayaya.md in Multimarkdown Composer and paste the following
+header at the top, verbatim:</p>
+
+<pre><code>latex input:        mmd-article-header
+Title:      Hello Dr. Fourier
+Author:     My Name
+Base Header Level:      1
+latex mode:     memoir
+Keywords:       Math, DSP, Digital Signal Processing, Fourier Transform
+CSS:        http://fletcherpenney.net/css/document.css
+xhtml header:       &lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;
+&lt;/script&gt;
+copyright:          2014 My Name
+latex input:        mmd-natbib-plain
+latex input:        mmd-article-begin-doc
+latex footer:       mmd-memoir-footer
+</code></pre>
+
+<p>That was just telling Multimarkdown how to format the LaTeX output. After that paste the actual contents of the document, e.g.</p>
+
+<pre><code># Simpler LaTeXing #
+
+## The Fourier Transform ##
+
+**Sometimes** *this* formula comes in quite handy.
+
+### The Formulation ###
+
+What follows is the formula for the Fourier transform.
+
+\\[FT\{f(x)\}:=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\!f(x)e^{-iwx}dx\\]
+</code></pre>
+
+<p>Then go to <code>file-&gt;export-&gt; "Export as: asdf" , "Format: LaTeX"</code></p>
+
+<p>This <em>should</em> have produced the following raw latex file:</p>
+
+<pre><code>\input{mmd-article-header}
+\def\mytitle{Hello Dr. Fourier}
+\def\myauthor{My Name}
+\def\latexmode{memoir}
+\def\keywords{Math, DSP, Digital Signal Processing, Fourier Transform}
+\def\mycopyright{2014 My Name}
+\input{mmd-natbib-plain}
+\input{mmd-article-begin-doc}
+\part{Simpler LaTeXing}
+\label{simplerlatexing}
+
+\chapter{The Fourier Transform}
+\label{thefouriertransform}
+
+\textbf{Sometimes} \emph{this} formula comes in quite handy.
+
+\section{The Formulation}
+\label{theformulation}
+
+What follows is the formula for the Fourier transform.
+
+\[FT\{f(x)\}:=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\!f(x)e^{-iwx}dx\]
+
+\input{mmd-memoir-footer}
+
+\end{document}
+</code></pre>
+
+<p>Open <code>asdf.tex</code> in TeXworks, hit the green &ldquo;play&rdquo; button in the top-left
+corner. A bunch of garbage will pile up in the Console Output area, but then
+your beautiful PDF will have been generated. This is just stellar, I&rsquo;m telling
+you. Now you can open the <code>asdf.pdf</code> file in your favorite pdf viewer.</p>
+
+<h3>Bask in its glory</h3>
+
+<p>How about that. Hmm, indeed.</p>
+
+<h3>Comprehensive troubleshooting guide</h3>
+
+<p>If in the console of TeXworks, you get something like <code>mmd-article-header.tex:
+not found</code>, it means you put the multimarkdown-latex-support files in the
+wrong place or you forgot to download them or something. Because I kept
+getting that error message I was <em>convinced</em> there was some command I needed
+to run to tell mactex that this new directory exists on my machine and
+contains latex templates. Believe: there is no such command, mactex just looks
+in this directory of its own accord.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-22T18:32:09-07:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/fletcher-penney/'>fletcher penney</a>, <a class='category' href='/blog/categories/installation/'>installation</a>, <a class='category' href='/blog/categories/latex/'>latex</a>, <a class='category' href='/blog/categories/markdown/'>markdown</a>, <a class='category' href='/blog/categories/multimarkdown/'>multimarkdown</a>, <a class='category' href='/blog/categories/tex/'>tex</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/16/scala-union-beauty/" title="Previous Post: A Functional Union of two Sets">&laquo; A Functional Union of two Sets</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/22/multimarkdown-to-latex/">Multimarkdown to LaTeX</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/16/scala-union-beauty/">A Functional Union of Two Sets</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/14/octopress/">Octopress</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
