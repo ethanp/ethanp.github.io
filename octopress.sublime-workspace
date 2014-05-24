@@ -1,0 +1,1119 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"new",
+				"newNode"
+			],
+			[
+				"conn",
+				"connctedSet"
+			],
+			[
+				"coll",
+				"collectConnections"
+			],
+			[
+				"cl",
+				"clickedParent"
+			],
+			[
+				"click",
+				"clickedParent"
+			],
+			[
+				"cli",
+				"clickedParent"
+			],
+			[
+				"rece",
+				"receiveEvent"
+			],
+			[
+				"rec",
+				"receiveEvent"
+			],
+			[
+				"def",
+				"define"
+			],
+			[
+				"prime",
+				"primePairs"
+			],
+			[
+				"shor",
+				"shortestPath"
+			],
+			[
+				"par",
+				"particles"
+			],
+			[
+				"mod",
+				"modifyConstants"
+			],
+			[
+				"ou",
+				"outFile"
+			],
+			[
+				"look",
+				"look_ahead"
+			],
+			[
+				"choose",
+				"choose_action"
+			],
+			[
+				"art",
+				"artifact_utility"
+			],
+			[
+				"utilit",
+				"utility_of_voting"
+			],
+			[
+				"utility",
+				"utility_of_voting"
+			],
+			[
+				"ut",
+				"utility_of_stopping_voting"
+			],
+			[
+				"or",
+				"orig_predicted"
+			],
+			[
+				"estimate",
+				"estimate_artifact_utility"
+			],
+			[
+				"turk",
+				"turkpf"
+			],
+			[
+				"frameT",
+				"frameTableEntry"
+			],
+			[
+				"frame",
+				"frameTableEntry"
+			],
+			[
+				"mapp",
+				"mappings"
+			],
+			[
+				"fra",
+				"frameTableEntry"
+			],
+			[
+				"over",
+				"overflow"
+			],
+			[
+				"log",
+				"log_2"
+			],
+			[
+				"se",
+				"SELF"
+			],
+			[
+				"get",
+				"getNext"
+			],
+			[
+				"rand",
+				"randomNumber"
+			],
+			[
+				"num",
+				"numWriters"
+			],
+			[
+				"wr",
+				"Writers"
+			],
+			[
+				"S",
+				"StageReady"
+			],
+			[
+				"St",
+				"Stage"
+			],
+			[
+				"AnnouncementR",
+				"AnnouncementReady"
+			],
+			[
+				"An",
+				"Announced"
+			],
+			[
+				"Ann",
+				"Announced"
+			],
+			[
+				"Gui",
+				"GuitarsReady"
+			],
+			[
+				"A",
+				"Announced"
+			],
+			[
+				"co",
+				"collect_guitars"
+			],
+			[
+				"ann",
+				"announcer"
+			],
+			[
+				"Anno",
+				"Announcement"
+			],
+			[
+				"fil",
+				"fileOut"
+			],
+			[
+				"top",
+				"topNode"
+			],
+			[
+				"str",
+				"strcmp"
+			],
+			[
+				"si",
+				"sizeof"
+			],
+			[
+				"ch",
+				"chooseIngredients"
+			],
+			[
+				"pap",
+				"paper"
+			],
+			[
+				"to",
+				"tobacco"
+			],
+			[
+				"match",
+				"matches"
+			],
+			[
+				"sleep",
+				"sleep_list"
+			],
+			[
+				"var",
+				"variables"
+			],
+			[
+				"row",
+				"rowLine"
+			],
+			[
+				"star",
+				"startingGameState"
+			],
+			[
+				"succ",
+				"successorNode"
+			],
+			[
+				"s",
+				"successorGN"
+			],
+			[
+				"su",
+				"successorNode"
+			],
+			[
+				"suc",
+				"successorFN"
+			],
+			[
+				"fo",
+				"for	For Loop"
+			],
+			[
+				"c",
+				"cl	class"
+			],
+			[
+				"a",
+				"are"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "source/_posts/2014-05-14-scala-union-beauty.markdown",
+			"settings":
+			{
+				"buffer_size": 6017,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 129.0,
+		"selected_items":
+		[
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"sass",
+				"SassBeautify"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"djang",
+				"Django: Sync Database"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"jsl",
+				"JSLint: Run JSLint"
+			],
+			[
+				"inste",
+				"Package Control: Install Package"
+			],
+			[
+				"tags",
+				"CTags: Rebuild Tags"
+			],
+			[
+				"tag",
+				"CTags: Rebuild Tags"
+			],
+			[
+				"bhsen",
+				"BracketHighlighter: Select Next Attribute (left)"
+			],
+			[
+				"bh",
+				"BracketHighlighter: Toggle High Visibility Mode"
+			],
+			[
+				"br",
+				"BracketHighlighter: Toggle Global Enable"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"pack",
+				"Package Control: List Packages"
+			],
+			[
+				"search",
+				"File: Search Files"
+			],
+			[
+				"matlab",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"s",
+				"Set Syntax: C"
+			],
+			[
+				"python",
+				"Set Syntax: Python"
+			],
+			[
+				"new",
+				"File: New File Relative to Current View"
+			],
+			[
+				"S",
+				"Set Syntax: C"
+			],
+			[
+				"sy",
+				"Set Syntax: C"
+			],
+			[
+				"user",
+				"Preferences: Settings - User"
+			],
+			[
+				"settings",
+				"Preferences: Settings - User"
+			],
+			[
+				"ke",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"lint",
+				"SublimeLinter: Extract Annotations"
+			],
+			[
+				"disab",
+				"Package Control: Disable Package"
+			],
+			[
+				"edit",
+				"Project: Edit"
+			],
+			[
+				"projec",
+				"Project: Save As"
+			],
+			[
+				"keyb",
+				"Preferences: Key Bindings - Default"
+			],
+			[
+				"syC",
+				"Set Syntax: C"
+			],
+			[
+				"sn",
+				"Snippet: New Class"
+			],
+			[
+				"py",
+				"Set Syntax: Python"
+			],
+			[
+				"sy py",
+				"Set Syntax: Python"
+			],
+			[
+				"syn js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				"set ",
+				"Set Syntax: C#"
+			],
+			[
+				":q",
+				"Set Syntax: SQL"
+			]
+		],
+		"width": 602.0
+	},
+	"console":
+	{
+		"height": 174.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Ruby/octopress/source/_posts/2014-05-22-multimarkdown-to-latex.markdown",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Ruby/octopress/.gitattributes",
+		"/Users/Ethan/Desktop/untitled.html",
+		"/Users/Ethan/.bash_profile",
+		"/Users/Ethan/Desktop/Cyber management System/Server/function.h",
+		"/Users/Ethan/Dropbox/CSyStuff/PrivateCode/Python/PP.py",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Hadoop Wrappers/scalding/scalding-core/codegen/scalding_gen.rb",
+		"/Users/Ethan/Downloads/afm 2/NewhouseDT-Regular.afm",
+		"/Users/Ethan/Downloads/afm 2/BasicComLTRom.AFM",
+		"/Users/Ethan/Downloads/afm_k/AkzidenzGrotesk-Roman.afm",
+		"/Users/Ethan/Downloads/afm_k/Graphik-Regular.afm",
+		"/Users/Ethan/Downloads/afm_k/Chalet-LondonNineteenSixty.afm",
+		"/Users/Ethan/Downloads/afm_k/PragmaticaBook-Reg.afm",
+		"/Users/Ethan/Dropbox/MLease/git/TurKPF/src/main/scala/edu/utexas/turkpf/Experiments.scala",
+		"/Users/Ethan/Dropbox/MLease/git/TurKPF/src/main/scala/edu/utexas/turkpf/TurKPF.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/simple-javascript-game/game.js",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Javascript/SimpleGame_Prototype/main.html",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Javascript/SimpleGame_Prototype/game.js",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Javascript/SimpleGame_Prototype/main.css",
+		"/Users/Ethan/.sbt/plugins/build.sbt",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Scala/activator-akka-spray/src/main/angular/js/jquery.fileupload-audio.js",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Javascript/2048/index.html",
+		"/Users/Ethan/Dropbox/CSyStuff/Conversation/lkj.sh",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Javascript/2048/style/main.css",
+		"/Users/Ethan/Dropbox/CSyStuff/Conversation/Conversation/README.md",
+		"/Users/Ethan/Library/Application Support/Sublime Text 2/Packages/User/SideBarEnhancements/Open With/Side Bar.sublime-menu",
+		"/Users/Ethan/Dropbox/CSyStuff/Conversation/Conversation/Conversation/database.sqlite3",
+		"/Users/Ethan/Dropbox/CSyStuff/Conversation/Conversation/Conversation/v1/views.py",
+		"/Users/Ethan/Dropbox/CSyStuff/Conversation/Conversation/Conversation/urls.py",
+		"/Users/Ethan/Dropbox/CSyStuff/Conversation/Conversation/Conversation/v1/templates/v1/list.html",
+		"/Users/Ethan/Dropbox/CSyStuff/Conversation/venv/lib/python2.7/site-packages/django/contrib/admin/static/admin/js/jquery.js",
+		"/Users/Ethan/Dropbox/CSyStuff/Conversation/Conversation/Conversation/v1/models.py",
+		"/Users/Ethan/Dropbox/CSyStuff/Conversation/Conversation/Conversation/settings.py",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Python/minimal-django-file-upload-example/src/for_django_1-6/myproject/myproject/settings.py",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Python/minimal-django-file-upload-example/src/for_django_1-6/myproject/myproject/urls.py",
+		"/Users/Ethan/Dropbox/CSyStuff/Conversation/Conversation/manage.py",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Python/pathfinder/pathfinder.py",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/multiplayer-game/README.md",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/multiplayer-game/README",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/multiplayer-game/conf/application.conf",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/Discussion-Center/.README.md.un~",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Scala/play-websockets-chat-sample/app/views/chatRoom.scala.js",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/Discussion-Center/app/views/main.scala.html",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/Discussion-Center/app/controllers/Application.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/Discussion-Center/app/views/index.scala.html",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/Discussion-Center/conf/application.conf",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/Discussion-Center/conf/routes",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/Discussion-Center/README",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/Discussion-Center/build.sbt",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/Discussion-Center/project/plugins.sbt",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/Discussion-Center/project/build.properties",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/akka-redis-websockets-play-scala_translation/README.md",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/akka-redis-websockets-play-scala_translation/project/Build.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/akka-redis-websockets-play-scala_translation/README",
+		"/Users/Ethan/Dropbox/Mayu/Mayu.mayu",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Web&JS/introJQuery.html",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Scala/play-websockets-chat-sample/app/controllers/Application.java",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Scala/play-websockets-chat-sample/app/models/ChatRoom.java",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Scala/play-websockets-chat-sample/project/plugins.sbt",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Scala/WordCloud/build.sbt",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Scala/PlayIntro/project/Build.scala",
+		"/Users/Ethan/code/personal_project_use/code_to_base_off_of/Scala/PlayIntro/project/plugins.sbt",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Python/SimplePythonValidator.py",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Python/Closures.py",
+		"/Users/Ethan/Dropbox/CSyStuff/PrivateCode/Java/src/main/java/ctci/ArraysAndStrings.java",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Scala/activator-akka-spray/src/main/scala/api/Api.scala",
+		"/tmp/subl stdin t8vMXE.txt",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Scala/scala-sbt-template/project/plugins.sbt",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Scala/GDataWithAkka/src/test/scala/samples/specs.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Scala/scala-sbt-template/build.sbt",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Scala/GDataWithAkka/project/plugins.sbt",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Scala/GDataWithAkka/build.sbt",
+		"/Users/Ethan/Dropbox/CSyStuff/PrivateCode/C/HashMap/HashMap/sha1.c",
+		"/Users/Ethan/Dropbox/CSyStuff/PrivateCode/C/HashMap/HashMap/main.c",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Scala/scala-io-exercise-1-master/src/main/scala/com/xebia/exercise1/Receptionist.scala",
+		"/Users/Ethan/code/book_code&data/Scala in Depth source code/chapter9/src/main/scala/AdaptiveScatterGather.scala",
+		"/Users/Ethan/code/book_code&data/Scala in Depth source code/chapter9/src/main/scala/main.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Scala/hello-akka/src/main/scala/HelloAkkaScala.scala",
+		"/Users/Ethan/code/book_code&data/Scala in Depth source code/chapter9/src/main/scala/messageapi.scala",
+		"/Users/Ethan/code/book_code&data/Scala in Depth source code/chapter9/src/main/scala/ScatterGather.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/PrivateCode/C/ConsecutiveChars.c",
+		"/Users/Ethan/Desktop/dist/fonts/glyphicons-halflings-regular.svg",
+		"/Users/Ethan/Desktop/dist/css/bootstrap-theme.css",
+		"/Users/Ethan/Desktop/dist/js/bootstrap.js",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Web&JS/TryD3/scraper.js",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/CommentAnalyzer/CommentAnalyzer_0/Sample Comment Responses from Plus Api.txt",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/CommentAnalyzer/CommentAnalyzer_0/app/models/Comment.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/CommentAnalyzer/CommentAnalyzer_0/app/controllers/Application.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/CommentAnalyzer/CommentCollector_0/src/main/scala/na/ethan/CommentCollector/SimpleSentimentClassifier.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Scala/CommentAnalyzer/CommentCollector_0/src/main/scala/na/ethan/CommentCollector/SimpleCommentResponsePrinter.scala",
+		"/Users/Ethan/Dropbox/Mayu/api_design/2013-12-13.mayu",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Python/pybrain/pybrain/structure/modules/mdlstm.py",
+		"/Applications/Anaconda/anaconda/pkgs/ipython-1.1.0-py27_0/lib/python2.7/site-packages/IPython/utils/decorators.py",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Scala/SBT Helpers/np/src/main/scala/np.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Java/Minco_XL/src/xl.java",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/StuffIWrote/Java/Minco_XL/src/Subject.java",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Python/BitVectorEncoderIdea2.py",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Python/BitVectorEncoderIdeaPseudocodeV2.py",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Web&JS/TryD3/scrapable.html",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Python/pybrain/pybrain/tools/kwargsprocessor.py",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Python/pybrain/pybrain/tools/datasets/mnist.py",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Python/pybrain/pybrain/supervised/knn/lsh/nearoptimal.py",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Python/pybrain/pybrain/supervised/knn/lsh/minhash.py",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Python/pybrain/pybrain/optimization/randomsearch.py",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Python/pybrain/pybrain/optimization/optimizer.py",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Python/pybrain/pybrain/optimization/populationbased/evolution.py",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Python/pybrain/pybrain/optimization/hillclimber.py",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Python/sip/siplib/array.c",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Scala/nomad/src/main/scala/com/nevilon/nomad/storage/graph/GraphStorageConnector.scala",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Scala/nomad/src/main/scala/com/nevilon/nomad/storage/graph/GraphProperties.scala",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Scala/nomad/src/main/scala/com/nevilon/nomad/utils/ToStringImpl.scala",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Scala/nomad/src/main/scala/com/nevilon/nomad/filter/UrlsCleaner.scala",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Scala/nomad/src/main/scala/com/nevilon/nomad/filter/FilterBuilder.scala",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Scala/nomad/src/main/scala/com/nevilon/nomad/filter/EndFilter.scala",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Scala/nomad/src/main/scala/com/nevilon/nomad/filter/GroovyScriptingFilter.scala",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Web&JS/imSlow.html",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Scala/nomad/src/main/scala/com/nevilon/nomad/boot/App.scala",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Java/guava-libraries/guava/src/com/google/common/base/FunctionalEquivalence.java",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Java/guava-libraries/guava/src/com/google/common/base/AbstractIterator.java",
+		"/private/etc/php.ini.default",
+		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Web&JS/scrapable.html",
+		"/Users/Ethan/code/book_code&data/Javascript&jQuery_Missing_Manual/chapter07/untitled.html",
+		"/Users/Ethan/Desktop/untitled2.html",
+		"/Users/Ethan/code/book_code&data/Javascript&jQuery_Missing_Manual/chapter12/complete_map.html",
+		"/Users/Ethan/code/book_code&data/Javascript&jQuery_Missing_Manual/chapter06/complete_animate.html",
+		"/Users/Ethan/code/book_code&data/Javascript&jQuery_Missing_Manual/chapter08/complete_menu.html",
+		"/Users/Ethan/code/book_code&data/Javascript&jQuery_Missing_Manual/chapter01/complete_fadeIn.html",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/CSS_JS_HTML/Twitter Bootstrap/docs/grunt/bs-lessdoc-parser.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"",
+			"se",
+			".",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"takenVa",
+			"b",
+			"a",
+			"uiAfter",
+			"root",
+			"TODO",
+			"update",
+			"VALUE",
+			"value",
+			"val",
+			"\"g\"",
+			"append",
+			"fill",
+			"parent",
+			"node",
+			"diagonal",
+			"nodes",
+			"duration",
+			"update",
+			"diagon",
+			"px",
+			"]\n",
+			"date_components",
+			"path_components",
+			"best",
+			"return",
+			"bReturn",
+			"ereturn",
+			"inl",
+			"findwi",
+			"value",
+			".over =",
+			".over",
+			"keepplay",
+			"self",
+			".on ",
+			"on ",
+			"events",
+			"emit",
+			"eventtouchstar",
+			"keyboardInp",
+			"after",
+			"container",
+			"2048",
+			"tile",
+			"2048",
+			"newdoc",
+			"documents",
+			"myapp",
+			"documents",
+			"docfile",
+			"document",
+			"documents",
+			"docfile",
+			"documents",
+			"DocumentForm",
+			"documentform",
+			"request",
+			"talk",
+			"2.10",
+			"sd",
+			"lines",
+			"\"\n",
+			"i",
+			"size",
+			"youtube",
+			"2 billio",
+			"commen",
+			"reply",
+			"entry",
+			"/:",
+			"href=\"#",
+			"selectorLi",
+			"self.rank ",
+			"self.card ",
+			"NNP",
+			"Engineering",
+			"(vote)",
+			"vote)",
+			"createLL",
+			"doubleL",
+			"#",
+			"name.*unique",
+			"name",
+			"true",
+			"fullSc",
+			"transpose",
+			"COMMENT",
+			"exit",
+			"_",
+			"actions\"",
+			"actions",
+			"EXP_LOOKAHEAD",
+			"CHOOSEACTION",
+			"\\t",
+			")(",
+			"f_QPrim",
+			"f_qPrime",
+			"QuestionState",
+			"f_QPrime",
+			"f_qPrime",
+			"stopping",
+			"f_qPrime",
+			"look",
+			"colorize",
+			"buildf",
+			"scalavers",
+			"class ",
+			"class",
+			"hack",
+			"trollop",
+			"reversestr",
+			"dicts",
+			"stack",
+			"endswith",
+			"canonical",
+			"particle",
+			"filt",
+			"particl",
+			"filter",
+			"particle filter",
+			"segment",
+			"''",
+			"simple",
+			"''",
+			";",
+			"___",
+			"getNeigh"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"self.card.rank ",
+			"self.card.rank",
+			" \n        \"worker_dist_mean\\t\"      +\n        \"worker_dist_stdev\\t\"     +\n        \"initial_quality\\t\"       +\n        \"improvement_cost\\t\"      +\n        \"ballot_cost\\t\"           +\n        \"difficulty_constant\\t\"   +\n        \"lookahead_depth\\t\"       +\n        \"num_questions\\t\"         +\n        \"initial_balance\\t\"       +\n        \"num_particles\\t\"         +\n        \"learning_rate\\t\"         +\n        \"utility_of_$$$\\t\"        +\n        \"action_list\\t\"           +\n        \"final_utility\\n\"",
+			"\"mode\\t\"                  +\n        \"worker_dist_mean\\t\"      +\n        \"worker_dist_stdev\\t\"     +\n        \"initial_quality\\t\"       +\n        \"improvement_cost\\t\"      +\n        \"ballot_cost\\t\"           +\n        \"difficulty_constant\\t\"   +\n        \"lookahead_depth\\t\"       +\n        \"num_questions\\t\"         +\n        \"initial_balance\\t\"       +\n        \"num_particles\\t\"         +\n        \"learning_rate\\t\"         +\n        \"utility_of_$$$\\t\"        +\n        \"action_list\\t\"           +\n        \"final_utility\\n\"",
+			" ",
+			"f_QPrime"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "source/_posts/2014-05-14-scala-union-beauty.markdown",
+					"settings":
+					{
+						"buffer_size": 6017,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								495,
+								495
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2.0,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5.0,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10.0,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 35.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.anypreter":
+	{
+		"height": 144.0
+	},
+	"output.exec":
+	{
+		"height": 118.0
+	},
+	"output.jslint_result_view":
+	{
+		"height": 154.0
+	},
+	"replace":
+	{
+		"height": 82.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"prob",
+				"probability.doctest"
+			],
+			[
+				"probl",
+				"probability.py"
+			],
+			[
+				"",
+				"LispParserEnvironmentVisitor.java"
+			],
+			[
+				"lispparserdu",
+				"LispParserDumpVisitor.java"
+			],
+			[
+				"astpr",
+				"ASTProgram.java"
+			],
+			[
+				"thread.c",
+				"src/threads/thread.c"
+			],
+			[
+				"alarm-wait.c",
+				"src/tests/threads/alarm-wait.c"
+			],
+			[
+				"timer.c",
+				"src/devices/timer.c"
+			],
+			[
+				"thread.h",
+				"src/threads/thread.h"
+			],
+			[
+				"timer",
+				"src/devices/timer.c"
+			],
+			[
+				"lst.h",
+				"src/lib/kernel/list.h"
+			],
+			[
+				"timer.h",
+				"src/devices/timer.h"
+			],
+			[
+				".tags",
+				"src/.tags"
+			],
+			[
+				"list.c",
+				"src/lib/kernel/list.c"
+			],
+			[
+				"list",
+				"src/lib/kernel/list.h"
+			],
+			[
+				"init.h",
+				"src/threads/init.h"
+			],
+			[
+				"init.c",
+				"src/threads/init.c"
+			],
+			[
+				"int",
+				"src/devices/intq.c"
+			],
+			[
+				"th",
+				"src/threads/thread.c"
+			],
+			[
+				"thread",
+				"src/threads/thread.h"
+			],
+			[
+				"synch",
+				"src/threads/synch.c"
+			],
+			[
+				"sy",
+				"src/threads/synch.h"
+			],
+			[
+				"syn",
+				"src/threads/synch.c"
+			],
+			[
+				"work",
+				"OS.sublime-workspace"
+			],
+			[
+				"te",
+				"bin/testtime"
+			],
+			[
+				"shw",
+				"SystemsHW1.txt"
+			],
+			[
+				"s",
+				"systemHello.c"
+			],
+			[
+				"set",
+				"/Users/Ethan/Applications/galagosearch-1.04/src/galagosearch-core/src/main/java/org/galagosearch/core/eval/stat/Fmath.java"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/Users/Ethan/Dropbox/OperatingSystemsCS439/git/1HW/OS.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 157.0,
+	"status_bar_visible": true
+}
