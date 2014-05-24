@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="Installation guide for Mac OSX One day, I thought, &ldquo;Wouldn&rsquo;t it be nice to have a Markdown to LaTeX
-converter.&rdquo; Theoretically, one &hellip;">
+  <meta name="description" content="I spent quite a while struggling with the Java class declaration syntax, and
+now I am starting to get it. Problem simplification I started out &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,87 @@ converter.&rdquo; Theoretically, one &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/23/java-inheritance-issue/">Java Inheritance</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-23T14:06:59-07:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I spent quite a while struggling with the Java class declaration syntax, and
+now I am starting to get it.</p>
+
+<h3>Problem simplification</h3>
+
+<p>I started out writing this post because I was <em>totally right</em> and the Java
+compiler was <em>wrong</em>, and so on, but now I have cleared it up and I was wrong
+and the compiler was right after all (surprise!). I was initially intending to
+use this post as a way of getting satisfaction out of how much smarter I am
+than the compiler, and instead I will use this space to explain to the next
+how to answer similar questions. I started by <em>heavily</em> simplifying my issue
+down to its core, and attacking the simplified problem instead of the original
+one with extraneous variables and interconnections. I&rsquo;ve never approached a
+programming problem like that, and let me tell you: seems like it worked. By a
+twist of fate, the new version looks like a LinkedList, that&rsquo;s not what I
+started out doing, but who knows what&rsquo;ll happen when you keep smushing the
+problem from a larger context into a little jar.</p>
+
+<p>First, we have a <code>Base</code>, which holds an element <code>elem</code> of any type, and a
+reference to another <code>Base</code>, quite like a <em>linked list</em>.</p>
+
+<figure class='code'><figcaption><span>Base.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">T</span> <span class="n">elem</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">Base</span><span class="o">(</span><span class="n">T</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">elem</span> <span class="o">=</span> <span class="n">elem</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/05/23/java-inheritance-issue/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -239,6 +320,10 @@ certainly not well written; that&rsquo;s okay though.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/23/java-inheritance-issue/">Java Inheritance</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/05/22/multimarkdown-to-latex/">Markdown to LaTeX</a>
