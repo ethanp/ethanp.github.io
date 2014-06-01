@@ -137,7 +137,8 @@ is necessary.</p>
 <p>Now go to the Mac App Store and buy <a href="https://itunes.apple.com/us/app/multimarkdown-composer/id593294811?ls=1&amp;amp;mt=12">MultiMarkdown Composer</a> for $12. Or
 don&rsquo;t, it isn&rsquo;t actually necessary, but I like that it live-renders LaTeX
 equations and has a hotkey for exporting markdown to different formats. You
-can export using the command-line too and that&rsquo;s also quite simple.</p>
+can export using the command-line too and that&rsquo;s also quite simple (and
+free) (see below for script).</p>
 
 <p>Install <a href="https://www.tug.org/texworks/">TeXworks</a>. This is a gui for running LaTeX commands, and it&rsquo;s free,
 but again you can use the terminal for anything you can do in here if that&rsquo;s
@@ -164,18 +165,17 @@ installer.</p>
 
 <h3>Create your first latex-ready markdown document</h3>
 
-<p>Now create a file Yayaya.md in Multimarkdown Composer and paste the following
-header at the top, verbatim:</p>
+<p>Now create a file Yayaya.md in Multimarkdown Composer (or Vim or whatever) and
+paste the following header at the top, verbatim:</p>
 
 <pre><code>latex input:        mmd-article-header
-Title:      Hello Dr. Fourier
-Author:     My Name
-Base Header Level:      1
-latex mode:     memoir
-Keywords:       Math, DSP, Digital Signal Processing, Fourier Transform
-CSS:        http://fletcherpenney.net/css/document.css
-xhtml header:       &lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;
-&lt;/script&gt;
+Title:              Hello Dr. Fourier
+Author:             My Name
+Base Header Level:  1
+latex mode:         memoir
+Keywords:           Math, DSP, Digital Signal Processing, Fourier Transform
+CSS:                http://fletcherpenney.net/css/document.css
+xhtml header:       &lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;
 copyright:          2014 My Name
 latex input:        mmd-natbib-plain
 latex input:        mmd-article-begin-doc
@@ -197,7 +197,7 @@ What follows is the formula for the Fourier transform.
 \\[FT\{f(x)\}:=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\!f(x)e^{-iwx}dx\\]
 </code></pre>
 
-<p>Then go to <code>file-&gt;export-&gt; "Export as: asdf" , "Format: LaTeX"</code></p>
+<p>Then go to <code>file-&gt;export-&gt; "Export as: asdf" , "Format: LaTeX"</code> (or use the script below).</p>
 
 <p>This <em>should</em> have produced the following raw latex file:</p>
 
@@ -229,10 +229,11 @@ What follows is the formula for the Fourier transform.
 \end{document}
 </code></pre>
 
-<p>Open <code>asdf.tex</code> in TeXworks, hit the green &ldquo;play&rdquo; button in the top-left
-corner. A bunch of garbage will pile up in the Console Output area, but then
-your beautiful PDF will have been generated. This is just stellar, I&rsquo;m telling
-you. Now you can open the <code>asdf.pdf</code> file in your favorite pdf viewer.</p>
+<p>Open <code>asdf.tex</code> in TeXworks (if you used the script verbatim, it will be in
+<code>~/Desktop/Latex</code>), hit the green &ldquo;play&rdquo; button in the top-left corner. A
+bunch of garbage will pile up in the Console Output area, but then your
+beautiful PDF will have been generated. This is just stellar, I&rsquo;m telling you.
+Now you can open the <code>asdf.pdf</code> file in your favorite pdf viewer.</p>
 
 <h3>Bask in its glory</h3>
 
@@ -247,6 +248,55 @@ getting that error message I was <em>convinced</em> there was some command I nee
 to run to tell mactex that this new directory exists on my machine and
 contains latex templates. Believe: there is no such command, mactex just looks
 in this directory of its own accord.</p>
+
+<h3>Much simpler, use my script</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># open mmd as pdf, saved in ~/Desktop/Latex</span>
+</span><span class='line'><span class="k">function </span>mtx <span class="o">{</span>
+</span><span class='line'>    <span class="nv">TEX_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">&quot;$1&quot;</span> | sed s<span class="s1">&#39;|.md|.tex|&#39;</span><span class="k">)</span>
+</span><span class='line'>    <span class="nv">PDF_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">&quot;$1&quot;</span> | sed s<span class="s1">&#39;|.md|.pdf|&#39;</span><span class="k">)</span>
+</span><span class='line'>    <span class="nv">LATEX_DIR</span><span class="o">=</span>~/Desktop/Latex
+</span><span class='line'>    <span class="nv">TEX_LOC</span><span class="o">=</span><span class="nv">$LATEX_DIR</span>/<span class="s2">&quot;$TEX_NAME&quot;</span>
+</span><span class='line'>    multimarkdown -t latex <span class="s2">&quot;$1&quot;</span> &gt; <span class="s2">&quot;$TEX_LOC&quot;</span>
+</span><span class='line'>    pdflatex --output-directory <span class="s2">&quot;$LATEX_DIR&quot;</span> <span class="s2">&quot;$TEX_LOC&quot;</span> &gt; /dev/null
+</span><span class='line'>    open -a /Applications/Preview.app <span class="s2">&quot;$LATEX_DIR&quot;</span>/<span class="s2">&quot;$PDF_NAME&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This assumes you have a directory on your <code>Desktop</code> called <code>Latex</code>. For now, I&rsquo;m
+comfortable just having that there polluting that desktop. If you&rsquo;re not, you
+can change <code>LATEX_DIR</code>, or add something like the following to the script.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p <span class="s2">&quot;$LATEX_DIR&quot;</span>
+</span><span class='line'>... <span class="c"># create pdf</span>
+</span><span class='line'>rm -rf <span class="s2">&quot;$LATEX_DIR&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You run the script like</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mtx My<span class="se">\ </span>Markdown<span class="se">\ </span>File.md
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and next thing you know, a Preview window opens with your beautiful document.</p>
+
+<p>Then after you&rsquo;ve made changes to the document, run the command again, and the new version will show up in the same window.</p>
 </div>
 
 
