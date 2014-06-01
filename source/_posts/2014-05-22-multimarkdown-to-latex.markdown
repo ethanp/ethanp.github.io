@@ -46,7 +46,8 @@ is necessary.
 Now go to the Mac App Store and buy [MultiMarkdown Composer][] for $12. Or
 don't, it isn't actually necessary, but I like that it live-renders LaTeX
 equations and has a hotkey for exporting markdown to different formats. You
-can export using the command-line too and that's also quite simple.
+can export using the command-line too and that's also quite simple (and
+free) (see below for script).
 
 Install [TeXworks][]. This is a gui for running LaTeX commands, and it's free,
 but again you can use the terminal for anything you can do in here if that's
@@ -71,18 +72,17 @@ installer.
 
 ### Create your first latex-ready markdown document
 
-Now create a file Yayaya.md in Multimarkdown Composer and paste the following
-header at the top, verbatim:
+Now create a file Yayaya.md in Multimarkdown Composer (or Vim or whatever) and
+paste the following header at the top, verbatim:
 
     latex input:        mmd-article-header
-    Title:      Hello Dr. Fourier
-    Author:     My Name
-    Base Header Level:      1
-    latex mode:     memoir
-    Keywords:       Math, DSP, Digital Signal Processing, Fourier Transform
-    CSS:        http://fletcherpenney.net/css/document.css
-    xhtml header:       <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
+    Title:              Hello Dr. Fourier
+    Author:             My Name
+    Base Header Level:  1
+    latex mode:         memoir
+    Keywords:           Math, DSP, Digital Signal Processing, Fourier Transform
+    CSS:                http://fletcherpenney.net/css/document.css
+    xhtml header:       <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     copyright:          2014 My Name
     latex input:        mmd-natbib-plain
     latex input:        mmd-article-begin-doc
@@ -102,7 +102,7 @@ That was just telling Multimarkdown how to format the LaTeX output. After that p
 
     \\[FT\{f(x)\}:=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\!f(x)e^{-iwx}dx\\]
 
-Then go to `file->export-> "Export as: asdf" , "Format: LaTeX"`
+Then go to `file->export-> "Export as: asdf" , "Format: LaTeX"` (or use the script below).
 
 This *should* have produced the following raw latex file:
 
@@ -133,10 +133,11 @@ This *should* have produced the following raw latex file:
 
     \end{document}
 
-Open `asdf.tex` in TeXworks, hit the green "play" button in the top-left
-corner. A bunch of garbage will pile up in the Console Output area, but then
-your beautiful PDF will have been generated. This is just stellar, I'm telling
-you. Now you can open the `asdf.pdf` file in your favorite pdf viewer.
+Open `asdf.tex` in TeXworks (if you used the script verbatim, it will be in
+`~/Desktop/Latex`), hit the green "play" button in the top-left corner. A
+bunch of garbage will pile up in the Console Output area, but then your
+beautiful PDF will have been generated. This is just stellar, I'm telling you.
+Now you can open the `asdf.pdf` file in your favorite pdf viewer.
 
 ### Bask in its glory
 
@@ -151,6 +152,41 @@ getting that error message I was *convinced* there was some command I needed
 to run to tell mactex that this new directory exists on my machine and
 contains latex templates. Believe: there is no such command, mactex just looks
 in this directory of its own accord.
+
+### Much simpler, use my script
+
+```bash
+# open mmd as pdf, saved in ~/Desktop/Latex
+function mtx {
+    TEX_NAME=$(basename "$1" | sed s'|.md|.tex|')
+    PDF_NAME=$(basename "$1" | sed s'|.md|.pdf|')
+    LATEX_DIR=~/Desktop/Latex
+    TEX_LOC=$LATEX_DIR/"$TEX_NAME"
+    multimarkdown -t latex "$1" > "$TEX_LOC"
+    pdflatex --output-directory "$LATEX_DIR" "$TEX_LOC" > /dev/null
+    open -a /Applications/Preview.app "$LATEX_DIR"/"$PDF_NAME"
+}
+```
+
+This assumes you have a directory on your `Desktop` called `Latex`. For now, I'm
+comfortable just having that there polluting that desktop. If you're not, you
+can change `LATEX_DIR`, or add something like the following to the script.
+
+```bash
+mkdir -p "$LATEX_DIR"
+... # create pdf
+rm -rf "$LATEX_DIR"
+```
+
+You run the script like
+
+```bash
+$ mtx My\ Markdown\ File.md
+```
+
+and next thing you know, a Preview window opens with your beautiful document.
+
+Then after you've made changes to the document, run the command again, and the new version will show up in the same window.
 
 [mactex-2013]: http://www.tug.org/mactex/
 [multimarkdown latex support]: https://github.com/fletcher/peg-multimarkdown-latex-support/zipball/master
