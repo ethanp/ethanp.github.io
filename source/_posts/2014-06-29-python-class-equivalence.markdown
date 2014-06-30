@@ -19,6 +19,8 @@ class A(object):
 
 Then when I created two equivalent instances and compared them, I got false.
 
+<!-- more -->
+
 ```python
 >>> a = A()
 >>> b = A()
