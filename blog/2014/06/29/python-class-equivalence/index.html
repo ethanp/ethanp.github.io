@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>With Pith</title>
+  <title>Python Class Equivalence - With Pith</title>
   <meta name="author" content="Ethan Petuchowski">
 
   
@@ -22,7 +22,7 @@ class A(object): def __init__(self): self.a = 123 self.b = 436 Then when I &hell
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ethanp.github.io">
+  <link rel="canonical" href="http://ethanp.github.io/blog/2014/06/29/python-class-equivalence">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
@@ -69,15 +69,12 @@ class A(object): def __init__(self): self.a = 123 self.b = 436 Then when I &hell
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/06/29/python-class-equivalence/">Python Class Equivalence</a></h1>
+      <h1 class="entry-title">Python Class Equivalence</h1>
     
     
       <p class="meta">
@@ -100,7 +97,7 @@ class A(object): def __init__(self): self.a = 123 self.b = 436 Then when I &hell
   </header>
 
 
-  <div class="entry-content"><h2><code>vars(self) == vars(other)</code>, it seems too easy</h2>
+<div class="entry-content"><h2><code>vars(self) == vars(other)</code>, it seems too easy</h2>
 
 <p>I implemented a class</p>
 
@@ -208,103 +205,16 @@ doing this, but one example said</p>
 reason this is a Bad Way to implement it? Why has no one told me about this?
 It seems too easy, but I guess sometimes things are just simple.</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/23/java-inheritance-issue/">Java Inheritance</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
 
-<time datetime="2014-05-23T14:06:59-07:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I spent quite a while struggling with the Java class declaration syntax, and
-now I am starting to get it.</p>
-
-<h3>Problem simplification</h3>
-
-<p>I started out writing this post because I was <em>totally right</em> and the Java
-compiler was <em>wrong</em>, and so on, but now I have cleared it up and I was wrong
-and the compiler was right after all (surprise!). I was initially intending to
-use this post as a way of getting satisfaction out of how much smarter I am
-than the compiler, and instead I will use this space to explain to the next
-how to answer similar questions. I started by <em>heavily</em> simplifying my issue
-down to its core, and attacking the simplified problem instead of the original
-one with extraneous variables and interconnections. I&rsquo;ve never approached a
-programming problem like that, and let me tell you: seems like it worked. By a
-twist of fate, the new version looks like a LinkedList, that&rsquo;s not what I
-started out doing, but who knows what&rsquo;ll happen when you keep smushing the
-problem from a larger context into a little jar.</p>
-
-<p>First, we have a <code>Base</code>, which holds an element <code>elem</code> of any type, and a
-reference to another <code>Base</code>, quite like a <em>linked list</em>.</p>
-
-<figure class='code'><figcaption><span>Base.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">T</span> <span class="n">elem</span><span class="o">;</span>
-</span><span class='line'>    <span class="n">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">Base</span><span class="o">(</span><span class="n">T</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">elem</span> <span class="o">=</span> <span class="n">elem</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/23/java-inheritance-issue/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/22/multimarkdown-to-latex/">Markdown to LaTeX</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -316,150 +226,36 @@ reference to another <code>Base</code>, quite like a <em>linked list</em>.</p>
   
 
 
-<time datetime="2014-05-22T18:32:09-07:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Installation guide for Mac OSX</h3>
-
-<p>One day, I thought, &ldquo;Wouldn&rsquo;t it be nice to have a Markdown to LaTeX
-converter.&rdquo; Theoretically, one could combine these two tools to quickly create
-beautiful documents. That&rsquo;s how I found <a href="http://fletcherpenney.net/multimarkdown/">Multimarkdown</a> which is basically a
-souped up version of regular markdown. The documentation made it sound like
-this would be a breeze, but it actually took me way to long to get this to
-work on my machine. So I made a step-by-step guide.</p>
-
-<p>For the uninitiated, <a href="http://daringfireball.net/projects/markdown/">Markdown</a> is a simplified way of writing html markup.
-If you don&rsquo;t know about it please check it out. It is in fact how this very
-webpage was created.</p>
-
-<p>Then today I had to install it all over again on a different computer. To
-save my future self and you a lot of trouble, this time I noted what I did to get it to
-work (Mac OSX only).</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/22/multimarkdown-to-latex/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2014-06-29T17:32:24-07:00" pubdate data-updated="true">Jun 29<span>th</span>, 2014</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/16/scala-union-beauty/">A Functional Union of Two Sets</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/oop/'>OOP</a>, <a class='category' href='/blog/categories/python/'>Python</a>, <a class='category' href='/blog/categories/reflection/'>reflection</a>
+  
+</span>
 
 
-<time datetime="2014-05-16T19:01:58-07:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>I&rsquo;m in the 3rd week of <a href="http://www.coursera.org/course/progfun">Functional Programming Principles in Scala</a>
-course on Coursera, taught by Martin Odersky, the creator of Scala. The class
-has been surprisingly awesome so far, but one thing above all struck me as
-impossible: the &ldquo;functional&rdquo; implementation of the <em>union</em> of two immutable
-binary search trees.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="o">((</span><span class="n">left</span> <span class="n">union</span> <span class="n">right</span><span class="o">)</span> <span class="n">union</span> <span class="n">other</span><span class="o">)</span> <span class="n">incl</span> <span class="n">elem</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong><em>WWWHHAATTT??</em></strong></p>
-
-<p>After an intensive investigation, I eventually determined that this operation
-performs what I&rsquo;m calling a <em>&lsquo;post-order insertion&rsquo;</em> of the elements of <code>this</code>
-(non-empty) <code>IntSet</code> into <code>other</code>.</p>
-
+      <div class="sharing">
+  
+  
+  
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/16/scala-union-beauty/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/14/octopress/">Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-14T18:00:02-07:00" pubdate data-updated="true">May 14<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Introduction</h3>
-
-<p>My hope is that this website shall become a place where stuff I&rsquo;ve been up to
-and thinking about gets documented. The plan is for it to also have tutorials
-on how to do things, especially if I could not find a good explanation for
-myself. I&rsquo;m a man of few words, so it may start out a little forced and
-certainly not well written; that&rsquo;s okay though.</p>
+        <a class="basic-alignment left" href="/blog/2014/05/23/java-inheritance-issue/" title="Previous Post: Java inheritance">&laquo; Java inheritance</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/14/octopress/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -492,7 +288,7 @@ certainly not well written; that&rsquo;s okay though.</p>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/ethanp">@ethanp</a> on GitHub
@@ -524,6 +320,7 @@ certainly not well written; that&rsquo;s okay though.</p>
 
   
 </aside>
+
 
     </div>
   </div>
