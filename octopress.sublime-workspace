@@ -260,26 +260,10 @@
 	"buffers":
 	[
 		{
-			"file": "source/_posts/2014-05-14-octopress.markdown",
+			"file": "source/_posts/2014-05-22-multimarkdown-to-latex.markdown",
 			"settings":
 			{
-				"buffer_size": 1376,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "source/portfolio/index.markdown",
-			"settings":
-			{
-				"buffer_size": 954,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "source/_posts/2014-05-23-java-inheritance-issue.markdown",
-			"settings":
-			{
-				"buffer_size": 6720,
+				"buffer_size": 7206,
 				"line_ending": "Unix"
 			}
 		}
@@ -464,6 +448,9 @@
 	},
 	"file_history":
 	[
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Ruby/octopress/source/portfolio/index.markdown",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Ruby/octopress/source/_posts/2014-05-14-octopress.markdown",
+		"/Users/Ethan/code/personal_project_use/libraries_to_use/Ruby/octopress/source/_posts/2014-05-23-java-inheritance-issue.markdown",
 		"/Users/Ethan/Dropbox/CSyStuff/PrivateCode/java-maven-junit/src/test/java/binaryTree/BinaryTreeFactory.java",
 		"/Users/Ethan/code/personal_project_use/libraries_to_use/Ruby/octopress/_config.yml",
 		"/Users/Ethan/code/personal_project_use/libraries_to_use/Ruby/octopress/source/_posts/2014-05-14-scala-union-beauty.markdown",
@@ -588,10 +575,7 @@
 		"/Users/Ethan/code/personal_project_use/libraries_to_use/Java/guava-libraries/guava/src/com/google/common/base/AbstractIterator.java",
 		"/private/etc/php.ini.default",
 		"/Users/Ethan/Dropbox/CSyStuff/ProgrammingGit/Educational/Web&JS/scrapable.html",
-		"/Users/Ethan/code/book_code&data/Javascript&jQuery_Missing_Manual/chapter07/untitled.html",
-		"/Users/Ethan/Desktop/untitled2.html",
-		"/Users/Ethan/code/book_code&data/Javascript&jQuery_Missing_Manual/chapter12/complete_map.html",
-		"/Users/Ethan/code/book_code&data/Javascript&jQuery_Missing_Manual/chapter06/complete_animate.html"
+		"/Users/Ethan/code/book_code&data/Javascript&jQuery_Missing_Manual/chapter07/untitled.html"
 	],
 	"find":
 	{
@@ -764,163 +748,22 @@
 	"groups":
 	[
 		{
-			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "source/_posts/2014-05-14-octopress.markdown",
+					"file": "source/_posts/2014-05-22-multimarkdown-to-latex.markdown",
 					"settings":
 					{
-						"buffer_size": 1376,
+						"buffer_size": 7206,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5,
-								5
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "source/portfolio/index.markdown",
-					"settings":
-					{
-						"buffer_size": 954,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								353,
-								353
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close"
-							],
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "source/_posts/2014-05-23-java-inheritance-issue.markdown",
-					"settings":
-					{
-						"buffer_size": 6720,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								144,
-								144
+								6026,
+								6026
 							]
 						],
 						"settings":
@@ -1078,7 +921,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1.0,
+						"translation.y": 3536.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
