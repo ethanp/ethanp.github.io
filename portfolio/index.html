@@ -9,7 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="Portfolio May 14th, 2014 GitHub javascript-whackamole It&rsquo;s multiplayer-ready game, but currently only works for a single person against the &hellip;">
+  <meta name="description" content="Portfolio May 14th, 2014 GitHub Comment Analyzer The homepage has a listing of the average sentiments of the videos you&rsquo;ve
+previously found, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +88,40 @@
   
   <h2><a href="http://github.com/ethanp/">GitHub</a></h2>
 
+<h2><a href="https://github.com/ethanp/programming/tree/master/StuffIWrote/Scala/CommentAnalyzer/CommentAnalyzer_0">Comment Analyzer</a></h2>
+
+<p>The homepage has a listing of the average sentiments of the videos you&rsquo;ve
+previously found, as well as their <em>average comment sentiment</em>.
+<img src="../../../../../images/Comment_analyzer_homescreen.png" alt="" /></p>
+
+<p>When you click on a video on the homescreen list, or after you search for a
+new video, you get to that video&rsquo;s detail page.</p>
+
+<p><code>Depth = 1</code> means that comment
+was posted in reply to another comment. These comments are retrieved from a
+completely different database (GooglePlus API) then the base level comments
+(YouTube Data API v2), and responses to GooglePlus comments do not contain
+which comment they are a response <em>to</em> in their metadata. So for now, I am
+represent any level depth of commenting as level 1.</p>
+
+<p>This sentiment analysis is performed by the Stanfords <em><a href="(http://nlp.stanford.edu/sentiment/)">Recursive Deep Model for Semantic Compositionality</a></em>, which boasts the ability to
+detect sarcasm etc. I think in the case of YouTube comments, something
+similar, like sets of known &ldquo;Good&rdquo; and &ldquo;Bad&rdquo; words would have worked better
+than this very sophisticated model because the comments don&rsquo;t usually follow
+normal English tree forms.</p>
+
+<p><img src="../../../../../images/Comment_analyzer_coltrane.png" alt="" /></p>
+
+<p>By clicking on the <code>+New</code> button, you are promped to enter the URL of the
+YouTube video for which you would like to retrieve, analyze the comments of,
+and add to the list on your homepage, e.g.
+<code>https://www.youtube.com/watch?v=fbAohexT0Ho</code>.</p>
+
+<p><img src="../../../../../images/Comment_analyzer_new.png" alt="" /></p>
+
+<p>Each stored video&rsquo;s detail page, also has a <code>-delete</code> button at the bottom,
+for removing it from your homepage.</p>
+
 <h2><a href="https://github.com/ethanp/javascript-whackamole">javascript-whackamole</a></h2>
 
 <p>It&rsquo;s multiplayer-ready game, but currently only works for a single person against the computer. I made it to have a game to hook up to <code>playframework</code> and make it truly multiplayer via <code>websocket</code>. That&rsquo;s still <code>TODO</code> though&hellip;.</p>
@@ -104,6 +139,75 @@ the code look cool.</p>
 <p>First, use WebRTC to record audio from client&rsquo;s microphone into a Javascript
 <code>Blob</code> in the browser. Then upload the <code>Blob</code> to the server and store it as a
 file with Django.</p>
+
+<h2><a href="https://github.com/ethanp/Pathfinder">Pathfinder</a></h2>
+
+<p>This is a utility method for those times when you have a bunch of log files
+that you need to collect data out of, but they don&rsquo;t always come in the same
+directory structure. Or there is a bunch of logged data files and you only want
+the ones with a particular filename prefix/suffix/type. <strong>This utility will
+allow you to easily and readably express the given directory structure and return to you a
+list of the absolute paths of <em>only</em> the files you want.</strong></p>
+
+<h4>Given this directory structure</h4>
+
+<pre><code>pwd -&gt; upper_dir -&gt; files a -&gt; want it 1 --&gt; dat data1.csv
+                \          \            \
+                 \          \            &gt; data I don't want.tsv
+                  \          \
+                   \          &gt; don't want it
+                    \
+                     &gt; files b -&gt; want it 2 --&gt; dat data2.csv
+                              \            \
+                               \            &gt; data I don't want.tsv
+                                \
+                                 &gt; don't want it
+</code></pre>
+
+<h4>Behold the following command</h4>
+
+<pre><code>from pathfinder import pathfinder
+
+my_files = pathfinder('.', ['upper_dir', '*', '^want', '.csv$='])
+
+print my_files
+
+        =&gt; ['/Absolute...Path/pwd/upper_dir/files 1/want it 1/dat data1.csv',
+            '/Absolute...Path/pwd/upper_dir/files b/want it 2/dat data2.csv']
+</code></pre>
+
+<h4>Reference</h4>
+
+<p>Signature</p>
+
+<pre><code>def pathfinder(cd_able, path):
+</code></pre>
+
+<ul>
+<li><p><strong>cd_able</strong> must be <em>either</em> a directory one may <code>cd</code> into from
+the current directory, <em>or</em> not a directory at all.</p></li>
+<li><p><strong>path</strong> is the part that has the following <strong>DSL</strong>:</p>
+
+<ul>
+<li><code>*</code>    means any file</li>
+<li><code>^...</code> means <strong>&ldquo;starts with&rdquo;</strong></li>
+<li><code>...$</code> means <strong>&ldquo;ends with&rdquo;</strong></li>
+<li><code>...=</code> means <strong>&ldquo;is not a directory&rdquo;</strong></li>
+<li><code>$</code> must precede <code>=</code> if both are being used as directives</li>
+<li>There is no escape if you want the directives as literals</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Sure you <em>could</em> do something like</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>find . | egrep <span class="s2">&quot;upper_dir.*/want.*\.csv$&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>but where&rsquo;s the fun in that?</p>
 
   
     <footer>
