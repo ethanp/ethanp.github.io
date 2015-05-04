@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="This semester I have been taking Distributed Computing with Professor Lorenzo
-Alvisi. Distributed computing has been something I have been curious &hellip;">
+  <meta name="description" content="Before taking a Distributed Computing course at school, I had written for
+various program environments: a script that trains a neural network to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,70 @@ Alvisi. Distributed computing has been something I have been curious &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/03/asynchronous-system/">Asynchronous System</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-03T21:27:36-05:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Before taking a Distributed Computing course at school, I had written for
+various program environments:</p>
+
+<ol>
+<li>a script that trains a neural network to recognize whether an English
+sentence is grammatical</li>
+<li>an iOS app that involves a fair bit of multi-threading</li>
+<li>a command line interpreter that forks and runs commands as background
+processes</li>
+<li>the Raft distributed consensus protocol inside a professor’s multi-threaded
+distributed system simulator</li>
+<li>some asynchronous features for a simplified database system where threads
+communicate via Java’s <code>PipedInputStreams</code></li>
+</ol>
+
+
+<p>Perhaps you are familiar with these situations, and thought they might be
+“distributed”. Reality check: they’re not. Similarly, in a distributed system,
+one wants to have multiple “threads” processing data at once. However, these
+“threads” may be each on different machines; this adds some complexity. None of
+the situations outlined above have the sort of issues one can expect fairly
+regularly when talking amongst machines.</p>
+
+<h3>Different machines don’t share</h3>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/03/asynchronous-system/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -675,6 +739,10 @@ certainly not well written; that&rsquo;s okay though.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/05/03/asynchronous-system/">Asynchronous System</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/05/03/intro-to-distributed-computing/">Intro to Distributed Computing</a>
       </li>
     
@@ -688,10 +756,6 @@ certainly not well written; that&rsquo;s okay though.</p>
     
       <li class="post">
         <a href="/blog/2014/05/22/multimarkdown-to-latex/">Markdown to LaTeX</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/16/scala-union-beauty/">A Functional Union of Two Sets</a>
       </li>
     
   </ul>
