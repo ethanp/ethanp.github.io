@@ -3,7 +3,7 @@ layout: post
 title: "Intro to Distributed Computing"
 date: 2015-05-03 21:18:38 -0500
 comments: true
-categories: distributed systems, distributed computing, school
+categories: distributed, systems, school
 ---
 
 This semester I have been taking Distributed Computing with Professor Lorenzo
