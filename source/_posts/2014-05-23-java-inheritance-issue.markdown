@@ -39,8 +39,7 @@ class Base<T> {
 }
 ```
 
-<!-- more -->
-
+py
 Next, we have an `Ord`, which is a `Base` that is `Comparable`. We require
 that the element contained by an `Ord` is itself comparable, and furthermore
 that the method of comparing `Ord`s is to compare their respective `elem`s:
