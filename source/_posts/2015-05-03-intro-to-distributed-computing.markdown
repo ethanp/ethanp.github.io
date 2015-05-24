@@ -19,14 +19,14 @@ was that **finding a better way of expressing what you really want can be a
 confusing** thing to do.
 
 ## Scenario 1: “Two Generals’ Problem”
-You and a partner would like to be sure that you have both agreed on a time to
-meet, but neither of you can tell whether the other are listening to what
-you’re saying.
+Persons 1 and 2 would like to be sure that both agreed on a time to
+meet, but neither can tell whether the other is listening to what is being
+said.
 
 > Person 1: Let’s meet up at 2:00pm
 
 Now person 1 doesn’t know whether person 2 was listening though. So person 2
-feels compelled to respond (while still text-messaging).
+feels compelled to respond (while still multi-tasking).
 
 > Person 2: Yeah
 
@@ -47,19 +47,20 @@ Now person 1 knows 2 heard, but 2 doesn’t know whether 1 trusts him. So person
 
 **This situation never resolves itself** in a way satisfactory to both
 individuals, so either they’ll stand there doing this until 2:00pm, or they’ll
-both skip the meeting.
+give up and both skip the meeting because each was never *sure* the other had
+really agreed to go.
 
 ### Take Away:
 Think about it: when you text-message someone, you don’t know whether
 
-1.  they’ve received the text yet
+1.  they’ve received the text yet (maybe they haven't looked at their phone)
 2.  they’ll ever receive the text (there could be some “cell-phone issue”)
 3.  they’re going to properly act on it even if they did receive it, or
 4.  they’ve literally died since you last heard from them [unlikely but
     certainly possible].
 
-What makes things especially difficult is that they have the exact same problem
-when they’re texting to you. This means that even if you got the message, they
-don’t know that you got it. And so you can try to reassure them, and then they
-will know that you got it, but you still don’t know if they know that you get
-it. And that goes on forever.
+What makes things especially difficult is that the other person has the exact
+same problem when they’re texting to you. This means that even if you got the
+message, they don’t know that you got it. And so you can try to reassure them,
+and then they will know that you got it, but you still don’t know if they know
+that you get it. And that circle goes on forever.
