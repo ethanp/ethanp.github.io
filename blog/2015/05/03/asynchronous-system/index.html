@@ -87,7 +87,7 @@ various program environments: a script that trains a neural network to &hellip;"
   
 
 
-<time datetime="2015-05-03T21:27:36-05:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
+<time datetime="2015-05-03T19:27:36-07:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
         
       </p>
     
@@ -106,16 +106,17 @@ processes</li>
 <li>the Raft distributed consensus protocol inside a professor’s multi-threaded
 distributed system simulator</li>
 <li>some asynchronous features for a simplified database system where threads
-communicate via Java’s <code>PipedInputStreams</code></li>
+communicate solely via Java’s <code>PipedInputStreams</code> instead of using shared
+variables</li>
 </ol>
 
 
-<p>Perhaps you are familiar with these situations, and thought they might be
-“distributed”. Reality check: they’re not. Similarly, in a distributed system,
-one wants to have multiple “threads” processing data at once. However, these
-“threads” may be each on different machines; this adds some complexity. None of
-the situations outlined above have the sort of issues one can expect fairly
-regularly when talking amongst machines.</p>
+<p>Perhaps you are familiar with these situations, and like me thought they might
+be “distributed”. Reality check: they’re not. Similarly, in a distributed
+system, one has multiple “threads” processing data at once. However,
+these “threads” may be each on different machines; this adds some complexity.
+None of the situations outlined above have the sort of issues one can expect
+fairly regularly when talking amongst machines.</p>
 
 <h3>Different machines don’t share</h3>
 
@@ -125,7 +126,9 @@ regularly when talking amongst machines.</p>
 <ol>
 <li>heap space</li>
 <li>scheduler</li>
-<li>clocks</li>
+<li>clock time (i.e. at any moment each machine&rsquo;s &ldquo;watch&rdquo; reads a different
+time)</li>
+<li>clock tick speed (i.e. clock time&rsquo;s &ldquo;drift&rdquo; apart from one another)</li>
 <li>stable storage</li>
 <li>etc.</li>
 </ol>
@@ -141,6 +144,9 @@ regularly when talking amongst machines.</p>
 </ol>
 
 
+<p>This is because all they know is &ldquo;I&rsquo;ve sent my buddy a message and have yet to
+hear back.&rdquo;</p>
+
 <h2>If you told me all this, my response might be:</h2>
 
 <blockquote><p>Why not just run your program under the expectation things will work, and
@@ -153,10 +159,17 @@ hope for the best?</p></blockquote>
 for the best,’ people will pay you for access to your software” &mdash; Adam
 Smith</li>
 <li>Your Users will be <em>very</em> pissed if their stuff seems to randomly
-disappear; even if it only happens to a few of them every once in a while</li>
+disappear; even if it only happens to a few of them every once in a while.
+
+<ul>
+<li>This becomes especially likely if you have a lot of users with a lot of
+data</li>
+</ul>
+</li>
 <li>You’re going to have to be super-over-cautious about not losing important
-data. You can speed things up so that your not losing data but not wasting
-time being overly cautious.</li>
+data. It would be great to speed things up in such a way that you&rsquo;re still
+not losing any important data, but also not wasting time being overly
+cautious.</li>
 </ol>
 
 
@@ -166,12 +179,26 @@ By giving ideas with a lot of moving parts names, they simplify the task of
 using the human brain to derive solutions. The most important formalism is the
 <strong>asynchronous model</strong>.</p>
 
-<h2>The Setting: Asynchronous Message-Passing</h2>
+<h2>The Setting: Asynchronous Message-Passing and Assumptions</h2>
 
 <p>In an <strong>asynchronous system</strong> (as opposed to a <em>synchronous</em> one), a few
-properties of the system are explicitly assumed, they are listed above under
-the names <strong>“Different machines don’t share”</strong> and <strong>“They can’t differentiate
-between when each another machine has done any of the following”</strong>.</p>
+properties of the system are explicitly assumed. The basic assumptions are
+listed above under the names <strong>“Different machines don’t share”</strong> and <strong>“They
+can’t differentiate between when each another machine has done any of the
+following”</strong>.</p>
+
+<p>However, in an effort to always find the simplest solution under the smallest
+set of assumptions possible, different authors use variations on the above
+assumptions. Commonly they will say something like &ldquo;channels are reliable&rdquo;, by
+which they mean the network connection between any two nodes will always
+<em>eventually</em> transmit every message it is asked to. The word <em>eventually</em> is
+thrown around a lot, and it means there is some time before <em>never</em> when it
+will happen.</p>
+
+<p>By adding additional assumptions (e.g. &ldquo;packets sent between any pair of
+processes cannot be reordered en route&rdquo;) simpler solutions can often be found.
+By removing assumptions, upper bounds can be established on the costs of
+solving certain problems.</p>
 </div>
 
 
@@ -194,7 +221,7 @@ between when each another machine has done any of the following”</strong>.</p>
   
 
 
-<time datetime="2015-05-03T21:27:36-05:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
+<time datetime="2015-05-03T19:27:36-07:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
       
 
 <span class="categories">
@@ -218,6 +245,8 @@ between when each another machine has done any of the following”</strong>.</p>
         <a class="basic-alignment left" href="/blog/2015/05/03/intro-to-distributed-computing/" title="Previous Post: Intro to Distributed Computing">&laquo; Intro to Distributed Computing</a>
       
       
+        <a class="basic-alignment right" href="/blog/2015/05/18/simulating-a-distributed-system/" title="Next Post: Simulating a Distributed System">Simulating a Distributed System &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -231,6 +260,14 @@ between when each another machine has done any of the following”</strong>.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/05/18/paxos-as-a-classroom/">Paxos as a Classroom</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/18/simulating-a-distributed-system/">Simulating a Distributed System</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/05/03/asynchronous-system/">Asynchronous System</a>
       </li>
     
@@ -240,14 +277,6 @@ between when each another machine has done any of the following”</strong>.</p>
     
       <li class="post">
         <a href="/blog/2014/06/29/python-class-equivalence/">Python Class Equivalence</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/23/java-inheritance-issue/">Java Inheritance</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/22/multimarkdown-to-latex/">Markdown to LaTeX</a>
       </li>
     
   </ul>

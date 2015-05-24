@@ -9,8 +9,9 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="Before taking a Distributed Computing course at school, I had written for
-various program environments: a script that trains a neural network to &hellip;">
+  <meta name="description" content="multi-paxos as a classroom: teacher := proposer
+students := acceptors
+all := learners teacher to students: may I have your attention for the next 1: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +75,181 @@ various program environments: a script that trains a neural network to &hellip;"
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/05/18/paxos-as-a-classroom/">Paxos as a Classroom</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-18T17:28:49-07:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre><code>multi-paxos as a classroom:
+
+teacher := proposer
+students := acceptors
+all := learners
+
+teacher to students:
+    may I have your attention for the next 1:15 hrs?
+    I'd like to teach youz guys all about "the paxos protocol"
+    here is what I'm assuming you already know
+
+each student to teacher:
+    if not already busy for that time:
+        yes, here's how much I actually already know about paxos
+    else:
+        my apologies, but I will be busy skimming facebook for the next 1:15
+        so if there's something you want to tell me, post it on there
+
+teacher to each student:
+    given how far behind you are, these are the things you need to catch up on
+    but also this is what I'm teaching now
+
+each (alive &amp; correct) student to teacher:
+    oh very cool!
+    this is how much I now understand of all the stuff you've said
+
+teacher:
+    if the majority understands more than before:
+        set new start point for next time's lesson
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/18/simulating-a-distributed-system/">Simulating a Distributed System</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-18T17:24:37-07:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>For my Distributed Computing class at school, there were 3 projects that each
+involved implementing a distributed protocol over a simulated distributed
+cluster of computers that are only &lsquo;connected&rsquo; to one another in that they know
+each other&rsquo;s IP address and must communicate over TCP sockets. For each of the
+3 projects, I had a <em>completely</em> different method of implementing the system.</p>
+
+<h3>Implementation One: A True Distributed System in Vanilla Java</h3>
+
+<p>The first project (Three Phase Commit) was the only one for which I worked with
+a partner. We were unclear how to attack the problem of building a distributed
+system in a simple way, so we went ahead and implemented a truly distributable
+Java application, in which you could spin up processes on any computer and it
+would connect in to the master server, who would tell the new node the
+listening ports of other servers in the cluster manually, etc. This turned out
+to be perhaps overly ambitious. When a node was expecting a message from
+someone else, it would fire a timer thread, which on completion would report to
+the master to restart the failed process. This system did work properly
+(somehow) but it seemed to be living-on-the-edge. It also required two weeks of
+a lot of working on it and learning aspects of Java, unit testing, mocks, which
+<code>Exception</code> would get thrown by which network event &amp; when, etc.</p>
+
+<h3>Implementation Two: Lightweight System Simulation</h3>
+
+<p>For the second project (Paxos), I said &ldquo;Hooey&rdquo; to all the Java hubbub, which
+while I enjoyed its low-level-ness, forcing me to peak further under the hood,
+it required a larger time commitment than I was prepared to make. I realized
+that my class&rsquo;s requirements only specified that system &ldquo;nodes&rdquo; run
+concurrently, share no memory, and talk over TCP. So in Scala, I made a <code>Node</code>
+class state machine, and ran different instances of it on separate threads.
+This was too easy though, and I was disappointed to find my implementation
+complete more than two weeks before the due date.</p>
+
+<h3>Implementation Three: Akka Cluster</h3>
+
+<p>Akka Cluster is a Scala-based framework for building a distributed system, in
+which you define the address of a set of &ldquo;seed&rdquo; nodes, of whom at least one is
+supposed be available at all times. Then when other nodes start up, they become
+a &ldquo;member&rdquo; of the cluster by contacting any seed node. So for me (the &ldquo;client&rdquo;
+of Akka Cluster), all there is left to do is define the protocol to run on top
+of the cluster. (In this case the protocol was the simple eventually-consistent
+database protocol &ldquo;Bayou&rdquo;.)</p>
+
+<p>Akka nodes follow the &ldquo;Actor Model&rdquo;, meaning they share no state with any other
+part of your program, making them &ldquo;simple&rdquo; to run on remote machines (I didn&rsquo;t
+try that, the docs say it is easy though). The only way actors can communicate
+is via message passing, for which there is a dedicated syntax, <code>!</code>. For
+example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">data</span><span class="k">:</span> <span class="kt">DataElem</span><span class="o">)</span>
+</span><span class='line'><span class="n">anotherActor</span> <span class="o">!</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">theData</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The code above would have the actor running this code, send <code>anotherActor</code> an
+instance of the case class <code>MyMessage</code> with the <code>DataElem</code> that was passed in.</p>
+
+<p>Inter-actor communcation is guaranteed <em>FIFO</em> by Akka, meaning that for any
+pair of actors <code>A, B</code>, if <code>A</code> sends <code>n</code> messages to <code>B</code>, <code>B</code> will receive those
+messages in the same order that <code>A</code> sent them. NB this says nothing about the
+order with respect to other actors in the system.</p>
+
+<p>Using Akka trivialized all sorts of implementation details I&rsquo;d had to worry
+about in the first project, and then ignored for the second project.</p>
+
+<p>If there had been a 4th project for this class, it&rsquo;s clear to me that I would
+use Akka again. For some reason my code ran <em>very</em> slowly, and it probably had
+to do with some configuration-setting that I did not set in the Akka config
+file. That was really the only problem I had that I did not fix. One problem I
+did fix that took a while, was figuring out a good way to shut the system down.
+There were various options discussed online, and eventually I found one that
+worked for me, which was to call <code>system.shutdown()</code> on every instance System I
+instantiate. Another option was to send <code>self ! PoisonPill</code> but for some reason
+that didn&rsquo;t work. I guess different ones work for different situations.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/05/03/asynchronous-system/">Asynchronous System</a></h1>
     
     
@@ -90,7 +266,7 @@ various program environments: a script that trains a neural network to &hellip;"
   
 
 
-<time datetime="2015-05-03T21:27:36-05:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
+<time datetime="2015-05-03T19:27:36-07:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
         
       </p>
     
@@ -109,16 +285,17 @@ processes</li>
 <li>the Raft distributed consensus protocol inside a professor’s multi-threaded
 distributed system simulator</li>
 <li>some asynchronous features for a simplified database system where threads
-communicate via Java’s <code>PipedInputStreams</code></li>
+communicate solely via Java’s <code>PipedInputStreams</code> instead of using shared
+variables</li>
 </ol>
 
 
-<p>Perhaps you are familiar with these situations, and thought they might be
-“distributed”. Reality check: they’re not. Similarly, in a distributed system,
-one wants to have multiple “threads” processing data at once. However, these
-“threads” may be each on different machines; this adds some complexity. None of
-the situations outlined above have the sort of issues one can expect fairly
-regularly when talking amongst machines.</p>
+<p>Perhaps you are familiar with these situations, and like me thought they might
+be “distributed”. Reality check: they’re not. Similarly, in a distributed
+system, one has multiple “threads” processing data at once. However,
+these “threads” may be each on different machines; this adds some complexity.
+None of the situations outlined above have the sort of issues one can expect
+fairly regularly when talking amongst machines.</p>
 
 <h3>Different machines don’t share</h3>
 
@@ -154,7 +331,7 @@ regularly when talking amongst machines.</p>
   
 
 
-<time datetime="2015-05-03T21:18:38-05:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
+<time datetime="2015-05-03T19:18:38-07:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
         
       </p>
     
@@ -175,14 +352,14 @@ confusing</strong> thing to do.</p>
 
 <h2>Scenario 1: “Two Generals’ Problem”</h2>
 
-<p>You and a partner would like to be sure that you have both agreed on a time to
-meet, but neither of you can tell whether the other are listening to what
-you’re saying.</p>
+<p>Persons 1 and 2 would like to be sure that both agreed on a time to
+meet, but neither can tell whether the other is listening to what is being
+said.</p>
 
 <blockquote><p>Person 1: Let’s meet up at 2:00pm</p></blockquote>
 
 <p>Now person 1 doesn’t know whether person 2 was listening though. So person 2
-feels compelled to respond (while still text-messaging).</p>
+feels compelled to respond (while still multi-tasking).</p>
 
 <blockquote><p>Person 2: Yeah</p></blockquote>
 
@@ -218,7 +395,7 @@ feels compelled to respond (while still text-messaging).</p>
   
 
 
-<time datetime="2014-06-29T19:32:24-05:00" pubdate data-updated="true">Jun 29<span>th</span>, 2014</time>
+<time datetime="2014-06-29T17:32:24-07:00" pubdate data-updated="true">Jun 29<span>th</span>, 2014</time>
         
       </p>
     
@@ -274,7 +451,7 @@ feels compelled to respond (while still text-messaging).</p>
   
 
 
-<time datetime="2014-05-23T16:06:59-05:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
+<time datetime="2014-05-23T14:06:59-07:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
         
       </p>
     
@@ -588,7 +765,7 @@ being &ldquo;just clever&rdquo; to being &ldquo;applicably awesome&rdquo;.</p>
   
 
 
-<time datetime="2014-05-22T20:32:09-05:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
+<time datetime="2014-05-22T18:32:09-07:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
         
       </p>
     
@@ -644,7 +821,7 @@ work (Mac OSX only).</p>
   
 
 
-<time datetime="2014-05-16T21:01:58-05:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
+<time datetime="2014-05-16T19:01:58-07:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
         
       </p>
     
@@ -700,7 +877,7 @@ performs what I&rsquo;m calling a <em>&lsquo;post-order insertion&rsquo;</em> of
   
 
 
-<time datetime="2014-05-14T20:00:02-05:00" pubdate data-updated="true">May 14<span>th</span>, 2014</time>
+<time datetime="2014-05-14T18:00:02-07:00" pubdate data-updated="true">May 14<span>th</span>, 2014</time>
         
       </p>
     
@@ -739,6 +916,14 @@ certainly not well written; that&rsquo;s okay though.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/05/18/paxos-as-a-classroom/">Paxos as a Classroom</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/18/simulating-a-distributed-system/">Simulating a Distributed System</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/05/03/asynchronous-system/">Asynchronous System</a>
       </li>
     
@@ -748,14 +933,6 @@ certainly not well written; that&rsquo;s okay though.</p>
     
       <li class="post">
         <a href="/blog/2014/06/29/python-class-equivalence/">Python Class Equivalence</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/23/java-inheritance-issue/">Java Inheritance</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/22/multimarkdown-to-latex/">Markdown to LaTeX</a>
       </li>
     
   </ul>
