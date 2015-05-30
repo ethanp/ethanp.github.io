@@ -3,11 +3,10 @@ layout: post
 title: "Paxos as a Classroom"
 date: 2015-05-18 19:28:49 -0500
 comments: true
-categories: 
+categories: [distributed systems, paxos, analogy, metaphor]
 ---
 
     multi-paxos as a classroom:
-
     teacher := proposer
     students := acceptors
     all := learners

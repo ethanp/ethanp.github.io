@@ -3,7 +3,7 @@ layout: post
 title: "Simulating a Distributed System"
 date: 2015-05-18 19:24:37 -0500
 comments: true
-categories: distributed, systems, school, akka, java, scala, cluster
+categories: [distributed systems, school, akka, java, scala, cluster]
 ---
 
 For my Distributed Computing class at school, there were 3 projects that each
