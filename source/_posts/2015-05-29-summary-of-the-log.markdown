@@ -6,8 +6,11 @@ comments: true
 categories: [distributed systems, log, kafka, linkedin, middleware, apache]
 ---
 
-I read a great article by one of the dudes who brought you Apache Kafka; the
-article is called [**The Log**: What every software engineer should know about real-time data's unifying abstraction](http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying).
+I read a great article by Jay Kreps, one of the dudes who brought you Apache
+Kafka. The article is called [**The Log**: What every software engineer should know about real-time data's unifying abstraction](http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying). The
+article took me a few hours of mildly challenging reading, so I figure you can
+spend a few minutes reading my summary and decide more clearly whether you want
+to put in the investment of his explanation.
 
 First, he describes the following concept: Let's define a **log** as a *total
 order* of functions called and the parameters passed to each of those function-

@@ -9,6 +9,45 @@ footer: true
 
 ## [GitHub](http://github.com/ethanp/)
 
+## [p2p-akka](http://github.com/ethanp/p2p-akka)
+
+### A simple peer-to-peer system written using the Akka framework
+
+Much simplified version of BitTorrent.
+
+* A client loads a local file, converts it into a file hash, and an array of
+  "chunk hashes", i.e. hashes of individual chunks of the file, and uploads
+  these hashes along with the file name to all "trackers" it knows.
+    * If the hash matches the hash of any file the tracker currently has by
+      this name, or the tracker has no file with this name, the tracker adds
+      this client to the list of known "seeders" of this file.
+* A client requests the list of seeders of a file from a tracker, and receives
+  their addresses
+* The client initiates chunk requests from 4 seeders at a time, and they send
+  the client their chunks. The client saves these chunks to a local file.
+
+#### There are 4 different "actors":
+
+* `Tracker` --- waits for people to say they're seeding, or to ask who's
+  seeding
+* `Client`
+    * converts local files into hashes and sends them to Tracker
+    * responds to chunk requests from other clients
+    * Spawns a `FileDownloader` on download request
+* `FileDownloader` --- spawns `ChunkDownloader`s to download chunks
+    * Tells `Client` actor when the download is finished
+    * Spawns 4 concurrent `ChunkDownloaders`
+    * Blacklists peers and retries chunk-downloads when they fail
+* `ChunkDownloader` --- requests a specific chunk of a file from a peer
+    * Recieves the chunk in "pieces" (of the chunk)
+    * Upon receiving a complete "piece", the `FileDownloader` is informed, so
+      that it can update the current download speed, which is printed every
+      second
+    * If no piece arrives beyond a timeout (15 seconds), the download *fails*
+    * When the chunk transfer is complete, the `FileDownloader` is informed, os
+      it can choose a new chunk to download, and a peer to download it from,
+      and spawn a new `ChunkDownloader`
+
 ## [Comment Analyzer](https://github.com/ethanp/programming/tree/master/StuffIWrote/Scala/CommentAnalyzer/CommentAnalyzer_0)
 
 The homepage has a listing of the average sentiments of the videos you've
