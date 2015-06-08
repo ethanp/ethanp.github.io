@@ -9,8 +9,7 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="Portfolio May 14th, 2014 GitHub Comment Analyzer The homepage has a listing of the average sentiments of the videos you&rsquo;ve
-previously found, &hellip;">
+  <meta name="description" content="Portfolio May 14th, 2014 GitHub p2p-akka A simple peer-to-peer system written using the Akka framework Much simplified version of BitTorrent. A &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +86,67 @@ previously found, &hellip;">
   </header>
   
   <h2><a href="http://github.com/ethanp/">GitHub</a></h2>
+
+<h2><a href="http://github.com/ethanp/p2p-akka">p2p-akka</a></h2>
+
+<h3>A simple peer-to-peer system written using the Akka framework</h3>
+
+<p>Much simplified version of BitTorrent.</p>
+
+<ul>
+<li>A client loads a local file, converts it into a file hash, and an array of
+&ldquo;chunk hashes&rdquo;, i.e. hashes of individual chunks of the file, and uploads
+these hashes along with the file name to all &ldquo;trackers&rdquo; it knows.
+
+<ul>
+<li>If the hash matches the hash of any file the tracker currently has by
+this name, or the tracker has no file with this name, the tracker adds
+this client to the list of known &ldquo;seeders&rdquo; of this file.</li>
+</ul>
+</li>
+<li>A client requests the list of seeders of a file from a tracker, and receives
+their addresses</li>
+<li>The client initiates chunk requests from 4 seeders at a time, and they send
+the client their chunks. The client saves these chunks to a local file.</li>
+</ul>
+
+
+<h4>There are 4 different &ldquo;actors&rdquo;:</h4>
+
+<ul>
+<li><code>Tracker</code> &mdash;&ndash; waits for people to say they&rsquo;re seeding, or to ask who&rsquo;s
+seeding</li>
+<li><code>Client</code>
+
+<ul>
+<li>converts local files into hashes and sends them to Tracker</li>
+<li>responds to chunk requests from other clients</li>
+<li>Spawns a <code>FileDownloader</code> on download request</li>
+</ul>
+</li>
+<li><code>FileDownloader</code> &mdash;&ndash; spawns <code>ChunkDownloader</code>s to download chunks
+
+<ul>
+<li>Tells <code>Client</code> actor when the download is finished</li>
+<li>Spawns 4 concurrent <code>ChunkDownloaders</code></li>
+<li>Blacklists peers and retries chunk-downloads when they fail</li>
+</ul>
+</li>
+<li><code>ChunkDownloader</code> &mdash;&ndash; requests a specific chunk of a file from a peer
+
+<ul>
+<li>Recieves the chunk in &ldquo;pieces&rdquo; (of the chunk)</li>
+<li>Upon receiving a complete &ldquo;piece&rdquo;, the <code>FileDownloader</code> is informed, so
+that it can update the current download speed, which is printed every
+second</li>
+<li>If no piece arrives beyond a timeout (15 seconds), the download <em>fails</em></li>
+<li>When the chunk transfer is complete, the <code>FileDownloader</code> is informed, os
+it can choose a new chunk to download, and a peer to download it from,
+and spawn a new <code>ChunkDownloader</code></li>
+</ul>
+</li>
+</ul>
+
 
 <h2><a href="https://github.com/ethanp/programming/tree/master/StuffIWrote/Scala/CommentAnalyzer/CommentAnalyzer_0">Comment Analyzer</a></h2>
 
