@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="I read a great article by Jay Kreps, one of the dudes who brought you Apache
-Kafka. The article is called The Log: What every software engineer &hellip;">
+  <meta name="description" content="Disclaimer: This post only claims to represent my current understanding
+of the workings of the HotSpot VM&rsquo;s garbage collector. This &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,75 @@ Kafka. The article is called The Log: What every software engineer &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/">Brief Overview of Garbage Collection in the HotSpot JVM</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-08T18:50:33-07:00" pubdate data-updated="true">Jun 8<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Disclaimer:</strong> This post only claims to represent my <em>current understanding</em>
+of the workings of the HotSpot VM&rsquo;s garbage collector. This understanding comes
+from reading the <em>references</em> listed below, as well as making some assumptions.
+It is not necessarily fully correct.</p>
+
+<h3>Brief Overview</h3>
+
+<p><strong>The garbage collector <em>separates the heap into 5 sections of 4 types</em>.</strong> I
+don&rsquo;t know whether these spaces are &ldquo;virtual&rdquo; (i.e. remapped to discontiguous
+&ldquo;pages&rdquo; like Linux&rsquo;s <em>virtual memory addresses</em>) or not. I suspect they are
+<em>not</em>.</p>
+
+<ol>
+<li><strong>Eden</strong> &mdash;&ndash; where objects go when they&rsquo;re first allocated in the running
+program</li>
+<li><strong>Survivors 1 &amp; 2</strong> a.k.a. &ldquo;young space&rdquo; &mdash;&ndash; objects in Eden are moved here
+if they survive a minor (&ldquo;young&rdquo;) GC</li>
+<li><strong>Tenured</strong> (a.k.a. <strong>Old</strong>) &mdash;&ndash; long-lived objects (that have survived [a
+configurable number of] minor GCs) are moved and then live in here
+
+<ul>
+<li>We can tell the JVM to allocate all objects larger than <code>n</code> bytes
+directly into the <em>old</em> space.</li>
+</ul>
+</li>
+<li><strong>Permanent</strong> &mdash;&ndash; this is where the JVM&rsquo;s own objects live (e.g. classes and
+JITed code). It behaves just like the <em>tenured</em> space.</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -920,54 +989,9 @@ performs what I&rsquo;m calling a <em>&lsquo;post-order insertion&rsquo;</em> of
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/14/octopress/">Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-14T18:00:02-07:00" pubdate data-updated="true">May 14<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Introduction</h3>
-
-<p>My hope is that this website shall become a place where stuff I&rsquo;ve been up to
-and thinking about gets documented. The plan is for it to also have tutorials
-on how to do things, especially if I could not find a good explanation for
-myself. I&rsquo;m a man of few words, so it may start out a little forced and
-certainly not well written; that&rsquo;s okay though.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/14/octopress/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -978,6 +1002,10 @@ certainly not well written; that&rsquo;s okay though.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/">Brief Overview of Garbage Collection in the HotSpot JVM</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/05/29/summary-of-the-log/">Summary of &#8216;the Log&#8217;</a>
@@ -993,10 +1021,6 @@ certainly not well written; that&rsquo;s okay though.</p>
     
       <li class="post">
         <a href="/blog/2015/05/03/asynchronous-system/">Asynchronous System</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/03/intro-to-distributed-computing/">Intro to Distributed Computing</a>
       </li>
     
   </ul>
