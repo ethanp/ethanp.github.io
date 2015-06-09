@@ -107,11 +107,11 @@ don&rsquo;t know whether these spaces are &ldquo;virtual&rdquo; (i.e. remapped t
 <em>not</em>.</p>
 
 <ol>
-<li><strong>Eden</strong> &mdash;&ndash; where objects go when they&rsquo;re first allocated in the running
+<li><strong>Eden</strong> &mdash; where objects go when they&rsquo;re first allocated in the running
 program</li>
-<li><strong>Survivors 1 &amp; 2</strong> a.k.a. &ldquo;young space&rdquo; &mdash;&ndash; objects in Eden are moved here
+<li><strong>Survivors 1 &amp; 2</strong> a.k.a. &ldquo;young space&rdquo; &mdash; objects in Eden are moved here
 if they survive a minor (&ldquo;young&rdquo;) GC</li>
-<li><strong>Tenured</strong> (a.k.a. <strong>Old</strong>) &mdash;&ndash; long-lived objects (that have survived [a
+<li><strong>Tenured</strong> (a.k.a. <strong>Old</strong>) &mdash; long-lived objects (that have survived [a
 configurable number of] minor GCs) are moved and then live in here
 
 <ul>
@@ -119,7 +119,7 @@ configurable number of] minor GCs) are moved and then live in here
 directly into the <em>old</em> space.</li>
 </ul>
 </li>
-<li><strong>Permanent</strong> &mdash;&ndash; this is where the JVM&rsquo;s own objects live (e.g. classes and
+<li><strong>Permanent</strong> &mdash; this is where the JVM&rsquo;s own objects live (e.g. classes and
 JITed code). It behaves just like the <em>tenured</em> space.</li>
 </ol>
 
