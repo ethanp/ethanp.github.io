@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>What Akamai Does - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="I met someone at a hack night worked for Akamai. He was a cool dude, so I was
+curious what Akamai does. For whatever reason I ended up reading a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2015/06/10/what-akamai-does">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>Ethan Petuchowski</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">What Akamai Does</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-10T19:23:31-07:00" pubdate data-updated="true">Jun 10<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I met someone at a hack night worked for Akamai. He was a cool dude, so I was
+curious what Akamai does. For whatever reason I ended up reading a paper cited
+as so:</p>
+
+<blockquote><p>Nygren, Erik, Ramesh K. Sitaraman, and Jennifer Sun. “The akamai network: a
+platform for high-performance internet applications.” ACM SIGOPS Operating
+Systems Review 44.3 (2010): 2–19.</p></blockquote>
+
+<p>For whatever reason, everything I know about Akamai is from this paper. I&rsquo;m not
+in any way afiliated with Akamai, etc., though the paper is basically a badly
+designed advertising pamphlet for their services. A small number of sentences
+in this summary may have been lifted directly from that paper. You can consider
+this whole post a paraphrasing of the paper. <strong>The intent of this post is to
+tell you everything important that I learned from the paper</strong> in a form that is
+<em>way</em> easier to digest than you reading the paper itself. To that end, this
+document is maybe 2 pages long, and the original is 17. Clearly much of the
+detail has been removed, but the gist remains. If that appeals to you, welcome
+aboard! Note that the paper is from 2010, so is probably already out of date.</p>
+
+<h3>Introduction</h3>
+
+<p>Akamai invented the <em>Content Delivery Network</em> (CDN) concept in the 1990s,
+because the raw naive Internet implementation is too slow to conduct a global
+business. As of 2010, Akamai delivers 15-20% of global Web traffic.</p>
+
+<h4>The Interwebs is a dangerous place</h4>
+
+<!-- more -->
+
+
+<p>For a web app, downtime and high latency is <em>very</em> costly. Customers won&rsquo;t go
+to your page unless they can see your content <em>right this second</em>. The Internet
+itself can provide no reliability or performance gaurantees.</p>
+
+<p>The Internet is composed of 1000s of individual networks, the largest having
+only 5% of Internet access traffic. It takes 650 networks to get to 90% of all
+access traffic. The Internet-access pricing structure happens to result in a
+situation in which connections between networks (&ldquo;peering points&rdquo;) are
+bottlenecks causing packet loss and increased latency.</p>
+
+<p>The protocol ISPs use to exchange rounting information (BGP) is bad and subject
+to misuse. Internet outages and partitions are regular occurrences. The strict
+ACK policy for TCP adds enough overhead to make video streaming over TCP
+impractical. The high proportion of people still using IE6 means any improved
+algorithms that get implemented have to be backwards compatible with that one
+silly browser.</p>
+
+<h3>Content Delivery Networks</h3>
+
+<p>Originally a CDN&rsquo;s purpose was to cache static site content at the &ldquo;edge&rdquo; of
+the Internet, close to end users, to avoid middle-mile bottlenecks. Now they
+accelerate entire web apps and provide HD live streaming media. They provide
+security, logging, diagnostics, reporting, and management tools</p>
+
+<p>A <strong>delivery network</strong> is a <em>virutal network</em>, i.e. a software layer over the
+actual Internet, to provide reliability, performance, scalability, and
+security. It requires no client software or changes to the underlying networks.
+Akamai&rsquo;s network is made from tens of thousands of globally deployed servers
+running sophisticated algorithms to enable faster content delivery.</p>
+
+<h4>In Greater Detail</h4>
+
+<p>When a user enters a URL into their browser, their DNS routes them to an Akamai
+DNS, which in turn gives them the IP address of an <strong>edge server</strong> chosen via
+machine learning algorithm. The edge server acts as a cache for the <strong>origin
+server</strong>, and if it needs new data, it uses an especially reliable and
+performant <strong>transport system</strong> (described later on), which is a network of
+internal nodes who know best how to connect the <em>edge</em> back to the <em>origin</em>.</p>
+
+<p>The <strong>transport system</strong> connects <em>edge</em> to <em>origin</em> servers with a cache
+pyramid of clusters. Streaming video is <em>branched out</em> to the edge clusters by
+intermediate layers of <em>reflectors</em>.</p>
+
+<p>Edge servers communicate to each other via their own chosen path optimization
+rather than the default one chosen by BGP, and use dynamically optimized TCP
+parameters. They can also intelligently prefetch and cache content from the
+origin right before before it is requested by the user.</p>
+
+<p>Akamai&rsquo;s EdgeComputing product allows you to distribute your web application
+<em>itself</em> &ldquo;to the <em>edge</em>&rdquo;, which is great for content aggregation, product
+catalogs (dynamic access of static content), data validation, and data input
+batching. It&rsquo;s not great for apps relying heavily on transactional databases
+because they still must communicate with the origin server.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-10T19:23:31-07:00" pubdate data-updated="true">Jun 10<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/akamai/'>Akamai</a>, <a class='category' href='/blog/categories/internet/'>internet</a>, <a class='category' href='/blog/categories/networking/'>networking</a>, <a class='category' href='/blog/categories/papers/'>papers</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/" title="Previous Post: Brief Overview of Garbage Collection in the HotSpot JVM">&laquo; Brief Overview of Garbage Collection in the HotSpot JVM</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/06/10/what-akamai-does/">What Akamai Does</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/">Brief Overview of Garbage Collection in the HotSpot JVM</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/29/summary-of-the-log/">Summary of 'the Log'</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/18/paxos-as-a-classroom/">Paxos as a Classroom</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/18/simulating-a-distributed-system/">Simulating a Distributed System</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="Introduction My hope is that this website shall become a place where stuff I&rsquo;ve been up to
-and thinking about gets documented. The plan is for &hellip;">
+  <meta name="description" content="I&rsquo;m in the 3rd week of Functional Programming Principles in Scala
+course on Coursera, taught by Martin Odersky, the creator of Scala. The class &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,62 @@ and thinking about gets documented. The plan is for &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/05/16/scala-union-beauty/">A Functional Union of Two Sets</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-16T19:01:58-07:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&rsquo;m in the 3rd week of <a href="http://www.coursera.org/course/progfun">Functional Programming Principles in Scala</a>
+course on Coursera, taught by Martin Odersky, the creator of Scala. The class
+has been surprisingly awesome so far, but one thing above all struck me as
+impossible: the &ldquo;functional&rdquo; implementation of the <em>union</em> of two immutable
+binary search trees.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="o">((</span><span class="n">left</span> <span class="n">union</span> <span class="n">right</span><span class="o">)</span> <span class="n">union</span> <span class="n">other</span><span class="o">)</span> <span class="n">incl</span> <span class="n">elem</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong><em>WWWHHAATTT??</em></strong></p>
+
+<p>After an intensive investigation, I eventually determined that this operation
+performs what I&rsquo;m calling a <em>&lsquo;post-order insertion&rsquo;</em> of the elements of <code>this</code>
+(non-empty) <code>IntSet</code> into <code>other</code>.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/05/16/scala-union-beauty/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/05/14/octopress/">Octopress</a></h1>
     
     
@@ -131,6 +187,10 @@ certainly not well written; that&rsquo;s okay though.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/06/10/what-akamai-does/">What Akamai Does</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/">Brief Overview of Garbage Collection in the HotSpot JVM</a>
       </li>
     
@@ -144,10 +204,6 @@ certainly not well written; that&rsquo;s okay though.</p>
     
       <li class="post">
         <a href="/blog/2015/05/18/simulating-a-distributed-system/">Simulating a Distributed System</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/03/asynchronous-system/">Asynchronous System</a>
       </li>
     
   </ul>
