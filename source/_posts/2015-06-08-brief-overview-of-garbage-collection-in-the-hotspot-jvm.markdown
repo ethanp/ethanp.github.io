@@ -18,15 +18,15 @@ don't know whether these spaces are "virtual" (i.e. remapped to discontiguous
 "pages" like Linux's *virtual memory addresses*) or not. I suspect they are
 _not_.
 
-1. __Eden__ --- where objects go when they're first allocated in the running
+1. __Eden__ -- where objects go when they're first allocated in the running
    program
-2. __Survivors 1 & 2__ a.k.a. "young space" --- objects in Eden are moved here
+2. __Survivors 1 & 2__ a.k.a. "young space" -- objects in Eden are moved here
    if they survive a minor ("young") GC
-3. __Tenured__ (a.k.a. __Old__) --- long-lived objects (that have survived [a
+3. __Tenured__ (a.k.a. __Old__) -- long-lived objects (that have survived [a
    configurable number of] minor GCs) are moved and then live in here
     * We can tell the JVM to allocate all objects larger than `n` bytes
       directly into the *old* space.
-4. __Permanent__ --- this is where the JVM's own objects live (e.g. classes and
+4. __Permanent__ -- this is where the JVM's own objects live (e.g. classes and
    JITed code). It behaves just like the *tenured* space.
 
 <!-- more -->
