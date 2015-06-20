@@ -25,13 +25,13 @@ document is maybe 2 pages long, and the original is 17. Clearly much of the
 detail has been removed, but the gist remains. If that appeals to you, welcome
 aboard! Note that the paper is from 2010, so is probably already out of date.
 
-### Introduction
+## Introduction
 
 Akamai invented the *Content Delivery Network* (CDN) concept in the 1990s,
 because the raw naive Internet implementation is too slow to conduct a global
 business. As of 2010, Akamai delivers 15-20% of global Web traffic.
 
-#### The Interwebs is a dangerous place
+### The Interwebs is a dangerous place
 
 <!-- more -->
 
@@ -52,7 +52,7 @@ impractical. The high proportion of people still using IE6 means any improved
 algorithms that get implemented have to be backwards compatible with that one
 silly browser.
 
-### Content Delivery Networks
+## Content Delivery Networks
 
 Originally a CDN's purpose was to cache static site content at the "edge" of
 the Internet, close to end users, to avoid middle-mile bottlenecks. Now they
@@ -65,7 +65,7 @@ security. It requires no client software or changes to the underlying networks.
 Akamai's network is made from tens of thousands of globally deployed servers
 running sophisticated algorithms to enable faster content delivery.
 
-#### In Greater Detail
+### In Greater Detail
 
 When a user enters a URL into their browser, their DNS routes them to an Akamai
 DNS, which in turn gives them the IP address of an **edge server** chosen via
