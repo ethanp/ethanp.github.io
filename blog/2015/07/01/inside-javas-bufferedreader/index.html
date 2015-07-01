@@ -103,6 +103,24 @@ instead of <code>byte</code>.</p>
 the <code>BufferedReader</code>, i.e. an overview of the implementation details.
 Details about <code>mark</code> support will be omitted.</p>
 
+<p>For me, the most significant takeaways are the following</p>
+
+<ol>
+<li><strong>There is no magic</strong> &mdash; every time I find this out about something I am
+surpised. This class is probably <em>very</em> similar to the way I would have
+naively written a buffering wrapper for a <code>Reader</code> object.</li>
+<li><strong>Utmost efficiency is sacrificed for code clarity</strong> &mdash; my guess is that the
+reason they left in the inefficiencies I mentioned above is because having
+special cases would have clouded the code. If someone wants an even <em>more</em>
+efficient <code>Reader</code> they are always welcome to write their own.</li>
+<li><strong>Small amount of code</strong> &mdash; there&rsquo;s really not a whole lot to this class. It
+basically just reads into a buffer, then services incoming reads from that
+buffer. There are no &ldquo;niceties&rdquo; or asynchronous callbacks etc. I think the
+attitude of the auther is that if you want to find that, simply look
+elsewhere.</li>
+</ol>
+
+
 <!-- more -->
 
 
@@ -332,23 +350,7 @@ potential inefficiencies in <code>read(char[],int,int)</code> and <code>skip(lon
 an seemingly unecessary block on a lock before bounds checking in
 <code>read(char[],int,int)</code>.</p>
 
-<p>For me, the most significant takeaways are the following</p>
-
-<ol>
-<li><strong>There is no magic</strong> &mdash; every time I find this out about something I am
-surpised. This class is probably <em>very</em> similar to the way I would have
-naively written a buffering wrapper for a <code>Reader</code> object.</li>
-<li><strong>Utmost efficiency is sacrificed for code clarity</strong> &mdash; my guess is that the
-reason they left in the inefficiencies I mentioned above is because having
-special cases would have clouded the code. If someone wants an even <em>more</em>
-efficient <code>Reader</code> they are always welcome to write their own.</li>
-<li><strong>Small amount of code</strong> &mdash; there&rsquo;s really not a whole lot to this class. It
-basically just reads into a buffer, then services incoming reads from that
-buffer. There are no &ldquo;niceties&rdquo; or asynchronous callbacks etc. I think the
-attitude of the auther is that if you want to find that, simply look
-elsewhere.</li>
-</ol>
-
+<p>You may want to refer back to the takeaways in the introduction.</p>
 </div>
 
 
