@@ -3,7 +3,7 @@ layout: post
 title: "First look at MongoDB"
 date: 2015-06-19 23:06:28 -0700
 comments: true
-categories: [web, framework, meteorjs, ruby on rails, javascript, mongodb, nosql, introduction, tutorial]
+categories: [web, framework, meteorjs, ruby on rails, javascript, mongodb, nosql, introduction, tutorial, embedded references]
 ---
 
 ## The scenario

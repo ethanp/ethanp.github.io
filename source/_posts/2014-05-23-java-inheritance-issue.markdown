@@ -39,7 +39,6 @@ class Base<T> {
 }
 ```
 
-py
 Next, we have an `Ord`, which is a `Base` that is `Comparable`. We require
 that the element contained by an `Ord` is itself comparable, and furthermore
 that the method of comparing `Ord`s is to compare their respective `elem`s:
@@ -80,9 +79,12 @@ public static void main(String[] args) {
 
 After writing and re-writing this blog post over and over, this makes sense
 now. I used to be confused: "shouldn't the compiler *know* that a.next is an
-Ord<Integer>?" And the answer is (now obvious) "Of course not." So I had the
-following code, which I considered a "workaround", where we inform the
-compiler that `next` is an `Ord` not a `Base`.
+Ord<Integer>?" And the answer is (now obvious) "Of course not."
+
+<!-- more -->
+
+So I had the following code, which I considered a "workaround", where we inform
+the compiler that `next` is an `Ord` not a `Base`.
 
 ``` java Ord.java
 class Ord<U extends Comparable<U>> extends Base implements Comparable<Ord<U>>
