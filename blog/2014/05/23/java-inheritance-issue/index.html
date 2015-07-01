@@ -134,8 +134,7 @@ reference to another <code>Base</code>, quite like a <em>linked list</em>.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>py
-Next, we have an <code>Ord</code>, which is a <code>Base</code> that is <code>Comparable</code>. We require
+<p>Next, we have an <code>Ord</code>, which is a <code>Base</code> that is <code>Comparable</code>. We require
 that the element contained by an <code>Ord</code> is itself comparable, and furthermore
 that the method of comparing <code>Ord</code>s is to compare their respective <code>elem</code>s:</p>
 
@@ -199,9 +198,13 @@ that the method of comparing <code>Ord</code>s is to compare their respective <c
 
 <p>After writing and re-writing this blog post over and over, this makes sense
 now. I used to be confused: &ldquo;shouldn&rsquo;t the compiler <em>know</em> that a.next is an
-Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo; So I had the
-following code, which I considered a &ldquo;workaround&rdquo;, where we inform the
-compiler that <code>next</code> is an <code>Ord</code> not a <code>Base</code>.</p>
+Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo;</p>
+
+<!-- more -->
+
+
+<p>So I had the following code, which I considered a &ldquo;workaround&rdquo;, where we inform
+the compiler that <code>next</code> is an <code>Ord</code> not a <code>Base</code>.</p>
 
 <figure class='code'><figcaption><span>Ord.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -434,6 +437,10 @@ being &ldquo;just clever&rdquo; to being &ldquo;applicably awesome&rdquo;.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/01/inside-javas-bufferedreader/">Inside Java's BufferedReader</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/06/19/first-look-at-mongodb/">First Look at MongoDB</a>
       </li>
     
@@ -447,10 +454,6 @@ being &ldquo;just clever&rdquo; to being &ldquo;applicably awesome&rdquo;.</p>
     
       <li class="post">
         <a href="/blog/2015/05/29/summary-of-the-log/">Summary of 'the Log'</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/18/paxos-as-a-classroom/">Paxos as a Classroom</a>
       </li>
     
   </ul>

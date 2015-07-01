@@ -1,0 +1,491 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Inside Java's BufferedReader - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="BufferedReader is suprisingly fast for parsing large text files. Why is that?
+In my experience, it is faster for this task than a BufferedInputStream &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2015/07/01/inside-javas-bufferedreader">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>Ethan Petuchowski</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Inside Java's BufferedReader</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-01T13:22:50-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><code>BufferedReader</code> is suprisingly fast for parsing large text files. Why is that?
+In my experience, it is faster for this task than a <code>BufferedInputStream</code>.
+StackOverflow says this is because the <code>BufferedReader</code> uses <code>char</code> internally
+instead of <code>byte</code>.</p>
+
+<p>What follows is a high-level breakdown of what&rsquo;s going on &ldquo;under the hood&rdquo; of
+the <code>BufferedReader</code>, i.e. an overview of the implementation details.
+Details about <code>mark</code> support will be omitted.</p>
+
+<!-- more -->
+
+
+<p>Starting with the obvious, a <code>java.io.BufferedReader</code> is <code>java.io.Reader</code> that
+holds a buffer to make operations faster. A <code>Reader</code> is an object that reads
+character streams. Any subclasser of the <code>abstract class Reader</code> must implement
+(at a minimum) <code>read(char[], int, int)</code> and <code>close()</code>. Other reader methods
+basically just use these methods to put together the rest of the interface. The
+only public method that <code>BufferedReader</code> adds to the <code>Reader</code> interface is
+<code>String readLine()</code>, which is described below.</p>
+
+<p>Let&rsquo;s look at some of the fields, with my annotations about what they actually
+mean.</p>
+
+<h3>Reader in</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="n">Reader</span> <span class="n">in</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the <code>Reader</code> whose reads we are buffering. <code>BufferedReader</code> is an
+example of the <em>&ldquo;Decorator Pattern&rdquo;</em> and this <code>Reader</code> is whom we&rsquo;re
+decorating. Both <code>BufferedReader</code> constructors require <code>in</code> to be passed as a
+parameter, and it cannot be changed. Calling <code>this.close()</code> calls</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'><span class="n">in</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setting <code>in = null</code> might be to help prevent garbage accumulation when the
+client of <code>BufferedReader</code> doesn&rsquo;t properly get rid of the reference to the
+<code>BufferedReader</code>.</p>
+
+<h3>char[] cb</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">cb</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="o">[</span><span class="mi">8192</span><span class="o">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This of course is the char buffer itself. We respond to read requests directly
+from here as often as possible. We fill it up by issuing <code>in.read(cb, int,
+int)</code> requests on the underlying <code>Reader in</code> annotated above.</p>
+
+<p>Here I&rsquo;m showing <em>default</em> internal char buffer size of 8kb. This happens to be
+2 disk sectors of an HDD using the first generation of the Advanced Format. I
+don&rsquo;t know if that&rsquo;s how 8kb was chosen; perhaps it was chosen using benchmark
+comparisons.</p>
+
+<h3>int nChars</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">int</span> <span class="n">nChars</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the index in <code>cb</code> corresponding to the last unread <code>char</code> that we may
+<code>read()</code> before we need to <code>fill()</code> it again from <code>in</code>.</p>
+
+<h3>int nextChar</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">int</span> <span class="n">nextChar</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the index in <code>cb</code> corresponding to the next <code>char</code> that should be
+returned by a <code>read()</code>.</p>
+
+<h3>void fill()</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">void</span> <span class="nf">fill</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here we block until successfully reading from <code>in</code> into <code>cb</code>, and set <code>nChars</code>
+to the end of the valid range of <code>cb</code> and <code>nextChar</code> to zero.</p>
+
+<h3>int read()</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Returns a single character of the stream, or -1 if the end of the stream has
+already been reached.</p>
+
+<p>Basically just does</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="k">return</span> <span class="n">cb</span><span class="o">[</span><span class="n">nextChar</span><span class="o">++];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However if <code>nextChar &gt;= nChars</code>, we have already read to the end of the
+existing <code>cb</code>, so we call <code>fill()</code>. Now if <code>fill()</code> fails, we&rsquo;ve reached the
+end of the stream, so <code>return -1</code>.</p>
+
+<h3>int read(char[], int, int)</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">(</span><span class="kt">char</span> <span class="n">cbuf</span><span class="o">[],</span> <span class="kt">int</span> <span class="n">off</span><span class="o">,</span> <span class="kt">int</span> <span class="n">len</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This entire method is <code>synchronized</code> behind a <code>lock</code> owned by the parent
+<code>Reader</code> class. In <code>Reader</code> it says to use this <code>lock</code> instead of synchronizing
+on <code>this</code> &ldquo;for efficiency&rdquo;. I&rsquo;m not sure why that would be any more efficient.</p>
+
+<p>After acquiring the lock, we do bounds checks. I&rsquo;m not sure why this isn&rsquo;t done
+<em>before</em> acquiring the lock because all checks are done on the parameters,
+which can&rsquo;t change between the time the method is called and the lock is
+acquired. So if we did this check before acquiring the lock, we would never
+wait on the lock for no reason. Maybe this is so that any concurrent operation
+using the lock gets to finish before the exception is thrown on this thread?
+That&rsquo;s my best guess at this point.</p>
+
+<p>The documentation says</p>
+
+<blockquote><p>As an additional convenience, it attempts to read as many characters as
+possible by repeatedly invoking the <code>read</code> method of the underlying stream.</p></blockquote>
+
+<p>This is accomplished by first copying the rest of the current buffer into the
+passed-in <code>cbuf</code>. If this has not yet filled <code>cbuf</code>, keep calling <code>fill()</code> and
+then dumping the new buffer contents into <code>cbuf</code>. Seems to me there is an
+<strong>extra copying step</strong> into the buffer in this case, where it would perhaps be
+faster and more memory efficient copy <em>directly</em> into <code>cbuf</code>. But hey, what do
+I know.</p>
+
+<h3>String readline()</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="n">String</span> <span class="nf">readLine</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Returns the next segment of text from the stream terminated by <code>\n</code>, <code>\r</code>, or
+<code>\r\n</code>.</p>
+
+<p>This method operates inside a synchronized endless loop building up a
+<code>StringBuffer s</code>.</p>
+
+<p>The loop is like this:</p>
+
+<ol>
+<li><code>fill()</code> the underlying <code>cb</code> buffer</li>
+<li>If the stream ended
+
+<ul>
+<li><code>return s.toString()</code></li>
+</ul>
+</li>
+<li>Otherwise, iterate through <code>cb</code> looking for a line ending</li>
+<li>If a line ending is found
+
+<ul>
+<li>append <code>cb</code> through the line ending to <code>s</code> and return it.</li>
+</ul>
+</li>
+<li>Otherwise, repeat the loop.</li>
+</ol>
+
+
+<h3>long skip(long)</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">long</span> <span class="nf">skip</span><span class="o">(</span><span class="kt">long</span> <span class="n">n</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In a synchronized loop:</p>
+
+<ol>
+<li>If the buffer has all been read <code>fill()</code> it
+
+<ul>
+<li><strong>Why?</strong> Why copy memory into the buffer unecessarily? We&rsquo;re just going
+to skip some or all of these bytes!</li>
+</ul>
+</li>
+<li>If the buffer is larger than the number of bytes remaining to skip
+
+<ul>
+<li>Skip that many bytes into the buffer and return</li>
+</ul>
+</li>
+<li>Otherwise skip over the entire buffer and repeat the loop</li>
+</ol>
+
+
+<h3>boolean ready()</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">ready</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Tells whether the stream is ready to be read</p></blockquote>
+
+<p>After acquiring the lock, return try if either the buffer still has unread
+data, or <code>in.ready()</code> is true (on the underlying <code>Reader in</code> described above).</p>
+
+<h3>void close()</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Inside the lock, close and release the underlying <code>Reader in</code>, and release
+<code>cb</code>.</p>
+
+<h3>Conclusion</h3>
+
+<p>Those are all the important methods of <code>BufferedReader</code> that don&rsquo;t involve
+<code>mark</code> support.</p>
+
+<p>At this point the reader may have a somewhat deeper understanding of how
+<code>BufferedReader</code> manages to achieve such high speeds. I also pointed out
+potential inefficiencies in <code>read(char[],int,int)</code> and <code>skip(long)</code>, as well as
+an seemingly unecessary block on a lock before bounds checking in
+<code>read(char[],int,int)</code>.</p>
+
+<p>For me, the most significant takeaways are the following</p>
+
+<ol>
+<li><strong>There is no magic</strong> &mdash; every time I find this out about something I am
+surpised. This class is probably <em>very</em> similar to the way I would have
+naively written a buffering wrapper for a <code>Reader</code> object.</li>
+<li><strong>Utmost efficiency is sacrificed for code clarity</strong> &mdash; my guess is that the
+reason they left in the inefficiencies I mentioned above is because having
+special cases would have clouded the code. If someone wants an even <em>more</em>
+efficient <code>Reader</code> they are always welcome to write their own.</li>
+<li><strong>Small amount of code</strong> &mdash; there&rsquo;s really not a whole lot to this class. It
+basically just reads into a buffer, then services incoming reads from that
+buffer. There are no &ldquo;niceties&rdquo; or asynchronous callbacks etc. I think the
+attitude of the auther is that if you want to find that, simply look
+elsewhere.</li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-01T13:22:50-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/i-slash-o/'>I/O</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/buffering/'>buffering</a>, <a class='category' href='/blog/categories/explanation/'>explanation</a>, <a class='category' href='/blog/categories/library/'>library</a>, <a class='category' href='/blog/categories/performance/'>performance</a>, <a class='category' href='/blog/categories/source-code/'>source code</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/19/first-look-at-mongodb/" title="Previous Post: First look at MongoDB">&laquo; First look at MongoDB</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/01/inside-javas-bufferedreader/">Inside Java's BufferedReader</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/19/first-look-at-mongodb/">First Look at MongoDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/10/what-akamai-does/">What Akamai Does</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/">Brief Overview of Garbage Collection in the HotSpot JVM</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/29/summary-of-the-log/">Summary of 'the Log'</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
