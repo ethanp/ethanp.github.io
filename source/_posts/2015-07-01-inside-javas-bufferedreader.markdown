@@ -15,6 +15,23 @@ What follows is a high-level breakdown of what's going on "under the hood" of
 the `BufferedReader`, i.e. an overview of the implementation details.
 Details about `mark` support will be omitted.
 
+For me, the most significant takeaways are the following
+
+1. **There is no magic** -- every time I find this out about something I am
+   surpised. This class is probably *very* similar to the way I would have
+   naively written a buffering wrapper for a `Reader` object.
+2. **Utmost efficiency is sacrificed for code clarity** -- my guess is that the
+   reason they left in the inefficiencies I mentioned above is because having
+   special cases would have clouded the code. If someone wants an even *more*
+   efficient `Reader` they are always welcome to write their own.
+3. **Small amount of code** -- there's really not a whole lot to this class. It
+   basically just reads into a buffer, then services incoming reads from that
+   buffer. There are no "niceties" or asynchronous callbacks etc. I think the
+   attitude of the auther is that if you want to find that, simply look
+   elsewhere.
+    * Of particular note: there is no a single mention of *character encodings*
+      anywhere in the class.
+
 <!-- more -->
 
 Starting with the obvious, a `java.io.BufferedReader` is `java.io.Reader` that
@@ -208,17 +225,4 @@ potential inefficiencies in `read(char[],int,int)` and `skip(long)`, as well as
 an seemingly unecessary block on a lock before bounds checking in
 `read(char[],int,int)`.
 
-For me, the most significant takeaways are the following
-
-1. **There is no magic** -- every time I find this out about something I am
-   surpised. This class is probably *very* similar to the way I would have
-   naively written a buffering wrapper for a `Reader` object.
-2. **Utmost efficiency is sacrificed for code clarity** -- my guess is that the
-   reason they left in the inefficiencies I mentioned above is because having
-   special cases would have clouded the code. If someone wants an even *more*
-   efficient `Reader` they are always welcome to write their own.
-3. **Small amount of code** -- there's really not a whole lot to this class. It
-   basically just reads into a buffer, then services incoming reads from that
-   buffer. There are no "niceties" or asynchronous callbacks etc. I think the
-   attitude of the auther is that if you want to find that, simply look
-   elsewhere.
+You may want to refer back to the takeaways in the introduction.
