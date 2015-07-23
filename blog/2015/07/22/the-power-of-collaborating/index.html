@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Power of Collaborating - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="Perhaps the greatest lesson of this summer has been in taking advantage of the
+power of collaboration. When my boss decided to hire me, he told me &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2015/07/22/the-power-of-collaborating">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>Ethan Petuchowski</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Power of Collaborating</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-22T21:16:25-07:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Perhaps the greatest lesson of this summer has been in taking advantage of the
+power of collaboration.</p>
+
+<p>When my boss decided to hire me, he told me that it was in large part because
+of my communication skills. I don&rsquo;t know if he still agrees with this, but I
+like to think it is true.</p>
+
+<p>One of my greatest prides is the ability to openly lose an argument. For a long
+time, this has quite often been my reason for entering an argument, and I try
+to make it easy to lose. If someone seems to know they&rsquo;re right, we must
+together find the bridge of what I&rsquo;m missing that will be convincing beyond a
+reasonable doubt of their correctness. Making it easy to lose means figuring
+out what you <em>actually</em> think, making that clear, and not wavering from that
+initial point of view even when more facts come to light. Or at least
+acknowledging that the original viewpoint was incorrect, and now <em>this</em> is what
+I [honestly] believe to be true. A regrettable human tendancy is to change
+one&rsquo;s opinion during an argument as the facts come to light because &ldquo;with these
+facts, my original point of view was wrong, and clearly I wasn&rsquo;t wrong, so that
+couldn&rsquo;t have been my real point of view.&rdquo; This needs to be consciously
+avoided.</p>
+
+<!-- more -->
+
+
+<p>But still, I haven&rsquo;t always taken advantage of opportunities to collaborate.
+There is a lot of overhead when working with a partner. A lot of your time is
+spent explaining to them stuff you already know. These could be things which
+took quite a while of staring at text trying to understand, and now it feels
+like you&rsquo;re letting them off the hook by just explaining it outright. Sometimes
+there are petty disagreements in which I like to code things my way and she
+hers, etc.</p>
+
+<p>One small example is that in one project I wanted the code for a very
+complicated function to have the following structure</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">complicated1</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">precondition1</span> <span class="k">=</span> <span class="n">state1</span> <span class="o">!=</span> <span class="n">invalid</span> <span class="o">&amp;&amp;</span> <span class="n">state2</span> <span class="o">!=</span> <span class="n">invalid</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">precondition2</span> <span class="k">=</span> <span class="n">state3</span> <span class="o">!=</span> <span class="n">invalid</span> <span class="o">||</span> <span class="n">state4</span> <span class="o">!=</span> <span class="n">invalid</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">preconditionsMet</span> <span class="k">=</span> <span class="n">precondition1</span> <span class="o">&amp;&amp;</span> <span class="n">precondition2</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(!</span><span class="n">preconditionsMet</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">logError</span><span class="o">(</span><span class="s">&quot;error 1&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="c1">// early escape</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">computationResult</span> <span class="k">=</span> <span class="n">doSomeComputing</span><span class="o">()</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(!</span><span class="n">isValid</span><span class="o">(</span><span class="n">computationResult</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">logError</span><span class="o">(</span><span class="s">&quot;error 2&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="c1">// another early escape</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="c1">// the main logic here</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>whereas my partner wanted something more along the lines of the following</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">complicated2</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">state1</span> <span class="o">!=</span> <span class="n">invalid</span> <span class="o">&amp;&amp;</span> <span class="n">state2</span> <span class="o">!=</span> <span class="n">invalid</span>
+</span><span class='line'>     <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">state3</span> <span class="o">!=</span> <span class="n">invalid</span> <span class="o">||</span> <span class="n">state4</span> <span class="o">!=</span> <span class="n">invalid</span><span class="o">))</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="k">val</span> <span class="n">computationResult</span> <span class="k">=</span> <span class="n">doSomeComputing</span><span class="o">()</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">isValid</span><span class="o">(</span><span class="n">computationResult</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>            <span class="c1">// the main logic here</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">logError</span><span class="o">(</span><span class="s">&quot;error 2&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">logError</span><span class="o">(</span><span class="s">&quot;error 1&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s a petty issue; either way the <em>exact</em> same code is going to execute, and
+we each had very good reasons for finding our own way easier to understand. We
+didn&rsquo;t bicker over it because we got along very well, and in the end we
+actually did it my way. But in reality the actual function was considerably
+more complex, and perhaps there were entirely better ways of structuring it
+that neither of us noticed.</p>
+
+<p>Now, at work, there is a new-hire considerably more senior and experienced than
+I, who started 2 days ago, and who is taking over my project once I go back to
+school in a few weeks; so it has been my responsibility to teach him how
+everything works. Very often, he feels the need to obsessively ask me: &ldquo;Your
+code that says <code>3 + 4</code>, that means you&rsquo;re adding 4 to 3, right?&rdquo; Sometimes he
+says &ldquo;right?&rdquo; and I say yes, then he repeats what he said and I repeat &ldquo;yes,
+you are correct&rdquo;, and this can continue and I wonder what he is getting out of
+that.</p>
+
+<p>At first I resented this because it sometimes felt like no one taught <em>me</em> much
+about the codebase when I arrived; for the more complex bits, I just stared at
+it until it clicked. This was fun to me, and no one ever seemed to have the
+time to go in depth with it anyway. It was good practice at reading others&#8217;
+code and understanding what it does. Learning new ways of accomplishing many
+things that were unfamiliar. Getting used to seeing code that isn&rsquo;t formatted
+<em>my way</em>, and accepting it for <em>what it is</em>. Learning how to utilize their code
+from mine even when there is no explicitly exported clean API, and so forth.</p>
+
+<p>But well it was the new-guy&rsquo;s day 3 today, and it seems we have really begun to
+click as a duo. It is abundantly clear that he has a <em>wealth</em> of skills I lack.
+Sure, he could definitely learn this code without my help, but I benefit a
+great deal from seeing how he navigates it. What are the parts that he finds
+especially confusing? The importance of variable names shines immediately
+through. There are a few patches of code where I worked some Scala feature in
+there just to try them out. Some of these turned out to be easier to understand
+and reuse code from, and for some of them, something more cut-and-dry would
+have been better.</p>
+
+<p>My new partner&rsquo;s oft-stated goal is to get to a point where he can start
+contributing to our project without my help, so that our concurrent efforts
+will speed things along. People with a smart, helpful attitude like that have
+been rare in my experience, so if he&rsquo;s being honest, I&rsquo;m all for taking him to
+that place as quickly as I can.</p>
+
+<p>I think maybe I just have a bias that everyone who doesn&rsquo;t know what I know
+just wasn&rsquo;t smart enough to realize it. That is the thinking pattern of a real
+asshole and this experience is making that abundantly clear. Everyone knows
+that when learning something new, everything is always surprisingly confusing,
+and then once it clicks, everything becomes &ldquo;trivial.&rdquo; However, I have not
+spent much time teaching others, so I haven&rsquo;t had the opportunity to see this
+&ldquo;click&rdquo; moment in others, and how dumb they all look before that moment occurs.
+I do remember teachers explaining something, and me looking at it sideways in
+confusion, and asking them to repeat it slower. This happened on many
+occasions, and they must have thought I was a real idiot on each of those
+occasions, but I was always so relieved when they did repeat, and I often would
+strain my brain muscles and actually (partially) &ldquo;get it&rdquo; the second time
+through.</p>
+
+<p>The new-guy has taught me a lot from his attitude in joining a new team at a
+new workplace. He&rsquo;s not trying to just &ldquo;set to work&rdquo; writing code willy-nilly
+as quickly as possible. Compared to him, that&rsquo;s basically what I did. He wants
+to <em>truly</em> understand what&rsquo;s going on. What does the architecture look like?
+Who is the expert on what? Who is good at explaining things? Who is willing to
+take the time to explain things? What do our users want? What do they expect?
+What is the timeline? What has been built? What is he responsible for? What are
+the alternative solutions that have been under consideration? Who has decision-
+making power? Which teams do we collaborate with?</p>
+
+<p>These are all questions that I know the answers to, as they are the necessary
+fundamentals of how to operate and move forward. I started actively learning
+the answers to these questions as soon as I arrived as well. However, I wasn&rsquo;t
+as conscious and certainly not nearly as thorough at answering them as he is.
+And over time I may have slipped a bit into a position of people trusting me to
+do the right thing, so I don&rsquo;t feel as pressured to be on the ball with
+everything at all times. But his arrival has been a reality check in the
+importance of having a firm grip on the fundamentals of what are we doing and
+why and how best to accomplish it in a strictly-business manner. There is no
+excuse for losing one&rsquo;s professionalism, including having a &ldquo;casual&rdquo; workplace.</p>
+
+<p>So far it has been 3 days. On a personal level of course I have learned more
+during those 3 days of working with the new guy than I did during the previous
+few weeks of working on my own. During this week I have probably also been
+slower to accomplish those tasks remaining to finish before I leave. It is
+firmly clear that this is a worthy tradeoff, and I will continue to spend the
+rest of my time making sure that I am playing as great a part as possible in
+his success in moving our project forward into the future. There maybe some
+hiccups in our working relationship, because alas I barely know the guy, and
+we&rsquo;re from different societal cultures, and my first impressions of people are
+always notoriously off-base. However, now it is clear that the responsibility
+is my own to make sure any future road-bumps are known to be my fault and my
+problem and mine to fix with his help.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-22T21:16:25-07:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/collaboration/'>collaboration</a>, <a class='category' href='/blog/categories/growing-up/'>growing up</a>, <a class='category' href='/blog/categories/learning/'>learning</a>, <a class='category' href='/blog/categories/life/'>life</a>, <a class='category' href='/blog/categories/pair-programming/'>pair programming</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/01/inside-javas-bufferedreader/" title="Previous Post: Inside Java's BufferedReader">&laquo; Inside Java's BufferedReader</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/22/the-power-of-collaborating/">The Power of Collaborating</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/01/inside-javas-bufferedreader/">Inside Java's BufferedReader</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/19/first-look-at-mongodb/">First Look at MongoDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/10/what-akamai-does/">What Akamai Does</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/">Brief Overview of Garbage Collection in the HotSpot JVM</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

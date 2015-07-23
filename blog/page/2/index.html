@@ -9,8 +9,11 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="I spent quite a while struggling with the Java class declaration syntax, and
-now I am starting to get it. Problem simplification I started out &hellip;">
+  <meta name="description" content="vars(self) == vars(other), it seems too easy I implemented a class 1
+2
+3
+4
+class A(object): def __init__(self): self.a = 123 self.b = 436 Then when I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +71,62 @@ now I am starting to get it. Problem simplification I started out &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/29/python-class-equivalence/">Python Class Equivalence</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-29T17:32:24-07:00" pubdate data-updated="true">Jun 29<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><code>vars(self) == vars(other)</code>, it seems too easy</h2>
+
+<p>I implemented a class</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">123</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">436</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then when I created two equivalent instances and compared them, I got false.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/06/29/python-class-equivalence/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -388,6 +447,10 @@ certainly not well written; that&rsquo;s okay though.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/22/the-power-of-collaborating/">The Power of Collaborating</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/07/01/inside-javas-bufferedreader/">Inside Java&#8217;s BufferedReader</a>
       </li>
     
@@ -401,10 +464,6 @@ certainly not well written; that&rsquo;s okay though.</p>
     
       <li class="post">
         <a href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/">Brief Overview of Garbage Collection in the HotSpot JVM</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/29/summary-of-the-log/">Summary of &#8216;the Log&#8217;</a>
       </li>
     
   </ul>
