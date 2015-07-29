@@ -114,6 +114,13 @@ there just to try them out. Some of these turned out to be easier to understand
 and reuse code from, and for some of them, something more cut-and-dry would
 have been better.
 
+Plus there's the fact that two minds are better than one. He's always
+questioning my assumptions. To the point where he often straight up doesn't
+believe what I say until I prove it. Sometimes he finds flaws in my arguments.
+Sometimes, with my assumptions in hand, he invents better solutions to the
+problem. Sometimes he understands what I did better than me and tells me its
+advantages and disadvantages and alternatives.
+
 My new partner's oft-stated goal is to get to a point where he can start
 contributing to our project without my help, so that our concurrent efforts
 will speed things along. People with a smart, helpful attitude like that have
