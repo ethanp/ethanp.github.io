@@ -3,7 +3,7 @@ layout: post
 title: "What is an abstraction"
 date: 2015-07-28 23:23:05 -0700
 comments: true
-categories: [mental meandering, semantics]
+categories: [mental meandering, semantics, abstraction]
 ---
 
 After some further thought, it has become clear that my previous post about
@@ -31,6 +31,8 @@ new definition:
 > for the "underlying truth".
 
 It is basically a mental shorthand.
+
+<!-- more -->
 
 Here is a revised list of abstractions
 
