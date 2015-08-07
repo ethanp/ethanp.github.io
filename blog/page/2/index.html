@@ -9,8 +9,10 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="For my Distributed Computing class at school, there were 3 projects that each
-involved implementing a distributed protocol over a simulated &hellip;">
+  <meta name="description" content="multi-paxos as a classroom:
+teacher := proposer
+students := acceptors
+all := learners teacher to students: may I have your attention for the next 1: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +70,70 @@ involved implementing a distributed protocol over a simulated &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/18/paxos-as-a-classroom/">Paxos as a Classroom</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-18T17:28:49-07:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre><code>multi-paxos as a classroom:
+teacher := proposer
+students := acceptors
+all := learners
+
+teacher to students:
+    may I have your attention for the next 1:15 hrs?
+    I'd like to teach youz guys all about "the paxos protocol"
+    here is what I'm assuming you already know
+
+each student to teacher:
+    if not already busy for that time:
+        yes, here's how much I actually already know about paxos
+    else:
+        my apologies, but I will be busy skimming facebook for the next 1:15
+        so if there's something you want to tell me, post it on there
+
+teacher to each student:
+    given how far behind you are, these are the things you need to catch up on
+    but also this is what I'm teaching now
+
+each (alive &amp; correct) student to teacher:
+    oh very cool!
+    this is how much I now understand of all the stuff you've said
+
+teacher:
+    if the majority understands more than before:
+        set new start point for next time's lesson
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -683,6 +749,10 @@ certainly not well written; that&rsquo;s okay though.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/06/how-apm-originally-worked/">How Apm Originally Worked</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/05/further-adventures-in-collaboration/">Further Adventures in Collaboration</a>
       </li>
     
@@ -696,10 +766,6 @@ certainly not well written; that&rsquo;s okay though.</p>
     
       <li class="post">
         <a href="/blog/2015/07/22/lesson-learnt-about-collaboration/">Lesson Learnt About Collaboration</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/01/inside-javas-bufferedreader/">Inside Java&#8217;s BufferedReader</a>
       </li>
     
   </ul>
