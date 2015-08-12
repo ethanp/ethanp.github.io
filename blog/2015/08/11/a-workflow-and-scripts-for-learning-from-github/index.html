@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Workflow and Scripts for Learning From Github - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="My &ldquo;Learning&rdquo; Workflow As I wrote about before, I have developed an interesting method of learning
+from experts, which can be summarized &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>Ethan Petuchowski</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A Workflow and Scripts for Learning From Github</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-11T17:48:41-07:00" pubdate data-updated="true">Aug 11<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>My &ldquo;Learning&rdquo; Workflow</h3>
+
+<p>As I wrote about <a href="http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked/">before</a>, I have developed an interesting method of learning
+from experts, which can be summarized as follows:</p>
+
+<ol>
+<li>Fork their repo on GitHub</li>
+<li>Clone the repo locally and &ldquo;detach the <code>HEAD</code>&rdquo; to the &ldquo;inital commmit&rdquo;</li>
+<li>Now repeat the following <code>while (curious)</code>
+
+<ol>
+<li>Open the working tree in an editor/IDE</li>
+<li>If there&rsquo;s something runnable, run it</li>
+<li>Understand everything going on in the working tree
+
+<ul>
+<li>Take hints from the commit message</li>
+</ul>
+</li>
+<li>Advance <code>HEAD</code> one commit</li>
+<li>View the diff from the previous commit</li>
+</ol>
+</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h3>SourceTree cannot handle this workload</h3>
+
+<p>I have always used Atlassian&rsquo;s Git GUI called SourceTree for all of my Git
+usage because it is a <em>great</em> application, but the fact is, it will not work
+for the workflow above. SourceTree has to rebuild the list of commits <em>all the
+time</em> (startingfrom the most recent), and when there are thousands of commits,
+that can take about a minute. But since I&rsquo;m always operating at the beginning
+of the reverse end of the commit log, using SourceTree is untenable. For
+whatever reason they decided it was a better idea not to keep all these commits
+in memory after they are loaded the first time. I&rsquo;m not saying that was a bad
+decision, because my workflow here may be <em>atypical</em>.</p>
+
+<h3>Git is a DAG pointing back in time</h3>
+
+<p>From what I understand&mdash;which is not (yet) a whole lot&mdash;Git is a DAG of
+&ldquo;snapshots&rdquo; of the state of your project. Each snapshot points to its parents.</p>
+
+<p>In a typical case, you&rsquo;ll load a snapshot, edit your working directory, add the
+changes into the staging area, and <strong>commit</strong> a new snapshot which equals the
+previous snapshot, plus the staged changes. Now your new commit has <em>one</em>
+parent: the previous snapshot.</p>
+
+<p>A <strong>merge commit</strong> would have <strong>two parents</strong>: the previous commit on the
+branch being committed to, and the previous commit on the branch being merged-
+in.</p>
+
+<h3>The Learning workflow flows the wrong way</h3>
+
+<p>The Learning worflow would require pointers to the <em>next</em> commit, not just
+back-pointers. So it doesn&rsquo;t quite fit the Git mold, and we require a
+workaround.</p>
+
+<p>That&rsquo;s where StackOverflow saves the day. <a href="http://stackoverflow.com/questions/2121230/git-how-to-move-back-and-forth-between-commits/23172256#23172256">Here</a> someone modified
+a StackOverflow answer by someone else to a <em>related</em> question, and produced
+wrappers that help you traverse back and forth between commits. I reproduce an
+explicated and slightly simplified version below which may be added to your
+shell config file.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">#</span> <span class="n">checkout</span> <span class="n">prev</span> <span class="o">(</span><span class="n">older</span><span class="o">)</span> <span class="n">revision</span>
+</span><span class='line'><span class="n">git_prev</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">#</span> <span class="n">move</span> <span class="nc">HEAD</span> <span class="s">&quot;one&quot;</span> <span class="n">generation</span> <span class="n">back</span> <span class="n">along</span> <span class="o">*</span><span class="k">this</span><span class="o">*</span> <span class="n">branch</span>
+</span><span class='line'>    <span class="n">git</span> <span class="n">checkout</span> <span class="nc">HEAD</span><span class="o">~</span><span class="mi">1</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">#</span> <span class="n">checkout</span> <span class="n">next</span> <span class="o">(</span><span class="n">newer</span><span class="o">)</span> <span class="n">commit</span>
+</span><span class='line'><span class="n">git_next</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">show</span> <span class="n">ref</span><span class="k">:</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="kt">show</span> <span class="o">(</span><span class="kt">commit-sha</span><span class="o">,</span> <span class="kt">ref-name</span><span class="o">)</span> <span class="n">pairs</span> <span class="k">for</span> <span class="n">current</span><span class="o">-</span><span class="n">versions</span> <span class="n">of</span> <span class="n">all</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="s">&quot;refs&quot;</span><span class="o">;</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">tags</span><span class="o">,</span> <span class="n">remote</span> <span class="n">branches</span><span class="o">,</span> <span class="n">and</span> <span class="n">local</span> <span class="n">branches</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">show</span><span class="o">-</span><span class="n">ref</span> <span class="o">-</span><span class="n">s</span> <span class="nc">HEAD</span><span class="k">:</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="kt">get</span> <span class="kt">sha</span> <span class="kt">of</span> <span class="kt">latest</span> <span class="kt">commit</span> <span class="kt">on</span> <span class="kt">branch</span> <span class="kt">pointed</span> <span class="kt">to</span> <span class="kt">by</span> <span class="kt">HEAD</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="nc">BRANCH</span><span class="o">=...</span><span class="k">:</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="kt">get</span> <span class="kt">the</span> <span class="kt">name</span> <span class="kt">of</span> <span class="kt">the</span> <span class="kt">branch</span> <span class="kt">HEAD</span> <span class="kt">is</span> <span class="kt">on</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="nc">HASH</span><span class="o">=</span><span class="n">`git rev-prase $BRANCH`</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="n">get</span> <span class="n">the</span> <span class="n">hash</span> <span class="n">of</span> <span class="n">the</span> <span class="n">latest</span> <span class="n">commit</span> <span class="n">on</span> <span class="n">the</span> <span class="n">current</span> <span class="n">branch</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">rev</span><span class="o">-</span><span class="n">list</span> <span class="o">--</span><span class="n">topo</span><span class="o">-</span><span class="n">order</span> <span class="nc">HEAD</span><span class="o">..</span><span class="nc">$HASH</span><span class="k">:</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="kt">list</span> <span class="kt">all</span> <span class="kt">commit</span> <span class="kt">sha</span><span class="err">&#39;</span><span class="kt">s</span> <span class="kt">in</span> <span class="kt">order</span> <span class="kt">on</span> <span class="kt">the</span> <span class="kt">current</span> <span class="kt">branch</span> <span class="kt">from</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="nc">HEAD</span> <span class="n">until</span> <span class="n">now</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="nc">PREV</span><span class="o">=...</span><span class="k">:</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="kt">get</span> <span class="kt">the</span> <span class="kt">commit</span> <span class="kt">sha</span> <span class="kt">for</span> <span class="kt">the</span> <span class="kt">commit</span> <span class="kt">after</span> <span class="kt">HEAD</span> <span class="kt">on</span> <span class="kt">branch</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">checkout</span> <span class="nc">$PREV</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="n">move</span> <span class="n">head</span> <span class="n">to</span> <span class="n">the</span> <span class="n">next</span> <span class="n">commit</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="nc">BRANCH</span><span class="o">=</span><span class="n">`git show-ref | grep $(git show-ref -s HEAD) | sed &#39;s|.*/||&#39; | grep -v HEAD | sort -u`</span>
+</span><span class='line'>    <span class="nc">HASH</span><span class="o">=</span><span class="n">`git rev-parse $BRANCH`</span>
+</span><span class='line'>    <span class="nc">PREV</span><span class="o">=</span><span class="n">`git rev-list --topo-order HEAD..$HASH | tail -1`</span>
+</span><span class='line'>    <span class="n">git</span> <span class="n">checkout</span> <span class="nc">$PREV</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With that knowledge in tow, I also made a little command to jump to the <em>i</em>&lsquo;th
+commit on master. If you&rsquo;re trying to jump to the <em>i</em>&#8216;th commit on the current
+branch, get the current branch using the <code>BRANCH=...</code> code above, and pass it
+to <code>rev-list</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">gitj</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">git</span> <span class="n">checkout</span> <span class="n">`git rev-list master | tail -n$1 | head -n1`</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">$</span> <span class="n">gitj</span> <span class="mi">1</span>    <span class="k">#</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">initial</span> <span class="n">commit</span> <span class="n">of</span> <span class="n">master</span>
+</span><span class='line'><span class="n">$</span> <span class="n">gitj</span> <span class="mi">3</span>    <span class="k">#</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">third</span> <span class="n">commit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Wrappin it up</h3>
+
+<p>So yeah, now the workflow is simpler to use and it was made possible by gaining
+a better understanding of how Git works.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-11T17:48:41-07:00" pubdate data-updated="true">Aug 11<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/bash/'>bash</a>, <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/learning/'>learning</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/scripts/'>scripts</a>, <a class='category' href='/blog/categories/shell/'>shell</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/06/how-apm-originally-worked/" title="Previous Post: How apm originally worked">&laquo; How apm originally worked</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/">A Workflow and Scripts for Learning From Github</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/06/how-apm-originally-worked/">How Apm Originally Worked</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/05/further-adventures-in-collaboration/">Further Adventures in Collaboration</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/28/what-is-an-abstraction/">What Is an Abstraction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/28/what-makes-a-good-abstraction/">What Makes a Good Abstraction</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

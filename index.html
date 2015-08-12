@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="Over the past few days I have been learning how apm, the Atom Package Manager
-works under the hood. apm is what you use when, in GitHub&rsquo;s ( &hellip;">
+  <meta name="description" content="My &ldquo;Learning&rdquo; Workflow As I wrote about before, I have developed an interesting method of learning
+from experts, which can be summarized &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,71 @@ works under the hood. apm is what you use when, in GitHub&rsquo;s ( &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/">A Workflow and Scripts for Learning From Github</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-11T17:48:41-07:00" pubdate data-updated="true">Aug 11<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>My &ldquo;Learning&rdquo; Workflow</h3>
+
+<p>As I wrote about <a href="http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked/">before</a>, I have developed an interesting method of learning
+from experts, which can be summarized as follows:</p>
+
+<ol>
+<li>Fork their repo on GitHub</li>
+<li>Clone the repo locally and &ldquo;detach the <code>HEAD</code>&rdquo; to the &ldquo;inital commmit&rdquo;</li>
+<li>Now repeat the following <code>while (curious)</code>
+
+<ol>
+<li>Open the working tree in an editor/IDE</li>
+<li>If there&rsquo;s something runnable, run it</li>
+<li>Understand everything going on in the working tree
+
+<ul>
+<li>Take hints from the commit message</li>
+</ul>
+</li>
+<li>Advance <code>HEAD</code> one commit</li>
+<li>View the diff from the previous commit</li>
+</ol>
+</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -739,72 +804,6 @@ JITed code). It behaves just like the <em>tenured</em> space.</li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/29/summary-of-the-log/">Summary of &#8216;the Log&#8217;</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-29T20:57:16-07:00" pubdate data-updated="true">May 29<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I read a great article by Jay Kreps, one of the dudes who brought you Apache
-Kafka. The article is called <a href="http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying"><strong>The Log</strong>: What every software engineer should know about real-time data&rsquo;s unifying abstraction</a>. The
-article took me a few hours of mildly challenging reading, so I figure you can
-spend a few minutes reading my summary and decide more clearly whether you want
-to put in the investment of his explanation.</p>
-
-<p>First, he describes the following concept: Let&rsquo;s define a <strong>log</strong> as a <em>total
-order</em> of functions called and the parameters passed to each of those function-
-calls. Let&rsquo;s define a <em>&ldquo;commit log&rdquo;</em> as a <em>log</em> of edits of the contents of a
-database. Kreps notes that we can use a commmit log to build the state of a
-database at any point in history. This is like <code>git</code>; as we patch in each
-commit, we obtain the state of the repo at each time. If we feed the same log
-to the same program on multiple machines in a cluster, (assuming none of the
-functions called are <em>non- deterministic</em> and machines behave as we expect), we
-will certainly have the same state on each machine after they have each
-executed the log. This would be desireable perhaps to provide a &ldquo;reliable&rdquo;
-<em>service</em> for which there are more reads than writes, and more reads than can
-be handled by one node; then we can ensure any node is OK to read from by
-having all nodes play functions as prescribed by the log.</p>
-
-<p>Then, he describes the following situation: getting every part of a tech-
-company&rsquo;s data to every service that needs it is very complicated. In the worst
-and most naive case it would be <em>N<sup>2</sup></em> because each of <em>N</em> places would be sending
-data to each of <em>N</em> places. That&rsquo;s a lot of network bandwidth, and complexity,
-and data formats to understand, and places for things to screw up. So Kreps
-suggests</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/29/summary-of-the-log/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -820,6 +819,10 @@ suggests</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/">A Workflow and Scripts for Learning From Github</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/06/how-apm-originally-worked/">How Apm Originally Worked</a>
       </li>
     
@@ -833,10 +836,6 @@ suggests</p>
     
       <li class="post">
         <a href="/blog/2015/07/28/what-makes-a-good-abstraction/">What Makes a Good Abstraction</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/22/lesson-learnt-about-collaboration/">Lesson Learnt About Collaboration</a>
       </li>
     
   </ul>
