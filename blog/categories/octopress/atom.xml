@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress]]></title>
+    <link href="http://ethanp.github.io/blog/2014/05/14/octopress/"/>
+    <updated>2014-05-14T20:00:02-05:00</updated>
+    <id>http://ethanp.github.io/blog/2014/05/14/octopress</id>
+    <content type="html"><![CDATA[<h3>Introduction</h3>
+
+<p>My hope is that this website shall become a place where stuff I&rsquo;ve been up to
+and thinking about gets documented. The plan is for it to also have tutorials
+on how to do things, especially if I could not find a good explanation for
+myself. I&rsquo;m a man of few words, so it may start out a little forced and
+certainly not well written; that&rsquo;s okay though.</p>
+
+<!-- more -->
+
+
+<h3>octopress</h3>
+
+<p>For the formatting of this blog, I have chosen
+<a href="(http://octopress.org/)">octopress</a> because it is quite simple to integrate
+with <code>username.github.io</code> or Heroku, and the code-formatting quality built-in
+looks pretty top-notch. So far I&rsquo;m liking it because it took very little
+effort to set up. Although now I&rsquo;ve got all the default styling in place,
+I imagine it&rsquo;s very customizable for when that&rsquo;s what I want to do.</p>
+
+<h3>Going forward</h3>
+
+<p>So here&rsquo;s what I plan to put on here:</p>
+
+<ol>
+<li>Stuff I made/am making</li>
+<li>Stuff I learned/am learning</li>
+<li>How-to do-cool-stuff</li>
+<li>I don&rsquo;t know</li>
+</ol>
+
+
+<p>I&rsquo;m a bit worried I&rsquo;ll just start spouting opinions about what I like and what
+I don&rsquo;t like, but I will do my best to avoid devolving to that, though it&rsquo;s
+surprisingly hard to stay away from that.  Instead, I&rsquo;d like to keep it as
+substantive/informative as I can.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Apache | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/apache/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Summary of 'the Log']]></title>
+    <link href="http://ethanp.github.io/blog/2015/05/29/summary-of-the-log/"/>
+    <updated>2015-05-29T22:57:16-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/05/29/summary-of-the-log</id>
+    <content type="html"><![CDATA[<p>I read a great article by Jay Kreps, one of the dudes who brought you Apache
+Kafka. The article is called <a href="http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying"><strong>The Log</strong>: What every software engineer should know about real-time data&rsquo;s unifying abstraction</a>. The
+article took me a few hours of mildly challenging reading, so I figure you can
+spend a few minutes reading my summary and decide more clearly whether you want
+to put in the investment of his explanation.</p>
+
+<p>First, he describes the following concept: Let&rsquo;s define a <strong>log</strong> as a <em>total
+order</em> of functions called and the parameters passed to each of those function-
+calls. Let&rsquo;s define a <em>&ldquo;commit log&rdquo;</em> as a <em>log</em> of edits of the contents of a
+database. Kreps notes that we can use a commmit log to build the state of a
+database at any point in history. This is like <code>git</code>; as we patch in each
+commit, we obtain the state of the repo at each time. If we feed the same log
+to the same program on multiple machines in a cluster, (assuming none of the
+functions called are <em>non- deterministic</em> and machines behave as we expect), we
+will certainly have the same state on each machine after they have each
+executed the log. This would be desireable perhaps to provide a &ldquo;reliable&rdquo;
+<em>service</em> for which there are more reads than writes, and more reads than can
+be handled by one node; then we can ensure any node is OK to read from by
+having all nodes play functions as prescribed by the log.</p>
+
+<p>Then, he describes the following situation: getting every part of a tech-
+company&rsquo;s data to every service that needs it is very complicated. In the worst
+and most naive case it would be <em>N<sup>2</sup></em> because each of <em>N</em> places would be sending
+data to each of <em>N</em> places. That&rsquo;s a lot of network bandwidth, and complexity,
+and data formats to understand, and places for things to screw up. So Kreps
+suggests</p>
+
+<!-- more -->
+
+
+<p>just having all data producers standardize a framework for formatting
+the data they produce, then just have all producers append to a single shared
+log. Now, everyone who wants to read data from someone else can be sure to get
+that data in the order it was produced by reading from that one log. Plus there
+are N writers and N readers so getting the data to every where is <em>2N</em>. Now we
+note that 2N &lt; N<sup>2</sup> if N > 2, so most of the time this is advantageous.</p>
+
+<p>Now, the problem is that this single log is not going to be able to handle that
+throughput, and it is going to get way too big way too fast. To build Kafka as
+an implementation of this &ldquo;unified log&rdquo; concept, the key optimization is to
+&ldquo;partition&rdquo; this log, meaning different pieces of it are written to different
+places (machines), and each piece is written in duplicate to multiple machines.
+In general we lose the total ordering across all processes, but in general,
+this total ordering was literally more strict than could possibly be useful.</p>
+
+<blockquote><p>This is the point where I stopped paying as much attention.</p></blockquote>
+
+<p>Then Kreps goes on to talk about how important stream-processing is, because so
+many of the services modern tech companies provide operate on a real-time feed
+of events. Then he notes that log-table duality noted in the second paragraph
+allows us to provide a reliable enriched event stream, ie. one that takes raw
+events, joins each one with data from another table, and inserts some
+maintained state like a counter.</p>
+
+<p>Then Kreps notes that Kafka&rsquo;s cleverest provided algorithm for freeing up log
+space, is to remove &ldquo;records whose primary key has a more recent update.&rdquo; The
+naive provided algorithm is to discard elements that are more than <em>x</em> days
+old.</p>
+
+<p>Then he notes how most companies just exist to manipulate data in a distributed
+system, and how building distributed systems in Java has to a large extent
+become a problem of putting open source lego blocks like Zookeeper, Kafka,
+Netty, etc. together. After that he summarizes and concludes.</p>
+]]></content>
+  </entry>
+  
+</feed>

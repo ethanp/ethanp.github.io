@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Design | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/design/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[What Makes a Good Abstraction]]></title>
+    <link href="http://ethanp.github.io/blog/2015/07/28/what-makes-a-good-abstraction/"/>
+    <updated>2015-07-28T21:39:27-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/07/28/what-makes-a-good-abstraction</id>
+    <content type="html"><![CDATA[<p>Creating good abstractions may have more value than anything else. The more I
+learn about creating a company and writing code, the more important I realize
+proper abstractions are.</p>
+
+<p>Perhaps I should start by listing a few abstractions that I find to be &ldquo;good&rdquo;
+ones so that we&rsquo;re more on the same page, because this an abstract topic, and
+everyone probably has a different conception of it. Surely I&rsquo;ve missed some of
+the best ones, but these roll off my head:</p>
+
+<ol>
+<li>Programming languages (in that they are a higher-level representation of
+machine-code)</li>
+<li>Object-oriented programming</li>
+<li>Design patterns &amp; architectural patterns</li>
+<li>The mouse (input device)</li>
+<li>A &ldquo;process&rdquo; as used in Unix</li>
+<li>Most mathematical notation</li>
+</ol>
+
+
+<p>So what do these have in common? They give us a mental representation of what
+we&rsquo;re doing that vastly simplifies what is actually going on. This means that
+in order to come up with something which is at its base level very complex, we
+only need to manipulate simplified mental objects. These means we must perform
+fewer total mental operations, using less mental short-term memory, to achieve
+the same result.</p>
+
+<!-- more -->
+
+
+<p>My Operating Systems professor asked, &ldquo;How do you teach/learn elgance [in
+design abstractions]?&rdquo; His answer was two-fold:</p>
+
+<ol>
+<li>&ldquo;Study case studies, try to learn lessons&rdquo;</li>
+<li>&ldquo;When you build a system, ask yourself &lsquo;What would Ritchie and Thompson
+say about my design?&rsquo;&rdquo;</li>
+</ol>
+
+
+<p>Sometimes when we define a good abstraction as one that facilitates mental
+operations (as I&rsquo;ve done above) we can say that an elegant abstraction should
+reframe what we&rsquo;re doing in terms that a more primitive human would be more
+familiar with. A Unix &ldquo;process&rdquo; is basically saying that each concurrently
+running program is its own discrete creature who doesn&rsquo;t occupy any parts of
+the world that other creatures are occupying, and is capable of thinking and
+effecting changes to its external environment, but cannot directly affect other
+creatures, except to kill them, wait for them to die, and send mail to their
+doorstep.</p>
+
+<p>However, mathematical notation is in a different category, it doesn&rsquo;t really
+personify anything, it most often just provides a symbol for something that
+would require many words to describe. In the math library at school, I once
+picked up some very old mathematical text, and it said something like</p>
+
+<blockquote><p>The value ascribed to the first object can be said to vary in direct
+proportion to the inverse of the square of the second.</p></blockquote>
+
+<p>Oh, you mean <code>x = 1/y^2</code>? The real statement was actually much longer and more
+confusing, and the representation in mathematical notation would have added
+only a few more components. This notational description gets the point across
+much faster, although it doesn&rsquo;t really connect with my &ldquo;inner humanity&rdquo;.</p>
+
+<p>With each of these abstractions, we must take (perhaps a lot of) time to build
+up facility with them so that they then &mdash;</p>
+
+<p>Oh, I should add <strong>spoken and written language</strong> to that list above, duh!</p>
+
+<p>Anyway, before we begin using an abstraction &ldquo;naturally&rdquo; we must internalize
+what it represents. This is generally not easy. It took surprisingly long to
+understand the basics object-oriented programming, and hopefully over the next
+years I will continue to have zillions of a-ha moments in which more
+complexities are bundled up into Lego bricks that can be assemble into assets
+of object-oriented programs. But as stated by both Venkat Subramanian and
+Martin Odersky with respect to Scala, just because something replaces
+complexity with simplicity, doesn&rsquo;t mean it is easy to understand upon first
+seeing it.</p>
+
+<p>Perhaps noteworthy of the abstractions in my list above, with the exception
+perhaps of item 4, they took <em>thousands</em> of people conceptualizing the same
+things over and over again, each refining the abstraction, to achieve the level
+of simplicity and generality with which they can be applied today. (Maybe 5 is
+an exception too, I&rsquo;m not sure.)</p>
+
+<p>So how does one learn to make a good abstraction? Well, perhaps we can forget
+about being the <em>one</em> to invent a really fundamental abstraction. Maybe
+information theory was an abstraction almost fully envisioned by one person,
+I&rsquo;m not sure. Regardless, a small team of people is surely capable of
+leveraging the innovations around them to contribute a further small
+abstraction. E.g. sometimes one encounters an especially nice API, which lays
+out just the right Lego bricks to be able to create a slew of useful &ldquo;things&rdquo;.</p>
+
+<p>I want to try another case study, which is the Yelp application, because I&rsquo;m
+not sure where this is going to go. Does this application fit the hypothetical
+definition of an abstraction, reducing the number of mental operations required
+to do accomplish an otherwise complicated task? Sure it does; I can find a good
+place to by tapping a few buttons that are easy to locate without much thought.
+Another thing it does is allow me forget about <em>how</em> I want to find the place
+to eat by dealing with that for me. In this case, I&rsquo;m leveraging the effort
+provided by Yelp&rsquo;s actual programmers, as well as the data provided by all
+those people whom Yelp&rsquo;s algorithms think I am similar to. But I don&rsquo;t have to
+think about all that, all I have to do is ask the application where I should
+eat.</p>
+
+<p>I want to try another case study, the hammer. I can be cheeky here and note
+that my hammer makes every problem look like a nail, so it simplifies my
+problems to the case of dealing with a nail, which I simply must whack at to
+deal with. But sometimes my problem doesn&rsquo;t fit well into the &ldquo;nail&rdquo; box, and
+the hammer will do the wrong thing. For example, when opening up those
+impossible plastic packages, a hammer would potentially open the package, but
+might break the contents in the process. It successfully reduced the creativity
+I needed to solve the problem, but was still in the end an inelegant, or worse,
+insufficient, solution.</p>
+
+<p>Abstractions are powerful. They&rsquo;re hard to come up with. Strive for elegance.
+Use them to reduce complexity. Use them to reduce the amount of mental
+calculations and short term memory required to solve a problem. Just because it
+takes a while to understand the abstraction doesn&rsquo;t mean it is bad.</p>
+]]></content>
+  </entry>
+  
+</feed>

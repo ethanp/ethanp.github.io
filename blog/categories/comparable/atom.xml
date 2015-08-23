@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Comparable | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/comparable/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Java Inheritance]]></title>
+    <link href="http://ethanp.github.io/blog/2014/05/23/java-inheritance-issue/"/>
+    <updated>2014-05-23T16:06:59-05:00</updated>
+    <id>http://ethanp.github.io/blog/2014/05/23/java-inheritance-issue</id>
+    <content type="html"><![CDATA[<p>I spent quite a while struggling with the Java class declaration syntax, and
+now I am starting to get it.</p>
+
+<h3>Problem simplification</h3>
+
+<p>I started out writing this post because I was <em>totally right</em> and the Java
+compiler was <em>wrong</em>, and so on, but now I have cleared it up and I was wrong
+and the compiler was right after all (surprise!). I was initially intending to
+use this post as a way of getting satisfaction out of how much smarter I am
+than the compiler, and instead I will use this space to explain to the next
+how to answer similar questions. I started by <em>heavily</em> simplifying my issue
+down to its core, and attacking the simplified problem instead of the original
+one with extraneous variables and interconnections. I&rsquo;ve never approached a
+programming problem like that, and let me tell you: seems like it worked. By a
+twist of fate, the new version looks like a LinkedList, that&rsquo;s not what I
+started out doing, but who knows what&rsquo;ll happen when you keep smushing the
+problem from a larger context into a little jar.</p>
+
+<p>First, we have a <code>Base</code>, which holds an element <code>elem</code> of any type, and a
+reference to another <code>Base</code>, quite like a <em>linked list</em>.</p>
+
+<p>``` java Base.java
+class Base<T> {</p>
+
+<pre><code>T elem;
+Base&lt;T&gt; next;
+
+Base(T elem) {
+    this.elem = elem;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Next, we have an <code>Ord</code>, which is a <code>Base</code> that is <code>Comparable</code>. We require
+that the element contained by an <code>Ord</code> is itself comparable, and furthermore
+that the method of comparing <code>Ord</code>s is to compare their respective <code>elem</code>s:</p>
+
+<p>``` java Ord.java
+class Ord<U extends Comparable<U>> extends Base<U> implements Comparable&lt;Ord<U>>
+{</p>
+
+<pre><code>Ord(U elem) {
+    super(elem);
+}
+
+@Override
+public int compareTo(Ord&lt;U&gt; o) {
+    return this.elem.compareTo(o.elem);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<p>This works fine, but note the following limitation:</p>
+
+<p>``` java main.java
+public static void main(String[] args) {</p>
+
+<pre><code>Ord&lt;Integer&gt; a = new Ord&lt;Integer&gt;(3);
+Ord&lt;Integer&gt; b = new Ord&lt;Integer&gt;(4);
+
+a.compareTo(b);         // this works just fine
+
+a.next = b;
+
+// this does not work because a.next is of type Base&lt;Integer&gt;
+a.compareTo(a.next);
+
+// this DOES work though because a.elem is of type Integer which is Comparable
+a.elem.compareTo(a.next.elem);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>After writing and re-writing this blog post over and over, this makes sense
+now. I used to be confused: &ldquo;shouldn&rsquo;t the compiler <em>know</em> that a.next is an
+Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo;</p>
+
+<!-- more -->
+
+
+<p>So I had the following code, which I considered a &ldquo;workaround&rdquo;, where we inform
+the compiler that <code>next</code> is an <code>Ord</code> not a <code>Base</code>.</p>
+
+<p>``` java Ord.java
+class Ord<U extends Comparable<U>> extends Base implements Comparable&lt;Ord<U>>
+{</p>
+
+<pre><code>Ord&lt;U&gt; next;
+
+Ord(U elem) {
+    super(elem);
+}
+
+@Override
+public int compareTo(Ord&lt;U&gt; o) {
+    return this.elem.compareTo(o.elem);
+}
+</code></pre>
+
+<p>```</p>
+
+<p>It is now quite clear that there is no way the compiler would know your
+intention of having the <code>next</code> component of descendents of <code>Base</code> be (static)
+instances of their own respective classes. In fact, I&rsquo;d bet most of the time
+that&rsquo;s <em>not</em> what people want. But I was blind, and I believe I now see.</p>
+
+<h2>Let&rsquo;s talk about Scala</h2>
+
+<p>Here is the (rough) equivalent to <em>all of that</em> (second Java version) in Scala:</p>
+
+<p>``` scala InheritanceTest.scala</p>
+
+<p>class Base<a href="val%20elem:%20T,%20val%20next:%20Base[T]">T</a></p>
+
+<p>class Ord<a href="override%20val%20elem:%20U,%20override%20val%20next:%20Ord[U]">U &lt;% Ordered[U]</a></p>
+
+<pre><code>                    extends Base[U](elem, next) with Ordered[Ord[U]] {
+</code></pre>
+
+<p>  override def compare(that: Ord[U]) = this.elem compare that.elem
+}</p>
+
+<p>object Run extends App {
+  val a = new Ord(3, null)
+  val b = new Ord(4, null)
+  println(a &lt; b)
+}</p>
+
+<p>```</p>
+
+<p>The funny thing about this Scala version is that Intellij actually indicates a
+compiler error, but SBT is quite happy to (correctly) compile it and produce a
+result. This is one of those <em>opportunities</em> to spend forever looking for the
+reason it won&rsquo;t compile, only to find that it compiles just fine.</p>
+
+<p>Note that in the Scala version we were forced to say <code>override</code>, which is
+<em>great</em> because in Java there is no indication that this is an overriden
+field, and no resulting check of whether the override was successful. Of
+course, in this example, no big deal. But what if there were a bunch of
+instance variables that needed to be overridden, and they were private with
+getters and setters, and split across multiple classes, etc.?</p>
+
+<p>The other thing is that in the Scala version we must use a &ldquo;view bound&rdquo; <code>&lt;%</code>
+rather than my first thought, an &ldquo;upper type bound&rdquo; <code>&lt;:</code>. (I put the English
+names of those operators so you can google them. Good luck googling <code>&lt;:</code>
+alone!) In any case, it seems to me that <code>[A &lt;: B]</code> means that <code>&lt;A extends B&gt;</code>, while
+<code>[A &lt;% B]</code> means that <em>either</em> <code>[A &lt;: B]</code> <em>or</em> <code>A</code> has some implicit conversion defined to some type <code>C</code> s.t. <code>[C &lt;: B]</code>, though I&rsquo;m not 100% about that. In our Scala example above <code>&lt;%</code> is necessary because (for example) it is <strong>not</strong> the case that <code>[Int &lt;: Seq[Int]]</code>
+<a href="http://stackoverflow.com/questions/16001010/why-does-int-not-inherit-extend-from-orderedint">because Int has a primitive represenation</a>.</p>
+
+<h2>Extravagant insight</h2>
+
+<p>So in response to my confused pleas for &ldquo;a clean solution&rdquo; (before my epiphany
+for why-it-must-be-so) my roommate came up with a clever scheme to configure
+the type of the <code>next</code> pointer within the class declaration:</p>
+
+<p>``` java Base.java
+public class Base&lt;T, E extends Base> {</p>
+
+<pre><code>T elem;
+E next;
+
+Base(T elem) {
+    this.elem = elem;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<p>``` java Ord.java
+class Ord<U extends Comparable<U>> extends Base&lt;U, Ord<U>></p>
+
+<pre><code>                        implements Comparable&lt;Ord&lt;U&gt;&gt; {
+Ord(U elem) {
+    super(elem);
+}
+
+@Override
+public int compareTo(Ord&lt;U&gt; o) {
+    return this.elem.compareTo(o.elem);
+}
+
+public static void main(String[] args) {
+    Ord&lt;Integer&gt; a = new Ord&lt;Integer&gt;(3);
+    Ord&lt;Integer&gt; b = new Ord&lt;Integer&gt;(4);
+
+    // still works, as before
+    System.out.println(a.compareTo(b) &lt; 0);
+
+    a.next = b;
+
+    // NOW WORKS, before it didn't!
+    System.out.println(a.compareTo(a.next));
+
+    // still works, as before
+    System.out.println(a.elem.compareTo(a.next.elem));
+}
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<p>For whatever reason, when we put it into my existing code it didn&rsquo;t work and
+we were both totally confused because it makes perfect sense. But now, when I
+put it into my way simplified version, it works! So his idea just went from
+being &ldquo;just clever&rdquo; to being &ldquo;applicably awesome&rdquo;.</p>
+]]></content>
+  </entry>
+  
+</feed>

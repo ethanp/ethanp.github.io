@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Shell | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/shell/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A Workflow and Scripts for Learning From Github]]></title>
+    <link href="http://ethanp.github.io/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/"/>
+    <updated>2015-08-11T19:48:41-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github</id>
+    <content type="html"><![CDATA[<h3>My &ldquo;Learning&rdquo; Workflow</h3>
+
+<p>As I wrote about <a href="http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked/">before</a>, I have developed an interesting method of learning
+from experts, which can be summarized as follows:</p>
+
+<ol>
+<li>Fork their repo on GitHub</li>
+<li>Clone the repo locally and &ldquo;detach the <code>HEAD</code>&rdquo; to the &ldquo;inital commmit&rdquo;</li>
+<li>Now repeat the following <code>while (curious)</code>
+
+<ol>
+<li>Open the working tree in an editor/IDE</li>
+<li>If there&rsquo;s something runnable, run it</li>
+<li>Understand everything going on in the working tree
+
+<ul>
+<li>Take hints from the commit message</li>
+</ul>
+</li>
+<li>Advance <code>HEAD</code> one commit</li>
+<li>View the diff from the previous commit</li>
+</ol>
+</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h3>SourceTree cannot handle this workload</h3>
+
+<p>I have always used Atlassian&rsquo;s Git GUI called SourceTree for all of my Git
+usage because it is a <em>great</em> application, but the fact is, it will not work
+for the workflow above. SourceTree has to rebuild the list of commits <em>all the
+time</em> (startingfrom the most recent), and when there are thousands of commits,
+that can take about a minute. But since I&rsquo;m always operating at the beginning
+of the reverse end of the commit log, using SourceTree is untenable. For
+whatever reason they decided it was a better idea not to keep all these commits
+in memory after they are loaded the first time. I&rsquo;m not saying that was a bad
+decision, because my workflow here may be <em>atypical</em>.</p>
+
+<h3>Git is a DAG pointing back in time</h3>
+
+<p>From what I understand&mdash;which is not (yet) a whole lot&mdash;Git is a DAG of
+&ldquo;snapshots&rdquo; of the state of your project. Each snapshot points to its parents.</p>
+
+<p>In a typical case, you&rsquo;ll load a snapshot, edit your working directory, add the
+changes into the staging area, and <strong>commit</strong> a new snapshot which equals the
+previous snapshot, plus the staged changes. Now your new commit has <em>one</em>
+parent: the previous snapshot.</p>
+
+<p>A <strong>merge commit</strong> would have <strong>two parents</strong>: the previous commit on the
+branch being committed to, and the previous commit on the branch being merged-
+in.</p>
+
+<h3>The Learning workflow flows the wrong way</h3>
+
+<p>The Learning worflow would require pointers to the <em>next</em> commit, not just
+back-pointers. So it doesn&rsquo;t quite fit the Git mold, and we require a
+workaround.</p>
+
+<p>That&rsquo;s where StackOverflow saves the day. <a href="http://stackoverflow.com/questions/2121230/git-how-to-move-back-and-forth-between-commits/23172256#23172256">Here</a> someone modified
+a StackOverflow answer by someone else to a <em>related</em> question, and produced
+wrappers that help you traverse back and forth between commits. I reproduce an
+explicated and slightly simplified version below which may be added to your
+shell config file.</p>
+
+<p>```scala</p>
+
+<h1>checkout prev (older) revision</h1>
+
+<p>git_prev() {</p>
+
+<pre><code># move HEAD "one" generation back along *this* branch
+git checkout HEAD~1
+</code></pre>
+
+<p>}</p>
+
+<h1>checkout next (newer) commit</h1>
+
+<p>git_next() {</p>
+
+<pre><code># git show ref:
+#       show (commit-sha, ref-name) pairs for current-versions of all 
+#       "refs"; i.e. tags, remote branches, and local branches
+# 
+# git show-ref -s HEAD:
+#       get sha of latest commit on branch pointed to by HEAD
+#
+# BRANCH=...:
+#       get the name of the branch HEAD is on
+#
+# HASH=`git rev-prase $BRANCH`
+#       get the hash of the latest commit on the current branch
+#
+# git rev-list --topo-order HEAD..$HASH:
+#       list all commit sha's in order on the current branch from
+#       HEAD until now 
+#
+# PREV=...:
+#       get the commit sha for the commit after HEAD on branch
+#
+# git checkout $PREV
+#       move head to the next commit
+#
+BRANCH=`git show-ref | grep $(git show-ref -s HEAD) | sed 's|.*/||' | grep -v HEAD | sort -u`
+HASH=`git rev-parse $BRANCH`
+PREV=`git rev-list --topo-order HEAD..$HASH | tail -1`
+git checkout $PREV
+</code></pre>
+
+<p>}
+```</p>
+
+<p>With that knowledge in tow, I also made a little command to jump to the <em>i</em>&lsquo;th
+commit on master. If you&rsquo;re trying to jump to the <em>i</em>'th commit on the current
+branch, get the current branch using the <code>BRANCH=...</code> code above, and pass it
+to <code>rev-list</code>.</p>
+
+<p>```scala
+gitj() {</p>
+
+<pre><code>git checkout `git rev-list master | tail -n$1 | head -n1`
+</code></pre>
+
+<p>}</p>
+
+<p>$ gitj 1    # jump to initial commit of master
+$ gitj 3    # jump to third commit
+```</p>
+
+<h3>Wrappin it up</h3>
+
+<p>So yeah, now the workflow is simpler to use and it was made possible by gaining
+a better understanding of how Git works.</p>
+]]></content>
+  </entry>
+  
+</feed>

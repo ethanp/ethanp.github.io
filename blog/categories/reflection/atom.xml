@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Reflection | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/reflection/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Python Class Equivalence]]></title>
+    <link href="http://ethanp.github.io/blog/2014/06/29/python-class-equivalence/"/>
+    <updated>2014-06-29T19:32:24-05:00</updated>
+    <id>http://ethanp.github.io/blog/2014/06/29/python-class-equivalence</id>
+    <content type="html"><![CDATA[<h2><code>vars(self) == vars(other)</code>, it seems too easy</h2>
+
+<p>I implemented a class</p>
+
+<p>```python
+class A(object):</p>
+
+<pre><code>def __init__(self):
+    self.a = 123
+    self.b = 436
+</code></pre>
+
+<p>```</p>
+
+<p>Then when I created two equivalent instances and compared them, I got false.</p>
+
+<!-- more -->
+
+
+<p>```python</p>
+
+<blockquote><blockquote><blockquote><p>a = A()
+b = A()
+a == b
+False</p>
+
+<p>c = a
+c == a
+True
+```</p></blockquote></blockquote></blockquote>
+
+<p>This must be because the <code>==</code> operator performs reference equality by default
+which is what I should have expected, so I implemented a simple equivalence operator</p>
+
+<p>```python
+def <strong>eq</strong>(self, other):</p>
+
+<pre><code>return self.a == other.a and \
+       self.b == other.b
+</code></pre>
+
+<p>```</p>
+
+<p>Then I figured there must be an easier way to do something so simple. So I
+looked for what <strong>reflection</strong> methods are available on my new class, and
+found the method <code>vars(object)</code>, which for this thing would return</p>
+
+<p><code>python
+{'a': 123, 'b': 436}
+</code></p>
+
+<p>This is just what I needed for a very simple equivalence operator</p>
+
+<p>```python
+def <strong>eq</strong>(self, other):</p>
+
+<pre><code>return vars(self) == vars(other)
+</code></pre>
+
+<p>```</p>
+
+<p>Unfortunately, <code>vars(a)</code> doesn&rsquo;t just work on <em>everything</em>:</p>
+
+<p>```python</p>
+
+<blockquote><blockquote><blockquote><p>vars([1,2,3])
+Traceback (most recent call last):
+  File &ldquo;<stdin>&rdquo;, line 1, in <module>
+TypeError: vars() argument must have <strong>dict</strong> attribute
+```</p></blockquote></blockquote></blockquote>
+
+<p>So I&rsquo;m assuming <code>vars(a)</code> just calls <code>a.__dict__</code>.</p>
+
+<p>I looked on Google and GitHub and didn&rsquo;t find too many examples of people
+doing this, but one example said</p>
+
+<p>```python
+def <strong>eq</strong>(self, other):</p>
+
+<pre><code>return self.__class__ == other.__class__ and \
+       self.__dict__ == other.__dict__
+</code></pre>
+
+<p>```</p>
+
+<p>So, until I find a reason not to, my default equality implementation shall be</p>
+
+<p>```python
+def <strong>eq</strong>(self, other):</p>
+
+<pre><code>return self.__class__ == other.__class__ and \
+       vars(self) == vars(other)
+</code></pre>
+
+<p>```</p>
+
+<p>Assuming this is semantically what is desired of class equality, is there any
+reason this is a Bad Way to implement it? Why has no one told me about this?
+It seems too easy, but I guess sometimes things are just simple.</p>
+]]></content>
+  </entry>
+  
+</feed>

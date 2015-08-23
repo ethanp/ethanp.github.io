@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Mongodb | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/mongodb/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[First Look at MongoDB]]></title>
+    <link href="http://ethanp.github.io/blog/2015/06/20/first-look-at-mongodb/"/>
+    <updated>2015-06-20T01:06:28-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/06/20/first-look-at-mongodb</id>
+    <content type="html"><![CDATA[<h2>The scenario</h2>
+
+<p>My (augmented todo-list) website has Categories, and <strong>each Category has a set
+of Tasks</strong> (aka <em>&ldquo;one-to-many&rdquo;</em>).</p>
+
+<blockquote><p>Using a relational database, one does not simply store references to all the
+Tasks directly in each Category. With Mongo, one may do exactly that.</p></blockquote>
+
+<p>After looking at various <strong>&ldquo;embedded vs references&rdquo;</strong>
+<a href="http://docs.mongodb.org/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/">documents</a>, I have decided to go with the hybrid
+model (the second of the three on that linked page), and <strong>embed references to
+Tasks in an array in each Category</strong>.</p>
+
+<h3>The console shall reveal the way to accomplish this</h3>
+
+<p>My lack of sustained googling didn&rsquo;t turn up any online resources about how to
+do it, so here you go.</p>
+
+<h4>Install MongoDB</h4>
+
+<p>After installing MongoDB with Homebrew, it became clear that the configuration
+was still incomplete (perhaps because brew lacks root access to the root
+directory). StackOverflow told me how to finish. I show you.</p>
+
+<p><code>``bash
+brew install mongodb
+sudo mkdir -p /data/db
+sudo chmod 755 /data/db
+sudo chown -R</code>id -u` /data/db</p>
+
+<h1>now run</h1>
+
+<p>mongod # in one window (server daemon)
+mongo  # in another window (interactive console)
+```</p>
+
+<h4>Write the code</h4>
+
+<p>Now let&rsquo;s do an example of having a one-to-many relationship between Categories
+and Tasks, where in particular, we are storing an array of Task id&rsquo;s in each
+Category. In the end we will write a query to get all Tasks belonging to a
+Category.</p>
+
+<p>```javascript</p>
+
+<p>/<em> create the collections </em>/</p>
+
+<blockquote><p>db.createCollection(&ldquo;categories&rdquo;)
+db.categories.find().count()
+c = db.categories
+db.createCollection(&ldquo;tasks&rdquo;)
+t = db.tasks</p></blockquote>
+
+<p>/<em> insert some elements into them </em>/</p>
+
+<blockquote><p>c.insert({name: &ldquo;first category&rdquo;, tasks: []})
+t.insert({name: &ldquo;first task&rdquo;})
+t.insert({name: &ldquo;second task&rdquo;})</p></blockquote>
+
+<p>/<em> add the references from the coll to the tasks </em>/</p>
+
+<blockquote><p>c.update({name: &ldquo;first category&rdquo;}, {$addToSet:{&ldquo;tasks&rdquo;:t.findOne({name: &ldquo;first task&rdquo;}).<em>id}})
+c.update({name: &ldquo;first category&rdquo;}, {$addToSet:{&ldquo;tasks&rdquo;:t.findOne({name: &ldquo;second task&rdquo;}).</em>id}})
+c.find().pretty()
+{</p>
+
+<pre><code>"_id" : ObjectId("5584fe86e2c6cdd3813233ed"),
+"name" : "first category",
+"tasks" : [
+    ObjectId("5584fec9e2c6cdd3813233ee"),
+    ObjectId("5584fed0e2c6cdd3813233ef")
+]
+</code></pre>
+
+<p>}</p></blockquote>
+
+<p>/* get all task documents referenced by the &ldquo;first category&rdquo;</p>
+
+<blockquote><p>t.find({<em>id: {$in: c.findOne().tasks}})
+{ &ldquo;</em>id&rdquo; : ObjectId(&ldquo;5584fec9e2c6cdd3813233ee&rdquo;), &ldquo;name&rdquo; : &ldquo;first task&rdquo; }
+{ &ldquo;_id&rdquo; : ObjectId(&ldquo;5584fed0e2c6cdd3813233ef&rdquo;), &ldquo;name&rdquo; : &ldquo;second task&rdquo; }
+```</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

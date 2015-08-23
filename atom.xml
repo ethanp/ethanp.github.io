@@ -1,0 +1,2667 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[With Pith]]></title>
+  <link href="http://ethanp.github.io/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A Pattern in the Stone: Review and Summary]]></title>
+    <link href="http://ethanp.github.io/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary/"/>
+    <updated>2015-08-23T16:56:25-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary</id>
+    <content type="html"><![CDATA[<h3>How I Found it</h3>
+
+<p>I was watching a biography of Richard Feynman, and they interviewed this guy W.
+Daniel Hillis, and he seemed like a cool dude so I looked him up on Google, and
+came across his book, <strong><em>The Pattern in the Stone: The Simple Ideas that Make
+Computers Work</em></strong> (1999). On Amazon it was compared to <strong><em>Code: The Hidden
+Language of Computer Hardware and Software</em></strong>, by Charles Petzold, an
+encredibly well- written book about how computers work. I would gladly read any
+book considered comparable in lucidity to <em>Code</em>, so I got <em>The Pattern in the
+Stone</em>.</p>
+
+<h3>What it says</h3>
+
+<p>The first few chapters are meant to give a basic understanding of what a
+computer is actually doing, and he spends some time noting the Universality of
+computers, which he says shows that &ldquo;all computers are alike in what they can
+and cannot do&rdquo;. Personally, my intuition of the workings of a computer comes
+mainly from an explanation by Richard Feynman himself (<a href="https://www.youtube.com/watch?v=EKWGGDXe5MA">as seen on the
+YouTubes</a>) which is &ldquo;heuristic&rdquo; rather than mechanical. Basically
+Feynman gradually turns a human being into a computer, and then talks about how
+this mechanistic person can be implemented using logic gates built from water
+pipes that he sketches on a whiteboard. In <em>Pattern in the Stone&#8221;</em>, he builds
+logic gates out of parallel and series wires, and also out of springs and
+pivots.</p>
+
+<p>Then he introduces finite state machines and programming in LOGO. Then he
+mentions how machine code can be thought of as <em>control instructions</em>,
+specifying the next instruction to fetch and execute, and <em>processing
+instructions</em>, moving data to and from memory, and through the Arithmetic Logic
+Unit.</p>
+
+<p>Then he starts really getting into what I think is the main point of the book,
+to convince the reader that there is no magical process occurring in our brains
+that a mechanical computer cannot replicate, meaning that</p>
+
+<blockquote><p>As far as we know, no device built in the physical universe can have any more
+computational power than a Turing machine&hellip;[so] a universal computer with
+the proper programming should be able to simulate the function of a human
+brain.</p></blockquote>
+
+<!-- more -->
+
+
+<p>Then he explains a bit about quantum computing. He notes that when a water
+molecule is formed, its atoms must &ldquo;know&rdquo;/&ldquo;compute&rdquo; the appropriate angle
+between their bonds. Computational approximation methods of determining this
+angle are slow, but the water molecule does it &ldquo;almost instantaneously&rdquo;.</p>
+
+<blockquote><p>One way of explaining how the water molecule can make the same calculation is
+to imagine it trying out every possible configuration simultaneously— in
+other words, using parallel processing. Could we harness this simultaneous
+computing capability of quantum mechanical objects to produce a more powerful
+computer? Nobody knows for sure.</p></blockquote>
+
+<p>He notes that although it would certainly be possible, &ldquo;there is no evidence
+whatsoever&rdquo; of the human brain leveraging quantum mechanics in its operation.</p>
+
+<p>Then he defines an algorithm as a procedure for provably solving a problem, and
+a heuristic as a rule that <em>tends</em> to get the right answer. Then he uses this
+to describe a chess-playing AI using alpha-beta pruning.</p>
+
+<p>After discussing encryption and encodings, he moves on to parallelism. He notes
+that a computer analyzing a photo has to look at the image pixel-by-pixel, but
+the human brain seems to process the entire photo, even comparing it to
+previously seen photos, very quickly, even though neurons themselves are
+comparatively slow.</p>
+
+<p>Then he goes into one of those bold claims of an expert that are very fun to
+read:</p>
+
+<blockquote><p>As computers on the network begin to exchange interacting programs instead of
+just electronic mail, I suspect that the Internet will start to behave less
+like a network and more like a parallel computer. I suspect that the emergent
+behavior of the Internet will get a good deal more interesting.</p>
+
+<p>As the information available on the Internet becomes richer, and the types of
+interaction among the connected computers become more complex, I expect that
+the Internet will begin to exhibit emergent behavior going beyond any that
+has been explicitly programmed into the system.</p></blockquote>
+
+<p>To me this statement seems vague enough to <em>definitely</em> be true. I would
+imagine that already, the interaction between different high-frequency-trading
+systems display emergent behaviors, though I have no idea.</p>
+
+<p>Then he gets to machine learning. He notes that computers need three
+ingredients for learning: a goal, a measure of how far off they are from that
+goal, and a way to reduce that distance. He describes the similarities of
+&ldquo;artificial neural networks&rdquo; with the human brain. He mentions that by building
+up a multi-layer artificial neural network larger abstractions can be encoded
+in the weights connecting the neurons.</p>
+
+<p>Finally, he gets to my favorite part of the book: how to build AI that understands humanity</p>
+
+<blockquote><p>I believe that we may be able create an artificial intelligence long before
+we understand natural intelligence, and I suspect that the creation process
+will be one in which we arrange for intelligence to emerge from a complex
+series of interactions that we do not understand in detail— that is, a
+process less like engineering a machine and more like baking a cake or
+growing a garden. We will not engineer an artificial intelligence; rather, we
+will set up the right conditions under which an intelligence can emerge.</p>
+
+<p>[The practice in systems engineering] of &ldquo;divide and conquer&rdquo; works very
+well, but an evolved object like the brain does not necessarily have this
+kind of hierarchical structure.</p>
+
+<p>The brain is much more complicated than a computer, yet it is much less prone
+to catastrophic failure. The contrast in reliability between the brain and
+the computer illustrates the difference between the products of evolution and
+those of engineering. A single error in a computer’s program can cause it to
+crash, but the brain is usually able to tolerate bad ideas and incorrect
+information and even malfunctioning components.</p>
+
+<p>So, in creating an artificial intelligence, what is the alternative to
+engineering? One approach is to mimic within the computer the process of
+biological evolution.</p></blockquote>
+
+<p>He notes how he created a sorting algorithm that outperformed quicksort by <em>evolving</em> it using sequences of computer instructions. <em>Whoa!</em></p>
+
+<blockquote><p>One of the interesting things about the sorting programs that evolved in my
+experiment is that I do not understand how they work. I have carefully
+examined their instruction sequences, but I do not understand them.</p>
+
+<p>If the safety of the airplane depended on sorting numbers correctly, I would
+rather depend on an evolved sorting program than on one written by a team of
+programmers.</p></blockquote>
+
+<p>This book is super cool.</p>
+
+<blockquote><p>I suspect that consciousness is a consequence of the action of normal
+physical laws, and a manifestation of a complex computation</p></blockquote>
+
+<p>This is the same conclusion me and some friends reached this past spring at the
+end of a weeks-long discussion.</p>
+
+<blockquote><p>but to me this makes consciousness no less mysterious and wonderful— if
+anything, it makes it more so. Between the signals of our neurons and the
+sensations of our thoughts lies a gap so great that it may never be bridged
+by human understanding. So when I say that the brain is a machine, it is
+meant not as an insult to the mind but as an acknowledgment of the potential
+of a machine. I do not believe that a human mind is less than what we imagine
+it to be, but rather that a machine can be much, much more.</p></blockquote>
+
+<p>What a beauty.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Workflow and Scripts for Learning From Github]]></title>
+    <link href="http://ethanp.github.io/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/"/>
+    <updated>2015-08-11T19:48:41-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github</id>
+    <content type="html"><![CDATA[<h3>My &ldquo;Learning&rdquo; Workflow</h3>
+
+<p>As I wrote about <a href="http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked/">before</a>, I have developed an interesting method of learning
+from experts, which can be summarized as follows:</p>
+
+<ol>
+<li>Fork their repo on GitHub</li>
+<li>Clone the repo locally and &ldquo;detach the <code>HEAD</code>&rdquo; to the &ldquo;inital commmit&rdquo;</li>
+<li>Now repeat the following <code>while (curious)</code>
+
+<ol>
+<li>Open the working tree in an editor/IDE</li>
+<li>If there&rsquo;s something runnable, run it</li>
+<li>Understand everything going on in the working tree
+
+<ul>
+<li>Take hints from the commit message</li>
+</ul>
+</li>
+<li>Advance <code>HEAD</code> one commit</li>
+<li>View the diff from the previous commit</li>
+</ol>
+</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h3>SourceTree cannot handle this workload</h3>
+
+<p>I have always used Atlassian&rsquo;s Git GUI called SourceTree for all of my Git
+usage because it is a <em>great</em> application, but the fact is, it will not work
+for the workflow above. SourceTree has to rebuild the list of commits <em>all the
+time</em> (startingfrom the most recent), and when there are thousands of commits,
+that can take about a minute. But since I&rsquo;m always operating at the beginning
+of the reverse end of the commit log, using SourceTree is untenable. For
+whatever reason they decided it was a better idea not to keep all these commits
+in memory after they are loaded the first time. I&rsquo;m not saying that was a bad
+decision, because my workflow here may be <em>atypical</em>.</p>
+
+<h3>Git is a DAG pointing back in time</h3>
+
+<p>From what I understand&mdash;which is not (yet) a whole lot&mdash;Git is a DAG of
+&ldquo;snapshots&rdquo; of the state of your project. Each snapshot points to its parents.</p>
+
+<p>In a typical case, you&rsquo;ll load a snapshot, edit your working directory, add the
+changes into the staging area, and <strong>commit</strong> a new snapshot which equals the
+previous snapshot, plus the staged changes. Now your new commit has <em>one</em>
+parent: the previous snapshot.</p>
+
+<p>A <strong>merge commit</strong> would have <strong>two parents</strong>: the previous commit on the
+branch being committed to, and the previous commit on the branch being merged-
+in.</p>
+
+<h3>The Learning workflow flows the wrong way</h3>
+
+<p>The Learning worflow would require pointers to the <em>next</em> commit, not just
+back-pointers. So it doesn&rsquo;t quite fit the Git mold, and we require a
+workaround.</p>
+
+<p>That&rsquo;s where StackOverflow saves the day. <a href="http://stackoverflow.com/questions/2121230/git-how-to-move-back-and-forth-between-commits/23172256#23172256">Here</a> someone modified
+a StackOverflow answer by someone else to a <em>related</em> question, and produced
+wrappers that help you traverse back and forth between commits. I reproduce an
+explicated and slightly simplified version below which may be added to your
+shell config file.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">#</span> <span class="n">checkout</span> <span class="n">prev</span> <span class="o">(</span><span class="n">older</span><span class="o">)</span> <span class="n">revision</span>
+</span><span class='line'><span class="n">git_prev</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">#</span> <span class="n">move</span> <span class="nc">HEAD</span> <span class="s">&quot;one&quot;</span> <span class="n">generation</span> <span class="n">back</span> <span class="n">along</span> <span class="o">*</span><span class="k">this</span><span class="o">*</span> <span class="n">branch</span>
+</span><span class='line'>    <span class="n">git</span> <span class="n">checkout</span> <span class="nc">HEAD</span><span class="o">~</span><span class="mi">1</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">#</span> <span class="n">checkout</span> <span class="n">next</span> <span class="o">(</span><span class="n">newer</span><span class="o">)</span> <span class="n">commit</span>
+</span><span class='line'><span class="n">git_next</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">show</span> <span class="n">ref</span><span class="k">:</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="kt">show</span> <span class="o">(</span><span class="kt">commit-sha</span><span class="o">,</span> <span class="kt">ref-name</span><span class="o">)</span> <span class="n">pairs</span> <span class="k">for</span> <span class="n">current</span><span class="o">-</span><span class="n">versions</span> <span class="n">of</span> <span class="n">all</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="s">&quot;refs&quot;</span><span class="o">;</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">tags</span><span class="o">,</span> <span class="n">remote</span> <span class="n">branches</span><span class="o">,</span> <span class="n">and</span> <span class="n">local</span> <span class="n">branches</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">show</span><span class="o">-</span><span class="n">ref</span> <span class="o">-</span><span class="n">s</span> <span class="nc">HEAD</span><span class="k">:</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="kt">get</span> <span class="kt">sha</span> <span class="kt">of</span> <span class="kt">latest</span> <span class="kt">commit</span> <span class="kt">on</span> <span class="kt">branch</span> <span class="kt">pointed</span> <span class="kt">to</span> <span class="kt">by</span> <span class="kt">HEAD</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="nc">BRANCH</span><span class="o">=...</span><span class="k">:</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="kt">get</span> <span class="kt">the</span> <span class="kt">name</span> <span class="kt">of</span> <span class="kt">the</span> <span class="kt">branch</span> <span class="kt">HEAD</span> <span class="kt">is</span> <span class="kt">on</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="nc">HASH</span><span class="o">=</span><span class="n">`git rev-prase $BRANCH`</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="n">get</span> <span class="n">the</span> <span class="n">hash</span> <span class="n">of</span> <span class="n">the</span> <span class="n">latest</span> <span class="n">commit</span> <span class="n">on</span> <span class="n">the</span> <span class="n">current</span> <span class="n">branch</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">rev</span><span class="o">-</span><span class="n">list</span> <span class="o">--</span><span class="n">topo</span><span class="o">-</span><span class="n">order</span> <span class="nc">HEAD</span><span class="o">..</span><span class="nc">$HASH</span><span class="k">:</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="kt">list</span> <span class="kt">all</span> <span class="kt">commit</span> <span class="kt">sha</span><span class="err">&#39;</span><span class="kt">s</span> <span class="kt">in</span> <span class="kt">order</span> <span class="kt">on</span> <span class="kt">the</span> <span class="kt">current</span> <span class="kt">branch</span> <span class="kt">from</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="nc">HEAD</span> <span class="n">until</span> <span class="n">now</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="nc">PREV</span><span class="o">=...</span><span class="k">:</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="kt">get</span> <span class="kt">the</span> <span class="kt">commit</span> <span class="kt">sha</span> <span class="kt">for</span> <span class="kt">the</span> <span class="kt">commit</span> <span class="kt">after</span> <span class="kt">HEAD</span> <span class="kt">on</span> <span class="kt">branch</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">checkout</span> <span class="nc">$PREV</span>
+</span><span class='line'>    <span class="k">#</span>       <span class="n">move</span> <span class="n">head</span> <span class="n">to</span> <span class="n">the</span> <span class="n">next</span> <span class="n">commit</span>
+</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="nc">BRANCH</span><span class="o">=</span><span class="n">`git show-ref | grep $(git show-ref -s HEAD) | sed &#39;s|.*/||&#39; | grep -v HEAD | sort -u`</span>
+</span><span class='line'>    <span class="nc">HASH</span><span class="o">=</span><span class="n">`git rev-parse $BRANCH`</span>
+</span><span class='line'>    <span class="nc">PREV</span><span class="o">=</span><span class="n">`git rev-list --topo-order HEAD..$HASH | tail -1`</span>
+</span><span class='line'>    <span class="n">git</span> <span class="n">checkout</span> <span class="nc">$PREV</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With that knowledge in tow, I also made a little command to jump to the <em>i</em>&lsquo;th
+commit on master. If you&rsquo;re trying to jump to the <em>i</em>&#8216;th commit on the current
+branch, get the current branch using the <code>BRANCH=...</code> code above, and pass it
+to <code>rev-list</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">gitj</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">git</span> <span class="n">checkout</span> <span class="n">`git rev-list master | tail -n$1 | head -n1`</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">$</span> <span class="n">gitj</span> <span class="mi">1</span>    <span class="k">#</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">initial</span> <span class="n">commit</span> <span class="n">of</span> <span class="n">master</span>
+</span><span class='line'><span class="n">$</span> <span class="n">gitj</span> <span class="mi">3</span>    <span class="k">#</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">third</span> <span class="n">commit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Wrappin it up</h3>
+
+<p>So yeah, now the workflow is simpler to use and it was made possible by gaining
+a better understanding of how Git works.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How Apm Originally Worked]]></title>
+    <link href="http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked/"/>
+    <updated>2015-08-06T22:17:12-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked</id>
+    <content type="html"><![CDATA[<p>Over the past few days I have been learning how <code>apm</code>, the Atom Package Manager
+works under the hood. <code>apm</code> is what you use when, in GitHub&rsquo;s (relatively new)
+&ldquo;Atom&rdquo; text editor, you go to the nice gui package installation interface under
+<code>settings=&gt;packages</code>.</p>
+
+<p>Atom is a &ldquo;hackable&rdquo; text editor built on top of Chromium, using Node.js and
+Coffeescript. I believe they call it hackable because all the code is open
+source, and you can add plugins to do whatever you want. Your plugins can even
+be written in C++ if that&rsquo;s more your style.</p>
+
+<p>My goal was to figure out how <code>apm</code> works, and I wasn&rsquo;t sure how best to do
+that. My knowledge of Node.js was minimal, and I was no expert in Coffeescript.
+What I decided to do was fork the <code>apm</code> GitHub repo, clone it onto my computer,
+and set my local HEAD to the <a href="https://github.com/atom/apm/commit/b8f4ce0d0cda458853eb280fde39fdeb2de38ebd">&ldquo;initial commit&rdquo;</a>, and see if I could
+understand that. The complete contents are as follows</p>
+
+<figure class='code'><figcaption><span>README.md</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'># APM - Atom Package Manager
+</span><span class='line'>
+</span><span class='line'>Discover and install Atom packages.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At this stage I pretty confident that I understood everthing the author Kevin
+Sawicki was doing. Lucky for me, it seems Kevin is rather unique on GitHub&rsquo;s
+Atom development team for having smaller commits. I can justify this by noting
+that on Atom-core&rsquo;s <a href="https://github.com/atom/atom/graphs/contributors">list of developer contributions</a>, he has 2x more
+commits than the next guy, but is not in the top 5 in terms of LOC added.</p>
+
+<p>So with my head fully wrapped around the &ldquo;initial commit&rdquo; I moved my HEAD past
+the 2nd commit (a typo fix) into the first commit of any substance, <a href="https://github.com/atom/apm/commit/31294702b11061e60214357f4529fb9b00a7068d">&ldquo;Add
+initial Gruntfile, binary, and ignores&rdquo;</a>. At this point there was some
+investigation to do.</p>
+
+<!-- more -->
+
+
+<p>I learned how he&rsquo;s setting his default <code>grunt</code> task to
+compile his Coffeescript source files from the <code>src</code> directory into a <code>lib</code>
+directory to be generated at compile time. I learned the basics of <a href="http://browsenpm.org/package.json">what a
+<code>package.json</code> is</a> and what it&rsquo;s basic fields do. And I learned how
+<code>require('path')</code> command works by loading the <code>module.exports</code> object of
+either the file at the specified path, or in the dependencies, etc. <a href="https://nodejs.org/api/modules.html">as
+specified here</a>. At this point I was good to go on understanding
+the first half-hour of development on this project by mister Sawicki.</p>
+
+<p>Basically, I continued in this manner, covering test-driven-development and
+unit-testing using <code>jasmine-node</code>, a primitive API with only two endpoints
+using <code>express.js</code> as part of a test-case, test fixtures, asynchronous vs
+synchronous I/O APIs in various Node modules, and so on, and in the process
+learned how <code>apm</code> originally <em>worked</em>.</p>
+
+<h3>How APM originally worked</h3>
+
+<p>It basically just wraps the normal <code>npm</code> command to pull from a different
+registry set up presumably by Mr. Sawicki. An <code>npm</code> registry is a CouchDB
+instance, where module names, versions, and other metadata are mapped to the
+relevant gzipped-tarball.</p>
+
+<p>At first, there was a bit of complicated code where <code>apm</code> was downloading and
+installing <code>node</code>, <code>npm</code>, and <code>node-gyp</code> itself, but eventually, these last two
+were just <a href="https://github.com/atom/apm/commit/aa480a05e52d14baf56c06517826babd17ae4182">added as dependencies</a>. This involved an
+<a href="https://github.com/caolan/async#waterfalltasks-callback"><code>async.waterfall</code></a> which to my naive judgement about such a simple
+script seemed to be a bit of overkill.</p>
+
+<p>One thing I noticed was that a <em>lot</em> of the more complicated bits tended to
+disapear over time, getting replaced by packages (e.g. <code>wrench</code>, <code>rimraf</code>,
+etc.) or replaced by finding a simpler way to do the same thing (like passing
+the appropriate command line option to the underlying <code>npm</code>).</p>
+
+<p>It has felt, watching the first stage of this project come together, like I
+have been able to peer over the shoulder of a far superior coder as he writes
+what eventually has come to be one of the <a href="http://qr.ae/RA68mn">main selling points</a> of the
+Atom text editor itself. I have learned countless lessons. It is like that
+tutorial that he never had the chance to write. When someone writes a tutorial
+they generally are nervous and keep trying to explain the same thing in
+different ways and it never quite makes sense. When someone is writing a
+significant piece of a public work, they are strictly getting down to business.
+Kevin may not have expected anyone to come along and piece through his thought
+process, but he left it out on the table anyway and I just grabbed it.</p>
+
+<p>I will continue to go through this git history to find out what happens in the
+next chapter. I will also keep this in mind for the future as a way to find out
+how something was made. I&rsquo;ve got my eye in particular on watching Linus write
+<a href="https://github.com/git/git/commit/e83c5163316f89bfbde7d9ab23ca2e25604af290">git itself</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Further Adventures in Collaboration]]></title>
+    <link href="http://ethanp.github.io/blog/2015/08/06/further-adventures-in-collaboration/"/>
+    <updated>2015-08-06T01:45:05-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/08/06/further-adventures-in-collaboration</id>
+    <content type="html"><![CDATA[<h3>Getting to the same page</h3>
+
+<p>When a colleague and I are in a discussion about something and both start to
+get very excited about where it is going, I start to believe that we both must
+be seeing things in the same way. This is a fantasy. You start to feel that
+&ldquo;connection&rdquo;; it gets palpable. It feels like we&rsquo;re really communicating
+consciousness to consciousness. It feels like thoughts are pipelining across
+thin air. Sometimes it&rsquo;s true, but I&rsquo;d posit that usually it is not. And this
+misunderstanding of the true level of agreement can later be a cause of grief.
+You feel like the other person abandoned your shared vision when they take the
+result of your conversation and make something different from what you
+intended.</p>
+
+<!-- more -->
+
+
+<p>In a recent project, my partner and I have both had a lot of excitement about
+where it&rsquo;s going. Obviously the excitement is a prerequisite for us to want to
+continue to work together, but it is tiring to think we&rsquo;re on the same page and
+in fact not be. So I proposed that he make a document outlining exactly what
+we&rsquo;re doing so that I can come to grips with what he envisions. We both found
+that creating this document was enormously helpful, however, the problem is
+that I don&rsquo;t want to get bogged down in formalities, and I don&rsquo;t want to set
+anything in stone that should remain fluid or even unspecified. I want to cut
+to the exciting part, which involves construction and creativity, and skip all
+the boring crap. In the end I can&rsquo;t tell how much predetermination is useful.
+So far, just running forward has not been very productive, so we keep crawling
+back into the pre-planning phase. Surely that can&rsquo;t keep happening forever,
+evenutally we will have pre-planned the whole thing out; but I don&rsquo;t want to
+have to pre-plan the whole thing out.</p>
+
+<p>Working with another person is a truly different beast than going it alone. You
+have to decide who is responsible for what. We both bring very different skills
+to the table and it is clear that we will need all of them. Some skills need to
+be brought to the table that <em>neither</em> of us possess, and it is not clear who
+will be the one to provide those. So far he&rsquo;s been the one with ideas and I&rsquo;ve
+been the one with direction. So I direct him where to put his ideas, and from
+those ideas I keep the good and throw away the bad. Is that a healthy dynamic?
+I don&rsquo;t know. I want to remain in a place where we both trust each other&rsquo;s
+judgement and don&rsquo;t hold back, because otherwise that&rsquo;s how tension builds. I
+think so far this has gone decently well.</p>
+
+<p>But I wonder if being the &ldquo;judger&rdquo; is a negative spiritual influence. So that
+was why I started contributing to the creative output. He was very receptive to
+this even though he knows I&rsquo;m not the one with the ideas. Maybe when I have
+ideas and let him judge them, we&rsquo;ll each get a feel for how hard the other&rsquo;s
+position is and start to become better at our own roles. That only makes sense.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[What Is an Abstraction]]></title>
+    <link href="http://ethanp.github.io/blog/2015/07/29/what-is-an-abstraction/"/>
+    <updated>2015-07-29T01:23:05-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/07/29/what-is-an-abstraction</id>
+    <content type="html"><![CDATA[<p>After some further thought, it has become clear that my previous post about
+abstractions and what makes them good got it all wrong. There, I said roughly
+that an abstraction is something that allows you to simplify a hard mental task
+to make that task easier. This needs to be reevaluated. The earlier post
+claimed that a hammer is an improper abstraction for opening up a package. That
+just doesn&rsquo;t sound right. A hammer is nothing more than a bad <em>tool</em> for
+opening up a package. A <em>tool</em> is something that makes a task easier. A tool
+and an abstraction are not equivalent.</p>
+
+<p>My Software Architecture professor began the semester by giving us about 20
+very similar definitions of what software architecture is, to give us a general
+sense of what people are talking about. I left the lecture equally uninformed
+about what software architecture is, but did eventually come to grips with it.
+With the Sisyphean nature of the task now understood, I would like to propose a
+new definition:</p>
+
+<blockquote><p>An abstraction is a way of conceptualizing something without having to think
+about everything that is actually going on. If we think in terms of the
+abstraction, we can arrive at the same conclusions as could have been derived
+using the &ldquo;underlying truth of the matter&rdquo; without as much mental effort.
+After communicating the chain of logic using the abstraction, the listener
+would also be able to derive the result by substituting the abstraction out
+for the &ldquo;underlying truth&rdquo;.</p></blockquote>
+
+<p>It is basically a mental shorthand.</p>
+
+<!-- more -->
+
+
+<p>Here is a revised list of abstractions</p>
+
+<ol>
+<li>Programming languages &mdash; the &ldquo;truth&rdquo; is generally a sequence assembly
+operations</li>
+<li>The Unix filesystem &mdash; the truth is locations of files on disk</li>
+<li>Mathematical notation &mdash; the truth is the actual mathematical operations
+ascribed to the notation; this is related to the programming languages item</li>
+<li>Design patterns &mdash; the truth is a particular organization of logical
+constructs provided by a programming language</li>
+<li>Object oriented programming &mdash; the truth is a set of structs and
+corresponding procedures</li>
+<li>A compressed file &mdash; the truth is the file that was compressed</li>
+</ol>
+
+
+<p>It is this sense of abstraction which I believe to be of monumental importance
+for making progress scientifically, technologically, culturally, etc.</p>
+
+<p>One thing that completely surprised me when starting to learn about computers,
+is that in programming, one builds &ldquo;layers of abstraction.&rdquo; But those layers
+are built on layers, are built on layers, etc. until you get down to the logic
+gates, etc. So a programming language is an abstraction with an implementation:
+there is a &ldquo;function&rdquo; (known as a compiler) which maps the written program into
+a sequence of instructions. But an abstraction needn&rsquo;t have an function mapping
+it to its underlying truth.</p>
+
+<p>How did I get caught up in some sort of philosphical meandering? It feels
+important to have a firmer grasp of what an abstraction is, what makes one
+good, and how to go about creating them. The goal is to reduce mental effort in
+creating new ideas and communicating them to other humans or to machines. To be
+able to do this, it may be important to know what an abstraction is and what it
+is not. Now I am sure it is <em>not</em> a hammer, in contrary to what I stated in the
+previous post. It is also not Yelp.</p>
+
+<p>So what makes one good? It should allow questions to be asked and answered of
+the truth it represents in the terms of the abstraction. It may even invite new
+useful questions to be asked. It may also lead to better abstractions. It
+should justify the mental effort required to begin thinking in its terms.</p>
+
+<p>How does one create one? It depends</p>
+
+<ol>
+<li>Sometimes by extracting what is the same out of multiple instances of
+related items (e.g. design patterns)</li>
+<li>Sometimes by replacement with a symbol (math notation).</li>
+<li>Sometimes by stating the problem in more &ldquo;human&rdquo; terms
+
+<ul>
+<li>The Unix filesystem is just a bunch of &ldquo;folders&rdquo; that contain &ldquo;files&rdquo;,
+and folders <em>are</em> files too</li>
+<li>Object oriented programming allows us to mentally group code into a
+<em>thing</em> which <em>does</em> stuff, even though the machine doesn&rsquo;t &ldquo;see&rdquo; it that
+way</li>
+</ul>
+</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[What Makes a Good Abstraction]]></title>
+    <link href="http://ethanp.github.io/blog/2015/07/28/what-makes-a-good-abstraction/"/>
+    <updated>2015-07-28T21:39:27-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/07/28/what-makes-a-good-abstraction</id>
+    <content type="html"><![CDATA[<p>Creating good abstractions may have more value than anything else. The more I
+learn about creating a company and writing code, the more important I realize
+proper abstractions are.</p>
+
+<p>Perhaps I should start by listing a few abstractions that I find to be &ldquo;good&rdquo;
+ones so that we&rsquo;re more on the same page, because this an abstract topic, and
+everyone probably has a different conception of it. Surely I&rsquo;ve missed some of
+the best ones, but these roll off my head:</p>
+
+<ol>
+<li>Programming languages (in that they are a higher-level representation of
+machine-code)</li>
+<li>Object-oriented programming</li>
+<li>Design patterns &amp; architectural patterns</li>
+<li>The mouse (input device)</li>
+<li>A &ldquo;process&rdquo; as used in Unix</li>
+<li>Most mathematical notation</li>
+</ol>
+
+
+<p>So what do these have in common? They give us a mental representation of what
+we&rsquo;re doing that vastly simplifies what is actually going on. This means that
+in order to come up with something which is at its base level very complex, we
+only need to manipulate simplified mental objects. These means we must perform
+fewer total mental operations, using less mental short-term memory, to achieve
+the same result.</p>
+
+<!-- more -->
+
+
+<p>My Operating Systems professor asked, &ldquo;How do you teach/learn elgance [in
+design abstractions]?&rdquo; His answer was two-fold:</p>
+
+<ol>
+<li>&ldquo;Study case studies, try to learn lessons&rdquo;</li>
+<li>&ldquo;When you build a system, ask yourself &lsquo;What would Ritchie and Thompson
+say about my design?&rsquo;&rdquo;</li>
+</ol>
+
+
+<p>Sometimes when we define a good abstraction as one that facilitates mental
+operations (as I&rsquo;ve done above) we can say that an elegant abstraction should
+reframe what we&rsquo;re doing in terms that a more primitive human would be more
+familiar with. A Unix &ldquo;process&rdquo; is basically saying that each concurrently
+running program is its own discrete creature who doesn&rsquo;t occupy any parts of
+the world that other creatures are occupying, and is capable of thinking and
+effecting changes to its external environment, but cannot directly affect other
+creatures, except to kill them, wait for them to die, and send mail to their
+doorstep.</p>
+
+<p>However, mathematical notation is in a different category, it doesn&rsquo;t really
+personify anything, it most often just provides a symbol for something that
+would require many words to describe. In the math library at school, I once
+picked up some very old mathematical text, and it said something like</p>
+
+<blockquote><p>The value ascribed to the first object can be said to vary in direct
+proportion to the inverse of the square of the second.</p></blockquote>
+
+<p>Oh, you mean <code>x = 1/y^2</code>? The real statement was actually much longer and more
+confusing, and the representation in mathematical notation would have added
+only a few more components. This notational description gets the point across
+much faster, although it doesn&rsquo;t really connect with my &ldquo;inner humanity&rdquo;.</p>
+
+<p>With each of these abstractions, we must take (perhaps a lot of) time to build
+up facility with them so that they then &mdash;</p>
+
+<p>Oh, I should add <strong>spoken and written language</strong> to that list above, duh!</p>
+
+<p>Anyway, before we begin using an abstraction &ldquo;naturally&rdquo; we must internalize
+what it represents. This is generally not easy. It took surprisingly long to
+understand the basics object-oriented programming, and hopefully over the next
+years I will continue to have zillions of a-ha moments in which more
+complexities are bundled up into Lego bricks that can be assemble into assets
+of object-oriented programs. But as stated by both Venkat Subramanian and
+Martin Odersky with respect to Scala, just because something replaces
+complexity with simplicity, doesn&rsquo;t mean it is easy to understand upon first
+seeing it.</p>
+
+<p>Perhaps noteworthy of the abstractions in my list above, with the exception
+perhaps of item 4, they took <em>thousands</em> of people conceptualizing the same
+things over and over again, each refining the abstraction, to achieve the level
+of simplicity and generality with which they can be applied today. (Maybe 5 is
+an exception too, I&rsquo;m not sure.)</p>
+
+<p>So how does one learn to make a good abstraction? Well, perhaps we can forget
+about being the <em>one</em> to invent a really fundamental abstraction. Maybe
+information theory was an abstraction almost fully envisioned by one person,
+I&rsquo;m not sure. Regardless, a small team of people is surely capable of
+leveraging the innovations around them to contribute a further small
+abstraction. E.g. sometimes one encounters an especially nice API, which lays
+out just the right Lego bricks to be able to create a slew of useful &ldquo;things&rdquo;.</p>
+
+<p>I want to try another case study, which is the Yelp application, because I&rsquo;m
+not sure where this is going to go. Does this application fit the hypothetical
+definition of an abstraction, reducing the number of mental operations required
+to do accomplish an otherwise complicated task? Sure it does; I can find a good
+place to by tapping a few buttons that are easy to locate without much thought.
+Another thing it does is allow me forget about <em>how</em> I want to find the place
+to eat by dealing with that for me. In this case, I&rsquo;m leveraging the effort
+provided by Yelp&rsquo;s actual programmers, as well as the data provided by all
+those people whom Yelp&rsquo;s algorithms think I am similar to. But I don&rsquo;t have to
+think about all that, all I have to do is ask the application where I should
+eat.</p>
+
+<p>I want to try another case study, the hammer. I can be cheeky here and note
+that my hammer makes every problem look like a nail, so it simplifies my
+problems to the case of dealing with a nail, which I simply must whack at to
+deal with. But sometimes my problem doesn&rsquo;t fit well into the &ldquo;nail&rdquo; box, and
+the hammer will do the wrong thing. For example, when opening up those
+impossible plastic packages, a hammer would potentially open the package, but
+might break the contents in the process. It successfully reduced the creativity
+I needed to solve the problem, but was still in the end an inelegant, or worse,
+insufficient, solution.</p>
+
+<p>Abstractions are powerful. They&rsquo;re hard to come up with. Strive for elegance.
+Use them to reduce complexity. Use them to reduce the amount of mental
+calculations and short term memory required to solve a problem. Just because it
+takes a while to understand the abstraction doesn&rsquo;t mean it is bad.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Lesson Learnt About Collaboration]]></title>
+    <link href="http://ethanp.github.io/blog/2015/07/22/lesson-learnt-about-collaboration/"/>
+    <updated>2015-07-22T23:16:25-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/07/22/lesson-learnt-about-collaboration</id>
+    <content type="html"><![CDATA[<p>Perhaps the greatest lesson of this summer has been in taking advantage of the
+power of collaboration.</p>
+
+<p>When my boss decided to hire me, he told me that it was in large part because
+of my communication skills. I don&rsquo;t know if he still agrees with this, but I
+like to think it is true.</p>
+
+<p>One of my greatest prides is the ability to openly lose an argument. For a long
+time, this has quite often been my reason for entering an argument, and I try
+to make it easy to lose. If someone seems to know they&rsquo;re right, we must
+together find the bridge of what I&rsquo;m missing that will be convincing beyond a
+reasonable doubt of their correctness. Making it easy to lose means figuring
+out what you <em>actually</em> think, making that clear, and not wavering from that
+initial point of view even when more facts come to light. Or at least
+acknowledging that the original viewpoint was incorrect, and now <em>this</em> is what
+I [honestly] believe to be true. A regrettable human tendancy is to change
+one&rsquo;s opinion during an argument as the facts come to light because &ldquo;with these
+facts, my original point of view was wrong, and clearly I wasn&rsquo;t wrong, so that
+couldn&rsquo;t have been my real point of view.&rdquo; This needs to be consciously
+avoided.</p>
+
+<!-- more -->
+
+
+<p>But still, I haven&rsquo;t always taken advantage of opportunities to collaborate.
+There is a lot of overhead when working with a partner. A lot of your time is
+spent explaining to them stuff you already know. These could be things which
+took quite a while of staring at text trying to understand, and now it feels
+like you&rsquo;re letting them off the hook by just explaining it outright. Sometimes
+there are petty disagreements in which I like to code things my way and she
+hers, etc.</p>
+
+<p>One small example is that in one project I wanted the code for a very
+complicated function to have the following structure</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">complicated1</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">precondition1</span> <span class="k">=</span> <span class="n">state1</span> <span class="o">!=</span> <span class="n">invalid</span> <span class="o">&amp;&amp;</span> <span class="n">state2</span> <span class="o">!=</span> <span class="n">invalid</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">precondition2</span> <span class="k">=</span> <span class="n">state3</span> <span class="o">!=</span> <span class="n">invalid</span> <span class="o">||</span> <span class="n">state4</span> <span class="o">!=</span> <span class="n">invalid</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">preconditionsMet</span> <span class="k">=</span> <span class="n">precondition1</span> <span class="o">&amp;&amp;</span> <span class="n">precondition2</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(!</span><span class="n">preconditionsMet</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">logError</span><span class="o">(</span><span class="s">&quot;error 1&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="c1">// early escape</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">computationResult</span> <span class="k">=</span> <span class="n">doSomeComputing</span><span class="o">()</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(!</span><span class="n">isValid</span><span class="o">(</span><span class="n">computationResult</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">logError</span><span class="o">(</span><span class="s">&quot;error 2&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="c1">// another early escape</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="c1">// the main logic here</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>whereas my partner wanted something more along the lines of the following</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">complicated2</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">state1</span> <span class="o">!=</span> <span class="n">invalid</span> <span class="o">&amp;&amp;</span> <span class="n">state2</span> <span class="o">!=</span> <span class="n">invalid</span>
+</span><span class='line'>     <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">state3</span> <span class="o">!=</span> <span class="n">invalid</span> <span class="o">||</span> <span class="n">state4</span> <span class="o">!=</span> <span class="n">invalid</span><span class="o">))</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="k">val</span> <span class="n">computationResult</span> <span class="k">=</span> <span class="n">doSomeComputing</span><span class="o">()</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">isValid</span><span class="o">(</span><span class="n">computationResult</span><span class="o">))</span> <span class="o">{</span>
+</span><span class='line'>            <span class="c1">// the main logic here</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">logError</span><span class="o">(</span><span class="s">&quot;error 2&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">logError</span><span class="o">(</span><span class="s">&quot;error 1&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s a petty issue; either way the <em>exact</em> same code is going to execute, and
+we each had very good reasons for finding our own way easier to understand. We
+didn&rsquo;t bicker over it because we got along very well, and in the end we
+actually did it my way. But in reality the actual function was considerably
+more complex, and perhaps there were entirely better ways of structuring it
+that neither of us noticed.</p>
+
+<p>Now, at work, there is a new-hire considerably more senior and experienced than
+I, who started 2 days ago, and who is taking over my project once I go back to
+school in a few weeks; so it has been my responsibility to teach him how
+everything works. Very often, he feels the need to obsessively ask me: &ldquo;Your
+code that says <code>3 + 4</code>, that means you&rsquo;re adding 4 to 3, right?&rdquo; Sometimes he
+says &ldquo;right?&rdquo; and I say yes, then he repeats what he said and I repeat &ldquo;yes,
+you are correct&rdquo;, and this can continue and I wonder what he is getting out of
+that.</p>
+
+<p>At first I resented this because it sometimes felt like no one taught <em>me</em> much
+about the codebase when I arrived; for the more complex bits, I just stared at
+it until it clicked. This was fun to me, and no one ever seemed to have the
+time to go in depth with it anyway. It was good practice at reading others&#8217;
+code and understanding what it does. Learning new ways of accomplishing many
+things that were unfamiliar. Getting used to seeing code that isn&rsquo;t formatted
+<em>my way</em>, and accepting it for <em>what it is</em>. Learning how to utilize their code
+from mine even when there is no explicitly exported clean API, and so forth.</p>
+
+<p>But well it was the new-guy&rsquo;s day 3 today, and it seems we have really begun to
+click as a duo. It is abundantly clear that he has a <em>wealth</em> of skills I lack.
+Sure, he could definitely learn this code without my help, but I benefit a
+great deal from seeing how he navigates it. What are the parts that he finds
+especially confusing? The importance of variable names shines immediately
+through. There are a few patches of code where I worked some Scala feature in
+there just to try them out. Some of these turned out to be easier to understand
+and reuse code from, and for some of them, something more cut-and-dry would
+have been better.</p>
+
+<p>Plus there&rsquo;s the fact that two minds are better than one. He&rsquo;s always
+questioning my assumptions. To the point where he often straight up doesn&rsquo;t
+believe what I say until I prove it. Sometimes he finds flaws in my arguments.
+Sometimes, with my assumptions in hand, he invents better solutions to the
+problem. Sometimes he understands what I did better than me and tells me its
+advantages and disadvantages and alternatives.</p>
+
+<p>My new partner&rsquo;s oft-stated goal is to get to a point where he can start
+contributing to our project without my help, so that our concurrent efforts
+will speed things along. People with a smart, helpful attitude like that have
+been rare in my experience, so if he&rsquo;s being honest, I&rsquo;m all for taking him to
+that place as quickly as I can.</p>
+
+<p>I think maybe I just have a bias that everyone who doesn&rsquo;t know what I know
+just wasn&rsquo;t smart enough to realize it. That is the thinking pattern of a real
+asshole and this experience is making that abundantly clear. Everyone knows
+that when learning something new, everything is always surprisingly confusing,
+and then once it clicks, everything becomes &ldquo;trivial.&rdquo; However, I have not
+spent much time teaching others, so I haven&rsquo;t had the opportunity to see this
+&ldquo;click&rdquo; moment in others, and how dumb they all look before that moment occurs.
+I do remember teachers explaining something, and me looking at it sideways in
+confusion, and asking them to repeat it slower. This happened on many
+occasions, and they must have thought I was a real idiot on each of those
+occasions, but I was always so relieved when they did repeat, and I often would
+strain my brain muscles and actually (partially) &ldquo;get it&rdquo; the second time
+through.</p>
+
+<p>The new-guy has taught me a lot from his attitude in joining a new team at a
+new workplace. He&rsquo;s not trying to just &ldquo;set to work&rdquo; writing code willy-nilly
+as quickly as possible. Compared to him, that&rsquo;s basically what I did. He wants
+to <em>truly</em> understand what&rsquo;s going on. What does the architecture look like?
+Who is the expert on what? Who is good at explaining things? Who is willing to
+take the time to explain things? What do our users want? What do they expect?
+What is the timeline? What has been built? What is he responsible for? What are
+the alternative solutions that have been under consideration? Who has decision-
+making power? Which teams do we collaborate with?</p>
+
+<p>These are all questions that I know the answers to, as they are the necessary
+fundamentals of how to operate and move forward. I started actively learning
+the answers to these questions as soon as I arrived as well. However, I wasn&rsquo;t
+as conscious and certainly not nearly as thorough at answering them as he is.
+And over time I may have slipped a bit into a position of people trusting me to
+do the right thing, so I don&rsquo;t feel as pressured to be on the ball with
+everything at all times. But his arrival has been a reality check in the
+importance of having a firm grip on the fundamentals of what are we doing and
+why and how best to accomplish it in a strictly-business manner. There is no
+excuse for losing one&rsquo;s professionalism, including having a &ldquo;casual&rdquo; workplace.</p>
+
+<p>So far it has been 3 days. On a personal level of course I have learned more
+during those 3 days of working with the new guy than I did during the previous
+few weeks of working on my own. During this week I have probably also been
+slower to accomplish those tasks remaining to finish before I leave. It is
+firmly clear that this is a worthy tradeoff, and I will continue to spend the
+rest of my time making sure that I am playing as great a part as possible in
+his success in moving our project forward into the future. There maybe some
+hiccups in our working relationship, because alas I barely know the guy, and
+we&rsquo;re from different societal cultures, and my first impressions of people are
+always notoriously off-base. However, now it is clear that the responsibility
+is my own to make sure any future road-bumps are known to be my fault and my
+problem and mine to fix with his help.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Inside Java's BufferedReader]]></title>
+    <link href="http://ethanp.github.io/blog/2015/07/01/inside-javas-bufferedreader/"/>
+    <updated>2015-07-01T15:22:50-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/07/01/inside-javas-bufferedreader</id>
+    <content type="html"><![CDATA[<p><code>BufferedReader</code> is suprisingly fast for parsing large text files. Why is that?
+In my experience, it is faster for this task than a <code>BufferedInputStream</code>.
+StackOverflow says this is because the <code>BufferedReader</code> uses <code>char</code> internally
+instead of <code>byte</code>.</p>
+
+<p>What follows is a high-level breakdown of what&rsquo;s going on &ldquo;under the hood&rdquo; of
+the <code>BufferedReader</code>, i.e. an overview of the implementation details.
+Details about <code>mark</code> support will be omitted.</p>
+
+<p>For me, the most significant takeaways are the following</p>
+
+<ol>
+<li><strong>There is no magic</strong> &mdash; every time I find this out about something I am
+surpised. This class is probably <em>very</em> similar to the way I would have
+naively written a buffering wrapper for a <code>Reader</code> object.</li>
+<li><strong>Utmost efficiency is sacrificed for code clarity</strong> &mdash; my guess is that the
+reason they left in the inefficiencies I mentioned above is because having
+special cases would have clouded the code. If someone wants an even <em>more</em>
+efficient <code>Reader</code> they are always welcome to write their own.</li>
+<li><strong>Small amount of code</strong> &mdash; there&rsquo;s really not a whole lot to this class. It
+basically just reads into a buffer, then services incoming reads from that
+buffer. There are no &ldquo;niceties&rdquo; or asynchronous callbacks etc. I think the
+attitude of the auther is that if you want to find that, simply look
+elsewhere.
+
+<ul>
+<li>Of particular note: there is no a single mention of <em>character encodings</em>
+anywhere in the class.</li>
+</ul>
+</li>
+</ol>
+
+
+<!-- more -->
+
+
+<p>Starting with the obvious, a <code>java.io.BufferedReader</code> is <code>java.io.Reader</code> that
+holds a buffer to make operations faster. A <code>Reader</code> is an object that reads
+character streams. Any subclasser of the <code>abstract class Reader</code> must implement
+(at a minimum) <code>read(char[], int, int)</code> and <code>close()</code>. Other reader methods
+basically just use these methods to put together the rest of the interface. The
+only public method that <code>BufferedReader</code> adds to the <code>Reader</code> interface is
+<code>String readLine()</code>, which is described below.</p>
+
+<p>Let&rsquo;s look at some of the fields, with my annotations about what they actually
+mean.</p>
+
+<h3>Reader in</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="n">Reader</span> <span class="n">in</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the <code>Reader</code> whose reads we are buffering. <code>BufferedReader</code> is an
+example of the <em>&ldquo;Decorator Pattern&rdquo;</em> and this <code>Reader</code> is whom we&rsquo;re
+decorating. Both <code>BufferedReader</code> constructors require <code>in</code> to be passed as a
+parameter, and it cannot be changed. Calling <code>this.close()</code> calls</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'><span class="n">in</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setting <code>in = null</code> might be to help prevent garbage accumulation when the
+client of <code>BufferedReader</code> doesn&rsquo;t properly get rid of the reference to the
+<code>BufferedReader</code>.</p>
+
+<h3>char[] cb</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">cb</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="o">[</span><span class="mi">8192</span><span class="o">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This of course is the char buffer itself. We respond to read requests directly
+from here as often as possible. We fill it up by issuing <code>in.read(cb, int,
+int)</code> requests on the underlying <code>Reader in</code> annotated above.</p>
+
+<p>Here I&rsquo;m showing <em>default</em> internal char buffer size of 8kb. This happens to be
+2 disk sectors of an HDD using the first generation of the Advanced Format. I
+don&rsquo;t know if that&rsquo;s how 8kb was chosen; perhaps it was chosen using benchmark
+comparisons.</p>
+
+<h3>int nChars</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">int</span> <span class="n">nChars</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the index in <code>cb</code> corresponding to the last unread <code>char</code> that we may
+<code>read()</code> before we need to <code>fill()</code> it again from <code>in</code>.</p>
+
+<h3>int nextChar</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">int</span> <span class="n">nextChar</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the index in <code>cb</code> corresponding to the next <code>char</code> that should be
+returned by a <code>read()</code>.</p>
+
+<h3>void fill()</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">void</span> <span class="nf">fill</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here we block until successfully reading from <code>in</code> into <code>cb</code>, and set <code>nChars</code>
+to the end of the valid range of <code>cb</code> and <code>nextChar</code> to zero.</p>
+
+<h3>int read()</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Returns a single character of the stream, or -1 if the end of the stream has
+already been reached.</p>
+
+<p>Basically just does</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="k">return</span> <span class="n">cb</span><span class="o">[</span><span class="n">nextChar</span><span class="o">++];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However if <code>nextChar &gt;= nChars</code>, we have already read to the end of the
+existing <code>cb</code>, so we call <code>fill()</code>. Now if <code>fill()</code> fails, we&rsquo;ve reached the
+end of the stream, so <code>return -1</code>.</p>
+
+<h3>int read(char[], int, int)</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">(</span><span class="kt">char</span> <span class="n">cbuf</span><span class="o">[],</span> <span class="kt">int</span> <span class="n">off</span><span class="o">,</span> <span class="kt">int</span> <span class="n">len</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This entire method is <code>synchronized</code> behind a <code>lock</code> owned by the parent
+<code>Reader</code> class. In <code>Reader</code> it says to use this <code>lock</code> instead of synchronizing
+on <code>this</code> &ldquo;for efficiency&rdquo;. I&rsquo;m not sure why that would be any more efficient.</p>
+
+<p>After acquiring the lock, we do bounds checks. I&rsquo;m not sure why this isn&rsquo;t done
+<em>before</em> acquiring the lock because all checks are done on the parameters,
+which can&rsquo;t change between the time the method is called and the lock is
+acquired. So if we did this check before acquiring the lock, we would never
+wait on the lock for no reason. Maybe this is so that any concurrent operation
+using the lock gets to finish before the exception is thrown on this thread?
+That&rsquo;s my best guess at this point.</p>
+
+<p>The documentation says</p>
+
+<blockquote><p>As an additional convenience, it attempts to read as many characters as
+possible by repeatedly invoking the <code>read</code> method of the underlying stream.</p></blockquote>
+
+<p>This is accomplished by first copying the rest of the current buffer into the
+passed-in <code>cbuf</code>. If this has not yet filled <code>cbuf</code>, keep calling <code>fill()</code> and
+then dumping the new buffer contents into <code>cbuf</code>. Seems to me there is an
+<strong>extra copying step</strong> into the buffer in this case, where it would perhaps be
+faster and more memory efficient copy <em>directly</em> into <code>cbuf</code>. But hey, what do
+I know.</p>
+
+<h3>String readline()</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="n">String</span> <span class="nf">readLine</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Returns the next segment of text from the stream terminated by <code>\n</code>, <code>\r</code>, or
+<code>\r\n</code>.</p>
+
+<p>This method operates inside a synchronized endless loop building up a
+<code>StringBuffer s</code>.</p>
+
+<p>The loop is like this:</p>
+
+<ol>
+<li><code>fill()</code> the underlying <code>cb</code> buffer</li>
+<li>If the stream ended
+
+<ul>
+<li><code>return s.toString()</code></li>
+</ul>
+</li>
+<li>Otherwise, iterate through <code>cb</code> looking for a line ending</li>
+<li>If a line ending is found
+
+<ul>
+<li>append <code>cb</code> through the line ending to <code>s</code> and return it.</li>
+</ul>
+</li>
+<li>Otherwise, repeat the loop.</li>
+</ol>
+
+
+<h3>long skip(long)</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">long</span> <span class="nf">skip</span><span class="o">(</span><span class="kt">long</span> <span class="n">n</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In a synchronized loop:</p>
+
+<ol>
+<li>If the buffer has all been read <code>fill()</code> it
+
+<ul>
+<li><strong>Why?</strong> Why copy memory into the buffer unecessarily? We&rsquo;re just going
+to skip some or all of these bytes!</li>
+</ul>
+</li>
+<li>If the buffer is larger than the number of bytes remaining to skip
+
+<ul>
+<li>Skip that many bytes into the buffer and return</li>
+</ul>
+</li>
+<li>Otherwise skip over the entire buffer and repeat the loop</li>
+</ol>
+
+
+<h3>boolean ready()</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">ready</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Tells whether the stream is ready to be read</p></blockquote>
+
+<p>After acquiring the lock, return try if either the buffer still has unread
+data, or <code>in.ready()</code> is true (on the underlying <code>Reader in</code> described above).</p>
+
+<h3>void close()</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Inside the lock, close and release the underlying <code>Reader in</code>, and release
+<code>cb</code>.</p>
+
+<h3>Conclusion</h3>
+
+<p>Those are all the important methods of <code>BufferedReader</code> that don&rsquo;t involve
+<code>mark</code> support.</p>
+
+<p>At this point the reader may have a somewhat deeper understanding of how
+<code>BufferedReader</code> manages to achieve such high speeds. I also pointed out
+potential inefficiencies in <code>read(char[],int,int)</code> and <code>skip(long)</code>, as well as
+an seemingly unecessary block on a lock before bounds checking in
+<code>read(char[],int,int)</code>.</p>
+
+<p>You may want to refer back to the takeaways in the introduction.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[First Look at MongoDB]]></title>
+    <link href="http://ethanp.github.io/blog/2015/06/20/first-look-at-mongodb/"/>
+    <updated>2015-06-20T01:06:28-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/06/20/first-look-at-mongodb</id>
+    <content type="html"><![CDATA[<h2>The scenario</h2>
+
+<p>My (augmented todo-list) website has Categories, and <strong>each Category has a set
+of Tasks</strong> (aka <em>&ldquo;one-to-many&rdquo;</em>).</p>
+
+<blockquote><p>Using a relational database, one does not simply store references to all the
+Tasks directly in each Category. With Mongo, one may do exactly that.</p></blockquote>
+
+<p>After looking at various <strong>&ldquo;embedded vs references&rdquo;</strong>
+<a href="http://docs.mongodb.org/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/">documents</a>, I have decided to go with the hybrid
+model (the second of the three on that linked page), and <strong>embed references to
+Tasks in an array in each Category</strong>.</p>
+
+<h3>The console shall reveal the way to accomplish this</h3>
+
+<p>My lack of sustained googling didn&rsquo;t turn up any online resources about how to
+do it, so here you go.</p>
+
+<h4>Install MongoDB</h4>
+
+<p>After installing MongoDB with Homebrew, it became clear that the configuration
+was still incomplete (perhaps because brew lacks root access to the root
+directory). StackOverflow told me how to finish. I show you.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew install mongodb
+</span><span class='line'>sudo mkdir -p /data/db
+</span><span class='line'>sudo chmod 755 /data/db
+</span><span class='line'>sudo chown -R <span class="sb">`</span>id -u<span class="sb">`</span> /data/db
+</span><span class='line'>
+</span><span class='line'><span class="c"># now run</span>
+</span><span class='line'>mongod <span class="c"># in one window (server daemon)</span>
+</span><span class='line'>mongo  <span class="c"># in another window (interactive console)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Write the code</h4>
+
+<p>Now let&rsquo;s do an example of having a one-to-many relationship between Categories
+and Tasks, where in particular, we are storing an array of Task id&rsquo;s in each
+Category. In the end we will write a query to get all Tasks belonging to a
+Category.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="cm">/* create the collections */</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">db</span><span class="p">.</span><span class="nx">createCollection</span><span class="p">(</span><span class="s2">&quot;categories&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">db</span><span class="p">.</span><span class="nx">categories</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">count</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">categories</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">db</span><span class="p">.</span><span class="nx">createCollection</span><span class="p">(</span><span class="s2">&quot;tasks&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">tasks</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/* insert some elements into them */</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;first category&quot;</span><span class="p">,</span> <span class="nx">tasks</span><span class="o">:</span> <span class="p">[]})</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;first task&quot;</span><span class="p">})</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;second task&quot;</span><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/* add the references from the coll to the tasks */</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;first category&quot;</span><span class="p">},</span> <span class="p">{</span><span class="nx">$addToSet</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;tasks&quot;</span><span class="o">:</span><span class="nx">t</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;first task&quot;</span><span class="p">}).</span><span class="nx">_id</span><span class="p">}})</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;first category&quot;</span><span class="p">},</span> <span class="p">{</span><span class="nx">$addToSet</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;tasks&quot;</span><span class="o">:</span><span class="nx">t</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;second task&quot;</span><span class="p">}).</span><span class="nx">_id</span><span class="p">}})</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">pretty</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="s2">&quot;_id&quot;</span> <span class="o">:</span> <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fe86e2c6cdd3813233ed&quot;</span><span class="p">),</span>
+</span><span class='line'>    <span class="s2">&quot;name&quot;</span> <span class="o">:</span> <span class="s2">&quot;first category&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;tasks&quot;</span> <span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>        <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fec9e2c6cdd3813233ee&quot;</span><span class="p">),</span>
+</span><span class='line'>        <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fed0e2c6cdd3813233ef&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">/*</span> <span class="nx">get</span> <span class="nx">all</span> <span class="nx">task</span> <span class="nx">documents</span> <span class="nx">referenced</span> <span class="nx">by</span> <span class="nx">the</span> <span class="s2">&quot;first category&quot;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span><span class="nx">_id</span><span class="o">:</span> <span class="p">{</span><span class="nx">$in</span><span class="o">:</span> <span class="nx">c</span><span class="p">.</span><span class="nx">findOne</span><span class="p">().</span><span class="nx">tasks</span><span class="p">}})</span>
+</span><span class='line'><span class="p">{</span> <span class="s2">&quot;_id&quot;</span> <span class="o">:</span> <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fec9e2c6cdd3813233ee&quot;</span><span class="p">),</span> <span class="s2">&quot;name&quot;</span> <span class="o">:</span> <span class="s2">&quot;first task&quot;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">{</span> <span class="s2">&quot;_id&quot;</span> <span class="o">:</span> <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fed0e2c6cdd3813233ef&quot;</span><span class="p">),</span> <span class="s2">&quot;name&quot;</span> <span class="o">:</span> <span class="s2">&quot;second task&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[What Akamai Does]]></title>
+    <link href="http://ethanp.github.io/blog/2015/06/10/what-akamai-does/"/>
+    <updated>2015-06-10T21:23:31-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/06/10/what-akamai-does</id>
+    <content type="html"><![CDATA[<p>I met someone at a hack night worked for Akamai. He was a cool dude, so I was
+curious what Akamai does. For whatever reason I ended up reading a paper cited
+as so:</p>
+
+<blockquote><p>Nygren, Erik, Ramesh K. Sitaraman, and Jennifer Sun. “The akamai network: a
+platform for high-performance internet applications.” ACM SIGOPS Operating
+Systems Review 44.3 (2010): 2–19.</p></blockquote>
+
+<p>For whatever reason, everything I know about Akamai is from this paper. I&rsquo;m not
+in any way afiliated with Akamai, etc., though the paper is basically a badly
+designed advertising pamphlet for their services. A small number of sentences
+in this summary may have been lifted directly from that paper. You can consider
+this whole post a paraphrasing of the paper. <strong>The intent of this post is to
+tell you everything important that I learned from the paper</strong> in a form that is
+<em>way</em> easier to digest than you reading the paper itself. To that end, this
+document is maybe 2 pages long, and the original is 17. Clearly much of the
+detail has been removed, but the gist remains. If that appeals to you, welcome
+aboard! Note that the paper is from 2010, so is probably already out of date.</p>
+
+<h2>Introduction</h2>
+
+<p>Akamai invented the <em>Content Delivery Network</em> (CDN) concept in the 1990s,
+because the raw naive Internet implementation is too slow to conduct a global
+business. As of 2010, Akamai delivers 15-20% of global Web traffic.</p>
+
+<h3>The Interwebs is a dangerous place</h3>
+
+<!-- more -->
+
+
+<p>For a web app, downtime and high latency is <em>very</em> costly. Customers won&rsquo;t go
+to your page unless they can see your content <em>right this second</em>. The Internet
+itself can provide no reliability or performance gaurantees.</p>
+
+<p>The Internet is composed of 1000s of individual networks, the largest having
+only 5% of Internet access traffic. It takes 650 networks to get to 90% of all
+access traffic. The Internet-access pricing structure happens to result in a
+situation in which connections between networks (&ldquo;peering points&rdquo;) are
+bottlenecks causing packet loss and increased latency.</p>
+
+<p>The protocol ISPs use to exchange rounting information (BGP) is bad and subject
+to misuse. Internet outages and partitions are regular occurrences. The strict
+ACK policy for TCP adds enough overhead to make video streaming over TCP
+impractical. The high proportion of people still using IE6 means any improved
+algorithms that get implemented have to be backwards compatible with that one
+silly browser.</p>
+
+<h2>Content Delivery Networks</h2>
+
+<p>Originally a CDN&rsquo;s purpose was to cache static site content at the &ldquo;edge&rdquo; of
+the Internet, close to end users, to avoid middle-mile bottlenecks. Now they
+accelerate entire web apps and provide HD live streaming media. They provide
+security, logging, diagnostics, reporting, and management tools</p>
+
+<p>A <strong>delivery network</strong> is a <em>virutal network</em>, i.e. a software layer over the
+actual Internet, to provide reliability, performance, scalability, and
+security. It requires no client software or changes to the underlying networks.
+Akamai&rsquo;s network is made from tens of thousands of globally deployed servers
+running sophisticated algorithms to enable faster content delivery.</p>
+
+<h3>In Greater Detail</h3>
+
+<p>When a user enters a URL into their browser, their DNS routes them to an Akamai
+DNS, which in turn gives them the IP address of an <strong>edge server</strong> chosen via
+machine learning algorithm. The edge server acts as a cache for the <strong>origin
+server</strong>, and if it needs new data, it uses an especially reliable and
+performant <strong>transport system</strong> (described later on), which is a network of
+internal nodes who know best how to connect the <em>edge</em> back to the <em>origin</em>.</p>
+
+<p>The <strong>transport system</strong> connects <em>edge</em> to <em>origin</em> servers with a cache
+pyramid of clusters. Streaming video is <em>branched out</em> to the edge clusters by
+intermediate layers of <em>reflectors</em>.</p>
+
+<p>Edge servers communicate to each other via their own chosen path optimization
+rather than the default one chosen by BGP, and use dynamically optimized TCP
+parameters. They can also intelligently prefetch and cache content from the
+origin right before before it is requested by the user.</p>
+
+<p>Akamai&rsquo;s EdgeComputing product allows you to distribute your web application
+<em>itself</em> &ldquo;to the <em>edge</em>&rdquo;, which is great for content aggregation, product
+catalogs (dynamic access of static content), data validation, and data input
+batching. It&rsquo;s not great for apps relying heavily on transactional databases
+because they still must communicate with the origin server.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Brief Overview of Garbage Collection in the HotSpot JVM]]></title>
+    <link href="http://ethanp.github.io/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/"/>
+    <updated>2015-06-08T20:50:33-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm</id>
+    <content type="html"><![CDATA[<p><strong>Disclaimer:</strong> This post only claims to represent my <em>current understanding</em>
+of the workings of the HotSpot VM&rsquo;s garbage collector. This understanding comes
+from reading the <em>references</em> listed below, as well as making some assumptions.
+It is not necessarily fully correct.</p>
+
+<h3>Brief Overview</h3>
+
+<p><strong>The garbage collector <em>separates the heap into 5 sections of 4 types</em>.</strong> I
+don&rsquo;t know whether these spaces are &ldquo;virtual&rdquo; (i.e. remapped to discontiguous
+&ldquo;pages&rdquo; like Linux&rsquo;s <em>virtual memory addresses</em>) or not. I suspect they are
+<em>not</em>.</p>
+
+<ol>
+<li><strong>Eden</strong> &mdash; where objects go when they&rsquo;re first allocated in the running
+program</li>
+<li><strong>Survivors 1 &amp; 2</strong> a.k.a. &ldquo;young space&rdquo; &mdash; objects in Eden are moved here
+if they survive a minor (&ldquo;young&rdquo;) GC</li>
+<li><strong>Tenured</strong> (a.k.a. <strong>Old</strong>) &mdash; long-lived objects (that have survived [a
+configurable number of] minor GCs) are moved and then live in here
+
+<ul>
+<li>We can tell the JVM to allocate all objects larger than <code>n</code> bytes
+directly into the <em>old</em> space.</li>
+</ul>
+</li>
+<li><strong>Permanent</strong> &mdash; this is where the JVM&rsquo;s own objects live (e.g. classes and
+JITed code). It behaves just like the <em>tenured</em> space.</li>
+</ol>
+
+
+<!-- more -->
+
+
+<p>The GC is arranged &ldquo;generationally&rdquo; because (according to the &ldquo;<strong>generational
+hypothesis</strong>&rdquo;) it is assumed the longer objects live, the longer into the
+future their life expectancy is. So if we move the older objects into a
+separate bin, we can do quick, efficient, lucrative &ldquo;minor GCs&rdquo; in which we
+only garbage collect from Eden and the Survivor spaces.</p>
+
+<p><strong>Minor GC</strong> is triggered <em>when Eden becomes full</em>. It uses the root references
+to collect the reference set, and moves all live objects from Eden and one
+survivor space into the other survivor space (a.k.a. &ldquo;mark-and-sweep&rdquo;. I guess
+this means we&rsquo;re physically moving the object in RAM because we have to update
+all the objects references to the new location.</p>
+
+<p><strong>Root references</strong> for minor GC are from the stack (I think this means entire
+stacks for all running threads) and old space. HotSpot uses &ldquo;dirty cards&rdquo; as an
+optimization to not have to trace through references from all members of the
+old space, only the modified ones.</p>
+
+<p><strong>Full GC</strong> would <em>intuitively</em> be triggered by running out of space in the
+&ldquo;tenured&rdquo; or &ldquo;permanent&rdquo; bins, but this is not <em>necessarily</em> the case.</p>
+
+<h4>References</h4>
+
+<ul>
+<li><a href="http://blog.griddynamics.com/2011/06/understanding-gc-pauses-in-jvm-hotspots.html">Grid Dynamics</a></li>
+<li><a href="http://www.cubrid.org/blog/dev-platform/understanding-java-garbage-collection/">Cubrid Blog</a></li>
+<li><a href="http://stackoverflow.com/questions/9546392/">StOve</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Summary of 'the Log']]></title>
+    <link href="http://ethanp.github.io/blog/2015/05/29/summary-of-the-log/"/>
+    <updated>2015-05-29T22:57:16-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/05/29/summary-of-the-log</id>
+    <content type="html"><![CDATA[<p>I read a great article by Jay Kreps, one of the dudes who brought you Apache
+Kafka. The article is called <a href="http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying"><strong>The Log</strong>: What every software engineer should know about real-time data&rsquo;s unifying abstraction</a>. The
+article took me a few hours of mildly challenging reading, so I figure you can
+spend a few minutes reading my summary and decide more clearly whether you want
+to put in the investment of his explanation.</p>
+
+<p>First, he describes the following concept: Let&rsquo;s define a <strong>log</strong> as a <em>total
+order</em> of functions called and the parameters passed to each of those function-
+calls. Let&rsquo;s define a <em>&ldquo;commit log&rdquo;</em> as a <em>log</em> of edits of the contents of a
+database. Kreps notes that we can use a commmit log to build the state of a
+database at any point in history. This is like <code>git</code>; as we patch in each
+commit, we obtain the state of the repo at each time. If we feed the same log
+to the same program on multiple machines in a cluster, (assuming none of the
+functions called are <em>non- deterministic</em> and machines behave as we expect), we
+will certainly have the same state on each machine after they have each
+executed the log. This would be desireable perhaps to provide a &ldquo;reliable&rdquo;
+<em>service</em> for which there are more reads than writes, and more reads than can
+be handled by one node; then we can ensure any node is OK to read from by
+having all nodes play functions as prescribed by the log.</p>
+
+<p>Then, he describes the following situation: getting every part of a tech-
+company&rsquo;s data to every service that needs it is very complicated. In the worst
+and most naive case it would be <em>N<sup>2</sup></em> because each of <em>N</em> places would be sending
+data to each of <em>N</em> places. That&rsquo;s a lot of network bandwidth, and complexity,
+and data formats to understand, and places for things to screw up. So Kreps
+suggests</p>
+
+<!-- more -->
+
+
+<p>just having all data producers standardize a framework for formatting
+the data they produce, then just have all producers append to a single shared
+log. Now, everyone who wants to read data from someone else can be sure to get
+that data in the order it was produced by reading from that one log. Plus there
+are N writers and N readers so getting the data to every where is <em>2N</em>. Now we
+note that 2N &lt; N<sup>2</sup> if N > 2, so most of the time this is advantageous.</p>
+
+<p>Now, the problem is that this single log is not going to be able to handle that
+throughput, and it is going to get way too big way too fast. To build Kafka as
+an implementation of this &ldquo;unified log&rdquo; concept, the key optimization is to
+&ldquo;partition&rdquo; this log, meaning different pieces of it are written to different
+places (machines), and each piece is written in duplicate to multiple machines.
+In general we lose the total ordering across all processes, but in general,
+this total ordering was literally more strict than could possibly be useful.</p>
+
+<blockquote><p>This is the point where I stopped paying as much attention.</p></blockquote>
+
+<p>Then Kreps goes on to talk about how important stream-processing is, because so
+many of the services modern tech companies provide operate on a real-time feed
+of events. Then he notes that log-table duality noted in the second paragraph
+allows us to provide a reliable enriched event stream, ie. one that takes raw
+events, joins each one with data from another table, and inserts some
+maintained state like a counter.</p>
+
+<p>Then Kreps notes that Kafka&rsquo;s cleverest provided algorithm for freeing up log
+space, is to remove &ldquo;records whose primary key has a more recent update.&rdquo; The
+naive provided algorithm is to discard elements that are more than <em>x</em> days
+old.</p>
+
+<p>Then he notes how most companies just exist to manipulate data in a distributed
+system, and how building distributed systems in Java has to a large extent
+become a problem of putting open source lego blocks like Zookeeper, Kafka,
+Netty, etc. together. After that he summarizes and concludes.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Paxos as a Classroom]]></title>
+    <link href="http://ethanp.github.io/blog/2015/05/18/paxos-as-a-classroom/"/>
+    <updated>2015-05-18T19:28:49-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/05/18/paxos-as-a-classroom</id>
+    <content type="html"><![CDATA[<pre><code>multi-paxos as a classroom:
+teacher := proposer
+students := acceptors
+all := learners
+
+teacher to students:
+    may I have your attention for the next 1:15 hrs?
+    I'd like to teach youz guys all about "the paxos protocol"
+    here is what I'm assuming you already know
+
+each student to teacher:
+    if not already busy for that time:
+        yes, here's how much I actually already know about paxos
+    else:
+        my apologies, but I will be busy skimming facebook for the next 1:15
+        so if there's something you want to tell me, post it on there
+
+teacher to each student:
+    given how far behind you are, these are the things you need to catch up on
+    but also this is what I'm teaching now
+
+each (alive &amp; correct) student to teacher:
+    oh very cool!
+    this is how much I now understand of all the stuff you've said
+
+teacher:
+    if the majority understands more than before:
+        set new start point for next time's lesson
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Simulating a Distributed System]]></title>
+    <link href="http://ethanp.github.io/blog/2015/05/18/simulating-a-distributed-system/"/>
+    <updated>2015-05-18T19:24:37-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/05/18/simulating-a-distributed-system</id>
+    <content type="html"><![CDATA[<p>For my Distributed Computing class at school, there were 3 projects that each
+involved implementing a distributed protocol over a simulated distributed
+cluster of computers that are only &lsquo;connected&rsquo; to one another in that they know
+each other&rsquo;s IP address and must communicate over TCP sockets. For each of the
+3 projects, I had a <em>completely</em> different method of implementing the system.</p>
+
+<h3>Implementation One: A True Distributed System in Vanilla Java</h3>
+
+<p>The first project (Three Phase Commit) was the only one for which I worked with
+a partner. We were unclear how to attack the problem of building a distributed
+system in a simple way, so we went ahead and implemented a truly distributable
+Java application, in which you could spin up processes on any computer and it
+would connect in to the master server, who would tell the new node the
+listening ports of other servers in the cluster manually, etc. This turned out
+to be perhaps overly ambitious. When a node was expecting a message from
+someone else, it would fire a timer thread, which on completion would report to
+the master to restart the failed process. This system did work properly
+(somehow) but it seemed to be living-on-the-edge. It also required two weeks of
+a lot of working on it and learning aspects of Java, unit testing, mocks, which
+<code>Exception</code> would get thrown by which network event &amp; when, etc.</p>
+
+<h3>Implementation Two: Lightweight System Simulation</h3>
+
+<p>For the second project (Paxos), I said &ldquo;Hooey&rdquo; to all the Java hubbub, which
+while I enjoyed its low-level-ness, forcing me to peak further under the hood,
+it required a larger time commitment than I was prepared to make. I realized
+that my class&rsquo;s requirements only specified that system &ldquo;nodes&rdquo; run
+concurrently, share no memory, and talk over TCP. So in Scala, I made a <code>Node</code>
+class state machine, and ran different instances of it on separate threads.
+This was too easy though, and I was disappointed to find my implementation
+complete more than two weeks before the due date.</p>
+
+<h3>Implementation Three: Akka Cluster</h3>
+
+<p>Akka Cluster is a Scala-based framework for building a distributed system, in
+which you define the address of a set of &ldquo;seed&rdquo; nodes, of whom at least one is
+supposed be available at all times. Then when other nodes start up, they become
+a &ldquo;member&rdquo; of the cluster by contacting any seed node. So for me (the &ldquo;client&rdquo;
+of Akka Cluster), all there is left to do is define the protocol to run on top
+of the cluster. (In this case the protocol was the simple eventually-consistent
+database protocol &ldquo;Bayou&rdquo;.)</p>
+
+<p>Akka nodes follow the &ldquo;Actor Model&rdquo;, meaning they share no state with any other
+part of your program, making them &ldquo;simple&rdquo; to run on remote machines (I didn&rsquo;t
+try that, the docs say it is easy though). The only way actors can communicate
+is via message passing, for which there is a dedicated syntax, <code>!</code>. For
+example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">data</span><span class="k">:</span> <span class="kt">DataElem</span><span class="o">)</span>
+</span><span class='line'><span class="n">anotherActor</span> <span class="o">!</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">theData</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The code above would have the actor running this code, send <code>anotherActor</code> an
+instance of the case class <code>MyMessage</code> with the <code>DataElem</code> that was passed in.</p>
+
+<p>Inter-actor communcation is guaranteed <em>FIFO</em> by Akka, meaning that for any
+pair of actors <code>A, B</code>, if <code>A</code> sends <code>n</code> messages to <code>B</code>, <code>B</code> will receive those
+messages in the same order that <code>A</code> sent them. NB this says nothing about the
+order with respect to other actors in the system.</p>
+
+<p>Using Akka trivialized all sorts of implementation details I&rsquo;d had to worry
+about in the first project, and then ignored for the second project.</p>
+
+<p>If there had been a 4th project for this class, it&rsquo;s clear to me that I would
+use Akka again. For some reason my code ran <em>very</em> slowly, and it probably had
+to do with some configuration-setting that I did not set in the Akka config
+file. That was really the only problem I had that I did not fix. One problem I
+did fix that took a while, was figuring out a good way to shut the system down.
+There were various options discussed online, and eventually I found one that
+worked for me, which was to call <code>system.shutdown()</code> on every instance System I
+instantiate. Another option was to send <code>self ! PoisonPill</code> but for some reason
+that didn&rsquo;t work. I guess different ones work for different situations.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Asynchronous System]]></title>
+    <link href="http://ethanp.github.io/blog/2015/05/03/asynchronous-system/"/>
+    <updated>2015-05-03T21:27:36-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/05/03/asynchronous-system</id>
+    <content type="html"><![CDATA[<p>Before taking a Distributed Computing course at school, I had written for
+various program environments:</p>
+
+<ol>
+<li>a script that trains a neural network to recognize whether an English
+sentence is grammatical</li>
+<li>an iOS app that involves a fair bit of multi-threading</li>
+<li>a command line interpreter that forks and runs commands as background
+processes</li>
+<li>the Raft distributed consensus protocol inside a professor’s multi-threaded
+distributed system simulator</li>
+<li>some asynchronous features for a simplified database system where threads
+communicate solely via Java’s <code>PipedInputStreams</code> instead of using shared
+variables</li>
+</ol>
+
+
+<p>Perhaps you are familiar with these situations, and like me thought they might
+be “distributed”. Reality check: they’re not. Similarly, in a distributed
+system, one has multiple “threads” processing data at once. However,
+these “threads” may be each on different machines; this adds some complexity.
+None of the situations outlined above have the sort of issues one can expect
+fairly regularly when talking amongst machines.</p>
+
+<h3>Different machines don’t share</h3>
+
+<!-- more -->
+
+
+<ol>
+<li>heap space</li>
+<li>scheduler</li>
+<li>clock time (i.e. at any moment each machine&rsquo;s &ldquo;watch&rdquo; reads a different
+time)</li>
+<li>clock tick speed (i.e. clock time&rsquo;s &ldquo;drift&rdquo; apart from one another)</li>
+<li>stable storage</li>
+<li>etc.</li>
+</ol>
+
+
+<h3>They can’t differentiate between friends in any of the following states</h3>
+
+<ol>
+<li>dead</li>
+<li>became slow</li>
+<li>the network literally broke down between the two</li>
+<li>the network become slow between the two</li>
+</ol>
+
+
+<p>This is because all they know is &ldquo;I&rsquo;ve sent my buddy a message and have yet to
+hear back.&rdquo;</p>
+
+<h2>If you told me all this, my response might be:</h2>
+
+<blockquote><p>Why not just run your program under the expectation things will work, and
+hope for the best?</p></blockquote>
+
+<h3>The answer (as far as I can guess) is several fold:</h3>
+
+<ol>
+<li>“If you are the company who has figured out a better answer than ‘hoping
+for the best,’ people will pay you for access to your software” &mdash; Adam
+Smith</li>
+<li>Your Users will be <em>very</em> pissed if their stuff seems to randomly
+disappear; even if it only happens to a few of them every once in a while.
+
+<ul>
+<li>This becomes especially likely if you have a lot of users with a lot of
+data</li>
+</ul>
+</li>
+<li>You’re going to have to be super-over-cautious about not losing important
+data. It would be great to speed things up in such a way that you&rsquo;re still
+not losing any important data, but also not wasting time being overly
+cautious.</li>
+</ol>
+
+
+<p>For the research community, the method they have derived for coming up with
+better solutions than the never-failing “hope for the best,” is <strong>formalism</strong>.
+By giving ideas with a lot of moving parts names, they simplify the task of
+using the human brain to derive solutions. The most important formalism is the
+<strong>asynchronous model</strong>.</p>
+
+<h2>The Setting: Asynchronous Message-Passing and Assumptions</h2>
+
+<p>In an <strong>asynchronous system</strong> (as opposed to a <em>synchronous</em> one), a few
+properties of the system are explicitly assumed. The basic assumptions are
+listed above under the names <strong>“Different machines don’t share”</strong> and <strong>“They
+can’t differentiate between when each another machine has done any of the
+following”</strong>.</p>
+
+<p>However, in an effort to always find the simplest solution under the smallest
+set of assumptions possible, different authors use variations on the above
+assumptions. Commonly they will say something like &ldquo;channels are reliable&rdquo;, by
+which they mean the network connection between any two nodes will always
+<em>eventually</em> transmit every message it is asked to. The word <em>eventually</em> is
+thrown around a lot, and it means there is some time before <em>never</em> when it
+will happen.</p>
+
+<p>By adding additional assumptions (e.g. &ldquo;packets sent between any pair of
+processes cannot be reordered en route&rdquo;) simpler solutions can often be found.
+By removing assumptions, upper bounds can be established on the costs of
+solving certain problems.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Intro to Distributed Computing]]></title>
+    <link href="http://ethanp.github.io/blog/2015/05/03/intro-to-distributed-computing/"/>
+    <updated>2015-05-03T21:18:38-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/05/03/intro-to-distributed-computing</id>
+    <content type="html"><![CDATA[<p>This semester I have been taking Distributed Computing with Professor Lorenzo
+Alvisi. Distributed computing has been something I have been curious about for
+a long time, and aside from writing some MapReduce jobs during a summer
+internship 2 summers ago, I had no real experience thinking about distributed
+systems. The class was very enjoyable.</p>
+
+<p>The main lesson was that <strong>distributed systems are very flaky places</strong>, but you
+can arrive at some <strong>surpringly simple solutions</strong> to most of the problems once
+you find a better way of expressing what you really want. The other main lesson
+was that <strong>finding a better way of expressing what you really want can be a
+confusing</strong> thing to do.</p>
+
+<h2>Scenario 1: “Two Generals’ Problem”</h2>
+
+<p>Persons 1 and 2 would like to be sure that both agreed on a time to
+meet, but neither can tell whether the other is listening to what is being
+said.</p>
+
+<blockquote><p>Person 1: Let’s meet up at 2:00pm</p></blockquote>
+
+<p>Now person 1 doesn’t know whether person 2 was listening though. So person 2
+feels compelled to respond (while still multi-tasking).</p>
+
+<blockquote><p>Person 2: Yeah</p></blockquote>
+
+<!-- more -->
+
+
+<p>Now person 1 knows 2 heard, but 2 doesn’t know whether 1 trusts him. So person
+1 feels compelled to respond (in a very serious tone).</p>
+
+<blockquote><p>Person 1: OK, great.</p></blockquote>
+
+<p>Now person 1 doesn’t know whether person 2 was listening though. So person 2
+feels compelled to respond (while still text-messaging).</p>
+
+<blockquote><p>Person 2: Cool.</p></blockquote>
+
+<p>Now person 1 knows 2 heard, but 2 doesn’t know whether 1 trusts him. So person
+1 feels compelled …</p>
+
+<p><strong>This situation never resolves itself</strong> in a way satisfactory to both
+individuals, so either they’ll stand there doing this until 2:00pm, or they’ll
+give up and both skip the meeting because each was never <em>sure</em> the other had
+really agreed to go.</p>
+
+<h3>Take Away:</h3>
+
+<p>Think about it: when you text-message someone, you don’t know whether</p>
+
+<ol>
+<li>they’ve received the text yet (maybe they haven&rsquo;t looked at their phone)</li>
+<li>they’ll ever receive the text (there could be some “cell-phone issue”)</li>
+<li>they’re going to properly act on it even if they did receive it, or</li>
+<li>they’ve literally died since you last heard from them [unlikely but
+certainly possible].</li>
+</ol>
+
+
+<p>What makes things especially difficult is that the other person has the exact
+same problem when they’re texting to you. This means that even if you got the
+message, they don’t know that you got it. And so you can try to reassure them,
+and then they will know that you got it, but you still don’t know if they know
+that you get it. And that circle goes on forever.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python Class Equivalence]]></title>
+    <link href="http://ethanp.github.io/blog/2014/06/29/python-class-equivalence/"/>
+    <updated>2014-06-29T19:32:24-05:00</updated>
+    <id>http://ethanp.github.io/blog/2014/06/29/python-class-equivalence</id>
+    <content type="html"><![CDATA[<h2><code>vars(self) == vars(other)</code>, it seems too easy</h2>
+
+<p>I implemented a class</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">123</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">436</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then when I created two equivalent instances and compared them, I got false.</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">==</span> <span class="n">a</span>
+</span><span class='line'><span class="bp">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This must be because the <code>==</code> operator performs reference equality by default
+which is what I should have expected, so I implemented a simple equivalence operator</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">a</span> <span class="ow">and</span> \
+</span><span class='line'>           <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">b</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then I figured there must be an easier way to do something so simple. So I
+looked for what <strong>reflection</strong> methods are available on my new class, and
+found the method <code>vars(object)</code>, which for this thing would return</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">436</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is just what I needed for a very simple equivalence operator</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">vars</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unfortunately, <code>vars(a)</code> doesn&rsquo;t just work on <em>everything</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="nb">vars</span><span class="p">()</span> <span class="n">argument</span> <span class="n">must</span> <span class="n">have</span> <span class="n">__dict__</span> <span class="n">attribute</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So I&rsquo;m assuming <code>vars(a)</code> just calls <code>a.__dict__</code>.</p>
+
+<p>I looked on Google and GitHub and didn&rsquo;t find too many examples of people
+doing this, but one example said</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">and</span> \
+</span><span class='line'>           <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__dict__</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So, until I find a reason not to, my default equality implementation shall be</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">and</span> \
+</span><span class='line'>           <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">vars</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Assuming this is semantically what is desired of class equality, is there any
+reason this is a Bad Way to implement it? Why has no one told me about this?
+It seems too easy, but I guess sometimes things are just simple.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java Inheritance]]></title>
+    <link href="http://ethanp.github.io/blog/2014/05/23/java-inheritance-issue/"/>
+    <updated>2014-05-23T16:06:59-05:00</updated>
+    <id>http://ethanp.github.io/blog/2014/05/23/java-inheritance-issue</id>
+    <content type="html"><![CDATA[<p>I spent quite a while struggling with the Java class declaration syntax, and
+now I am starting to get it.</p>
+
+<h3>Problem simplification</h3>
+
+<p>I started out writing this post because I was <em>totally right</em> and the Java
+compiler was <em>wrong</em>, and so on, but now I have cleared it up and I was wrong
+and the compiler was right after all (surprise!). I was initially intending to
+use this post as a way of getting satisfaction out of how much smarter I am
+than the compiler, and instead I will use this space to explain to the next
+how to answer similar questions. I started by <em>heavily</em> simplifying my issue
+down to its core, and attacking the simplified problem instead of the original
+one with extraneous variables and interconnections. I&rsquo;ve never approached a
+programming problem like that, and let me tell you: seems like it worked. By a
+twist of fate, the new version looks like a LinkedList, that&rsquo;s not what I
+started out doing, but who knows what&rsquo;ll happen when you keep smushing the
+problem from a larger context into a little jar.</p>
+
+<p>First, we have a <code>Base</code>, which holds an element <code>elem</code> of any type, and a
+reference to another <code>Base</code>, quite like a <em>linked list</em>.</p>
+
+<figure class='code'><figcaption><span>Base.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">T</span> <span class="n">elem</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">Base</span><span class="o">(</span><span class="n">T</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">elem</span> <span class="o">=</span> <span class="n">elem</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, we have an <code>Ord</code>, which is a <code>Base</code> that is <code>Comparable</code>. We require
+that the element contained by an <code>Ord</code> is itself comparable, and furthermore
+that the method of comparing <code>Ord</code>s is to compare their respective <code>elem</code>s:</p>
+
+<figure class='code'><figcaption><span>Ord.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Ord</span><span class="o">&lt;</span><span class="n">U</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="n">Ord</span><span class="o">(</span><span class="n">U</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">elem</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works fine, but note the following limitation:</p>
+
+<figure class='code'><figcaption><span>main.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">3</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">4</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">b</span><span class="o">);</span>         <span class="c1">// this works just fine</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// this does not work because a.next is of type Base&lt;Integer&gt;</span>
+</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// this DOES work though because a.elem is of type Integer which is Comparable</span>
+</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After writing and re-writing this blog post over and over, this makes sense
+now. I used to be confused: &ldquo;shouldn&rsquo;t the compiler <em>know</em> that a.next is an
+Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo;</p>
+
+<!-- more -->
+
+
+<p>So I had the following code, which I considered a &ldquo;workaround&rdquo;, where we inform
+the compiler that <code>next</code> is an <code>Ord</code> not a <code>Base</code>.</p>
+
+<figure class='code'><figcaption><span>Ord.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Ord</span><span class="o">&lt;</span><span class="n">U</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="kd">extends</span> <span class="n">Base</span> <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">Ord</span><span class="o">(</span><span class="n">U</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">elem</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It is now quite clear that there is no way the compiler would know your
+intention of having the <code>next</code> component of descendents of <code>Base</code> be (static)
+instances of their own respective classes. In fact, I&rsquo;d bet most of the time
+that&rsquo;s <em>not</em> what people want. But I was blind, and I believe I now see.</p>
+
+<h2>Let&rsquo;s talk about Scala</h2>
+
+<p>Here is the (rough) equivalent to <em>all of that</em> (second Java version) in Scala:</p>
+
+<figure class='code'><figcaption><span>InheritanceTest.scala</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">class</span> <span class="nc">Base</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="k">val</span> <span class="n">elem</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span> <span class="k">val</span> <span class="n">next</span><span class="k">:</span> <span class="kt">Base</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Ord</span><span class="o">[</span><span class="kt">U</span> <span class="k">&lt;%</span> <span class="kt">Ordered</span><span class="o">[</span><span class="kt">U</span><span class="o">]](</span><span class="k">override</span> <span class="k">val</span> <span class="n">elem</span><span class="k">:</span> <span class="kt">U</span><span class="o">,</span> <span class="k">override</span> <span class="k">val</span> <span class="n">next</span><span class="k">:</span> <span class="kt">Ord</span><span class="o">[</span><span class="kt">U</span><span class="o">])</span>
+</span><span class='line'>                        <span class="k">extends</span> <span class="nc">Base</span><span class="o">[</span><span class="kt">U</span><span class="o">](</span><span class="n">elem</span><span class="o">,</span> <span class="n">next</span><span class="o">)</span> <span class="k">with</span> <span class="nc">Ordered</span><span class="o">[</span><span class="kt">Ord</span><span class="o">[</span><span class="kt">U</span><span class="o">]]</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">override</span> <span class="k">def</span> <span class="n">compare</span><span class="o">(</span><span class="n">that</span><span class="k">:</span> <span class="kt">Ord</span><span class="o">[</span><span class="kt">U</span><span class="o">])</span> <span class="k">=</span> <span class="k">this</span><span class="o">.</span><span class="n">elem</span> <span class="n">compare</span> <span class="n">that</span><span class="o">.</span><span class="n">elem</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">object</span> <span class="nc">Run</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Ord</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Ord</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>  <span class="n">println</span><span class="o">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The funny thing about this Scala version is that Intellij actually indicates a
+compiler error, but SBT is quite happy to (correctly) compile it and produce a
+result. This is one of those <em>opportunities</em> to spend forever looking for the
+reason it won&rsquo;t compile, only to find that it compiles just fine.</p>
+
+<p>Note that in the Scala version we were forced to say <code>override</code>, which is
+<em>great</em> because in Java there is no indication that this is an overriden
+field, and no resulting check of whether the override was successful. Of
+course, in this example, no big deal. But what if there were a bunch of
+instance variables that needed to be overridden, and they were private with
+getters and setters, and split across multiple classes, etc.?</p>
+
+<p>The other thing is that in the Scala version we must use a &ldquo;view bound&rdquo; <code>&lt;%</code>
+rather than my first thought, an &ldquo;upper type bound&rdquo; <code>&lt;:</code>. (I put the English
+names of those operators so you can google them. Good luck googling <code>&lt;:</code>
+alone!) In any case, it seems to me that <code>[A &lt;: B]</code> means that <code>&lt;A extends B&gt;</code>, while
+<code>[A &lt;% B]</code> means that <em>either</em> <code>[A &lt;: B]</code> <em>or</em> <code>A</code> has some implicit conversion defined to some type <code>C</code> s.t. <code>[C &lt;: B]</code>, though I&rsquo;m not 100% about that. In our Scala example above <code>&lt;%</code> is necessary because (for example) it is <strong>not</strong> the case that <code>[Int &lt;: Seq[Int]]</code>
+<a href="http://stackoverflow.com/questions/16001010/why-does-int-not-inherit-extend-from-orderedint">because Int has a primitive represenation</a>.</p>
+
+<h2>Extravagant insight</h2>
+
+<p>So in response to my confused pleas for &ldquo;a clean solution&rdquo; (before my epiphany
+for why-it-must-be-so) my roommate came up with a clever scheme to configure
+the type of the <code>next</code> pointer within the class declaration:</p>
+
+<figure class='code'><figcaption><span>Base.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">E</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">T</span> <span class="n">elem</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">E</span> <span class="n">next</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">Base</span><span class="o">(</span><span class="n">T</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">elem</span> <span class="o">=</span> <span class="n">elem</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Ord.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Ord</span><span class="o">&lt;</span><span class="n">U</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">&lt;</span><span class="n">U</span><span class="o">,</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>                            <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Ord</span><span class="o">(</span><span class="n">U</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">elem</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">3</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">4</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// still works, as before</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">b</span><span class="o">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">a</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// NOW WORKS, before it didn&#39;t!</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// still works, as before</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">elem</span><span class="o">));</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For whatever reason, when we put it into my existing code it didn&rsquo;t work and
+we were both totally confused because it makes perfect sense. But now, when I
+put it into my way simplified version, it works! So his idea just went from
+being &ldquo;just clever&rdquo; to being &ldquo;applicably awesome&rdquo;.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Markdown to LaTeX]]></title>
+    <link href="http://ethanp.github.io/blog/2014/05/22/multimarkdown-to-latex/"/>
+    <updated>2014-05-22T20:32:09-05:00</updated>
+    <id>http://ethanp.github.io/blog/2014/05/22/multimarkdown-to-latex</id>
+    <content type="html"><![CDATA[<h3>Installation guide for Mac OSX</h3>
+
+<p>One day, I thought, &ldquo;Wouldn&rsquo;t it be nice to have a Markdown to LaTeX
+converter.&rdquo; Theoretically, one could combine these two tools to quickly create
+beautiful documents. That&rsquo;s how I found <a href="http://fletcherpenney.net/multimarkdown/">Multimarkdown</a> which is basically a
+souped up version of regular markdown. The documentation made it sound like
+this would be a breeze, but it actually took me way to long to get this to
+work on my machine. So I made a step-by-step guide.</p>
+
+<p>For the uninitiated, <a href="http://daringfireball.net/projects/markdown/">Markdown</a> is a simplified way of writing html markup.
+If you don&rsquo;t know about it please check it out. It is in fact how this very
+webpage was created.</p>
+
+<p>Then today I had to install it all over again on a different computer. To
+save my future self and you a lot of trouble, this time I noted what I did to get it to
+work (Mac OSX only).</p>
+
+<!-- more -->
+
+
+<h3>Install a lot of software</h3>
+
+<p>First you must install <a href="http://brew.sh/">homebrew</a> the lifesaving Mac package manager.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ruby -e <span class="s2">&quot;$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you should install multimarkdown et al. by running</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew install multimarkdown pkg-config glib gettext
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;m not sure every one of those is necessary, but I don&rsquo;t have another
+computer to test which ones can be left out. Probably at least the first one
+is necessary.</p>
+
+<p>Now go to the Mac App Store and buy <a href="https://itunes.apple.com/us/app/multimarkdown-composer/id593294811?ls=1&amp;amp;mt=12">MultiMarkdown Composer</a> for $12. Or
+don&rsquo;t, it isn&rsquo;t actually necessary, but I like that it live-renders LaTeX
+equations and has a hotkey for exporting markdown to different formats. You
+can export using the command-line too and that&rsquo;s also quite simple (and
+free) (see below for script).</p>
+
+<p>Install <a href="https://www.tug.org/texworks/">TeXworks</a>. This is a gui for running LaTeX commands, and it&rsquo;s free,
+but again you can use the terminal for anything you can do in here if that&rsquo;s
+your thing.</p>
+
+<h3>Get the base latex installation and multimarkdown template files</h3>
+
+<p>Download the <a href="https://github.com/fletcher/peg-multimarkdown-latex-support/zipball/master">multimarkdown latex support</a> files from github. And put them
+in a (likely <em>new</em>) directory called <code>~/Library/texmf/tex/latex/mmd</code>.
+Personally, I put the files in &hellip;/texmf/tex<strong>t</strong>/latex/&hellip; and that cost me a
+half-hour of my life so do yourself a favor and just copy and paste the
+following command</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p ~/Library/texmf/tex/latex/mmd
+</span><span class='line'>mv myunzipped_latex_support_files ~/Library/texmf/tex/latex/mmd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Install <a href="http://www.tug.org/mactex/">mactex-2013</a>. For whatever amazing reasons, you can&rsquo;t use homebrew
+for this. You have to go to that website, download a 4+ GB file and run the
+installer.</p>
+
+<h3>Create your first latex-ready markdown document</h3>
+
+<p>Now create a file Yayaya.md in Multimarkdown Composer (or Vim or whatever) and
+paste the following header at the top, verbatim:</p>
+
+<pre><code>latex input:        mmd-article-header
+Title:              Hello Dr. Fourier
+Author:             My Name
+Base Header Level:  1
+latex mode:         memoir
+Keywords:           Math, DSP, Digital Signal Processing, Fourier Transform
+CSS:                http://fletcherpenney.net/css/document.css
+xhtml header:       &lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;
+copyright:          2014 My Name
+latex input:        mmd-natbib-plain
+latex input:        mmd-article-begin-doc
+latex footer:       mmd-memoir-footer
+</code></pre>
+
+<p>That was just telling Multimarkdown how to format the LaTeX output. After that paste the actual contents of the document, e.g.</p>
+
+<pre><code># Simpler LaTeXing #
+
+## The Fourier Transform ##
+
+**Sometimes** *this* formula comes in quite handy.
+
+### The Formulation ###
+
+What follows is the formula for the Fourier transform.
+
+\\[FT\{f(x)\}:=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\!f(x)e^{-iwx}dx\\]
+</code></pre>
+
+<p>Then go to <code>file-&gt;export-&gt; "Export as: asdf" , "Format: LaTeX"</code> (or use the script below).</p>
+
+<p>This <em>should</em> have produced the following raw latex file:</p>
+
+<pre><code>\input{mmd-article-header}
+\def\mytitle{Hello Dr. Fourier}
+\def\myauthor{My Name}
+\def\latexmode{memoir}
+\def\keywords{Math, DSP, Digital Signal Processing, Fourier Transform}
+\def\mycopyright{2014 My Name}
+\input{mmd-natbib-plain}
+\input{mmd-article-begin-doc}
+\part{Simpler LaTeXing}
+\label{simplerlatexing}
+
+\chapter{The Fourier Transform}
+\label{thefouriertransform}
+
+\textbf{Sometimes} \emph{this} formula comes in quite handy.
+
+\section{The Formulation}
+\label{theformulation}
+
+What follows is the formula for the Fourier transform.
+
+\[FT\{f(x)\}:=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\!f(x)e^{-iwx}dx\]
+
+\input{mmd-memoir-footer}
+
+\end{document}
+</code></pre>
+
+<p>Open <code>asdf.tex</code> in TeXworks (if you used the script verbatim, it will be in
+<code>~/Desktop/Latex</code>), hit the green &ldquo;play&rdquo; button in the top-left corner. A
+bunch of garbage will pile up in the Console Output area, but then your
+beautiful PDF will have been generated. This is just stellar, I&rsquo;m telling you.
+Now you can open the <code>asdf.pdf</code> file in your favorite pdf viewer.</p>
+
+<h3>Bask in its glory</h3>
+
+<p>How about that. Hmm, indeed.</p>
+
+<h3>Comprehensive troubleshooting guide</h3>
+
+<p>If in the console of TeXworks, you get something like <code>mmd-article-header.tex:
+not found</code>, it means you put the multimarkdown-latex-support files in the
+wrong place or you forgot to download them or something. Because I kept
+getting that error message I was <em>convinced</em> there was some command I needed
+to run to tell mactex that this new directory exists on my machine and
+contains latex templates. Believe: there is no such command, mactex just looks
+in this directory of its own accord.</p>
+
+<h3>Much simpler, use my script</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># open mmd as pdf, saved in ~/Desktop/Latex</span>
+</span><span class='line'><span class="k">function </span>mtx <span class="o">{</span>
+</span><span class='line'>    <span class="nv">TEX_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">&quot;$1&quot;</span> | sed s<span class="s1">&#39;|.md|.tex|&#39;</span><span class="k">)</span>
+</span><span class='line'>    <span class="nv">PDF_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">&quot;$1&quot;</span> | sed s<span class="s1">&#39;|.md|.pdf|&#39;</span><span class="k">)</span>
+</span><span class='line'>    <span class="nv">LATEX_DIR</span><span class="o">=</span>~/Desktop/Latex
+</span><span class='line'>    <span class="nv">TEX_LOC</span><span class="o">=</span><span class="nv">$LATEX_DIR</span>/<span class="s2">&quot;$TEX_NAME&quot;</span>
+</span><span class='line'>    multimarkdown -t latex <span class="s2">&quot;$1&quot;</span> &gt; <span class="s2">&quot;$TEX_LOC&quot;</span>
+</span><span class='line'>    pdflatex --output-directory <span class="s2">&quot;$LATEX_DIR&quot;</span> <span class="s2">&quot;$TEX_LOC&quot;</span> &gt; /dev/null
+</span><span class='line'>    open -a /Applications/Preview.app <span class="s2">&quot;$LATEX_DIR&quot;</span>/<span class="s2">&quot;$PDF_NAME&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This assumes you have a directory on your <code>Desktop</code> called <code>Latex</code>. For now, I&rsquo;m
+comfortable just having that there polluting that desktop. If you&rsquo;re not, you
+can change <code>LATEX_DIR</code>, or add something like the following to the script.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p <span class="s2">&quot;$LATEX_DIR&quot;</span>
+</span><span class='line'>... <span class="c"># create pdf</span>
+</span><span class='line'>rm -rf <span class="s2">&quot;$LATEX_DIR&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You run the script like</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mtx My<span class="se">\ </span>Markdown<span class="se">\ </span>File.md
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and next thing you know, a Preview window opens with your beautiful document.</p>
+
+<p>Then after you&rsquo;ve made changes to the document, run the command again, and the new version will show up in the same window.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Functional Union of Two Sets]]></title>
+    <link href="http://ethanp.github.io/blog/2014/05/16/scala-union-beauty/"/>
+    <updated>2014-05-16T21:01:58-05:00</updated>
+    <id>http://ethanp.github.io/blog/2014/05/16/scala-union-beauty</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m in the 3rd week of <a href="http://www.coursera.org/course/progfun">Functional Programming Principles in Scala</a>
+course on Coursera, taught by Martin Odersky, the creator of Scala. The class
+has been surprisingly awesome so far, but one thing above all struck me as
+impossible: the &ldquo;functional&rdquo; implementation of the <em>union</em> of two immutable
+binary search trees.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="o">((</span><span class="n">left</span> <span class="n">union</span> <span class="n">right</span><span class="o">)</span> <span class="n">union</span> <span class="n">other</span><span class="o">)</span> <span class="n">incl</span> <span class="n">elem</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong><em>WWWHHAATTT??</em></strong></p>
+
+<p>After an intensive investigation, I eventually determined that this operation
+performs what I&rsquo;m calling a <em>&lsquo;post-order insertion&rsquo;</em> of the elements of <code>this</code>
+(non-empty) <code>IntSet</code> into <code>other</code>.</p>
+
+<!-- more -->
+
+
+<p>Ok, you need some context. Odersky defines our <code>IntSet</code> binary search tree as follows:</p>
+
+<h3>Setup</h3>
+
+<figure class='code'><figcaption><span>IntSet</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">trait</span> <span class="nc">IntSet</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">object</span> <span class="nc">Empty</span> <span class="k">extends</span> <span class="nc">IntSet</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="n">other</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="k">val</span> <span class="n">elem</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="k">val</span> <span class="n">left</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">,</span> <span class="k">val</span> <span class="n">right</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">IntSet</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">elem</span><span class="o">)</span> <span class="n">left</span> <span class="n">contains</span> <span class="n">x</span>
+</span><span class='line'>        <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">elem</span><span class="o">)</span> <span class="n">right</span> <span class="n">contains</span> <span class="n">x</span>
+</span><span class='line'>        <span class="k">else</span> <span class="kc">true</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">elem</span><span class="o">)</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">elem</span><span class="o">,</span> <span class="n">left</span> <span class="n">incl</span> <span class="n">x</span><span class="o">,</span> <span class="n">right</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">elem</span><span class="o">)</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">elem</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">right</span> <span class="n">incl</span> <span class="n">x</span><span class="o">)</span>
+</span><span class='line'>        <span class="k">else</span> <span class="k">this</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="o">((</span><span class="n">left</span> <span class="n">union</span> <span class="n">right</span><span class="o">)</span> <span class="n">union</span> <span class="n">other</span><span class="o">)</span> <span class="n">incl</span> <span class="n">elem</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The only thing that&rsquo;s non-obvious is the <em>union</em> method I mentioned above. The
+reader should make sure she understands the other methods before continuing.</p>
+
+<p>At first I wondered, &ldquo;What sort of tree is produced by the union of two
+<code>IntSet</code>?&rdquo; Given fact that the <code>contains</code> method relies on the tree being a
+<em>Binary Search Tree</em>, I wondered how this method could possibly retain the
+sortedness. The short answer is that each element of <code>this</code> is passed through <code>incl</code> to be inserted into <code>other</code>. In the process, I noticed a number of properties of this operation.</p>
+
+<h1>The best explanation I&rsquo;ve got</h1>
+
+<h2>Some preliminary properties of <code>(A union B)</code></h2>
+
+<p>By <strong>post-order insertion</strong>, I mean we do a <a href="http://en.wikipedia.org/wiki/Post-order_traversal">post-order traversal</a>
+of <code>A</code>, inserting each element into <code>B</code>.</p>
+
+<p>First of all, <strong>let &ldquo;<code>int_set</code>&rdquo; be an arbitrary <code>IntSet</code></strong>.</p>
+
+<h4>Prop 1.a:</h4>
+
+<h5><code>(Empty union int_set) == int_set</code></h5>
+
+<p>This is simply the definition of <code>union</code> on <code>Empty</code>.</p>
+
+<h4>Prop 1.b:</h4>
+
+<h5><code>(int_set union Empty)</code> <em>does not neccessarily</em> <code>== int_set</code></h5>
+
+<p><em>Counterexample</em>: the IntSet produced by</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="o">(((</span><span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">))</span> <span class="n">incl</span> <span class="mi">1</span><span class="o">)</span> <span class="n">incl</span> <span class="mi">3</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="../../../../../images/union_lemma_1b.jpg" alt="" /></p>
+
+<h4>Prop 2:</h4>
+
+<h5>Inserting nodes from <code>left</code> into <code>right</code> with the <code>incl</code> method will produce a tree where every element of <code>left</code> is hanging off the left edge of the leftmost element of <code>right</code>.</h5>
+
+<p>We know every element of <code>right</code> is greater than every element of <code>left</code>.
+Therefore each element being added to <code>right</code> from <code>left</code> will travel strictly
+leftwards through the <code>right</code> tree before being deposited.</p>
+
+<h4>Prop 3:</h4>
+
+<h5><code>other</code> is left fully intact in the returned <code>IntSet</code></h5>
+
+<p>Recall that <code>other</code> is the <code>IntSet</code> operand on the right side of the <code>union</code> operator.
+<em>This is explained below.</em></p>
+
+<h2>Watch the operation unfold (<em>this is the meat</em>)</h2>
+
+<p>Let&rsquo;s think of the <code>union</code> operator in terms of how it get&rsquo;s rewritten.</p>
+
+<ul>
+<li><strong>a U b</strong></li>
+<li><strong>((a.left U a.right) U b) incl a.elem</strong>, a substitution of the formula</li>
+<li><strong>(a1 U b) incl a.head</strong>, a rewrite, letting <strong>a.left U a.right := a1</strong></li>
+<li><strong>(((a1.left U a1.right) U b) incl a1.elem) incl a.elem</strong>, by substituting the formula</li>
+<li><strong>((a2 U b) incl a1.elem) incl a.elem</strong>, letting <strong>a1.left U a1.right := a2</strong></li>
+<li>repeat as necessary</li>
+</ul>
+
+
+<h4>So from these few steps we can already see quite a few important things:</h4>
+
+<ol>
+<li>We keep removing one element from <code>IntSet a</code>, and prepending it to a list of single <code>elem</code> to <code>incl</code> into <code>IntSet b</code>.</li>
+<li>So now it is clear that what this function does, is one-by-one <code>incl</code> <code>elem</code> of <code>this</code> into <code>other</code>. This gives us <em>Prop 3</em> above.</li>
+</ol>
+
+
+<h4>What remains to be determined is the <em>order</em> in which these <code>incl</code> occur.</h4>
+
+<ol>
+<li><strong>a.elem</strong> will be the <em>last</em> element included</li>
+<li><strong>a1.elem</strong> will be the <em>second to last</em> element included</li>
+<li>By <em>Prop 3</em> which was demonstrated just a minute ago, <strong>a1.elem</strong> is the root
+node of <strong>a.right</strong></li>
+<li>Now the <em>post-order algorithm</em> goes <em>left, right, root</em>; and we&rsquo;ve got <em>???,
+right, root</em>.</li>
+<li>Instead of spending forever demonstrating why <em>???</em> shall be filled in with left, I&rsquo;ll simply point out that:
+
+<ol>
+<li>In our counterexample demonstration of <em>Prop 1.b</em> above, the root follows the right follows the left.</li>
+<li>There&rsquo;s simply no other element to choose from in a <code>NonEmpty</code> <code>IntSet</code>.</li>
+</ol>
+</li>
+</ol>
+
+
+<h1>Short example of union in action</h1>
+
+<p><img src="../../../../../images/IMG_0945.jpg" alt="" /></p>
+
+<p>Perhaps the notation of this example is a bit hard to parse. Well ain&rsquo;t it
+darn <em>fortuitous</em> that I&rsquo;m here to explain it.</p>
+
+<ol>
+<li><p>At the very top we have a restatement of the formula to be applied upon
+taking the union of two <code>IntSet</code>.</p></li>
+<li><p>Next we have the two <code>IntSet</code> we&rsquo;d like to find the union <em>of</em>, named <code>A</code>
+and <code>B</code>. <code>A</code> references a 3-element Binary Tree containing (3, 5, 7), and
+<code>B</code> references a Tree containing (6, 7, 8).</p></li>
+<li><p>Next we substitute <code>A U B</code> into the equation at the top to give us a
+<strong>problem of reduction</strong> with three components. If we were to define the
+operators to associate to the left we could remove the parentheses, but I
+don&rsquo;t know if that&rsquo;s legal, in Scala or in Math.</p></li>
+<li><p>By following the <em>order of operations</em>, we first determine the result of
+the inner-most parentheses, and proceed outwards, which leaves us the
+desired result.</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="I read a great article by Jay Kreps, one of the dudes who brought you Apache
-Kafka. The article is called The Log: What every software engineer &hellip;">
+  <meta name="description" content="Disclaimer: This post only claims to represent my current understanding
+of the workings of the HotSpot VM&rsquo;s garbage collector. This &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,75 @@ Kafka. The article is called The Log: What every software engineer &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/">Brief Overview of Garbage Collection in the HotSpot JVM</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-08T20:50:33-05:00" pubdate data-updated="true">Jun 8<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Disclaimer:</strong> This post only claims to represent my <em>current understanding</em>
+of the workings of the HotSpot VM&rsquo;s garbage collector. This understanding comes
+from reading the <em>references</em> listed below, as well as making some assumptions.
+It is not necessarily fully correct.</p>
+
+<h3>Brief Overview</h3>
+
+<p><strong>The garbage collector <em>separates the heap into 5 sections of 4 types</em>.</strong> I
+don&rsquo;t know whether these spaces are &ldquo;virtual&rdquo; (i.e. remapped to discontiguous
+&ldquo;pages&rdquo; like Linux&rsquo;s <em>virtual memory addresses</em>) or not. I suspect they are
+<em>not</em>.</p>
+
+<ol>
+<li><strong>Eden</strong> &mdash; where objects go when they&rsquo;re first allocated in the running
+program</li>
+<li><strong>Survivors 1 &amp; 2</strong> a.k.a. &ldquo;young space&rdquo; &mdash; objects in Eden are moved here
+if they survive a minor (&ldquo;young&rdquo;) GC</li>
+<li><strong>Tenured</strong> (a.k.a. <strong>Old</strong>) &mdash; long-lived objects (that have survived [a
+configurable number of] minor GCs) are moved and then live in here
+
+<ul>
+<li>We can tell the JVM to allocate all objects larger than <code>n</code> bytes
+directly into the <em>old</em> space.</li>
+</ul>
+</li>
+<li><strong>Permanent</strong> &mdash; this is where the JVM&rsquo;s own objects live (e.g. classes and
+JITed code). It behaves just like the <em>tenured</em> space.</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/05/29/summary-of-the-log/">Summary of &#8216;the Log&#8217;</a></h1>
     
     
@@ -90,7 +159,7 @@ Kafka. The article is called The Log: What every software engineer &hellip;">
   
 
 
-<time datetime="2015-05-29T20:57:16-07:00" pubdate data-updated="true">May 29<span>th</span>, 2015</time>
+<time datetime="2015-05-29T22:57:16-05:00" pubdate data-updated="true">May 29<span>th</span>, 2015</time>
         
       </p>
     
@@ -156,7 +225,7 @@ suggests</p>
   
 
 
-<time datetime="2015-05-18T17:28:49-07:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
+<time datetime="2015-05-18T19:28:49-05:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
         
       </p>
     
@@ -220,7 +289,7 @@ teacher:
   
 
 
-<time datetime="2015-05-18T17:24:37-07:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
+<time datetime="2015-05-18T19:24:37-05:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
         
       </p>
     
@@ -330,7 +399,7 @@ that didn&rsquo;t work. I guess different ones work for different situations.</p
   
 
 
-<time datetime="2015-05-03T19:27:36-07:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
+<time datetime="2015-05-03T21:27:36-05:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
         
       </p>
     
@@ -395,7 +464,7 @@ fairly regularly when talking amongst machines.</p>
   
 
 
-<time datetime="2015-05-03T19:18:38-07:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
+<time datetime="2015-05-03T21:18:38-05:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
         
       </p>
     
@@ -459,7 +528,7 @@ feels compelled to respond (while still multi-tasking).</p>
   
 
 
-<time datetime="2014-06-29T17:32:24-07:00" pubdate data-updated="true">Jun 29<span>th</span>, 2014</time>
+<time datetime="2014-06-29T19:32:24-05:00" pubdate data-updated="true">Jun 29<span>th</span>, 2014</time>
         
       </p>
     
@@ -515,7 +584,7 @@ feels compelled to respond (while still multi-tasking).</p>
   
 
 
-<time datetime="2014-05-23T14:06:59-07:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
+<time datetime="2014-05-23T16:06:59-05:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
         
       </p>
     
@@ -660,7 +729,7 @@ Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo
   
 
 
-<time datetime="2014-05-22T18:32:09-07:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
+<time datetime="2014-05-22T20:32:09-05:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
         
       </p>
     
@@ -716,7 +785,7 @@ work (Mac OSX only).</p>
   
 
 
-<time datetime="2014-05-16T19:01:58-07:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
+<time datetime="2014-05-16T21:01:58-05:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
         
       </p>
     
@@ -751,54 +820,9 @@ performs what I&rsquo;m calling a <em>&lsquo;post-order insertion&rsquo;</em> of
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/14/octopress/">Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-14T18:00:02-07:00" pubdate data-updated="true">May 14<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Introduction</h3>
-
-<p>My hope is that this website shall become a place where stuff I&rsquo;ve been up to
-and thinking about gets documented. The plan is for it to also have tutorials
-on how to do things, especially if I could not find a good explanation for
-myself. I&rsquo;m a man of few words, so it may start out a little forced and
-certainly not well written; that&rsquo;s okay though.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/14/octopress/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -813,6 +837,10 @@ certainly not well written; that&rsquo;s okay though.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary/">A Pattern in the Stone: Review and Summary</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/">A Workflow and Scripts for Learning From Github</a>
       </li>
     
@@ -821,15 +849,11 @@ certainly not well written; that&rsquo;s okay though.</p>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/08/05/further-adventures-in-collaboration/">Further Adventures in Collaboration</a>
+        <a href="/blog/2015/08/06/further-adventures-in-collaboration/">Further Adventures in Collaboration</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/07/28/what-is-an-abstraction/">What Is an Abstraction</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/28/what-makes-a-good-abstraction/">What Makes a Good Abstraction</a>
+        <a href="/blog/2015/07/29/what-is-an-abstraction/">What Is an Abstraction</a>
       </li>
     
   </ul>

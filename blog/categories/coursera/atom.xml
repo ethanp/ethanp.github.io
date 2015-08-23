@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Coursera | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/coursera/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A Functional Union of Two Sets]]></title>
+    <link href="http://ethanp.github.io/blog/2014/05/16/scala-union-beauty/"/>
+    <updated>2014-05-16T21:01:58-05:00</updated>
+    <id>http://ethanp.github.io/blog/2014/05/16/scala-union-beauty</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m in the 3rd week of <a href="http://www.coursera.org/course/progfun">Functional Programming Principles in Scala</a>
+course on Coursera, taught by Martin Odersky, the creator of Scala. The class
+has been surprisingly awesome so far, but one thing above all struck me as
+impossible: the &ldquo;functional&rdquo; implementation of the <em>union</em> of two immutable
+binary search trees.</p>
+
+<p><code>scala
+def union(other: IntSet) = ((left union right) union other) incl elem
+</code></p>
+
+<p><strong><em>WWWHHAATTT??</em></strong></p>
+
+<p>After an intensive investigation, I eventually determined that this operation
+performs what I&rsquo;m calling a <em>&lsquo;post-order insertion&rsquo;</em> of the elements of <code>this</code>
+(non-empty) <code>IntSet</code> into <code>other</code>.</p>
+
+<!-- more -->
+
+
+<p>Ok, you need some context. Odersky defines our <code>IntSet</code> binary search tree as follows:</p>
+
+<h3>Setup</h3>
+
+<p>``` scala IntSet
+trait IntSet {</p>
+
+<pre><code>def contains(x: Int): Boolean
+def incl(x: Int): IntSet
+def union(other: IntSet): IntSet
+</code></pre>
+
+<p>}</p>
+
+<p>object Empty extends IntSet {</p>
+
+<pre><code>def contains(x: Int) = false
+def incl(x: Int) = new NonEmpty(x, Empty, Empty)
+def union(other: IntSet) = other
+</code></pre>
+
+<p>}</p>
+
+<p>class NonEmpty(val elem: Int, val left: IntSet, val right: IntSet) extends IntSet {</p>
+
+<pre><code>def contains(x: Int) =
+    if (x &lt; elem) left contains x
+    else if (x &gt; elem) right contains x
+    else true
+
+def incl(x: Int) =
+    if (x &lt; elem) new NonEmpty(elem, left incl x, right)
+    else if (x &gt; elem) new NonEmpty(elem, left, right incl x)
+    else this
+
+def union(other: IntSet) = ((left union right) union other) incl elem
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The only thing that&rsquo;s non-obvious is the <em>union</em> method I mentioned above. The
+reader should make sure she understands the other methods before continuing.</p>
+
+<p>At first I wondered, &ldquo;What sort of tree is produced by the union of two
+<code>IntSet</code>?&rdquo; Given fact that the <code>contains</code> method relies on the tree being a
+<em>Binary Search Tree</em>, I wondered how this method could possibly retain the
+sortedness. The short answer is that each element of <code>this</code> is passed through <code>incl</code> to be inserted into <code>other</code>. In the process, I noticed a number of properties of this operation.</p>
+
+<h1>The best explanation I&rsquo;ve got</h1>
+
+<h2>Some preliminary properties of <code>(A union B)</code></h2>
+
+<p>By <strong>post-order insertion</strong>, I mean we do a <a href="http://en.wikipedia.org/wiki/Post-order_traversal">post-order traversal</a>
+of <code>A</code>, inserting each element into <code>B</code>.</p>
+
+<p>First of all, <strong>let &ldquo;<code>int_set</code>&rdquo; be an arbitrary <code>IntSet</code></strong>.</p>
+
+<h4>Prop 1.a:</h4>
+
+<h5><code>(Empty union int_set) == int_set</code></h5>
+
+<p>This is simply the definition of <code>union</code> on <code>Empty</code>.</p>
+
+<h4>Prop 1.b:</h4>
+
+<h5><code>(int_set union Empty)</code> <em>does not neccessarily</em> <code>== int_set</code></h5>
+
+<p><em>Counterexample</em>: the IntSet produced by</p>
+
+<p><code>scala
+(((new NonEmpty(2, Empty, Empty)) incl 1) incl 3)
+</code></p>
+
+<p><img src="../../../../../images/union_lemma_1b.jpg" alt="" /></p>
+
+<h4>Prop 2:</h4>
+
+<h5>Inserting nodes from <code>left</code> into <code>right</code> with the <code>incl</code> method will produce a tree where every element of <code>left</code> is hanging off the left edge of the leftmost element of <code>right</code>.</h5>
+
+<p>We know every element of <code>right</code> is greater than every element of <code>left</code>.
+Therefore each element being added to <code>right</code> from <code>left</code> will travel strictly
+leftwards through the <code>right</code> tree before being deposited.</p>
+
+<h4>Prop 3:</h4>
+
+<h5><code>other</code> is left fully intact in the returned <code>IntSet</code></h5>
+
+<p>Recall that <code>other</code> is the <code>IntSet</code> operand on the right side of the <code>union</code> operator.
+<em>This is explained below.</em></p>
+
+<h2>Watch the operation unfold (<em>this is the meat</em>)</h2>
+
+<p>Let&rsquo;s think of the <code>union</code> operator in terms of how it get&rsquo;s rewritten.</p>
+
+<ul>
+<li><strong>a U b</strong></li>
+<li><strong>((a.left U a.right) U b) incl a.elem</strong>, a substitution of the formula</li>
+<li><strong>(a1 U b) incl a.head</strong>, a rewrite, letting <strong>a.left U a.right := a1</strong></li>
+<li><strong>(((a1.left U a1.right) U b) incl a1.elem) incl a.elem</strong>, by substituting the formula</li>
+<li><strong>((a2 U b) incl a1.elem) incl a.elem</strong>, letting <strong>a1.left U a1.right := a2</strong></li>
+<li>repeat as necessary</li>
+</ul>
+
+
+<h4>So from these few steps we can already see quite a few important things:</h4>
+
+<ol>
+<li>We keep removing one element from <code>IntSet a</code>, and prepending it to a list of single <code>elem</code> to <code>incl</code> into <code>IntSet b</code>.</li>
+<li>So now it is clear that what this function does, is one-by-one <code>incl</code> <code>elem</code> of <code>this</code> into <code>other</code>. This gives us <em>Prop 3</em> above.</li>
+</ol>
+
+
+<h4>What remains to be determined is the <em>order</em> in which these <code>incl</code> occur.</h4>
+
+<ol>
+<li><strong>a.elem</strong> will be the <em>last</em> element included</li>
+<li><strong>a1.elem</strong> will be the <em>second to last</em> element included</li>
+<li>By <em>Prop 3</em> which was demonstrated just a minute ago, <strong>a1.elem</strong> is the root
+node of <strong>a.right</strong></li>
+<li>Now the <em>post-order algorithm</em> goes <em>left, right, root</em>; and we&rsquo;ve got <em>???,
+right, root</em>.</li>
+<li>Instead of spending forever demonstrating why <em>???</em> shall be filled in with left, I&rsquo;ll simply point out that:
+
+<ol>
+<li>In our counterexample demonstration of <em>Prop 1.b</em> above, the root follows the right follows the left.</li>
+<li>There&rsquo;s simply no other element to choose from in a <code>NonEmpty</code> <code>IntSet</code>.</li>
+</ol>
+</li>
+</ol>
+
+
+<h1>Short example of union in action</h1>
+
+<p><img src="../../../../../images/IMG_0945.jpg" alt="" /></p>
+
+<p>Perhaps the notation of this example is a bit hard to parse. Well ain&rsquo;t it
+darn <em>fortuitous</em> that I&rsquo;m here to explain it.</p>
+
+<ol>
+<li><p>At the very top we have a restatement of the formula to be applied upon
+taking the union of two <code>IntSet</code>.</p></li>
+<li><p>Next we have the two <code>IntSet</code> we&rsquo;d like to find the union <em>of</em>, named <code>A</code>
+and <code>B</code>. <code>A</code> references a 3-element Binary Tree containing (3, 5, 7), and
+<code>B</code> references a Tree containing (6, 7, 8).</p></li>
+<li><p>Next we substitute <code>A U B</code> into the equation at the top to give us a
+<strong>problem of reduction</strong> with three components. If we were to define the
+operators to associate to the left we could remove the parentheses, but I
+don&rsquo;t know if that&rsquo;s legal, in Scala or in Math.</p></li>
+<li><p>By following the <em>order of operations</em>, we first determine the result of
+the inner-most parentheses, and proceed outwards, which leaves us the
+desired result.</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

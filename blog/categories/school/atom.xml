@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: School | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/school/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Simulating a Distributed System]]></title>
+    <link href="http://ethanp.github.io/blog/2015/05/18/simulating-a-distributed-system/"/>
+    <updated>2015-05-18T19:24:37-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/05/18/simulating-a-distributed-system</id>
+    <content type="html"><![CDATA[<p>For my Distributed Computing class at school, there were 3 projects that each
+involved implementing a distributed protocol over a simulated distributed
+cluster of computers that are only &lsquo;connected&rsquo; to one another in that they know
+each other&rsquo;s IP address and must communicate over TCP sockets. For each of the
+3 projects, I had a <em>completely</em> different method of implementing the system.</p>
+
+<h3>Implementation One: A True Distributed System in Vanilla Java</h3>
+
+<p>The first project (Three Phase Commit) was the only one for which I worked with
+a partner. We were unclear how to attack the problem of building a distributed
+system in a simple way, so we went ahead and implemented a truly distributable
+Java application, in which you could spin up processes on any computer and it
+would connect in to the master server, who would tell the new node the
+listening ports of other servers in the cluster manually, etc. This turned out
+to be perhaps overly ambitious. When a node was expecting a message from
+someone else, it would fire a timer thread, which on completion would report to
+the master to restart the failed process. This system did work properly
+(somehow) but it seemed to be living-on-the-edge. It also required two weeks of
+a lot of working on it and learning aspects of Java, unit testing, mocks, which
+<code>Exception</code> would get thrown by which network event &amp; when, etc.</p>
+
+<h3>Implementation Two: Lightweight System Simulation</h3>
+
+<p>For the second project (Paxos), I said &ldquo;Hooey&rdquo; to all the Java hubbub, which
+while I enjoyed its low-level-ness, forcing me to peak further under the hood,
+it required a larger time commitment than I was prepared to make. I realized
+that my class&rsquo;s requirements only specified that system &ldquo;nodes&rdquo; run
+concurrently, share no memory, and talk over TCP. So in Scala, I made a <code>Node</code>
+class state machine, and ran different instances of it on separate threads.
+This was too easy though, and I was disappointed to find my implementation
+complete more than two weeks before the due date.</p>
+
+<h3>Implementation Three: Akka Cluster</h3>
+
+<p>Akka Cluster is a Scala-based framework for building a distributed system, in
+which you define the address of a set of &ldquo;seed&rdquo; nodes, of whom at least one is
+supposed be available at all times. Then when other nodes start up, they become
+a &ldquo;member&rdquo; of the cluster by contacting any seed node. So for me (the &ldquo;client&rdquo;
+of Akka Cluster), all there is left to do is define the protocol to run on top
+of the cluster. (In this case the protocol was the simple eventually-consistent
+database protocol &ldquo;Bayou&rdquo;.)</p>
+
+<p>Akka nodes follow the &ldquo;Actor Model&rdquo;, meaning they share no state with any other
+part of your program, making them &ldquo;simple&rdquo; to run on remote machines (I didn&rsquo;t
+try that, the docs say it is easy though). The only way actors can communicate
+is via message passing, for which there is a dedicated syntax, <code>!</code>. For
+example:</p>
+
+<p><code>scala
+case class MyMessage(data: DataElem)
+anotherActor ! MyMessage(theData)
+</code></p>
+
+<p>The code above would have the actor running this code, send <code>anotherActor</code> an
+instance of the case class <code>MyMessage</code> with the <code>DataElem</code> that was passed in.</p>
+
+<p>Inter-actor communcation is guaranteed <em>FIFO</em> by Akka, meaning that for any
+pair of actors <code>A, B</code>, if <code>A</code> sends <code>n</code> messages to <code>B</code>, <code>B</code> will receive those
+messages in the same order that <code>A</code> sent them. NB this says nothing about the
+order with respect to other actors in the system.</p>
+
+<p>Using Akka trivialized all sorts of implementation details I&rsquo;d had to worry
+about in the first project, and then ignored for the second project.</p>
+
+<p>If there had been a 4th project for this class, it&rsquo;s clear to me that I would
+use Akka again. For some reason my code ran <em>very</em> slowly, and it probably had
+to do with some configuration-setting that I did not set in the Akka config
+file. That was really the only problem I had that I did not fix. One problem I
+did fix that took a while, was figuring out a good way to shut the system down.
+There were various options discussed online, and eventually I found one that
+worked for me, which was to call <code>system.shutdown()</code> on every instance System I
+instantiate. Another option was to send <code>self ! PoisonPill</code> but for some reason
+that didn&rsquo;t work. I guess different ones work for different situations.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Asynchronous System]]></title>
+    <link href="http://ethanp.github.io/blog/2015/05/03/asynchronous-system/"/>
+    <updated>2015-05-03T21:27:36-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/05/03/asynchronous-system</id>
+    <content type="html"><![CDATA[<p>Before taking a Distributed Computing course at school, I had written for
+various program environments:</p>
+
+<ol>
+<li>a script that trains a neural network to recognize whether an English
+sentence is grammatical</li>
+<li>an iOS app that involves a fair bit of multi-threading</li>
+<li>a command line interpreter that forks and runs commands as background
+processes</li>
+<li>the Raft distributed consensus protocol inside a professor’s multi-threaded
+distributed system simulator</li>
+<li>some asynchronous features for a simplified database system where threads
+communicate solely via Java’s <code>PipedInputStreams</code> instead of using shared
+variables</li>
+</ol>
+
+
+<p>Perhaps you are familiar with these situations, and like me thought they might
+be “distributed”. Reality check: they’re not. Similarly, in a distributed
+system, one has multiple “threads” processing data at once. However,
+these “threads” may be each on different machines; this adds some complexity.
+None of the situations outlined above have the sort of issues one can expect
+fairly regularly when talking amongst machines.</p>
+
+<h3>Different machines don’t share</h3>
+
+<!-- more -->
+
+
+<ol>
+<li>heap space</li>
+<li>scheduler</li>
+<li>clock time (i.e. at any moment each machine&rsquo;s &ldquo;watch&rdquo; reads a different
+time)</li>
+<li>clock tick speed (i.e. clock time&rsquo;s &ldquo;drift&rdquo; apart from one another)</li>
+<li>stable storage</li>
+<li>etc.</li>
+</ol>
+
+
+<h3>They can’t differentiate between friends in any of the following states</h3>
+
+<ol>
+<li>dead</li>
+<li>became slow</li>
+<li>the network literally broke down between the two</li>
+<li>the network become slow between the two</li>
+</ol>
+
+
+<p>This is because all they know is &ldquo;I&rsquo;ve sent my buddy a message and have yet to
+hear back.&rdquo;</p>
+
+<h2>If you told me all this, my response might be:</h2>
+
+<blockquote><p>Why not just run your program under the expectation things will work, and
+hope for the best?</p></blockquote>
+
+<h3>The answer (as far as I can guess) is several fold:</h3>
+
+<ol>
+<li>“If you are the company who has figured out a better answer than ‘hoping
+for the best,’ people will pay you for access to your software” &mdash; Adam
+Smith</li>
+<li>Your Users will be <em>very</em> pissed if their stuff seems to randomly
+disappear; even if it only happens to a few of them every once in a while.
+
+<ul>
+<li>This becomes especially likely if you have a lot of users with a lot of
+data</li>
+</ul>
+</li>
+<li>You’re going to have to be super-over-cautious about not losing important
+data. It would be great to speed things up in such a way that you&rsquo;re still
+not losing any important data, but also not wasting time being overly
+cautious.</li>
+</ol>
+
+
+<p>For the research community, the method they have derived for coming up with
+better solutions than the never-failing “hope for the best,” is <strong>formalism</strong>.
+By giving ideas with a lot of moving parts names, they simplify the task of
+using the human brain to derive solutions. The most important formalism is the
+<strong>asynchronous model</strong>.</p>
+
+<h2>The Setting: Asynchronous Message-Passing and Assumptions</h2>
+
+<p>In an <strong>asynchronous system</strong> (as opposed to a <em>synchronous</em> one), a few
+properties of the system are explicitly assumed. The basic assumptions are
+listed above under the names <strong>“Different machines don’t share”</strong> and <strong>“They
+can’t differentiate between when each another machine has done any of the
+following”</strong>.</p>
+
+<p>However, in an effort to always find the simplest solution under the smallest
+set of assumptions possible, different authors use variations on the above
+assumptions. Commonly they will say something like &ldquo;channels are reliable&rdquo;, by
+which they mean the network connection between any two nodes will always
+<em>eventually</em> transmit every message it is asked to. The word <em>eventually</em> is
+thrown around a lot, and it means there is some time before <em>never</em> when it
+will happen.</p>
+
+<p>By adding additional assumptions (e.g. &ldquo;packets sent between any pair of
+processes cannot be reordered en route&rdquo;) simpler solutions can often be found.
+By removing assumptions, upper bounds can be established on the costs of
+solving certain problems.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Intro to Distributed Computing]]></title>
+    <link href="http://ethanp.github.io/blog/2015/05/03/intro-to-distributed-computing/"/>
+    <updated>2015-05-03T21:18:38-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/05/03/intro-to-distributed-computing</id>
+    <content type="html"><![CDATA[<p>This semester I have been taking Distributed Computing with Professor Lorenzo
+Alvisi. Distributed computing has been something I have been curious about for
+a long time, and aside from writing some MapReduce jobs during a summer
+internship 2 summers ago, I had no real experience thinking about distributed
+systems. The class was very enjoyable.</p>
+
+<p>The main lesson was that <strong>distributed systems are very flaky places</strong>, but you
+can arrive at some <strong>surpringly simple solutions</strong> to most of the problems once
+you find a better way of expressing what you really want. The other main lesson
+was that <strong>finding a better way of expressing what you really want can be a
+confusing</strong> thing to do.</p>
+
+<h2>Scenario 1: “Two Generals’ Problem”</h2>
+
+<p>Persons 1 and 2 would like to be sure that both agreed on a time to
+meet, but neither can tell whether the other is listening to what is being
+said.</p>
+
+<blockquote><p>Person 1: Let’s meet up at 2:00pm</p></blockquote>
+
+<p>Now person 1 doesn’t know whether person 2 was listening though. So person 2
+feels compelled to respond (while still multi-tasking).</p>
+
+<blockquote><p>Person 2: Yeah</p></blockquote>
+
+<!-- more -->
+
+
+<p>Now person 1 knows 2 heard, but 2 doesn’t know whether 1 trusts him. So person
+1 feels compelled to respond (in a very serious tone).</p>
+
+<blockquote><p>Person 1: OK, great.</p></blockquote>
+
+<p>Now person 1 doesn’t know whether person 2 was listening though. So person 2
+feels compelled to respond (while still text-messaging).</p>
+
+<blockquote><p>Person 2: Cool.</p></blockquote>
+
+<p>Now person 1 knows 2 heard, but 2 doesn’t know whether 1 trusts him. So person
+1 feels compelled …</p>
+
+<p><strong>This situation never resolves itself</strong> in a way satisfactory to both
+individuals, so either they’ll stand there doing this until 2:00pm, or they’ll
+give up and both skip the meeting because each was never <em>sure</em> the other had
+really agreed to go.</p>
+
+<h3>Take Away:</h3>
+
+<p>Think about it: when you text-message someone, you don’t know whether</p>
+
+<ol>
+<li>they’ve received the text yet (maybe they haven&rsquo;t looked at their phone)</li>
+<li>they’ll ever receive the text (there could be some “cell-phone issue”)</li>
+<li>they’re going to properly act on it even if they did receive it, or</li>
+<li>they’ve literally died since you last heard from them [unlikely but
+certainly possible].</li>
+</ol>
+
+
+<p>What makes things especially difficult is that the other person has the exact
+same problem when they’re texting to you. This means that even if you got the
+message, they don’t know that you got it. And so you can try to reassure them,
+and then they will know that you got it, but you still don’t know if they know
+that you get it. And that circle goes on forever.</p>
+]]></content>
+  </entry>
+  
+</feed>

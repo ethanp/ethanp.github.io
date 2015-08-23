@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: JVM | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/jvm/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-08-23T17:00:37-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Brief Overview of Garbage Collection in the HotSpot JVM]]></title>
+    <link href="http://ethanp.github.io/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/"/>
+    <updated>2015-06-08T20:50:33-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm</id>
+    <content type="html"><![CDATA[<p><strong>Disclaimer:</strong> This post only claims to represent my <em>current understanding</em>
+of the workings of the HotSpot VM&rsquo;s garbage collector. This understanding comes
+from reading the <em>references</em> listed below, as well as making some assumptions.
+It is not necessarily fully correct.</p>
+
+<h3>Brief Overview</h3>
+
+<p><strong>The garbage collector <em>separates the heap into 5 sections of 4 types</em>.</strong> I
+don&rsquo;t know whether these spaces are &ldquo;virtual&rdquo; (i.e. remapped to discontiguous
+&ldquo;pages&rdquo; like Linux&rsquo;s <em>virtual memory addresses</em>) or not. I suspect they are
+<em>not</em>.</p>
+
+<ol>
+<li><strong>Eden</strong> &mdash; where objects go when they&rsquo;re first allocated in the running
+program</li>
+<li><strong>Survivors 1 &amp; 2</strong> a.k.a. &ldquo;young space&rdquo; &mdash; objects in Eden are moved here
+if they survive a minor (&ldquo;young&rdquo;) GC</li>
+<li><strong>Tenured</strong> (a.k.a. <strong>Old</strong>) &mdash; long-lived objects (that have survived [a
+configurable number of] minor GCs) are moved and then live in here
+
+<ul>
+<li>We can tell the JVM to allocate all objects larger than <code>n</code> bytes
+directly into the <em>old</em> space.</li>
+</ul>
+</li>
+<li><strong>Permanent</strong> &mdash; this is where the JVM&rsquo;s own objects live (e.g. classes and
+JITed code). It behaves just like the <em>tenured</em> space.</li>
+</ol>
+
+
+<!-- more -->
+
+
+<p>The GC is arranged &ldquo;generationally&rdquo; because (according to the &ldquo;<strong>generational
+hypothesis</strong>&rdquo;) it is assumed the longer objects live, the longer into the
+future their life expectancy is. So if we move the older objects into a
+separate bin, we can do quick, efficient, lucrative &ldquo;minor GCs&rdquo; in which we
+only garbage collect from Eden and the Survivor spaces.</p>
+
+<p><strong>Minor GC</strong> is triggered <em>when Eden becomes full</em>. It uses the root references
+to collect the reference set, and moves all live objects from Eden and one
+survivor space into the other survivor space (a.k.a. &ldquo;mark-and-sweep&rdquo;. I guess
+this means we&rsquo;re physically moving the object in RAM because we have to update
+all the objects references to the new location.</p>
+
+<p><strong>Root references</strong> for minor GC are from the stack (I think this means entire
+stacks for all running threads) and old space. HotSpot uses &ldquo;dirty cards&rdquo; as an
+optimization to not have to trace through references from all members of the
+old space, only the modified ones.</p>
+
+<p><strong>Full GC</strong> would <em>intuitively</em> be triggered by running out of space in the
+&ldquo;tenured&rdquo; or &ldquo;permanent&rdquo; bins, but this is not <em>necessarily</em> the case.</p>
+
+<h4>References</h4>
+
+<ul>
+<li><a href="http://blog.griddynamics.com/2011/06/understanding-gc-pauses-in-jvm-hotspots.html">Grid Dynamics</a></li>
+<li><a href="http://www.cubrid.org/blog/dev-platform/understanding-java-garbage-collection/">Cubrid Blog</a></li>
+<li><a href="http://stackoverflow.com/questions/9546392/">StOve</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
