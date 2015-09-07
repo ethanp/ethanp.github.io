@@ -48,7 +48,7 @@
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/06/10/what-akamai-does/</loc>
-        <lastmod>2015-06-10T22:27:59-05:00</lastmod>
+        <lastmod>2015-08-23T17:01:18-05:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/06/20/first-look-at-mongodb/</loc>
@@ -88,7 +88,11 @@
         <loc>
             http://ethanp.github.io/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary/
         </loc>
-        <lastmod>2015-08-23T17:00:08-05:00</lastmod>
+        <lastmod>2015-08-23T17:01:21-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://ethanp.github.io/blog/2015/09/07/basics-of-wireless-communication/</loc>
+        <lastmod>2015-09-07T18:42:38-05:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/about/</loc>
@@ -96,11 +100,11 @@
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/archives/</loc>
-        <lastmod>2015-08-23T17:00:08-05:00</lastmod>
+        <lastmod>2015-09-07T18:42:38-05:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/</loc>
-        <lastmod>2015-08-23T17:00:08-05:00</lastmod>
+        <lastmod>2015-09-07T18:42:38-05:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/portfolio/</loc>

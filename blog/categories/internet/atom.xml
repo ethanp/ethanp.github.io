@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Internet | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/internet/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-08-23T17:00:37-05:00</updated>
+  <updated>2015-09-07T18:43:05-05:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,79 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Basics of Wireless Communication]]></title>
+    <link href="http://ethanp.github.io/blog/2015/09/07/basics-of-wireless-communication/"/>
+    <updated>2015-09-07T17:45:58-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/09/07/basics-of-wireless-communication</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been doing the readings for my <a href="http://www.cs.utexas.edu/~lili/classes/F15-CS386W/">Wireless Networking course</a> at
+UTexas, and in the process have dug into much of the basics of radios and
+networks that I had ignored in the past. Here, I will try briefly describe what
+I have learned. Maybe not everything I will say here is exactly correct, but I
+think it&rsquo;s at least <em>mostly</em> correct.</p>
+
+<p>Let&rsquo;s try to start somewhere near the beginning. Our <strong>goal</strong> is to transfer a
+<em>information</em> from one location <code>LocSND</code> to another <code>LocRCV</code> <em>conveniently</em>.
+The way we will accomplish that is by having <code>LocSND</code> manipulate the
+<em>electromagnetic field</em> around <code>LocRCV</code>. More specifically, we will <em>encode</em> a
+binary <em>dataframe</em> as <em>modulations</em> of a <em>radio signal</em> around a pre-determined
+<em>carrier frequency</em>.</p>
+
+<p>How do we <em>do</em> that?</p>
+
+<!-- more -->
+
+
+<p>We use an LRC circuit to make electrons oscillate in an
+antenna. These oscillating electrons ram into loose and excitable electrons in
+the antenna&rsquo;s metal, this releases a photon at a particular frequency. Globally
+(i.e. within the entire transmitting antenna), enough photons are being
+released that it seems to an external observer looking at the produced
+electromagnetic (EM) field like there is a continuous signal being emitted.</p>
+
+<p>So we&rsquo;re sending these EM ripples, which are generally at our carrier
+frequency. However, if we just sent a basic frequency, there would be no
+<em>information</em> in there, so we have to <em>modulate</em> it. We can modulate its
+amplitude (A), phase (phi), and frequency (omega), the 3 free
+parameters of the equation (in the top left of the equation in the following
+gif from &ldquo;sengpielaudio&rdquo;)</p>
+
+<p><img src="http://www.sengpielaudio.com/Sinuskurve01.gif" alt="sine wave" /></p>
+
+<p>This would give us
+1. <strong>Carrier frequency</strong> &mdash;&ndash; the EM frequency <em>inside</em> which our signal is
+  encoded
+2. <strong>amplitude shift keying (ASK)</strong> &mdash; send signal at <em>carrier frequency</em> by
+   modulating the signal&rsquo;s <em>amplitude</em>
+3. <strong>frequency shift keying (FSK)</strong> &mdash; similar but modulates <em>frequency</em>
+4. <strong>phase shift keying (PSK)</strong> &mdash; again, but modulates <em>phase</em></p>
+
+<p>One simple method would be to say our carrier frequency is 5 Hz, but our band
+is actually [4,6] Hz. So whenever the signal is 4 Hz, that means I&rsquo;m sending a
+0, and if the signal is 6 Hz, it means I&rsquo;m sending a 1, and a new digit starts
+every 1 ms. That would be an example of <strong>FSK</strong>.</p>
+
+<p>A fundamental problem that we must solve is that all senders and receivers of
+information via EM fields with their antenna(s) are sharing the a single
+<em>medium</em> for transmitting that field (viz. the air, etc.). So if <code>LocSND</code> sends
+a message to <code>LocRCV_1</code>, then <code>LocRCV_2</code> sitting one foot away can hear that
+message loud and clear. This leads to three major issues: <strong>security</strong>,
+<strong>multiplexing</strong>, and <strong>interference</strong>.</p>
+
+<p>To <strong>multiplex</strong> means to send multiple distinct signals through a single
+channel. How are we going to send distinct signals to receivers 1 and 2 in such
+a way that both can understand the signal meant for them? We can chop up the
+frequency band that our transmitter can use into 2 smaller bands, and use each
+of those bands as separate carriers. Then we tune the receivers to pick up
+frequencies in their respective bands. This is what is called <strong>frequency
+division multiplexing (FDM)</strong>, but we can also multiplex across space, time,
+and <em>code</em>.</p>
+
+<p>Of course, I&rsquo;ve only scratched the very surface of what&rsquo;s going on here, but
+that&rsquo;s all the time I&rsquo;ve got.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[What Akamai Does]]></title>

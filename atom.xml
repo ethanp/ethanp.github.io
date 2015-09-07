@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-08-23T17:00:37-05:00</updated>
+  <updated>2015-09-07T18:43:05-05:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,79 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Basics of Wireless Communication]]></title>
+    <link href="http://ethanp.github.io/blog/2015/09/07/basics-of-wireless-communication/"/>
+    <updated>2015-09-07T17:45:58-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/09/07/basics-of-wireless-communication</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been doing the readings for my <a href="http://www.cs.utexas.edu/~lili/classes/F15-CS386W/">Wireless Networking course</a> at
+UTexas, and in the process have dug into much of the basics of radios and
+networks that I had ignored in the past. Here, I will try briefly describe what
+I have learned. Maybe not everything I will say here is exactly correct, but I
+think it&rsquo;s at least <em>mostly</em> correct.</p>
+
+<p>Let&rsquo;s try to start somewhere near the beginning. Our <strong>goal</strong> is to transfer a
+<em>information</em> from one location <code>LocSND</code> to another <code>LocRCV</code> <em>conveniently</em>.
+The way we will accomplish that is by having <code>LocSND</code> manipulate the
+<em>electromagnetic field</em> around <code>LocRCV</code>. More specifically, we will <em>encode</em> a
+binary <em>dataframe</em> as <em>modulations</em> of a <em>radio signal</em> around a pre-determined
+<em>carrier frequency</em>.</p>
+
+<p>How do we <em>do</em> that?</p>
+
+<!-- more -->
+
+
+<p>We use an LRC circuit to make electrons oscillate in an
+antenna. These oscillating electrons ram into loose and excitable electrons in
+the antenna&rsquo;s metal, this releases a photon at a particular frequency. Globally
+(i.e. within the entire transmitting antenna), enough photons are being
+released that it seems to an external observer looking at the produced
+electromagnetic (EM) field like there is a continuous signal being emitted.</p>
+
+<p>So we&rsquo;re sending these EM ripples, which are generally at our carrier
+frequency. However, if we just sent a basic frequency, there would be no
+<em>information</em> in there, so we have to <em>modulate</em> it. We can modulate its
+amplitude (A), phase (phi), and frequency (omega), the 3 free
+parameters of the equation (in the top left of the equation in the following
+gif from &ldquo;sengpielaudio&rdquo;)</p>
+
+<p><img src="http://www.sengpielaudio.com/Sinuskurve01.gif" alt="sine wave" /></p>
+
+<p>This would give us
+1. <strong>Carrier frequency</strong> &mdash;&ndash; the EM frequency <em>inside</em> which our signal is
+  encoded
+2. <strong>amplitude shift keying (ASK)</strong> &mdash; send signal at <em>carrier frequency</em> by
+   modulating the signal&rsquo;s <em>amplitude</em>
+3. <strong>frequency shift keying (FSK)</strong> &mdash; similar but modulates <em>frequency</em>
+4. <strong>phase shift keying (PSK)</strong> &mdash; again, but modulates <em>phase</em></p>
+
+<p>One simple method would be to say our carrier frequency is 5 Hz, but our band
+is actually [4,6] Hz. So whenever the signal is 4 Hz, that means I&rsquo;m sending a
+0, and if the signal is 6 Hz, it means I&rsquo;m sending a 1, and a new digit starts
+every 1 ms. That would be an example of <strong>FSK</strong>.</p>
+
+<p>A fundamental problem that we must solve is that all senders and receivers of
+information via EM fields with their antenna(s) are sharing the a single
+<em>medium</em> for transmitting that field (viz. the air, etc.). So if <code>LocSND</code> sends
+a message to <code>LocRCV_1</code>, then <code>LocRCV_2</code> sitting one foot away can hear that
+message loud and clear. This leads to three major issues: <strong>security</strong>,
+<strong>multiplexing</strong>, and <strong>interference</strong>.</p>
+
+<p>To <strong>multiplex</strong> means to send multiple distinct signals through a single
+channel. How are we going to send distinct signals to receivers 1 and 2 in such
+a way that both can understand the signal meant for them? We can chop up the
+frequency band that our transmitter can use into 2 smaller bands, and use each
+of those bands as separate carriers. Then we tune the receivers to pick up
+frequencies in their respective bands. This is what is called <strong>frequency
+division multiplexing (FDM)</strong>, but we can also multiplex across space, time,
+and <em>code</em>.</p>
+
+<p>Of course, I&rsquo;ve only scratched the very surface of what&rsquo;s going on here, but
+that&rsquo;s all the time I&rsquo;ve got.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Pattern in the Stone: Review and Summary]]></title>
@@ -2460,207 +2533,6 @@ can change <code>LATEX_DIR</code>, or add something like the following to the sc
 <p>and next thing you know, a Preview window opens with your beautiful document.</p>
 
 <p>Then after you&rsquo;ve made changes to the document, run the command again, and the new version will show up in the same window.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Functional Union of Two Sets]]></title>
-    <link href="http://ethanp.github.io/blog/2014/05/16/scala-union-beauty/"/>
-    <updated>2014-05-16T21:01:58-05:00</updated>
-    <id>http://ethanp.github.io/blog/2014/05/16/scala-union-beauty</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m in the 3rd week of <a href="http://www.coursera.org/course/progfun">Functional Programming Principles in Scala</a>
-course on Coursera, taught by Martin Odersky, the creator of Scala. The class
-has been surprisingly awesome so far, but one thing above all struck me as
-impossible: the &ldquo;functional&rdquo; implementation of the <em>union</em> of two immutable
-binary search trees.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="o">((</span><span class="n">left</span> <span class="n">union</span> <span class="n">right</span><span class="o">)</span> <span class="n">union</span> <span class="n">other</span><span class="o">)</span> <span class="n">incl</span> <span class="n">elem</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong><em>WWWHHAATTT??</em></strong></p>
-
-<p>After an intensive investigation, I eventually determined that this operation
-performs what I&rsquo;m calling a <em>&lsquo;post-order insertion&rsquo;</em> of the elements of <code>this</code>
-(non-empty) <code>IntSet</code> into <code>other</code>.</p>
-
-<!-- more -->
-
-
-<p>Ok, you need some context. Odersky defines our <code>IntSet</code> binary search tree as follows:</p>
-
-<h3>Setup</h3>
-
-<figure class='code'><figcaption><span>IntSet</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">trait</span> <span class="nc">IntSet</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span>
-</span><span class='line'>    <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span>
-</span><span class='line'>    <span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span><span class="k">:</span> <span class="kt">IntSet</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">object</span> <span class="nc">Empty</span> <span class="k">extends</span> <span class="nc">IntSet</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="kc">false</span>
-</span><span class='line'>    <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="n">other</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="k">val</span> <span class="n">elem</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="k">val</span> <span class="n">left</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">,</span> <span class="k">val</span> <span class="n">right</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">IntSet</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span>
-</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">elem</span><span class="o">)</span> <span class="n">left</span> <span class="n">contains</span> <span class="n">x</span>
-</span><span class='line'>        <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">elem</span><span class="o">)</span> <span class="n">right</span> <span class="n">contains</span> <span class="n">x</span>
-</span><span class='line'>        <span class="k">else</span> <span class="kc">true</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="n">incl</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span>
-</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">elem</span><span class="o">)</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">elem</span><span class="o">,</span> <span class="n">left</span> <span class="n">incl</span> <span class="n">x</span><span class="o">,</span> <span class="n">right</span><span class="o">)</span>
-</span><span class='line'>        <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">elem</span><span class="o">)</span> <span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="n">elem</span><span class="o">,</span> <span class="n">left</span><span class="o">,</span> <span class="n">right</span> <span class="n">incl</span> <span class="n">x</span><span class="o">)</span>
-</span><span class='line'>        <span class="k">else</span> <span class="k">this</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="n">union</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">IntSet</span><span class="o">)</span> <span class="k">=</span> <span class="o">((</span><span class="n">left</span> <span class="n">union</span> <span class="n">right</span><span class="o">)</span> <span class="n">union</span> <span class="n">other</span><span class="o">)</span> <span class="n">incl</span> <span class="n">elem</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The only thing that&rsquo;s non-obvious is the <em>union</em> method I mentioned above. The
-reader should make sure she understands the other methods before continuing.</p>
-
-<p>At first I wondered, &ldquo;What sort of tree is produced by the union of two
-<code>IntSet</code>?&rdquo; Given fact that the <code>contains</code> method relies on the tree being a
-<em>Binary Search Tree</em>, I wondered how this method could possibly retain the
-sortedness. The short answer is that each element of <code>this</code> is passed through <code>incl</code> to be inserted into <code>other</code>. In the process, I noticed a number of properties of this operation.</p>
-
-<h1>The best explanation I&rsquo;ve got</h1>
-
-<h2>Some preliminary properties of <code>(A union B)</code></h2>
-
-<p>By <strong>post-order insertion</strong>, I mean we do a <a href="http://en.wikipedia.org/wiki/Post-order_traversal">post-order traversal</a>
-of <code>A</code>, inserting each element into <code>B</code>.</p>
-
-<p>First of all, <strong>let &ldquo;<code>int_set</code>&rdquo; be an arbitrary <code>IntSet</code></strong>.</p>
-
-<h4>Prop 1.a:</h4>
-
-<h5><code>(Empty union int_set) == int_set</code></h5>
-
-<p>This is simply the definition of <code>union</code> on <code>Empty</code>.</p>
-
-<h4>Prop 1.b:</h4>
-
-<h5><code>(int_set union Empty)</code> <em>does not neccessarily</em> <code>== int_set</code></h5>
-
-<p><em>Counterexample</em>: the IntSet produced by</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="o">(((</span><span class="k">new</span> <span class="nc">NonEmpty</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">))</span> <span class="n">incl</span> <span class="mi">1</span><span class="o">)</span> <span class="n">incl</span> <span class="mi">3</span><span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="../../../../../images/union_lemma_1b.jpg" alt="" /></p>
-
-<h4>Prop 2:</h4>
-
-<h5>Inserting nodes from <code>left</code> into <code>right</code> with the <code>incl</code> method will produce a tree where every element of <code>left</code> is hanging off the left edge of the leftmost element of <code>right</code>.</h5>
-
-<p>We know every element of <code>right</code> is greater than every element of <code>left</code>.
-Therefore each element being added to <code>right</code> from <code>left</code> will travel strictly
-leftwards through the <code>right</code> tree before being deposited.</p>
-
-<h4>Prop 3:</h4>
-
-<h5><code>other</code> is left fully intact in the returned <code>IntSet</code></h5>
-
-<p>Recall that <code>other</code> is the <code>IntSet</code> operand on the right side of the <code>union</code> operator.
-<em>This is explained below.</em></p>
-
-<h2>Watch the operation unfold (<em>this is the meat</em>)</h2>
-
-<p>Let&rsquo;s think of the <code>union</code> operator in terms of how it get&rsquo;s rewritten.</p>
-
-<ul>
-<li><strong>a U b</strong></li>
-<li><strong>((a.left U a.right) U b) incl a.elem</strong>, a substitution of the formula</li>
-<li><strong>(a1 U b) incl a.head</strong>, a rewrite, letting <strong>a.left U a.right := a1</strong></li>
-<li><strong>(((a1.left U a1.right) U b) incl a1.elem) incl a.elem</strong>, by substituting the formula</li>
-<li><strong>((a2 U b) incl a1.elem) incl a.elem</strong>, letting <strong>a1.left U a1.right := a2</strong></li>
-<li>repeat as necessary</li>
-</ul>
-
-
-<h4>So from these few steps we can already see quite a few important things:</h4>
-
-<ol>
-<li>We keep removing one element from <code>IntSet a</code>, and prepending it to a list of single <code>elem</code> to <code>incl</code> into <code>IntSet b</code>.</li>
-<li>So now it is clear that what this function does, is one-by-one <code>incl</code> <code>elem</code> of <code>this</code> into <code>other</code>. This gives us <em>Prop 3</em> above.</li>
-</ol>
-
-
-<h4>What remains to be determined is the <em>order</em> in which these <code>incl</code> occur.</h4>
-
-<ol>
-<li><strong>a.elem</strong> will be the <em>last</em> element included</li>
-<li><strong>a1.elem</strong> will be the <em>second to last</em> element included</li>
-<li>By <em>Prop 3</em> which was demonstrated just a minute ago, <strong>a1.elem</strong> is the root
-node of <strong>a.right</strong></li>
-<li>Now the <em>post-order algorithm</em> goes <em>left, right, root</em>; and we&rsquo;ve got <em>???,
-right, root</em>.</li>
-<li>Instead of spending forever demonstrating why <em>???</em> shall be filled in with left, I&rsquo;ll simply point out that:
-
-<ol>
-<li>In our counterexample demonstration of <em>Prop 1.b</em> above, the root follows the right follows the left.</li>
-<li>There&rsquo;s simply no other element to choose from in a <code>NonEmpty</code> <code>IntSet</code>.</li>
-</ol>
-</li>
-</ol>
-
-
-<h1>Short example of union in action</h1>
-
-<p><img src="../../../../../images/IMG_0945.jpg" alt="" /></p>
-
-<p>Perhaps the notation of this example is a bit hard to parse. Well ain&rsquo;t it
-darn <em>fortuitous</em> that I&rsquo;m here to explain it.</p>
-
-<ol>
-<li><p>At the very top we have a restatement of the formula to be applied upon
-taking the union of two <code>IntSet</code>.</p></li>
-<li><p>Next we have the two <code>IntSet</code> we&rsquo;d like to find the union <em>of</em>, named <code>A</code>
-and <code>B</code>. <code>A</code> references a 3-element Binary Tree containing (3, 5, 7), and
-<code>B</code> references a Tree containing (6, 7, 8).</p></li>
-<li><p>Next we substitute <code>A U B</code> into the equation at the top to give us a
-<strong>problem of reduction</strong> with three components. If we were to define the
-operators to associate to the left we could remove the parentheses, but I
-don&rsquo;t know if that&rsquo;s legal, in Scala or in Math.</p></li>
-<li><p>By following the <em>order of operations</em>, we first determine the result of
-the inner-most parentheses, and proceed outwards, which leaves us the
-desired result.</p></li>
-</ol>
-
 ]]></content>
   </entry>
   

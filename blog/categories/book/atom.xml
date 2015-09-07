@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Book | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/book/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-09-07T18:43:05-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A Pattern in the Stone: Review and Summary]]></title>
+    <link href="http://ethanp.github.io/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary/"/>
+    <updated>2015-08-23T16:56:25-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary</id>
+    <content type="html"><![CDATA[<h3>How I Found it</h3>
+
+<p>I was watching a biography of Richard Feynman, and they interviewed this guy W.
+Daniel Hillis, and he seemed like a cool dude so I looked him up on Google, and
+came across his book, <strong><em>The Pattern in the Stone: The Simple Ideas that Make
+Computers Work</em></strong> (1999). On Amazon it was compared to <strong><em>Code: The Hidden
+Language of Computer Hardware and Software</em></strong>, by Charles Petzold, an
+encredibly well- written book about how computers work. I would gladly read any
+book considered comparable in lucidity to <em>Code</em>, so I got <em>The Pattern in the
+Stone</em>.</p>
+
+<h3>What it says</h3>
+
+<p>The first few chapters are meant to give a basic understanding of what a
+computer is actually doing, and he spends some time noting the Universality of
+computers, which he says shows that &ldquo;all computers are alike in what they can
+and cannot do&rdquo;. Personally, my intuition of the workings of a computer comes
+mainly from an explanation by Richard Feynman himself (<a href="https://www.youtube.com/watch?v=EKWGGDXe5MA">as seen on the
+YouTubes</a>) which is &ldquo;heuristic&rdquo; rather than mechanical. Basically
+Feynman gradually turns a human being into a computer, and then talks about how
+this mechanistic person can be implemented using logic gates built from water
+pipes that he sketches on a whiteboard. In <em>Pattern in the Stone"</em>, he builds
+logic gates out of parallel and series wires, and also out of springs and
+pivots.</p>
+
+<p>Then he introduces finite state machines and programming in LOGO. Then he
+mentions how machine code can be thought of as <em>control instructions</em>,
+specifying the next instruction to fetch and execute, and <em>processing
+instructions</em>, moving data to and from memory, and through the Arithmetic Logic
+Unit.</p>
+
+<p>Then he starts really getting into what I think is the main point of the book,
+to convince the reader that there is no magical process occurring in our brains
+that a mechanical computer cannot replicate, meaning that</p>
+
+<blockquote><p>As far as we know, no device built in the physical universe can have any more
+computational power than a Turing machine&hellip;[so] a universal computer with
+the proper programming should be able to simulate the function of a human
+brain.</p></blockquote>
+
+<!-- more -->
+
+
+<p>Then he explains a bit about quantum computing. He notes that when a water
+molecule is formed, its atoms must &ldquo;know&rdquo;/&ldquo;compute&rdquo; the appropriate angle
+between their bonds. Computational approximation methods of determining this
+angle are slow, but the water molecule does it &ldquo;almost instantaneously&rdquo;.</p>
+
+<blockquote><p>One way of explaining how the water molecule can make the same calculation is
+to imagine it trying out every possible configuration simultaneously— in
+other words, using parallel processing. Could we harness this simultaneous
+computing capability of quantum mechanical objects to produce a more powerful
+computer? Nobody knows for sure.</p></blockquote>
+
+<p>He notes that although it would certainly be possible, &ldquo;there is no evidence
+whatsoever&rdquo; of the human brain leveraging quantum mechanics in its operation.</p>
+
+<p>Then he defines an algorithm as a procedure for provably solving a problem, and
+a heuristic as a rule that <em>tends</em> to get the right answer. Then he uses this
+to describe a chess-playing AI using alpha-beta pruning.</p>
+
+<p>After discussing encryption and encodings, he moves on to parallelism. He notes
+that a computer analyzing a photo has to look at the image pixel-by-pixel, but
+the human brain seems to process the entire photo, even comparing it to
+previously seen photos, very quickly, even though neurons themselves are
+comparatively slow.</p>
+
+<p>Then he goes into one of those bold claims of an expert that are very fun to
+read:</p>
+
+<blockquote><p>As computers on the network begin to exchange interacting programs instead of
+just electronic mail, I suspect that the Internet will start to behave less
+like a network and more like a parallel computer. I suspect that the emergent
+behavior of the Internet will get a good deal more interesting.</p>
+
+<p>As the information available on the Internet becomes richer, and the types of
+interaction among the connected computers become more complex, I expect that
+the Internet will begin to exhibit emergent behavior going beyond any that
+has been explicitly programmed into the system.</p></blockquote>
+
+<p>To me this statement seems vague enough to <em>definitely</em> be true. I would
+imagine that already, the interaction between different high-frequency-trading
+systems display emergent behaviors, though I have no idea.</p>
+
+<p>Then he gets to machine learning. He notes that computers need three
+ingredients for learning: a goal, a measure of how far off they are from that
+goal, and a way to reduce that distance. He describes the similarities of
+&ldquo;artificial neural networks&rdquo; with the human brain. He mentions that by building
+up a multi-layer artificial neural network larger abstractions can be encoded
+in the weights connecting the neurons.</p>
+
+<p>Finally, he gets to my favorite part of the book: how to build AI that understands humanity</p>
+
+<blockquote><p>I believe that we may be able create an artificial intelligence long before
+we understand natural intelligence, and I suspect that the creation process
+will be one in which we arrange for intelligence to emerge from a complex
+series of interactions that we do not understand in detail— that is, a
+process less like engineering a machine and more like baking a cake or
+growing a garden. We will not engineer an artificial intelligence; rather, we
+will set up the right conditions under which an intelligence can emerge.</p>
+
+<p>[The practice in systems engineering] of &ldquo;divide and conquer&rdquo; works very
+well, but an evolved object like the brain does not necessarily have this
+kind of hierarchical structure.</p>
+
+<p>The brain is much more complicated than a computer, yet it is much less prone
+to catastrophic failure. The contrast in reliability between the brain and
+the computer illustrates the difference between the products of evolution and
+those of engineering. A single error in a computer’s program can cause it to
+crash, but the brain is usually able to tolerate bad ideas and incorrect
+information and even malfunctioning components.</p>
+
+<p>So, in creating an artificial intelligence, what is the alternative to
+engineering? One approach is to mimic within the computer the process of
+biological evolution.</p></blockquote>
+
+<p>He notes how he created a sorting algorithm that outperformed quicksort by <em>evolving</em> it using sequences of computer instructions. <em>Whoa!</em></p>
+
+<blockquote><p>One of the interesting things about the sorting programs that evolved in my
+experiment is that I do not understand how they work. I have carefully
+examined their instruction sequences, but I do not understand them.</p>
+
+<p>If the safety of the airplane depended on sorting numbers correctly, I would
+rather depend on an evolved sorting program than on one written by a team of
+programmers.</p></blockquote>
+
+<p>This book is super cool.</p>
+
+<blockquote><p>I suspect that consciousness is a consequence of the action of normal
+physical laws, and a manifestation of a complex computation</p></blockquote>
+
+<p>This is the same conclusion me and some friends reached this past spring at the
+end of a weeks-long discussion.</p>
+
+<blockquote><p>but to me this makes consciousness no less mysterious and wonderful— if
+anything, it makes it more so. Between the signals of our neurons and the
+sensations of our thoughts lies a gap so great that it may never be bridged
+by human understanding. So when I say that the brain is a machine, it is
+meant not as an insult to the mind but as an acknowledgment of the potential
+of a machine. I do not believe that a human mind is less than what we imagine
+it to be, but rather that a machine can be much, much more.</p></blockquote>
+
+<p>What a beauty.</p>
+]]></content>
+  </entry>
+  
+</feed>
