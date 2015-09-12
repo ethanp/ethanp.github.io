@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-09-07T18:43:05-05:00</updated>
+  <updated>2015-09-11T22:52:02-05:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,144 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Avoiding Sign Extension]]></title>
+    <link href="http://ethanp.github.io/blog/2015/09/11/avoiding-sign-extension/"/>
+    <updated>2015-09-11T22:12:42-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/09/11/avoiding-sign-extension</id>
+    <content type="html"><![CDATA[<p>I was looking at an implementation of file-based mergesort <a href="https://github.com/cowtowncoder/java-merge-sort">from GitHub</a>, and found the following snippet.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * Simple implementation of comparator for byte arrays which</span>
+</span><span class='line'><span class="cm"> * will compare using &lt;code&gt;unsigned&lt;/code&gt; byte values (meaning</span>
+</span><span class='line'><span class="cm"> * that 0xFF is creator than 0x00, for example).</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ByteArrayComparator</span>
+</span><span class='line'>    <span class="kd">implements</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">[]&gt;</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">o1</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">o2</span><span class="o">)</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="kd">final</span> <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">length</span><span class="o">,</span> <span class="n">o2</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="c1">// alas, sign extension means we must do masking...</span>
+</span><span class='line'>            <span class="kt">int</span> <span class="n">diff</span> <span class="o">=</span> <span class="o">(</span><span class="n">o1</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="n">o2</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="o">);</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">diff</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">diff</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">o1</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">o2</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What is the meaning of the remark &ldquo;<code>// alas, sign extension means we must do
+masking...</code>&rdquo;? What&rsquo;s the deal with the masking?</p>
+
+<!-- more -->
+
+
+<p>References</p>
+
+<ol>
+<li><a href="http://stackoverflow.com/questions/5147738/supressing-sign-extension-when-upcasting-or-shifting-in-java">Supressing sign extension in Java</a></li>
+<li><a href="http://stackoverflow.com/questions/1660856/promotion-in-java">Promotion in Java</a></li>
+</ol>
+
+
+<p><code>ol[i]</code> is a <code>byte</code>, i.e. 8 bits. But if you try to subtract two bytes</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kt">byte</span> <span class="n">a</span> <span class="o">=</span> <span class="mh">0x00</span><span class="o">;</span>
+</span><span class='line'><span class="kt">byte</span> <span class="n">b</span> <span class="o">=</span> <span class="mh">0xff</span><span class="o">;</span>
+</span><span class='line'><span class="kt">byte</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will produce a <strong>compiler error</strong>, because Java&rsquo;s <code>-</code> (minus) operator
+<em>promotes</em> <code>byte</code>s to <code>int</code>s before <em>performing</em> the <code>-</code>, thus <code>-</code> produces an
+<code>int</code>, and you can&rsquo;t assign an <code>int</code> to a <code>byte</code> (without a cast, because you&rsquo;d lose bits).</p>
+
+<p>So what about</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kt">byte</span> <span class="n">a</span> <span class="o">=</span> <span class="mh">0x00</span><span class="o">;</span>
+</span><span class='line'><span class="kt">byte</span> <span class="n">b</span> <span class="o">=</span> <span class="mh">0xff</span><span class="o">;</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The problem is that (according to the spec in the doc comment), we want <code>c</code> to
+be <em>negative</em>. However note:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">// this</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mh">0x00</span> <span class="o">-</span> <span class="mh">0xff</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// becomes this</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="mh">0xffffffff</span><span class="o">;</span> <span class="c1">// 0 - (-1) = 1 &quot;sign extension&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So now <code>c = 1</code> instead of <code>-256</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">// But this</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="o">(</span><span class="err">`</span><span class="mh">0x00</span><span class="err">`</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="err">`</span><span class="mh">0xff</span><span class="err">`</span> <span class="o">&amp;</span> <span class="mh">0xff</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// becomes this</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="o">(</span><span class="err">`</span><span class="mh">0x00</span><span class="err">`</span> <span class="o">&amp;</span> <span class="mh">0x000000ff</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="err">`</span><span class="mh">0xff</span><span class="err">`</span> <span class="o">&amp;</span> <span class="mh">0x000000ff</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// which becomes this</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="mh">0x000000ff</span><span class="o">;</span> <span class="c1">// 0 - 256 = -256 (avoided sign extension)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So because of the masking, we avoided sign extension, and now <code>c = -256</code>, which
+is what we wanted.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Basics of Wireless Communication]]></title>
@@ -2322,217 +2460,6 @@ the type of the <code>next</code> pointer within the class declaration:</p>
 we were both totally confused because it makes perfect sense. But now, when I
 put it into my way simplified version, it works! So his idea just went from
 being &ldquo;just clever&rdquo; to being &ldquo;applicably awesome&rdquo;.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Markdown to LaTeX]]></title>
-    <link href="http://ethanp.github.io/blog/2014/05/22/multimarkdown-to-latex/"/>
-    <updated>2014-05-22T20:32:09-05:00</updated>
-    <id>http://ethanp.github.io/blog/2014/05/22/multimarkdown-to-latex</id>
-    <content type="html"><![CDATA[<h3>Installation guide for Mac OSX</h3>
-
-<p>One day, I thought, &ldquo;Wouldn&rsquo;t it be nice to have a Markdown to LaTeX
-converter.&rdquo; Theoretically, one could combine these two tools to quickly create
-beautiful documents. That&rsquo;s how I found <a href="http://fletcherpenney.net/multimarkdown/">Multimarkdown</a> which is basically a
-souped up version of regular markdown. The documentation made it sound like
-this would be a breeze, but it actually took me way to long to get this to
-work on my machine. So I made a step-by-step guide.</p>
-
-<p>For the uninitiated, <a href="http://daringfireball.net/projects/markdown/">Markdown</a> is a simplified way of writing html markup.
-If you don&rsquo;t know about it please check it out. It is in fact how this very
-webpage was created.</p>
-
-<p>Then today I had to install it all over again on a different computer. To
-save my future self and you a lot of trouble, this time I noted what I did to get it to
-work (Mac OSX only).</p>
-
-<!-- more -->
-
-
-<h3>Install a lot of software</h3>
-
-<p>First you must install <a href="http://brew.sh/">homebrew</a> the lifesaving Mac package manager.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ruby -e <span class="s2">&quot;$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then you should install multimarkdown et al. by running</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew install multimarkdown pkg-config glib gettext
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I&rsquo;m not sure every one of those is necessary, but I don&rsquo;t have another
-computer to test which ones can be left out. Probably at least the first one
-is necessary.</p>
-
-<p>Now go to the Mac App Store and buy <a href="https://itunes.apple.com/us/app/multimarkdown-composer/id593294811?ls=1&amp;amp;mt=12">MultiMarkdown Composer</a> for $12. Or
-don&rsquo;t, it isn&rsquo;t actually necessary, but I like that it live-renders LaTeX
-equations and has a hotkey for exporting markdown to different formats. You
-can export using the command-line too and that&rsquo;s also quite simple (and
-free) (see below for script).</p>
-
-<p>Install <a href="https://www.tug.org/texworks/">TeXworks</a>. This is a gui for running LaTeX commands, and it&rsquo;s free,
-but again you can use the terminal for anything you can do in here if that&rsquo;s
-your thing.</p>
-
-<h3>Get the base latex installation and multimarkdown template files</h3>
-
-<p>Download the <a href="https://github.com/fletcher/peg-multimarkdown-latex-support/zipball/master">multimarkdown latex support</a> files from github. And put them
-in a (likely <em>new</em>) directory called <code>~/Library/texmf/tex/latex/mmd</code>.
-Personally, I put the files in &hellip;/texmf/tex<strong>t</strong>/latex/&hellip; and that cost me a
-half-hour of my life so do yourself a favor and just copy and paste the
-following command</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p ~/Library/texmf/tex/latex/mmd
-</span><span class='line'>mv myunzipped_latex_support_files ~/Library/texmf/tex/latex/mmd
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Install <a href="http://www.tug.org/mactex/">mactex-2013</a>. For whatever amazing reasons, you can&rsquo;t use homebrew
-for this. You have to go to that website, download a 4+ GB file and run the
-installer.</p>
-
-<h3>Create your first latex-ready markdown document</h3>
-
-<p>Now create a file Yayaya.md in Multimarkdown Composer (or Vim or whatever) and
-paste the following header at the top, verbatim:</p>
-
-<pre><code>latex input:        mmd-article-header
-Title:              Hello Dr. Fourier
-Author:             My Name
-Base Header Level:  1
-latex mode:         memoir
-Keywords:           Math, DSP, Digital Signal Processing, Fourier Transform
-CSS:                http://fletcherpenney.net/css/document.css
-xhtml header:       &lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;
-copyright:          2014 My Name
-latex input:        mmd-natbib-plain
-latex input:        mmd-article-begin-doc
-latex footer:       mmd-memoir-footer
-</code></pre>
-
-<p>That was just telling Multimarkdown how to format the LaTeX output. After that paste the actual contents of the document, e.g.</p>
-
-<pre><code># Simpler LaTeXing #
-
-## The Fourier Transform ##
-
-**Sometimes** *this* formula comes in quite handy.
-
-### The Formulation ###
-
-What follows is the formula for the Fourier transform.
-
-\\[FT\{f(x)\}:=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\!f(x)e^{-iwx}dx\\]
-</code></pre>
-
-<p>Then go to <code>file-&gt;export-&gt; "Export as: asdf" , "Format: LaTeX"</code> (or use the script below).</p>
-
-<p>This <em>should</em> have produced the following raw latex file:</p>
-
-<pre><code>\input{mmd-article-header}
-\def\mytitle{Hello Dr. Fourier}
-\def\myauthor{My Name}
-\def\latexmode{memoir}
-\def\keywords{Math, DSP, Digital Signal Processing, Fourier Transform}
-\def\mycopyright{2014 My Name}
-\input{mmd-natbib-plain}
-\input{mmd-article-begin-doc}
-\part{Simpler LaTeXing}
-\label{simplerlatexing}
-
-\chapter{The Fourier Transform}
-\label{thefouriertransform}
-
-\textbf{Sometimes} \emph{this} formula comes in quite handy.
-
-\section{The Formulation}
-\label{theformulation}
-
-What follows is the formula for the Fourier transform.
-
-\[FT\{f(x)\}:=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\!f(x)e^{-iwx}dx\]
-
-\input{mmd-memoir-footer}
-
-\end{document}
-</code></pre>
-
-<p>Open <code>asdf.tex</code> in TeXworks (if you used the script verbatim, it will be in
-<code>~/Desktop/Latex</code>), hit the green &ldquo;play&rdquo; button in the top-left corner. A
-bunch of garbage will pile up in the Console Output area, but then your
-beautiful PDF will have been generated. This is just stellar, I&rsquo;m telling you.
-Now you can open the <code>asdf.pdf</code> file in your favorite pdf viewer.</p>
-
-<h3>Bask in its glory</h3>
-
-<p>How about that. Hmm, indeed.</p>
-
-<h3>Comprehensive troubleshooting guide</h3>
-
-<p>If in the console of TeXworks, you get something like <code>mmd-article-header.tex:
-not found</code>, it means you put the multimarkdown-latex-support files in the
-wrong place or you forgot to download them or something. Because I kept
-getting that error message I was <em>convinced</em> there was some command I needed
-to run to tell mactex that this new directory exists on my machine and
-contains latex templates. Believe: there is no such command, mactex just looks
-in this directory of its own accord.</p>
-
-<h3>Much simpler, use my script</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># open mmd as pdf, saved in ~/Desktop/Latex</span>
-</span><span class='line'><span class="k">function </span>mtx <span class="o">{</span>
-</span><span class='line'>    <span class="nv">TEX_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">&quot;$1&quot;</span> | sed s<span class="s1">&#39;|.md|.tex|&#39;</span><span class="k">)</span>
-</span><span class='line'>    <span class="nv">PDF_NAME</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">&quot;$1&quot;</span> | sed s<span class="s1">&#39;|.md|.pdf|&#39;</span><span class="k">)</span>
-</span><span class='line'>    <span class="nv">LATEX_DIR</span><span class="o">=</span>~/Desktop/Latex
-</span><span class='line'>    <span class="nv">TEX_LOC</span><span class="o">=</span><span class="nv">$LATEX_DIR</span>/<span class="s2">&quot;$TEX_NAME&quot;</span>
-</span><span class='line'>    multimarkdown -t latex <span class="s2">&quot;$1&quot;</span> &gt; <span class="s2">&quot;$TEX_LOC&quot;</span>
-</span><span class='line'>    pdflatex --output-directory <span class="s2">&quot;$LATEX_DIR&quot;</span> <span class="s2">&quot;$TEX_LOC&quot;</span> &gt; /dev/null
-</span><span class='line'>    open -a /Applications/Preview.app <span class="s2">&quot;$LATEX_DIR&quot;</span>/<span class="s2">&quot;$PDF_NAME&quot;</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This assumes you have a directory on your <code>Desktop</code> called <code>Latex</code>. For now, I&rsquo;m
-comfortable just having that there polluting that desktop. If you&rsquo;re not, you
-can change <code>LATEX_DIR</code>, or add something like the following to the script.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p <span class="s2">&quot;$LATEX_DIR&quot;</span>
-</span><span class='line'>... <span class="c"># create pdf</span>
-</span><span class='line'>rm -rf <span class="s2">&quot;$LATEX_DIR&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You run the script like</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mtx My<span class="se">\ </span>Markdown<span class="se">\ </span>File.md
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>and next thing you know, a Preview window opens with your beautiful document.</p>
-
-<p>Then after you&rsquo;ve made changes to the document, run the command again, and the new version will show up in the same window.</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Bytes | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/bytes/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-09-11T22:52:02-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Avoiding Sign Extension]]></title>
+    <link href="http://ethanp.github.io/blog/2015/09/11/avoiding-sign-extension/"/>
+    <updated>2015-09-11T22:12:42-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/09/11/avoiding-sign-extension</id>
+    <content type="html"><![CDATA[<p>I was looking at an implementation of file-based mergesort <a href="https://github.com/cowtowncoder/java-merge-sort">from GitHub</a>, and found the following snippet.</p>
+
+<p>```java
+/<em>*
+ * Simple implementation of comparator for byte arrays which
+ * will compare using <code>unsigned</code> byte values (meaning
+ * that 0xFF is creator than 0x00, for example).
+ </em>/
+public class ByteArrayComparator</p>
+
+<pre><code>implements Comparator&lt;byte[]&gt;
+</code></pre>
+
+<p>{</p>
+
+<pre><code>@Override
+public int compare(byte[] o1, byte[] o2)
+{
+    final int len = Math.min(o1.length, o2.length);
+    for (int i = 0; i &lt; len; ++i) {
+        // alas, sign extension means we must do masking...
+        int diff = (o1[i] &amp; 0xFF) - (o2[i] &amp; 0xFF);
+        if (diff != 0) {
+            return diff;
+        }
+    }
+    return o1.length - o2.length;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>What is the meaning of the remark &ldquo;<code>// alas, sign extension means we must do
+masking...</code>&rdquo;? What&rsquo;s the deal with the masking?</p>
+
+<!-- more -->
+
+
+<p>References</p>
+
+<ol>
+<li><a href="http://stackoverflow.com/questions/5147738/supressing-sign-extension-when-upcasting-or-shifting-in-java">Supressing sign extension in Java</a></li>
+<li><a href="http://stackoverflow.com/questions/1660856/promotion-in-java">Promotion in Java</a></li>
+</ol>
+
+
+<p><code>ol[i]</code> is a <code>byte</code>, i.e. 8 bits. But if you try to subtract two bytes</p>
+
+<p><code>java
+byte a = 0x00;
+byte b = 0xff;
+byte c = a - b;
+</code>
+This will produce a <strong>compiler error</strong>, because Java&rsquo;s <code>-</code> (minus) operator
+<em>promotes</em> <code>byte</code>s to <code>int</code>s before <em>performing</em> the <code>-</code>, thus <code>-</code> produces an
+<code>int</code>, and you can&rsquo;t assign an <code>int</code> to a <code>byte</code> (without a cast, because you&rsquo;d lose bits).</p>
+
+<p>So what about</p>
+
+<p><code>java
+byte a = 0x00;
+byte b = 0xff;
+int c = a - b;
+</code></p>
+
+<p>The problem is that (according to the spec in the doc comment), we want <code>c</code> to
+be <em>negative</em>. However note:</p>
+
+<p>```java</p>
+
+<p>// this
+int c = 0x00 &ndash; 0xff;</p>
+
+<p>// becomes this
+int c = 0 &ndash; 0xffffffff; // 0 &ndash; (-1) = 1 &ldquo;sign extension&rdquo;
+```</p>
+
+<p>So now <code>c = 1</code> instead of <code>-256</code>.</p>
+
+<p><code>``java
+// But this
+int c = (</code>0x00<code>&amp; 0xff) - (</code>0xff` &amp; 0xff);</p>
+
+<p>// becomes this
+int c = (<code>0x00</code> &amp; 0x000000ff) &ndash; (<code>0xff</code> &amp; 0x000000ff);</p>
+
+<p>// which becomes this
+int c = 0 &ndash; 0x000000ff; // 0 &ndash; 256 = -256 (avoided sign extension)</p>
+
+<p><code>``
+So because of the masking, we avoided sign extension, and now</code>c = -256`, which
+is what we wanted.</p>
+]]></content>
+  </entry>
+  
+</feed>
