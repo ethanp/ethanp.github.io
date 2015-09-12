@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Specifics | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/specifics/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-09-11T22:52:02-05:00</updated>
+  <updated>2015-09-11T23:11:15-05:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -22,6 +22,9 @@
 
 <p>```java
 /<em>*
+ * Author: cowtowncoder
+ * <a href="https://github.com/cowtowncoder/java-merge-sort/blob/master/src/main/java/com/fasterxml/sort/std/ByteArrayComparator.java">https://github.com/cowtowncoder/java-merge-sort/blob/master/src/main/java/com/fasterxml/sort/std/ByteArrayComparator.java</a>
+ *
  * Simple implementation of comparator for byte arrays which
  * will compare using <code>unsigned</code> byte values (meaning
  * that 0xFF is creator than 0x00, for example).
