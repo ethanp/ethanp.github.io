@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="Installation guide for Mac OSX One day, I thought, &ldquo;Wouldn&rsquo;t it be nice to have a Markdown to LaTeX
-converter.&rdquo; Theoretically, one &hellip;">
+  <meta name="description" content="I spent quite a while struggling with the Java class declaration syntax, and
+now I am starting to get it. Problem simplification I started out &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,151 @@ converter.&rdquo; Theoretically, one &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/23/java-inheritance-issue/">Java Inheritance</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-23T16:06:59-05:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I spent quite a while struggling with the Java class declaration syntax, and
+now I am starting to get it.</p>
+
+<h3>Problem simplification</h3>
+
+<p>I started out writing this post because I was <em>totally right</em> and the Java
+compiler was <em>wrong</em>, and so on, but now I have cleared it up and I was wrong
+and the compiler was right after all (surprise!). I was initially intending to
+use this post as a way of getting satisfaction out of how much smarter I am
+than the compiler, and instead I will use this space to explain to the next
+how to answer similar questions. I started by <em>heavily</em> simplifying my issue
+down to its core, and attacking the simplified problem instead of the original
+one with extraneous variables and interconnections. I&rsquo;ve never approached a
+programming problem like that, and let me tell you: seems like it worked. By a
+twist of fate, the new version looks like a LinkedList, that&rsquo;s not what I
+started out doing, but who knows what&rsquo;ll happen when you keep smushing the
+problem from a larger context into a little jar.</p>
+
+<p>First, we have a <code>Base</code>, which holds an element <code>elem</code> of any type, and a
+reference to another <code>Base</code>, quite like a <em>linked list</em>.</p>
+
+<figure class='code'><figcaption><span>Base.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">T</span> <span class="n">elem</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">Base</span><span class="o">(</span><span class="n">T</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">elem</span> <span class="o">=</span> <span class="n">elem</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, we have an <code>Ord</code>, which is a <code>Base</code> that is <code>Comparable</code>. We require
+that the element contained by an <code>Ord</code> is itself comparable, and furthermore
+that the method of comparing <code>Ord</code>s is to compare their respective <code>elem</code>s:</p>
+
+<figure class='code'><figcaption><span>Ord.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Ord</span><span class="o">&lt;</span><span class="n">U</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="n">Ord</span><span class="o">(</span><span class="n">U</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">elem</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works fine, but note the following limitation:</p>
+
+<figure class='code'><figcaption><span>main.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">3</span><span class="o">);</span>
+</span><span class='line'>    <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">4</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">b</span><span class="o">);</span>         <span class="c1">// this works just fine</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// this does not work because a.next is of type Base&lt;Integer&gt;</span>
+</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// this DOES work though because a.elem is of type Integer which is Comparable</span>
+</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After writing and re-writing this blog post over and over, this makes sense
+now. I used to be confused: &ldquo;shouldn&rsquo;t the compiler <em>know</em> that a.next is an
+Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo;</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/05/23/java-inheritance-issue/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -243,6 +388,10 @@ certainly not well written; that&rsquo;s okay though.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/09/23/bit-twiddling-data-structure-alignment/">Bit Twiddling: Data Structure Alignment</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/11/avoiding-sign-extension/">Avoiding Sign Extension</a>
       </li>
     
@@ -256,10 +405,6 @@ certainly not well written; that&rsquo;s okay though.</p>
     
       <li class="post">
         <a href="/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/">A Workflow and Scripts for Learning From Github</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/06/how-apm-originally-worked/">How Apm Originally Worked</a>
       </li>
     
   </ul>

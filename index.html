@@ -9,24 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="I was looking at an implementation of file-based mergesort from GitHub, and found the following snippet. 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18 &hellip;">
+  <meta name="description" content="In order to align a data structure at the nearest word-alignment to a given
+starting address, we&rsquo;d must find the smallest multiple of N (a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +68,104 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/09/23/bit-twiddling-data-structure-alignment/">Bit Twiddling: Data Structure Alignment</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-23T13:44:04-05:00" pubdate data-updated="true">Sep 23<span>rd</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In order to align a data structure at the nearest word-alignment to a given
+starting address, we&rsquo;d must find the smallest multiple of N (a power of 2)
+which is greater than or equal to integer X. Is there a way we can <em>make this
+fast</em>, i.e. not use division or modulo?</p>
+
+<h2>First Thoughts</h2>
+
+<h3>First of all</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">N</span> <span class="o">&gt;</span> <span class="n">X</span><span class="p">)</span> <span class="k">return</span> <span class="n">N</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Otherwise, we have two cases</h3>
+
+<h4>First Case</h4>
+
+<pre><code>N: 00100
+X: 01100
+--------
+=&gt; 01100
+</code></pre>
+
+<p>This example indicates the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">X</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span> <span class="k">return</span> <span class="n">X</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Second Case</h4>
+
+<pre><code>N: 00100       
+X: 01101       
+--------       
+=&gt; 10000       
+</code></pre>
+
+<p>Which can be accomplished by</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">return</span> <span class="p">(</span><span class="n">X</span> <span class="o">|</span> <span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So we have the first-take program of</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">N</span> <span class="o">&gt;</span> <span class="n">X</span><span class="p">)</span> <span class="k">return</span> <span class="n">N</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">X</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span> <span class="k">return</span> <span class="n">X</span><span class="p">;</span>
+</span><span class='line'><span class="k">return</span> <span class="p">(</span><span class="n">X</span> <span class="o">|</span> <span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/09/23/bit-twiddling-data-structure-alignment/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -700,78 +782,6 @@ avoided.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/01/inside-javas-bufferedreader/">Inside Java&#8217;s BufferedReader</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-07-01T15:22:50-05:00" pubdate data-updated="true">Jul 1<span>st</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><code>BufferedReader</code> is suprisingly fast for parsing large text files. Why is that?
-In my experience, it is faster for this task than a <code>BufferedInputStream</code>.
-StackOverflow says this is because the <code>BufferedReader</code> uses <code>char</code> internally
-instead of <code>byte</code>.</p>
-
-<p>What follows is a high-level breakdown of what&rsquo;s going on &ldquo;under the hood&rdquo; of
-the <code>BufferedReader</code>, i.e. an overview of the implementation details.
-Details about <code>mark</code> support will be omitted.</p>
-
-<p>For me, the most significant takeaways are the following</p>
-
-<ol>
-<li><strong>There is no magic</strong> &mdash; every time I find this out about something I am
-surpised. This class is probably <em>very</em> similar to the way I would have
-naively written a buffering wrapper for a <code>Reader</code> object.</li>
-<li><strong>Utmost efficiency is sacrificed for code clarity</strong> &mdash; my guess is that the
-reason they left in the inefficiencies I mentioned above is because having
-special cases would have clouded the code. If someone wants an even <em>more</em>
-efficient <code>Reader</code> they are always welcome to write their own.</li>
-<li><strong>Small amount of code</strong> &mdash; there&rsquo;s really not a whole lot to this class. It
-basically just reads into a buffer, then services incoming reads from that
-buffer. There are no &ldquo;niceties&rdquo; or asynchronous callbacks etc. I think the
-attitude of the auther is that if you want to find that, simply look
-elsewhere.
-
-<ul>
-<li>Of particular note: there is no a single mention of <em>character encodings</em>
-anywhere in the class.</li>
-</ul>
-</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/01/inside-javas-bufferedreader/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -787,6 +797,10 @@ anywhere in the class.</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/09/23/bit-twiddling-data-structure-alignment/">Bit Twiddling: Data Structure Alignment</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/11/avoiding-sign-extension/">Avoiding Sign Extension</a>
       </li>
     
@@ -800,10 +814,6 @@ anywhere in the class.</li>
     
       <li class="post">
         <a href="/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/">A Workflow and Scripts for Learning From Github</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/06/how-apm-originally-worked/">How Apm Originally Worked</a>
       </li>
     
   </ul>

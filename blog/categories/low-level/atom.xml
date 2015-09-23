@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Low Level | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/low-level/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-09-23T13:46:21-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Bit Twiddling: Data Structure Alignment]]></title>
+    <link href="http://ethanp.github.io/blog/2015/09/23/bit-twiddling-data-structure-alignment/"/>
+    <updated>2015-09-23T13:44:04-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/09/23/bit-twiddling-data-structure-alignment</id>
+    <content type="html"><![CDATA[<p>In order to align a data structure at the nearest word-alignment to a given
+starting address, we&rsquo;d must find the smallest multiple of N (a power of 2)
+which is greater than or equal to integer X. Is there a way we can <em>make this
+fast</em>, i.e. not use division or modulo?</p>
+
+<h2>First Thoughts</h2>
+
+<h3>First of all</h3>
+
+<p><code>c
+if (N &gt; X) return N;
+</code></p>
+
+<h3>Otherwise, we have two cases</h3>
+
+<h4>First Case</h4>
+
+<pre><code>N: 00100
+X: 01100
+--------
+=&gt; 01100
+</code></pre>
+
+<p>This example indicates the following:</p>
+
+<p><code>c
+if (!(X &amp; (N-1))) return X;
+</code></p>
+
+<h4>Second Case</h4>
+
+<pre><code>N: 00100       
+X: 01101       
+--------       
+=&gt; 10000       
+</code></pre>
+
+<p>Which can be accomplished by</p>
+
+<p><code>c
+return (X | (N-1)) + 1;
+</code></p>
+
+<p>So we have the first-take program of</p>
+
+<p><code>c
+if (N &gt; X) return N;
+if (!(X &amp; (N-1))) return X;
+return (X | (N-1)) + 1;
+</code></p>
+
+<!-- more -->
+
+
+<h2>Engineering Wisdom</h2>
+
+<p>The above solution is in fact correct <em>(takes a quick bow)</em>.</p>
+
+<p>When I looked up a better answer on <a href="http://stackoverflow.com/questions/19450743">StackOverflow</a>, I found a
+program that does not use conditionals, and is therefore much faster</p>
+
+<p><code>c
+return (X + N - 1) &amp; ~(N - 1);
+</code></p>
+
+<p>However, it was not obvious to me that this program works! Let&rsquo;s peer inside
+and see how similar it is to my solution.</p>
+
+<p>First we&rsquo;re going to compute something, and then we&rsquo;re going to &ldquo;and&rdquo; it with
+<code>~(N-1)</code>. Well, &ldquo;and"ing <em>anything</em> against <code>~(N-1)</code> is going to round it down
+to a multiple of N. So that part is taken care of.</p>
+
+<p>Now we need to get the <em>right</em> multiple of N. <code>if X &lt; N</code>, then then adding X to
+N and rounding down to a multiple N is just going to give us N. That&rsquo;s the
+first line of my answer, taken care of.</p>
+
+<p>So <code>if X &gt; N</code>, we either do or don&rsquo;t have bits in place values below N. This is
+what my last two lines are taking care of. However, we can deal with this by
+noting that after we add X to N, if there are bits in place values below N,
+when we subtract 1, it will not change any bits that will survive the &ldquo;and&rdquo;
+stage. But if there are no bits in place values below N, then subtracting one
+will decrement our answer wrt bits N and higher.</p>
+
+<p>Hmm, not the best explanation of all time. But that&rsquo;s what&rsquo;s going on in there.</p>
+]]></content>
+  </entry>
+  
+</feed>

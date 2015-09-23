@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-09-11T23:11:15-05:00</updated>
+  <updated>2015-09-23T13:46:21-05:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,107 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Bit Twiddling: Data Structure Alignment]]></title>
+    <link href="http://ethanp.github.io/blog/2015/09/23/bit-twiddling-data-structure-alignment/"/>
+    <updated>2015-09-23T13:44:04-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/09/23/bit-twiddling-data-structure-alignment</id>
+    <content type="html"><![CDATA[<p>In order to align a data structure at the nearest word-alignment to a given
+starting address, we&rsquo;d must find the smallest multiple of N (a power of 2)
+which is greater than or equal to integer X. Is there a way we can <em>make this
+fast</em>, i.e. not use division or modulo?</p>
+
+<h2>First Thoughts</h2>
+
+<h3>First of all</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">N</span> <span class="o">&gt;</span> <span class="n">X</span><span class="p">)</span> <span class="k">return</span> <span class="n">N</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Otherwise, we have two cases</h3>
+
+<h4>First Case</h4>
+
+<pre><code>N: 00100
+X: 01100
+--------
+=&gt; 01100
+</code></pre>
+
+<p>This example indicates the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">X</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span> <span class="k">return</span> <span class="n">X</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Second Case</h4>
+
+<pre><code>N: 00100       
+X: 01101       
+--------       
+=&gt; 10000       
+</code></pre>
+
+<p>Which can be accomplished by</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">return</span> <span class="p">(</span><span class="n">X</span> <span class="o">|</span> <span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So we have the first-take program of</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">N</span> <span class="o">&gt;</span> <span class="n">X</span><span class="p">)</span> <span class="k">return</span> <span class="n">N</span><span class="p">;</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">X</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span> <span class="k">return</span> <span class="n">X</span><span class="p">;</span>
+</span><span class='line'><span class="k">return</span> <span class="p">(</span><span class="n">X</span> <span class="o">|</span> <span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<h2>Engineering Wisdom</h2>
+
+<p>The above solution is in fact correct <em>(takes a quick bow)</em>.</p>
+
+<p>When I looked up a better answer on <a href="http://stackoverflow.com/questions/19450743">StackOverflow</a>, I found a
+program that does not use conditionals, and is therefore much faster</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">return</span> <span class="p">(</span><span class="n">X</span> <span class="o">+</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, it was not obvious to me that this program works! Let&rsquo;s peer inside
+and see how similar it is to my solution.</p>
+
+<p>First we&rsquo;re going to compute something, and then we&rsquo;re going to &ldquo;and&rdquo; it with
+<code>~(N-1)</code>. Well, &ldquo;and&#8221;ing <em>anything</em> against <code>~(N-1)</code> is going to round it down
+to a multiple of N. So that part is taken care of.</p>
+
+<p>Now we need to get the <em>right</em> multiple of N. <code>if X &lt; N</code>, then then adding X to
+N and rounding down to a multiple N is just going to give us N. That&rsquo;s the
+first line of my answer, taken care of.</p>
+
+<p>So <code>if X &gt; N</code>, we either do or don&rsquo;t have bits in place values below N. This is
+what my last two lines are taking care of. However, we can deal with this by
+noting that after we add X to N, if there are bits in place values below N,
+when we subtract 1, it will not change any bits that will survive the &ldquo;and&rdquo;
+stage. But if there are no bits in place values below N, then subtracting one
+will decrement our answer wrt bits N and higher.</p>
+
+<p>Hmm, not the best explanation of all time. But that&rsquo;s what&rsquo;s going on in there.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Avoiding Sign Extension]]></title>
@@ -2176,296 +2277,6 @@ doing this, but one example said</p>
 <p>Assuming this is semantically what is desired of class equality, is there any
 reason this is a Bad Way to implement it? Why has no one told me about this?
 It seems too easy, but I guess sometimes things are just simple.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Java Inheritance]]></title>
-    <link href="http://ethanp.github.io/blog/2014/05/23/java-inheritance-issue/"/>
-    <updated>2014-05-23T16:06:59-05:00</updated>
-    <id>http://ethanp.github.io/blog/2014/05/23/java-inheritance-issue</id>
-    <content type="html"><![CDATA[<p>I spent quite a while struggling with the Java class declaration syntax, and
-now I am starting to get it.</p>
-
-<h3>Problem simplification</h3>
-
-<p>I started out writing this post because I was <em>totally right</em> and the Java
-compiler was <em>wrong</em>, and so on, but now I have cleared it up and I was wrong
-and the compiler was right after all (surprise!). I was initially intending to
-use this post as a way of getting satisfaction out of how much smarter I am
-than the compiler, and instead I will use this space to explain to the next
-how to answer similar questions. I started by <em>heavily</em> simplifying my issue
-down to its core, and attacking the simplified problem instead of the original
-one with extraneous variables and interconnections. I&rsquo;ve never approached a
-programming problem like that, and let me tell you: seems like it worked. By a
-twist of fate, the new version looks like a LinkedList, that&rsquo;s not what I
-started out doing, but who knows what&rsquo;ll happen when you keep smushing the
-problem from a larger context into a little jar.</p>
-
-<p>First, we have a <code>Base</code>, which holds an element <code>elem</code> of any type, and a
-reference to another <code>Base</code>, quite like a <em>linked list</em>.</p>
-
-<figure class='code'><figcaption><span>Base.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">T</span> <span class="n">elem</span><span class="o">;</span>
-</span><span class='line'>    <span class="n">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">Base</span><span class="o">(</span><span class="n">T</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">elem</span> <span class="o">=</span> <span class="n">elem</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next, we have an <code>Ord</code>, which is a <code>Base</code> that is <code>Comparable</code>. We require
-that the element contained by an <code>Ord</code> is itself comparable, and furthermore
-that the method of comparing <code>Ord</code>s is to compare their respective <code>elem</code>s:</p>
-
-<figure class='code'><figcaption><span>Ord.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Ord</span><span class="o">&lt;</span><span class="n">U</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>    <span class="n">Ord</span><span class="o">(</span><span class="n">U</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">elem</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This works fine, but note the following limitation:</p>
-
-<figure class='code'><figcaption><span>main.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">3</span><span class="o">);</span>
-</span><span class='line'>    <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">4</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">b</span><span class="o">);</span>         <span class="c1">// this works just fine</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// this does not work because a.next is of type Base&lt;Integer&gt;</span>
-</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// this DOES work though because a.elem is of type Integer which is Comparable</span>
-</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After writing and re-writing this blog post over and over, this makes sense
-now. I used to be confused: &ldquo;shouldn&rsquo;t the compiler <em>know</em> that a.next is an
-Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo;</p>
-
-<!-- more -->
-
-
-<p>So I had the following code, which I considered a &ldquo;workaround&rdquo;, where we inform
-the compiler that <code>next</code> is an <code>Ord</code> not a <code>Base</code>.</p>
-
-<figure class='code'><figcaption><span>Ord.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Ord</span><span class="o">&lt;</span><span class="n">U</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="kd">extends</span> <span class="n">Base</span> <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>    <span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">Ord</span><span class="o">(</span><span class="n">U</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">elem</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It is now quite clear that there is no way the compiler would know your
-intention of having the <code>next</code> component of descendents of <code>Base</code> be (static)
-instances of their own respective classes. In fact, I&rsquo;d bet most of the time
-that&rsquo;s <em>not</em> what people want. But I was blind, and I believe I now see.</p>
-
-<h2>Let&rsquo;s talk about Scala</h2>
-
-<p>Here is the (rough) equivalent to <em>all of that</em> (second Java version) in Scala:</p>
-
-<figure class='code'><figcaption><span>InheritanceTest.scala</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">class</span> <span class="nc">Base</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="k">val</span> <span class="n">elem</span><span class="k">:</span> <span class="kt">T</span><span class="o">,</span> <span class="k">val</span> <span class="n">next</span><span class="k">:</span> <span class="kt">Base</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Ord</span><span class="o">[</span><span class="kt">U</span> <span class="k">&lt;%</span> <span class="kt">Ordered</span><span class="o">[</span><span class="kt">U</span><span class="o">]](</span><span class="k">override</span> <span class="k">val</span> <span class="n">elem</span><span class="k">:</span> <span class="kt">U</span><span class="o">,</span> <span class="k">override</span> <span class="k">val</span> <span class="n">next</span><span class="k">:</span> <span class="kt">Ord</span><span class="o">[</span><span class="kt">U</span><span class="o">])</span>
-</span><span class='line'>                        <span class="k">extends</span> <span class="nc">Base</span><span class="o">[</span><span class="kt">U</span><span class="o">](</span><span class="n">elem</span><span class="o">,</span> <span class="n">next</span><span class="o">)</span> <span class="k">with</span> <span class="nc">Ordered</span><span class="o">[</span><span class="kt">Ord</span><span class="o">[</span><span class="kt">U</span><span class="o">]]</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">override</span> <span class="k">def</span> <span class="n">compare</span><span class="o">(</span><span class="n">that</span><span class="k">:</span> <span class="kt">Ord</span><span class="o">[</span><span class="kt">U</span><span class="o">])</span> <span class="k">=</span> <span class="k">this</span><span class="o">.</span><span class="n">elem</span> <span class="n">compare</span> <span class="n">that</span><span class="o">.</span><span class="n">elem</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">object</span> <span class="nc">Run</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Ord</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span>
-</span><span class='line'>  <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Ord</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span>
-</span><span class='line'>  <span class="n">println</span><span class="o">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="o">)</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The funny thing about this Scala version is that Intellij actually indicates a
-compiler error, but SBT is quite happy to (correctly) compile it and produce a
-result. This is one of those <em>opportunities</em> to spend forever looking for the
-reason it won&rsquo;t compile, only to find that it compiles just fine.</p>
-
-<p>Note that in the Scala version we were forced to say <code>override</code>, which is
-<em>great</em> because in Java there is no indication that this is an overriden
-field, and no resulting check of whether the override was successful. Of
-course, in this example, no big deal. But what if there were a bunch of
-instance variables that needed to be overridden, and they were private with
-getters and setters, and split across multiple classes, etc.?</p>
-
-<p>The other thing is that in the Scala version we must use a &ldquo;view bound&rdquo; <code>&lt;%</code>
-rather than my first thought, an &ldquo;upper type bound&rdquo; <code>&lt;:</code>. (I put the English
-names of those operators so you can google them. Good luck googling <code>&lt;:</code>
-alone!) In any case, it seems to me that <code>[A &lt;: B]</code> means that <code>&lt;A extends B&gt;</code>, while
-<code>[A &lt;% B]</code> means that <em>either</em> <code>[A &lt;: B]</code> <em>or</em> <code>A</code> has some implicit conversion defined to some type <code>C</code> s.t. <code>[C &lt;: B]</code>, though I&rsquo;m not 100% about that. In our Scala example above <code>&lt;%</code> is necessary because (for example) it is <strong>not</strong> the case that <code>[Int &lt;: Seq[Int]]</code>
-<a href="http://stackoverflow.com/questions/16001010/why-does-int-not-inherit-extend-from-orderedint">because Int has a primitive represenation</a>.</p>
-
-<h2>Extravagant insight</h2>
-
-<p>So in response to my confused pleas for &ldquo;a clean solution&rdquo; (before my epiphany
-for why-it-must-be-so) my roommate came up with a clever scheme to configure
-the type of the <code>next</code> pointer within the class declaration:</p>
-
-<figure class='code'><figcaption><span>Base.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">E</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">&gt;</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">T</span> <span class="n">elem</span><span class="o">;</span>
-</span><span class='line'>    <span class="n">E</span> <span class="n">next</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">Base</span><span class="o">(</span><span class="n">T</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">elem</span> <span class="o">=</span> <span class="n">elem</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>Ord.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Ord</span><span class="o">&lt;</span><span class="n">U</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">&lt;</span><span class="n">U</span><span class="o">,</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span>
-</span><span class='line'>                            <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">Ord</span><span class="o">(</span><span class="n">U</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">elem</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">3</span><span class="o">);</span>
-</span><span class='line'>        <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">4</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// still works, as before</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">b</span><span class="o">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">a</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// NOW WORKS, before it didn&#39;t!</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">));</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// still works, as before</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">elem</span><span class="o">));</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>For whatever reason, when we put it into my existing code it didn&rsquo;t work and
-we were both totally confused because it makes perfect sense. But now, when I
-put it into my way simplified version, it works! So his idea just went from
-being &ldquo;just clever&rdquo; to being &ldquo;applicably awesome&rdquo;.</p>
 ]]></content>
   </entry>
   
