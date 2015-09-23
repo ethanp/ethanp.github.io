@@ -10,6 +10,9 @@ I was looking at an implementation of file-based mergesort [from GitHub](https:/
 
 ```java
 /**
+ * Author: cowtowncoder
+ * https://github.com/cowtowncoder/java-merge-sort/blob/master/src/main/java/com/fasterxml/sort/std/ByteArrayComparator.java
+ * 
  * Simple implementation of comparator for byte arrays which
  * will compare using <code>unsigned</code> byte values (meaning
  * that 0xFF is creator than 0x00, for example).
