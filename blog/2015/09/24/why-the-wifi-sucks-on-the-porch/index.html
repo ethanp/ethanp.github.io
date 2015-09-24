@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Low Level - With Pith</title>
+  <title>Why the WiFi Sucks on the Porch - With Pith</title>
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="Category: low level">
+  <meta name="description" content="Why is WiFi so slow on the porch? The problem at my house is that WiFi connectivity is generally fine inside the
+house, but while sitting on the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ethanp.github.ioblog/categories/low-level">
+  <link rel="canonical" href="http://ethanp.github.io/blog/2015/09/24/why-the-wifi-sucks-on-the-porch">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
@@ -66,35 +67,112 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Low Level</h1>
+    
+      <h1 class="entry-title">Why the WiFi Sucks on the Porch</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-24T16:31:30-05:00" pubdate data-updated="true">Sep 24<span>th</span>, 2015</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h2>Why is WiFi so slow on the porch?</h2>
 
-  
-  <h2>2015</h2>
+<p>The problem at my house is that WiFi connectivity is generally fine inside the
+house, but while sitting on the porch it is nearly impossible for anyone to
+browse the Hinternets. I think a lesson of my <a href="http://www.cs.utexas.edu/~lili/classes/F15-CS386W/">Wireless Networking</a> course
+explains this observation.</p>
 
-<article>
-  
-<h1><a href="/blog/2015/09/23/bit-twiddling-data-structure-alignment/">Bit Twiddling: Data Structure Alignment</a></h1>
-<time datetime="2015-09-23T13:44:04-05:00" pubdate><span class='month'>Sep</span> <span class='day'>23</span> <span class='year'>2015</span></time>
+<p>In Wireless networking we have the situation called the <a href="http://www.wikiwand.com/en/Hidden_node_problem"><strong>Hidden Terminal
+Problem</strong></a>, which is the following. Node <code>A</code> is too far from node <code>C</code> to
+hear its transmissions, but both are in range of node <code>B</code> which sits between
+<code>A</code> and <code>C</code>. Suppose <code>C</code> is currently transmitting data to <code>B</code>. Now <code>A</code> checks
+whether any transmissions are currently happening, and finds that there are
+none (because it is out of range of <code>C</code>). So <code>A</code> goes ahead and sends data to
+<code>B</code>. Now <code>B</code> can&rsquo;t understand either data packet because they collided and
+interfered with each other in an unrecoverable way because they were both sent
+in the same channel.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/c/'>C</a>, <a class='category' href='/blog/categories/bit-twiddling/'>bit twiddling</a>, <a class='category' href='/blog/categories/competitive-programming/'>competitive programming</a>, <a class='category' href='/blog/categories/low-level/'>low level</a>, <a class='category' href='/blog/categories/operating-systems/'>operating systems</a>, <a class='category' href='/blog/categories/programming/'>programming</a></span>
-</footer>
+<p>I think the porch scenario is simply an example of the <em>Hidden Terminal
+Problem</em> above. In my room, my laptop can hear many of my neighbors&#8217; WiFi LAN
+networks, but it&rsquo;s the same set that my WiFi router sitting in the closet can
+hear. However outside, where there&rsquo;s less cause for signal attenuation, my
+laptop can hear many more WiFi LAN networks than the router inside. So the
+router checks whether there is congestion, doesn&rsquo;t hear any, and sends the
+data. But there <em>is</em>, in fact, congestion, and my computer doesn&rsquo;t receive the
+data properly. The data is therefore not <em>ACKd</em>, the router times out on the
+<em>ACK</em>, and has to retransmit, and so on. This makes for a <em>far</em> slower
+Hinterconnectivity outside on the porch than in my room.</p>
 
-
-</article>
-
+<p>Maybe the lesson learnt is that the WiFi router should be situated in a place
+where it can hear more of the outside noise so that it can compensate better
+for that noise.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-24T16:31:30-05:00" pubdate data-updated="true">Sep 24<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/wifi/'>WiFi</a>, <a class='category' href='/blog/categories/networking/'>networking</a>, <a class='category' href='/blog/categories/school/'>school</a>, <a class='category' href='/blog/categories/wireless/'>wireless</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/23/bit-twiddling-data-structure-alignment/" title="Previous Post: Bit Twiddling: Data Structure Alignment">&laquo; Bit Twiddling: Data Structure Alignment</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>

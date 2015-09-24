@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-09-23T13:46:21-05:00</updated>
+  <updated>2015-09-24T16:35:33-05:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Why the WiFi Sucks on the Porch]]></title>
+    <link href="http://ethanp.github.io/blog/2015/09/24/why-the-wifi-sucks-on-the-porch/"/>
+    <updated>2015-09-24T16:31:30-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/09/24/why-the-wifi-sucks-on-the-porch</id>
+    <content type="html"><![CDATA[<h2>Why is WiFi so slow on the porch?</h2>
+
+<p>The problem at my house is that WiFi connectivity is generally fine inside the
+house, but while sitting on the porch it is nearly impossible for anyone to
+browse the Hinternets. I think a lesson of my <a href="http://www.cs.utexas.edu/~lili/classes/F15-CS386W/">Wireless Networking</a> course
+explains this observation.</p>
+
+<p>In Wireless networking we have the situation called the <a href="http://www.wikiwand.com/en/Hidden_node_problem"><strong>Hidden Terminal
+Problem</strong></a>, which is the following. Node <code>A</code> is too far from node <code>C</code> to
+hear its transmissions, but both are in range of node <code>B</code> which sits between
+<code>A</code> and <code>C</code>. Suppose <code>C</code> is currently transmitting data to <code>B</code>. Now <code>A</code> checks
+whether any transmissions are currently happening, and finds that there are
+none (because it is out of range of <code>C</code>). So <code>A</code> goes ahead and sends data to
+<code>B</code>. Now <code>B</code> can&rsquo;t understand either data packet because they collided and
+interfered with each other in an unrecoverable way because they were both sent
+in the same channel.</p>
+
+<p>I think the porch scenario is simply an example of the <em>Hidden Terminal
+Problem</em> above. In my room, my laptop can hear many of my neighbors&#8217; WiFi LAN
+networks, but it&rsquo;s the same set that my WiFi router sitting in the closet can
+hear. However outside, where there&rsquo;s less cause for signal attenuation, my
+laptop can hear many more WiFi LAN networks than the router inside. So the
+router checks whether there is congestion, doesn&rsquo;t hear any, and sends the
+data. But there <em>is</em>, in fact, congestion, and my computer doesn&rsquo;t receive the
+data properly. The data is therefore not <em>ACKd</em>, the router times out on the
+<em>ACK</em>, and has to retransmit, and so on. This makes for a <em>far</em> slower
+Hinterconnectivity outside on the porch than in my room.</p>
+
+<p>Maybe the lesson learnt is that the WiFi router should be situated in a place
+where it can hear more of the outside noise so that it can compensate better
+for that noise.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Bit Twiddling: Data Structure Alignment]]></title>
@@ -2157,126 +2196,6 @@ same problem when they’re texting to you. This means that even if you got the
 message, they don’t know that you got it. And so you can try to reassure them,
 and then they will know that you got it, but you still don’t know if they know
 that you get it. And that circle goes on forever.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Class Equivalence]]></title>
-    <link href="http://ethanp.github.io/blog/2014/06/29/python-class-equivalence/"/>
-    <updated>2014-06-29T19:32:24-05:00</updated>
-    <id>http://ethanp.github.io/blog/2014/06/29/python-class-equivalence</id>
-    <content type="html"><![CDATA[<h2><code>vars(self) == vars(other)</code>, it seems too easy</h2>
-
-<p>I implemented a class</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">123</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">436</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then when I created two equivalent instances and compared them, I got false.</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
-</span><span class='line'><span class="bp">False</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">==</span> <span class="n">a</span>
-</span><span class='line'><span class="bp">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This must be because the <code>==</code> operator performs reference equality by default
-which is what I should have expected, so I implemented a simple equivalence operator</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">a</span> <span class="ow">and</span> \
-</span><span class='line'>           <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">b</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then I figured there must be an easier way to do something so simple. So I
-looked for what <strong>reflection</strong> methods are available on my new class, and
-found the method <code>vars(object)</code>, which for this thing would return</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">436</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is just what I needed for a very simple equivalence operator</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">vars</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Unfortunately, <code>vars(a)</code> doesn&rsquo;t just work on <em>everything</em>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="nb">vars</span><span class="p">()</span> <span class="n">argument</span> <span class="n">must</span> <span class="n">have</span> <span class="n">__dict__</span> <span class="n">attribute</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So I&rsquo;m assuming <code>vars(a)</code> just calls <code>a.__dict__</code>.</p>
-
-<p>I looked on Google and GitHub and didn&rsquo;t find too many examples of people
-doing this, but one example said</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">and</span> \
-</span><span class='line'>           <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__dict__</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So, until I find a reason not to, my default equality implementation shall be</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">and</span> \
-</span><span class='line'>           <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">vars</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Assuming this is semantically what is desired of class equality, is there any
-reason this is a Bad Way to implement it? Why has no one told me about this?
-It seems too easy, but I guess sometimes things are just simple.</p>
 ]]></content>
   </entry>
   

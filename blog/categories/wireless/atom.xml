@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Wireless | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/wireless/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-09-23T13:46:21-05:00</updated>
+  <updated>2015-09-24T16:35:33-05:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Why the WiFi Sucks on the Porch]]></title>
+    <link href="http://ethanp.github.io/blog/2015/09/24/why-the-wifi-sucks-on-the-porch/"/>
+    <updated>2015-09-24T16:31:30-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/09/24/why-the-wifi-sucks-on-the-porch</id>
+    <content type="html"><![CDATA[<h2>Why is WiFi so slow on the porch?</h2>
+
+<p>The problem at my house is that WiFi connectivity is generally fine inside the
+house, but while sitting on the porch it is nearly impossible for anyone to
+browse the Hinternets. I think a lesson of my <a href="http://www.cs.utexas.edu/~lili/classes/F15-CS386W/">Wireless Networking</a> course
+explains this observation.</p>
+
+<p>In Wireless networking we have the situation called the <a href="http://www.wikiwand.com/en/Hidden_node_problem"><strong>Hidden Terminal
+Problem</strong></a>, which is the following. Node <code>A</code> is too far from node <code>C</code> to
+hear its transmissions, but both are in range of node <code>B</code> which sits between
+<code>A</code> and <code>C</code>. Suppose <code>C</code> is currently transmitting data to <code>B</code>. Now <code>A</code> checks
+whether any transmissions are currently happening, and finds that there are
+none (because it is out of range of <code>C</code>). So <code>A</code> goes ahead and sends data to
+<code>B</code>. Now <code>B</code> can&rsquo;t understand either data packet because they collided and
+interfered with each other in an unrecoverable way because they were both sent
+in the same channel.</p>
+
+<p>I think the porch scenario is simply an example of the <em>Hidden Terminal
+Problem</em> above. In my room, my laptop can hear many of my neighbors' WiFi LAN
+networks, but it&rsquo;s the same set that my WiFi router sitting in the closet can
+hear. However outside, where there&rsquo;s less cause for signal attenuation, my
+laptop can hear many more WiFi LAN networks than the router inside. So the
+router checks whether there is congestion, doesn&rsquo;t hear any, and sends the
+data. But there <em>is</em>, in fact, congestion, and my computer doesn&rsquo;t receive the
+data properly. The data is therefore not <em>ACKd</em>, the router times out on the
+<em>ACK</em>, and has to retransmit, and so on. This makes for a <em>far</em> slower
+Hinterconnectivity outside on the porch than in my room.</p>
+
+<p>Maybe the lesson learnt is that the WiFi router should be situated in a place
+where it can hear more of the outside noise so that it can compensate better
+for that noise.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Basics of Wireless Communication]]></title>
