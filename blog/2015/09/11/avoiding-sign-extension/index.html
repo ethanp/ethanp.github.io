@@ -223,7 +223,7 @@ be <em>negative</em>. However note:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>So now <code>c = 1</code> instead of <code>-256</code>.</p>
+<p>So now <code>c = 1</code> instead of <code>-255</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -240,11 +240,11 @@ be <em>negative</em>. However note:</p>
 </span><span class='line'><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="o">(</span><span class="err">`</span><span class="mh">0x00</span><span class="err">`</span> <span class="o">&amp;</span> <span class="mh">0x000000ff</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="err">`</span><span class="mh">0xff</span><span class="err">`</span> <span class="o">&amp;</span> <span class="mh">0x000000ff</span><span class="o">);</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// which becomes this</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="mh">0x000000ff</span><span class="o">;</span> <span class="c1">// 0 - 256 = -256 (avoided sign extension)</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="mh">0x000000ff</span><span class="o">;</span> <span class="c1">// 0 - 255 = -255 (avoided sign extension)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>So because of the masking, we avoided sign extension, and now <code>c = -256</code>, which
+<p>So because of the masking, we avoided sign extension, and now <code>c = -255</code>, which
 is what we wanted.</p>
 </div>
 
