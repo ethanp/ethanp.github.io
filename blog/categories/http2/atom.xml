@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Http2 | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/http2/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2015-10-26T16:14:45-05:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Intro to HTTP/2]]></title>
+    <link href="http://ethanp.github.io/blog/2015/10/26/intro-to-http-slash-2/"/>
+    <updated>2015-10-26T16:11:59-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/10/26/intro-to-http-slash-2</id>
+    <content type="html"><![CDATA[<h2>The problem of HTTP/1.1</h2>
+
+<h3>HTTP/1.1 is from an earlier Web</h3>
+
+<p>For the past several years, Google, Mozilla, Akamai, the IETF, the academic
+research community, and others have been engaged in efforts to reduce PLTs
+experienced by users of the WWW. One bottleneck in apparent need of an update
+is the now-&ldquo;ancient&rdquo; HTTP/1.1 (H1) protocol, published in 1999.</p>
+
+<p>From the beginning, one of the major design goals of the original HTTP protocol
+was simplicity to implement and adopt, to encourage growth of the WWW.
+Evidently, this technique worked. However, over the past 16 years, the way
+people create, distribute, and view pages on the WWW has changed drastically.
+Pages today have far more Javascript, CSS, images, and other content to go
+along with the vanilla HTML. In the course of this evolution, numerous issues
+with H1 have come up, mostly pertaining to the number of sequential round-trips
+it requires to fully download the data for each web page. These round-trips
+introduce unnecessary latency.</p>
+
+<!-- more -->
+
+
+<p>Over the past 16 years, countermeasures, &ldquo;optional&rdquo; protocol alterations, and
+application level workarounds have been suggested and implemented to reduce the
+round-trip count and therefore latency of pages retrieved using H1.</p>
+
+<h3>HTTP/1.1 PLT Optimizations</h3>
+
+<p>Some optimizations servers and browsers use to lower PLTs seen by clients are
+the following:</p>
+
+<ol>
+<li>Opening multiple TCP connections to request the download of multiple
+required web page resources in parallel.</li>
+<li>Inlining and concatenating scripts and stylesheets to reduce the number of
+requests.</li>
+<li><em>HTTP pipelining</em>, in which multiple requests are sent by the browser over a
+single TCP connection before waiting for responses to any, then the server
+sends all of the responses back in the same order.</li>
+</ol>
+
+
+<p>HTTP pipelining was an idea that did not work out. It seemed like a logical
+approach to improve HTTP performance by reducing latency. However, in reality,
+HOL blocking became an even greater issue then it already had been, and it also
+led to issues with older proxies that are difficult to update. Nowadays, modern
+browsers do not enable pipelining.</p>
+
+<h2>HTTP/2 aims to address these issues</h2>
+
+<p>The main reason multiple resources can&rsquo;t be <em>multiplexed</em> (downloaded in
+parallel) over a single TCP connection in H1 is because it is an ASCII
+protocol. Being an ASCII protocol means that there is no easy way to specify
+how to demultiplex those responses with a parser.</p>
+
+<p>To address this, HTTP/2 (H2) is a <em>binary</em> protocol that <em>can</em> easily multiplex
+multiple requests and responses through a single TCP connection. It does this
+using a new <em>binary framing layer</em>, in which responses are broken into separate
+<em>frames</em> and interleaved through the TCP socket.</p>
+
+<p>Web designers have discovered that to yield the best user experience, the
+server should transmit certain most-important resources first, as soon as they
+are available to send (e.g. loaded from disk). H2 frames (and <em>streams</em>) have
+an (optional) <code>priority</code> field to allow the application developer (and server
+writer) to bias the ordering of frames sent through the socket. For example,
+one may want to ensure that <code>.html</code> files have a higher priority than <code>.jpeg</code>
+files because <code>.jpeg</code>s contain a lot of data and are not as crucial for showing
+the user a <em>barebones</em> version of the page they requested.</p>
+
+<h3>Brief History</h3>
+
+<p>The current H2 specification (RFC 7540) is based primarily on the SPDY protocol
+invented and first used at Google. Google is in a rather unique position to
+conduct research on this topic because they write the code running large
+proportion of both user&rsquo;s browsers, <em>as well as</em> the servers for a large
+portion of the web pages those people visit. This allows them to run real
+controlled experimental studies on web traffic, to try to guage the best way to
+speed up the Web.</p>
+
+<p>Many have voiced concerns that Google&rsquo;s ideas are welcomed to quickly by the
+standards committee. However, supporters are eager to get the ball rolling on
+any good ideas, and point to the fact that Google already has <em>results</em>.</p>
+
+<p>Note that some of the experimental results below were actually obtained using
+SPDY rather than H2, but we will not concern ourselves with that because they
+are the same in essence. Google Chrome still supports SPDY, but has claimed it
+will remove support in 2016 so that there are not two competing
+standardizations of basically the same protocol.</p>
+
+<p>In reality, in my Chrome browser, using the &ldquo;HTTP/2 and SPDY indicator&rdquo;
+extension, I can see that Google&rsquo;s search results and YouTube videos are served
+over SPDY/3 running on top of their still-in-research QUIC protocol which is
+meant to replace TCP as the transport layer protocol underneath HTTP. The
+&ldquo;indicator&rdquo; reveals that many websites are in fact already being served over
+H2, including Twitter. I hope to explore what exactly QUIC does, promises, and
+delivers further in my research if there is time and space for it.</p>
+
+<h3>Experimental Results</h3>
+
+<p>Experiments investigating relative performance differences between H1 and H2
+have yielded contradictory results (Wang et al.). In (Wang et al.), they found
+that H2 generally outperforms H1, except when the task is to transmit <em>large</em>
+objects over a <em>high-loss</em> connection. One of the goals in defining H2 is that
+it is supposed to be easy to swap-in in-place of H1. This finding indicates
+that especially with respect to mobile phones, the H1 optimization techniques
+of inlining and concatenating web page resources is the wrong way to
+improve performance for H2.</p>
+
+<h3>HTTP for Mobile</h3>
+
+<p>With respect to mobile devices, there are multiple problems with HTTP that are
+<em>not</em> addressed by H2 (Erman et al.).</p>
+
+<p>First of all, TCP congestion window part of congestion avoidance (<code>cwnd</code> and
+<code>ssthresh</code>) makes it so that dropping a single TCP datagram leads to a
+drastically reduced throughput. This is because TCP assumes the packet was
+dropped due to network congestion, when in reality, it could have been for any
+of the wireless-specific issues (multipath propagation, etc.)</p>
+
+<p>Secondly, bad interactions between the 3G &amp; LTE MAC state machine timeouts and
+modern default TCP timeouts and mechanisms lead to datagram <em>retransmissions</em>
+with further resets on congestion window state variables, resulting in a
+drastically negative impact on throughput.</p>
+
+<h3>Research is needed</h3>
+
+<p>From the system administrators' perspective, it is still difficult to decide
+whether enabling H2 on one&rsquo;s servers is going to have a positive impact on
+performance <em>at all</em> (Varvello et al.). The following questions still do not
+have good enough answers to make answering that decision easy.</p>
+
+<ol>
+<li>What changes to the infrastructure and optimization pipeline are needed to
+provide a significant benefit over H1?</li>
+<li>What are the best algorithms for leveraging H2&rsquo;s new capabilities for
+<em>server push</em> and <em>prioritization</em>?</li>
+<li>Why do experiments by different research groups yield such a wide disparity
+in results?</li>
+<li>Are we unlikely to see any real PLT improvements until we improve the
+underlying transport layer protocol?</li>
+<li>In what ways is the problem different for mobile?
+
+<ul>
+<li>What changes need to be made in the mobile-specific scenario, viz. where
+interference, low bandwidth, high latency, and battery life
+considerations are major concerns?</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>Glossary</h2>
+
+<ul>
+<li><strong>IETF</strong> (Internet Engineering Task Force) &mdash; a standards organization for
+the Internet, which produces &ldquo;RFC"s (requests for comment) specifying some of
+the crucial internet protocols, such as HTTP, TCP, and TLS.</li>
+<li><strong>PLT</strong> (Page Load Time) &mdash; the duration between the time at which a user
+submits a request for a web page, and the time at which she receives the last
+byte of data needed to represent that web page correctly</li>
+<li><strong>WWW</strong> (World Wide Web) &mdash; a decentralized collection of resources,
+requested and transmitted using <em>HTTP</em></li>
+<li><strong>HTTP</strong> (HyperText Transfer Protocol) &mdash; a protocol specifying the way an
+HTTP <em>client</em> may upload, download, update, etc. documents on an HTTP
+<em>server</em>. Often used for downloading <em>HTML</em> in particular.</li>
+<li><strong>TCP</strong> (Transmission Control Protocol) &mdash; a protocol which provides an
+application the abstraction of having a reliable pipe across the Internet
+into/from which it may send/receive ordered sequences of bytes</li>
+<li><strong>HOL blocking</strong> (head-of-line blocking) &mdash; when multiple messages are being
+sent, but due to imposed FIFO ordering, messages ready to be sent must wait
+for an earlier message which is taking a long time</li>
+</ul>
+
+
+<h2>References</h2>
+
+<ul>
+<li>Erman, Jeffrey, et al. &ldquo;Towards a SPDY'ier mobile web?.&rdquo; <em>Proceedings of the
+ninth ACM conference on Emerging networking experiments and technologies.
+ACM</em>, 2013.</li>
+<li>Grigorik, Ilya. High Performance Browser Networking: What every web developer
+should know about networking and web performance. <em>O'Reilly Media, Inc.</em>, 2013.</li>
+<li>Roth, Gregor. &ldquo;HTTP/2 for Java Developers&rdquo;. Retrieved from
+<a href="http://www.javaworld.com/article/2916548/java-web-development/http-2-for-">http://www.javaworld.com/article/2916548/java-web-development/http-2-for-</a>
+java-developers.html on October 8, 2015.</li>
+<li>Stenberg, Daniel aka. bagder. <em>http2 explained</em>, retrieved October 8, 2015;
+downloaded as MOBI.</li>
+<li>Varvello, Matteo, et al. &ldquo;To HTTP/2, or Not To HTTP/2, That Is The Question&rdquo;
+arXiv preprint arXiv:1507.06562 (2015).</li>
+<li>Wang, Xiao Sophia, et al. &ldquo;How speedy is SPDY.&rdquo; <em>Proc. of the 11th USENIX
+Symposium on Networked Systems Design and Implementation (NSDI)</em>. 2014.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

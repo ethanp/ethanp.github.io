@@ -195,8 +195,6 @@ shell config file.</p>
 <span class='line-number'>32</span>
 <span class='line-number'>33</span>
 <span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
 </pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">#</span> <span class="n">checkout</span> <span class="n">prev</span> <span class="o">(</span><span class="n">older</span><span class="o">)</span> <span class="n">revision</span>
 </span><span class='line'><span class="n">git_prev</span><span class="o">()</span> <span class="o">{</span>
 </span><span class='line'>    <span class="k">#</span> <span class="n">move</span> <span class="nc">HEAD</span> <span class="s">&quot;one&quot;</span> <span class="n">generation</span> <span class="n">back</span> <span class="n">along</span> <span class="o">*</span><span class="k">this</span><span class="o">*</span> <span class="n">branch</span>
@@ -215,22 +213,20 @@ shell config file.</p>
 </span><span class='line'>    <span class="k">#</span> <span class="nc">BRANCH</span><span class="o">=...</span><span class="k">:</span>
 </span><span class='line'>    <span class="k">#</span>       <span class="kt">get</span> <span class="kt">the</span> <span class="kt">name</span> <span class="kt">of</span> <span class="kt">the</span> <span class="kt">branch</span> <span class="kt">HEAD</span> <span class="kt">is</span> <span class="kt">on</span>
 </span><span class='line'>    <span class="k">#</span>
-</span><span class='line'>    <span class="k">#</span> <span class="nc">HASH</span><span class="o">=</span><span class="n">`git rev-prase $BRANCH`</span>
-</span><span class='line'>    <span class="k">#</span>       <span class="n">get</span> <span class="n">the</span> <span class="n">hash</span> <span class="n">of</span> <span class="n">the</span> <span class="n">latest</span> <span class="n">commit</span> <span class="n">on</span> <span class="n">the</span> <span class="n">current</span> <span class="n">branch</span>
-</span><span class='line'>    <span class="k">#</span>
+</span><span class='line'>    <span class="nc">BRANCH</span><span class="o">=</span><span class="n">`git show-ref | grep $(git show-ref -s HEAD) | sed &#39;s|.*/||&#39; | grep -v HEAD | sort -u`</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">#</span> <span class="n">get</span> <span class="n">the</span> <span class="n">hash</span> <span class="n">of</span> <span class="n">the</span> <span class="n">latest</span> <span class="n">commit</span> <span class="n">on</span> <span class="n">the</span> <span class="n">current</span> <span class="n">branch</span>
+</span><span class='line'>    <span class="nc">HASH</span><span class="o">=</span><span class="n">`git rev-parse $BRANCH`</span>
+</span><span class='line'>
 </span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">rev</span><span class="o">-</span><span class="n">list</span> <span class="o">--</span><span class="n">topo</span><span class="o">-</span><span class="n">order</span> <span class="nc">HEAD</span><span class="o">..</span><span class="nc">$HASH</span><span class="k">:</span>
 </span><span class='line'>    <span class="k">#</span>       <span class="kt">list</span> <span class="kt">all</span> <span class="kt">commit</span> <span class="kt">sha</span><span class="err">&#39;</span><span class="kt">s</span> <span class="kt">in</span> <span class="kt">order</span> <span class="kt">on</span> <span class="kt">the</span> <span class="kt">current</span> <span class="kt">branch</span> <span class="kt">from</span>
 </span><span class='line'>    <span class="k">#</span>       <span class="nc">HEAD</span> <span class="n">until</span> <span class="n">now</span>
 </span><span class='line'>    <span class="k">#</span>
-</span><span class='line'>    <span class="k">#</span> <span class="nc">PREV</span><span class="o">=...</span><span class="k">:</span>
-</span><span class='line'>    <span class="k">#</span>       <span class="kt">get</span> <span class="kt">the</span> <span class="kt">commit</span> <span class="kt">sha</span> <span class="kt">for</span> <span class="kt">the</span> <span class="kt">commit</span> <span class="kt">after</span> <span class="kt">HEAD</span> <span class="kt">on</span> <span class="kt">branch</span>
+</span><span class='line'>    <span class="k">#</span> <span class="nd">@return</span> <span class="n">the</span> <span class="n">commit</span> <span class="n">sha</span> <span class="k">for</span> <span class="n">the</span> <span class="n">commit</span> <span class="n">after</span> <span class="nc">HEAD</span> <span class="n">on</span> <span class="n">branch</span>
 </span><span class='line'>    <span class="k">#</span>
-</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">checkout</span> <span class="nc">$PREV</span>
-</span><span class='line'>    <span class="k">#</span>       <span class="n">move</span> <span class="n">head</span> <span class="n">to</span> <span class="n">the</span> <span class="n">next</span> <span class="n">commit</span>
-</span><span class='line'>    <span class="k">#</span>
-</span><span class='line'>    <span class="nc">BRANCH</span><span class="o">=</span><span class="n">`git show-ref | grep $(git show-ref -s HEAD) | sed &#39;s|.*/||&#39; | grep -v HEAD | sort -u`</span>
-</span><span class='line'>    <span class="nc">HASH</span><span class="o">=</span><span class="n">`git rev-parse $BRANCH`</span>
 </span><span class='line'>    <span class="nc">PREV</span><span class="o">=</span><span class="n">`git rev-list --topo-order HEAD..$HASH | tail -1`</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">#</span> <span class="n">move</span> <span class="n">head</span> <span class="n">to</span> <span class="n">the</span> <span class="n">next</span> <span class="n">commit</span>
 </span><span class='line'>    <span class="n">git</span> <span class="n">checkout</span> <span class="nc">$PREV</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -321,6 +317,10 @@ a better understanding of how Git works.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/26/intro-to-http-slash-2/">Intro to HTTP/2</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/09/24/why-the-wifi-sucks-on-the-porch/">Why the WiFi Sucks on the Porch</a>
       </li>
     
@@ -334,10 +334,6 @@ a better understanding of how Git works.</p>
     
       <li class="post">
         <a href="/blog/2015/09/07/basics-of-wireless-communication/">Basics of Wireless Communication</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary/">A Pattern in the Stone: Review and Summary</a>
       </li>
     
   </ul>
