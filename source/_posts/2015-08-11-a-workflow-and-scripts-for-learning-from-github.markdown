@@ -83,22 +83,20 @@ git_next() {
     # BRANCH=...:
     #       get the name of the branch HEAD is on
     #
-    # HASH=`git rev-prase $BRANCH`
-    #       get the hash of the latest commit on the current branch
-    #
+    BRANCH=`git show-ref | grep $(git show-ref -s HEAD) | sed 's|.*/||' | grep -v HEAD | sort -u`
+
+    # get the hash of the latest commit on the current branch
+    HASH=`git rev-parse $BRANCH`
+
     # git rev-list --topo-order HEAD..$HASH:
     #       list all commit sha's in order on the current branch from
     #       HEAD until now 
     #
-    # PREV=...:
-    #       get the commit sha for the commit after HEAD on branch
+    # @return the commit sha for the commit after HEAD on branch
     #
-    # git checkout $PREV
-    #       move head to the next commit
-    #
-    BRANCH=`git show-ref | grep $(git show-ref -s HEAD) | sed 's|.*/||' | grep -v HEAD | sort -u`
-    HASH=`git rev-parse $BRANCH`
     PREV=`git rev-list --topo-order HEAD..$HASH | tail -1`
+
+    # move head to the next commit
     git checkout $PREV
 }
 ```

@@ -78,7 +78,7 @@ int c = 0x00 - 0xff;
 int c = 0 - 0xffffffff; // 0 - (-1) = 1 "sign extension"
 ```
 
-So now `c = 1` instead of `-256`.
+So now `c = 1` instead of `-255`.
 
 ```java
 // But this
@@ -88,8 +88,8 @@ int c = (`0x00` & 0xff) - (`0xff` & 0xff);
 int c = (`0x00` & 0x000000ff) - (`0xff` & 0x000000ff);
 
 // which becomes this
-int c = 0 - 0x000000ff; // 0 - 256 = -256 (avoided sign extension)
+int c = 0 - 0x000000ff; // 0 - 255 = -255 (avoided sign extension)
 
 ```
-So because of the masking, we avoided sign extension, and now `c = -256`, which
+So because of the masking, we avoided sign extension, and now `c = -255`, which
 is what we wanted.
