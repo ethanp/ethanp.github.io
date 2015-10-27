@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Www | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/www/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-10-26T16:14:45-05:00</updated>
+  <updated>2015-10-27T11:11:36-05:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,127 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Very Basics of Jetty]]></title>
+    <link href="http://ethanp.github.io/blog/2015/10/27/very-basics-of-jetty/"/>
+    <updated>2015-10-27T11:09:50-05:00</updated>
+    <id>http://ethanp.github.io/blog/2015/10/27/very-basics-of-jetty</id>
+    <content type="html"><![CDATA[<h3>Jetty has <em>cutting edge</em> HTTP/2 support</h3>
+
+<p>For my Wireless Networking project, I&rsquo;m going to compare HTTP/1.1 and HTTP/2
+with respect to performance metrics when talking to a mobile phone over the
+cellular network. There are not so many <a href="https://github.com/http2/http2-spec/wiki/Implementations">implementations</a> of HTTP/2 right
+now, and some of them seem a bit shaky. At the end of the day, it seems to me
+that the easiest way to run this sort of experiment in a reliable fashion is to
+use Java&rsquo;s <a href="http://www.eclipse.org/jetty/">Jetty</a> project. It has well-tested HTTP/1.1 support, many
+heavyweight framework users, implements HTTP/2&rsquo;s server push and all sorts of
+HTTP/2 negotation mechanisms, and I like static types.</p>
+
+<h3>Jetty is hard to find tutorials for</h3>
+
+<p>So I need to learn the basics of Jetty; and there&rsquo;s a lot to learn, and I
+haven&rsquo;t found a stellar resource, so I&rsquo;ve been reading the <a href="http://www.eclipse.org/jetty/documentation/current/embedding-jetty.html">embedded
+examples</a>, which are decent. I&rsquo;m usng &ldquo;embedded&rdquo; Jetty because that means
+I can write type-safe Java rather than XML. Perhaps XML would be a good choice
+for a long-standing app, but I&rsquo;m making a prototype and it&rsquo;s easier to just
+write code.</p>
+
+<p>Here&rsquo;s a brief overview of what I&rsquo;ve learned so far, which may come in handy
+for someone else wanting to understand the very basics of Jetty (version 9).
+This is not a detailed overview because I don&rsquo;t know what I&rsquo;m talking about.
+I&rsquo;m just explaining the things I have learned from the tutorial linked above
+and some mucking around.</p>
+
+<!-- more -->
+
+
+<h3>Jetty has a few large architectural components</h3>
+
+<p>The main things you need to deal with in Jetty are <code>Server</code>s, <code>Handler</code>s, and
+<code>Connector</code>s.</p>
+
+<p>The <code>Server</code> manages your entire web site. It does this by connecting
+<code>Connector</code>s to <code>Handler</code>s. The default <code>Connector</code>, <code>ServerConnector</code> responds
+to vanilla HTTP/1.1 requests. If you try to make a request via <code>https</code> to a
+<code>ServerConnector</code> without <code>https</code> support, in Chrome you will see the following
+error message</p>
+
+<p>```text
+ERR_SSL_PROTOCOL_ERROR</p>
+
+<p>Unable to make a secure connection to the server. This may be a problem with
+the server, or it may be requiring a client authentication certificate that you
+don&rsquo;t have.
+```</p>
+
+<h4>Handler</h4>
+
+<p>You may want a chain of <code>Handler</code>s that will be tried one after another until
+one is found to be appropriate for handling the current request</p>
+
+<p><code>java
+HandlerList handlers = new HandlerList();
+handlers.setHandlers(new Handler[] { resource_handler, new DefaultHandler() });
+</code></p>
+
+<p>The <code>DefaultHandler</code> will simply return <code>404</code>s for everything. Jetty will keep trying <code>Handler</code>s in the list until one of them performs</p>
+
+<p><code>java
+baseRequest.setHandled(true);
+</code></p>
+
+<p>Looking at the <code>DefaultHandler</code>&rsquo;s source, we can see that indeed, in the
+<code>handle</code> method, this is the <em>first</em> thing it does.</p>
+
+<h4>Connector</h4>
+
+<p>Each <code>Connector</code> instance can respond to a particular <em>protocol</em> at a
+particular <em>host</em> on a particular <em>port</em>. So if you want to respond to <code>https</code>
+requests as well as vanilla <code>http</code>, you&rsquo;re going to need another <code>Connector</code>.</p>
+
+<h4>Routing</h4>
+
+<p>A <code>ContextHandler</code> is used to do what in Rails would be called &ldquo;routing&rdquo;. This
+is where you associate path&rsquo;s in the HTTP request header to the right
+controller. After you&rsquo;ve created your <code>ContextHandler</code>s and set their
+<code>contextPath</code>s, you need to do the following</p>
+
+<p><code>java
+Server server = new Server(8080);
+//...
+ContextHandlerCollection contexts = new ContextHandlerCollection();
+contexts.setHandlers(new Handler[] { context0, context1, ... });
+server.setHandler(contexts);
+</code></p>
+
+<p>This means the server is going to ask the <code>ContextHandlerCollection</code> for the
+first <code>ContextHandler</code> that matches the path specified on the incoming request.</p>
+
+<h3>Conclusion: Jetty feels dated compared to Ruby on Rails</h3>
+
+<p>So far, I find Jetty surprisingly nice. I&rsquo;m
+starting to appreciate the fact that it is written in Java and it is open
+source. It&rsquo;s so different from Ruby on Rails and Node.js because there is not a
+lot of magical mystery code running in the background whose source is difficult
+to find. The advantage of those other frameworks is that they have much higher
+level APIs. I find myself wrapping Jetty methods into my own methods that do
+what in Rails would have been done automatically. Now I understand the draw of
+Rails&rsquo;s &ldquo;convention over configuration&rdquo; and &ldquo;don&rsquo;t repeat yourself&rdquo;. I didn&rsquo;t
+realize how much configuration and repeating yourself was necessary back in the
+Java days. And that leads me to my next point, that writing Jetty feels like
+writing 10 year old code. I wasn&rsquo;t coding 10 years ago, but I imagine you had
+to explicitly wire every last thing together by hand over and over again, as
+you do in Jetty.</p>
+
+<p>Unlike Rails or iOS, basic Jetty is not a Model View Controller framework. It&rsquo;s
+just handlers on a server, more like Node.js. Personally, I like MVC out of
+ignorance because I assume people who came up with it thought the &ldquo;application
+framework&rdquo; way of doing thigs was &lsquo;bad&rsquo;, and I tend to trust people who don&rsquo;t
+like the &lsquo;old&rsquo; way of doing things. That said, I am not making a database based
+application here so I will not evaluate this difference any further.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Intro to HTTP/2]]></title>

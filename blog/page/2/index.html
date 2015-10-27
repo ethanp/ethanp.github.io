@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="Creating good abstractions may have more value than anything else. The more I
-learn about creating a company and writing code, the more important I &hellip;">
+  <meta name="description" content="After some further thought, it has become clear that my previous post about
+abstractions and what makes them good got it all wrong. There, I said &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,71 @@ learn about creating a company and writing code, the more important I &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/29/what-is-an-abstraction/">What Is an Abstraction</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-29T01:23:05-05:00" pubdate data-updated="true">Jul 29<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>After some further thought, it has become clear that my previous post about
+abstractions and what makes them good got it all wrong. There, I said roughly
+that an abstraction is something that allows you to simplify a hard mental task
+to make that task easier. This needs to be reevaluated. The earlier post
+claimed that a hammer is an improper abstraction for opening up a package. That
+just doesn&rsquo;t sound right. A hammer is nothing more than a bad <em>tool</em> for
+opening up a package. A <em>tool</em> is something that makes a task easier. A tool
+and an abstraction are not equivalent.</p>
+
+<p>My Software Architecture professor began the semester by giving us about 20
+very similar definitions of what software architecture is, to give us a general
+sense of what people are talking about. I left the lecture equally uninformed
+about what software architecture is, but did eventually come to grips with it.
+With the Sisyphean nature of the task now understood, I would like to propose a
+new definition:</p>
+
+<blockquote><p>An abstraction is a way of conceptualizing something without having to think
+about everything that is actually going on. If we think in terms of the
+abstraction, we can arrive at the same conclusions as could have been derived
+using the &ldquo;underlying truth of the matter&rdquo; without as much mental effort.
+After communicating the chain of logic using the abstraction, the listener
+would also be able to derive the result by substituting the abstraction out
+for the &ldquo;underlying truth&rdquo;.</p></blockquote>
+
+<p>It is basically a mental shorthand.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/29/what-is-an-abstraction/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -787,71 +852,6 @@ that didn&rsquo;t work. I guess different ones work for different situations.</p
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/03/asynchronous-system/">Asynchronous System</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-03T21:27:36-05:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Before taking a Distributed Computing course at school, I had written for
-various program environments:</p>
-
-<ol>
-<li>a script that trains a neural network to recognize whether an English
-sentence is grammatical</li>
-<li>an iOS app that involves a fair bit of multi-threading</li>
-<li>a command line interpreter that forks and runs commands as background
-processes</li>
-<li>the Raft distributed consensus protocol inside a professor’s multi-threaded
-distributed system simulator</li>
-<li>some asynchronous features for a simplified database system where threads
-communicate solely via Java’s <code>PipedInputStreams</code> instead of using shared
-variables</li>
-</ol>
-
-
-<p>Perhaps you are familiar with these situations, and like me thought they might
-be “distributed”. Reality check: they’re not. Similarly, in a distributed
-system, one has multiple “threads” processing data at once. However,
-these “threads” may be each on different machines; this adds some complexity.
-None of the situations outlined above have the sort of issues one can expect
-fairly regularly when talking amongst machines.</p>
-
-<h3>Different machines don’t share</h3>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/05/03/asynchronous-system/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -869,6 +869,10 @@ fairly regularly when talking amongst machines.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/27/very-basics-of-jetty/">Very Basics of Jetty</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/10/26/intro-to-http-slash-2/">Intro to HTTP/2</a>
       </li>
     
@@ -882,10 +886,6 @@ fairly regularly when talking amongst machines.</p>
     
       <li class="post">
         <a href="/blog/2015/09/11/avoiding-sign-extension/">Avoiding Sign Extension</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/07/basics-of-wireless-communication/">Basics of Wireless Communication</a>
       </li>
     
   </ul>
