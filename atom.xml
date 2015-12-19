@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-10-27T11:11:36-05:00</updated>
+  <updated>2015-12-19T16:09:29-06:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Learning vs Doing]]></title>
+    <link href="http://ethanp.github.io/blog/2015/12/19/learning-vs-doing/"/>
+    <updated>2015-12-19T16:05:20-06:00</updated>
+    <id>http://ethanp.github.io/blog/2015/12/19/learning-vs-doing</id>
+    <content type="html"><![CDATA[<p>The goal of my first project at my first &ldquo;real&rdquo; job is to get something useful
+done within a few days and start to feel like a contributing member of the
+team. However it has been about a week, and I still have not finished that
+project.</p>
+
+<p>From my experience talking with some of my colleagues so far, their collective
+attitude might be summed up with, &ldquo;Google it, then copy-paste it, but don&rsquo;t
+worry about what it does.&rdquo; In my life, I have worked with and met <em>many</em> people
+having that attitude. Partially because of my experience working with those
+people, it happens to decidedly <em>not</em> be <em>my</em> attitude. My attitude is more
+like &ldquo;google it, learn what to do, learn why that is the right approach, take
+notes, and then copy-paste and modify the best solution to make the final
+solution as clean as possible.&rdquo; This strategy got me through many tough
+situations, so I have built up faith in it.</p>
+
+<p>So, after seeing me spend <em>days</em> learning about ssh tunnelling, ansible, and
+vagrant &mdash; and not finishing my simple project &mdash; they finally said something
+along the lines of</p>
+
+<blockquote><p>At this rate it will take you weeks to learn how to automate deployment of a
+virtual machine. Why don&rsquo;t you just deploy <em>one</em> copy and then learn about
+how to automate it on your <em>own</em> time?</p></blockquote>
+
+<p>Now, &ldquo;weeks&rdquo; is probably an overstatement, but they pointed out to me that I
+had sort of assumed out of nowhere that I was hired as some sort of devops role
+for the company, even though what I&rsquo;m actually interested in is what one might
+call &ldquo;big data engineering&rdquo;. They said, &ldquo;<em>If</em> you find yourself repeating the
+same tasks over and over, <em>then</em> you should learn to automate them.&rdquo; It is now
+obvious that they are in the right.</p>
+
+<p>At the time, I was startled by the way they approached me about what I consider
+to be largely a difference in personalities. But I can see that they are
+concerned that someone who reads too much never gets anything done, and so far
+I have fit that stereotype. At the same time, I am concerned that a person who
+<em>doesn&rsquo;t</em> read will do their work quickly and incorrectly and will then spend
+the next few weeks rejiggering a broken project, and so far they have fit that
+stereotype. In short, it seems that we are all prejudiced and have plenty to
+learn from each other.</p>
+
+<p>Going forward I shall take their advice and do the more mundane tasks as fast
+as possible and only learn things that come up more than once. If that doesn&rsquo;t
+work out for me because I&rsquo;m just cranking out shitty work, I will revert back
+to understanding what I am doing.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Very Basics of Jetty]]></title>
@@ -2259,89 +2310,6 @@ teacher:
     if the majority understands more than before:
         set new start point for next time's lesson
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Simulating a Distributed System]]></title>
-    <link href="http://ethanp.github.io/blog/2015/05/18/simulating-a-distributed-system/"/>
-    <updated>2015-05-18T19:24:37-05:00</updated>
-    <id>http://ethanp.github.io/blog/2015/05/18/simulating-a-distributed-system</id>
-    <content type="html"><![CDATA[<p>For my Distributed Computing class at school, there were 3 projects that each
-involved implementing a distributed protocol over a simulated distributed
-cluster of computers that are only &lsquo;connected&rsquo; to one another in that they know
-each other&rsquo;s IP address and must communicate over TCP sockets. For each of the
-3 projects, I had a <em>completely</em> different method of implementing the system.</p>
-
-<h3>Implementation One: A True Distributed System in Vanilla Java</h3>
-
-<p>The first project (Three Phase Commit) was the only one for which I worked with
-a partner. We were unclear how to attack the problem of building a distributed
-system in a simple way, so we went ahead and implemented a truly distributable
-Java application, in which you could spin up processes on any computer and it
-would connect in to the master server, who would tell the new node the
-listening ports of other servers in the cluster manually, etc. This turned out
-to be perhaps overly ambitious. When a node was expecting a message from
-someone else, it would fire a timer thread, which on completion would report to
-the master to restart the failed process. This system did work properly
-(somehow) but it seemed to be living-on-the-edge. It also required two weeks of
-a lot of working on it and learning aspects of Java, unit testing, mocks, which
-<code>Exception</code> would get thrown by which network event &amp; when, etc.</p>
-
-<h3>Implementation Two: Lightweight System Simulation</h3>
-
-<p>For the second project (Paxos), I said &ldquo;Hooey&rdquo; to all the Java hubbub, which
-while I enjoyed its low-level-ness, forcing me to peak further under the hood,
-it required a larger time commitment than I was prepared to make. I realized
-that my class&rsquo;s requirements only specified that system &ldquo;nodes&rdquo; run
-concurrently, share no memory, and talk over TCP. So in Scala, I made a <code>Node</code>
-class state machine, and ran different instances of it on separate threads.
-This was too easy though, and I was disappointed to find my implementation
-complete more than two weeks before the due date.</p>
-
-<h3>Implementation Three: Akka Cluster</h3>
-
-<p>Akka Cluster is a Scala-based framework for building a distributed system, in
-which you define the address of a set of &ldquo;seed&rdquo; nodes, of whom at least one is
-supposed be available at all times. Then when other nodes start up, they become
-a &ldquo;member&rdquo; of the cluster by contacting any seed node. So for me (the &ldquo;client&rdquo;
-of Akka Cluster), all there is left to do is define the protocol to run on top
-of the cluster. (In this case the protocol was the simple eventually-consistent
-database protocol &ldquo;Bayou&rdquo;.)</p>
-
-<p>Akka nodes follow the &ldquo;Actor Model&rdquo;, meaning they share no state with any other
-part of your program, making them &ldquo;simple&rdquo; to run on remote machines (I didn&rsquo;t
-try that, the docs say it is easy though). The only way actors can communicate
-is via message passing, for which there is a dedicated syntax, <code>!</code>. For
-example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">data</span><span class="k">:</span> <span class="kt">DataElem</span><span class="o">)</span>
-</span><span class='line'><span class="n">anotherActor</span> <span class="o">!</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">theData</span><span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The code above would have the actor running this code, send <code>anotherActor</code> an
-instance of the case class <code>MyMessage</code> with the <code>DataElem</code> that was passed in.</p>
-
-<p>Inter-actor communcation is guaranteed <em>FIFO</em> by Akka, meaning that for any
-pair of actors <code>A, B</code>, if <code>A</code> sends <code>n</code> messages to <code>B</code>, <code>B</code> will receive those
-messages in the same order that <code>A</code> sent them. NB this says nothing about the
-order with respect to other actors in the system.</p>
-
-<p>Using Akka trivialized all sorts of implementation details I&rsquo;d had to worry
-about in the first project, and then ignored for the second project.</p>
-
-<p>If there had been a 4th project for this class, it&rsquo;s clear to me that I would
-use Akka again. For some reason my code ran <em>very</em> slowly, and it probably had
-to do with some configuration-setting that I did not set in the Akka config
-file. That was really the only problem I had that I did not fix. One problem I
-did fix that took a while, was figuring out a good way to shut the system down.
-There were various options discussed online, and eventually I found one that
-worked for me, which was to call <code>system.shutdown()</code> on every instance System I
-instantiate. Another option was to send <code>self ! PoisonPill</code> but for some reason
-that didn&rsquo;t work. I guess different ones work for different situations.</p>
 ]]></content>
   </entry>
   
