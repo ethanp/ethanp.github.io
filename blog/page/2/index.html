@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="Getting to the same page When a colleague and I are in a discussion about something and both start to
-get very excited about where it is going, I &hellip;">
+  <meta name="description" content="Over the past few days I have been learning how apm, the Atom Package Manager
+works under the hood. apm is what you use when, in GitHub&rsquo;s ( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,81 @@ get very excited about where it is going, I &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/06/how-apm-originally-worked/">How Apm Originally Worked</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-06T22:17:12-05:00" pubdate data-updated="true">Aug 6<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Over the past few days I have been learning how <code>apm</code>, the Atom Package Manager
+works under the hood. <code>apm</code> is what you use when, in GitHub&rsquo;s (relatively new)
+&ldquo;Atom&rdquo; text editor, you go to the nice gui package installation interface under
+<code>settings=&gt;packages</code>.</p>
+
+<p>Atom is a &ldquo;hackable&rdquo; text editor built on top of Chromium, using Node.js and
+Coffeescript. I believe they call it hackable because all the code is open
+source, and you can add plugins to do whatever you want. Your plugins can even
+be written in C++ if that&rsquo;s more your style.</p>
+
+<p>My goal was to figure out how <code>apm</code> works, and I wasn&rsquo;t sure how best to do
+that. My knowledge of Node.js was minimal, and I was no expert in Coffeescript.
+What I decided to do was fork the <code>apm</code> GitHub repo, clone it onto my computer,
+and set my local HEAD to the <a href="https://github.com/atom/apm/commit/b8f4ce0d0cda458853eb280fde39fdeb2de38ebd">&ldquo;initial commit&rdquo;</a>, and see if I could
+understand that. The complete contents are as follows</p>
+
+<figure class='code'><figcaption><span>README.md</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'># APM - Atom Package Manager
+</span><span class='line'>
+</span><span class='line'>Discover and install Atom packages.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At this stage I pretty confident that I understood everthing the author Kevin
+Sawicki was doing. Lucky for me, it seems Kevin is rather unique on GitHub&rsquo;s
+Atom development team for having smaller commits. I can justify this by noting
+that on Atom-core&rsquo;s <a href="https://github.com/atom/atom/graphs/contributors">list of developer contributions</a>, he has 2x more
+commits than the next guy, but is not in the top 5 in terms of LOC added.</p>
+
+<p>So with my head fully wrapped around the &ldquo;initial commit&rdquo; I moved my HEAD past
+the 2nd commit (a typo fix) into the first commit of any substance, <a href="https://github.com/atom/apm/commit/31294702b11061e60214357f4529fb9b00a7068d">&ldquo;Add
+initial Gruntfile, binary, and ignores&rdquo;</a>. At this point there was some
+investigation to do.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/06/how-apm-originally-worked/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -730,70 +805,6 @@ suggests</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/18/paxos-as-a-classroom/">Paxos as a Classroom</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-18T19:28:49-05:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><pre><code>multi-paxos as a classroom:
-teacher := proposer
-students := acceptors
-all := learners
-
-teacher to students:
-    may I have your attention for the next 1:15 hrs?
-    I'd like to teach youz guys all about "the paxos protocol"
-    here is what I'm assuming you already know
-
-each student to teacher:
-    if not already busy for that time:
-        yes, here's how much I actually already know about paxos
-    else:
-        my apologies, but I will be busy skimming facebook for the next 1:15
-        so if there's something you want to tell me, post it on there
-
-teacher to each student:
-    given how far behind you are, these are the things you need to catch up on
-    but also this is what I'm teaching now
-
-each (alive &amp; correct) student to teacher:
-    oh very cool!
-    this is how much I now understand of all the stuff you've said
-
-teacher:
-    if the majority understands more than before:
-        set new start point for next time's lesson
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -811,6 +822,10 @@ teacher:
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/27/first-glimpse-of-compilers/">First Glimpse of Compilers</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/19/learning-vs-doing/">Learning vs Doing</a>
       </li>
     
@@ -824,10 +839,6 @@ teacher:
     
       <li class="post">
         <a href="/blog/2015/09/24/why-the-wifi-sucks-on-the-porch/">Why the WiFi Sucks on the Porch</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/23/bit-twiddling-data-structure-alignment/">Bit Twiddling: Data Structure Alignment</a>
       </li>
     
   </ul>

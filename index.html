@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="The goal of my first project at my first &ldquo;real&rdquo; job is to get something useful
-done within a few days and start to feel like a &hellip;">
+  <meta name="description" content="I am close to two chapters into &ldquo;Compilers&rdquo; (a.k.a. &ldquo;The Dragon Book&rdquo;), by Aho,
+Lam, Sethi, and Ullman. It is an exciting &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,90 @@ done within a few days and start to feel like a &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/12/27/first-glimpse-of-compilers/">First Glimpse of Compilers</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-27T00:49:00-06:00" pubdate data-updated="true">Dec 27<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I am close to two chapters into &ldquo;Compilers&rdquo; (a.k.a. &ldquo;The Dragon Book&rdquo;), by Aho,
+Lam, Sethi, and Ullman. It is an exciting topic to learn about.</p>
+
+<p>The most fundamental thing I have learned so far is the overall pipeline for
+understanding the modular components forming the way a compiler is typically
+constructed. It goes</p>
+
+<ol>
+<li>Lexical analyzer</li>
+<li>Syntax analyzer</li>
+<li>Semantic analyzer</li>
+<li>Intermediate code generator</li>
+<li><em>Machine-independent code optimizer</em> (optional)</li>
+<li>Code generator</li>
+<li><em>Machine-dependent code optimizer</em> (optional)</li>
+</ol>
+
+
+<p>The input to the compiler pipeline is a &ldquo;character stream&rdquo; of the program.
+However I don&rsquo;t recall the book ever dealing with specifications of that
+stream, except that it supports a generic <code>getchar()</code> operation. I can
+understand that if the entire source consists of one file, you just read
+character-by-character from the file into the compiler. Maybe the language
+designer decides how multiple-file projects are to be read by the compiler,
+i.e. it is beyond the scope of this book; or maybe they&rsquo;ll go more in-depth on
+this later-on.</p>
+
+<h3>The Lexical Analyzer</h3>
+
+<p>The character stream is read into first component in the compilation pipeline:
+the <strong>lexical analyzer</strong>, which maps the <em>character stream</em> into a <em>&ldquo;token&rdquo;
+stream</em>. It seems like a <strong>token</strong> knows its <em>tag</em>, and its <em>value</em>. The
+<strong>tag</strong> is basically the <em>type</em> of this token in the eyes of the compiler.
+Possible tags in their example include <code>NUM</code>, <code>ID</code>, <code>[keyword]</code>s, and I added
+<code>COMMENT</code> as part of an exercise. The <strong>value</strong> for a token might be the
+literal <em>value</em> of a literal; or it might be the name of a variable. More about
+that below.</p>
+
+<h4>Symbol Tables</h4>
+
+<p>In addition to creating the token stream, the lexical analyzer builds the
+<em>symbol table</em>. It seems to that the <strong>symbol table</strong> maps names to places in
+memory. A symbol table also &lsquo;by default&rsquo; implements the language&rsquo;s preferred
+form of <em>block scoping</em>. Upon entering a new scope, a new symbol table is
+created that points to its &ldquo;parent&rdquo;, the one it is nested inside of. If a
+variable is <em>declared</em>, it is added to the symbol table to this scope. Later,
+when a variable is <em>referenced</em> (i.e. init&rsquo;d, read, or updated), we will
+consult the table for the current innermost scope. If the variable&rsquo;s data is
+not found there, we will continue to check ancestors until we find it.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -731,81 +815,6 @@ from experts, which can be summarized as follows:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/06/how-apm-originally-worked/">How Apm Originally Worked</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-08-06T22:17:12-05:00" pubdate data-updated="true">Aug 6<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Over the past few days I have been learning how <code>apm</code>, the Atom Package Manager
-works under the hood. <code>apm</code> is what you use when, in GitHub&rsquo;s (relatively new)
-&ldquo;Atom&rdquo; text editor, you go to the nice gui package installation interface under
-<code>settings=&gt;packages</code>.</p>
-
-<p>Atom is a &ldquo;hackable&rdquo; text editor built on top of Chromium, using Node.js and
-Coffeescript. I believe they call it hackable because all the code is open
-source, and you can add plugins to do whatever you want. Your plugins can even
-be written in C++ if that&rsquo;s more your style.</p>
-
-<p>My goal was to figure out how <code>apm</code> works, and I wasn&rsquo;t sure how best to do
-that. My knowledge of Node.js was minimal, and I was no expert in Coffeescript.
-What I decided to do was fork the <code>apm</code> GitHub repo, clone it onto my computer,
-and set my local HEAD to the <a href="https://github.com/atom/apm/commit/b8f4ce0d0cda458853eb280fde39fdeb2de38ebd">&ldquo;initial commit&rdquo;</a>, and see if I could
-understand that. The complete contents are as follows</p>
-
-<figure class='code'><figcaption><span>README.md</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'># APM - Atom Package Manager
-</span><span class='line'>
-</span><span class='line'>Discover and install Atom packages.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>At this stage I pretty confident that I understood everthing the author Kevin
-Sawicki was doing. Lucky for me, it seems Kevin is rather unique on GitHub&rsquo;s
-Atom development team for having smaller commits. I can justify this by noting
-that on Atom-core&rsquo;s <a href="https://github.com/atom/atom/graphs/contributors">list of developer contributions</a>, he has 2x more
-commits than the next guy, but is not in the top 5 in terms of LOC added.</p>
-
-<p>So with my head fully wrapped around the &ldquo;initial commit&rdquo; I moved my HEAD past
-the 2nd commit (a typo fix) into the first commit of any substance, <a href="https://github.com/atom/apm/commit/31294702b11061e60214357f4529fb9b00a7068d">&ldquo;Add
-initial Gruntfile, binary, and ignores&rdquo;</a>. At this point there was some
-investigation to do.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/06/how-apm-originally-worked/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -821,6 +830,10 @@ investigation to do.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/27/first-glimpse-of-compilers/">First Glimpse of Compilers</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/19/learning-vs-doing/">Learning vs Doing</a>
       </li>
     
@@ -834,10 +847,6 @@ investigation to do.</p>
     
       <li class="post">
         <a href="/blog/2015/09/24/why-the-wifi-sucks-on-the-porch/">Why the WiFi Sucks on the Porch</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/23/bit-twiddling-data-structure-alignment/">Bit Twiddling: Data Structure Alignment</a>
       </li>
     
   </ul>
