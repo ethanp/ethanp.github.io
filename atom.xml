@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-12-27T00:52:17-06:00</updated>
+  <updated>2016-01-03T22:25:26-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -14,10 +14,156 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Gamified Learning]]></title>
+    <link href="http://ethanp.github.io/blog/2016/01/03/gamified-learning/"/>
+    <updated>2016-01-03T21:34:05-08:00</updated>
+    <id>http://ethanp.github.io/blog/2016/01/03/gamified-learning</id>
+    <content type="html"><![CDATA[<p>I have spent the last few days trying to get better at programming. I am no
+longer in school, so if I want to learn about, say, compilers, I can&rsquo;t just
+sign up for a class on that. There are multiple ways to go about it. It depends
+on what you really want to learn and what you want to be able to do with that
+knowledge. I have tried various methods of learning over the past few days,
+which I have listed below.</p>
+
+<p>What I have noticed of myself is that gamification <strong>works</strong> for me. I love the
+satisfaction of (in descending order of satisfaction)</p>
+
+<ul>
+<li>earning a badge</li>
+<li>getting to the next level</li>
+<li>beating other humans (directly, or via &ldquo;percentile&rdquo; calculation)</li>
+<li>beating robots (similar to &ldquo;beating a boss&rdquo; in a video game)</li>
+<li>getting points</li>
+</ul>
+
+
+<p>Missing from the list below is Coursera, Udacity, etc. After 6 years of school,
+I&rsquo;m <em>really</em> of sick of sitting in a lecture hall, even if it&rsquo;s a virtual one.
+As a testament to this sentiment, so far I&rsquo;ve read ~150 pages of the Compilers
+textbook, which is the book I would be reading were I to take the class at
+University. Sometimes I miss having a teacher whose personality I can associate
+with the material. This is a bizarre notion, but it is really important. For
+me, having a &ldquo;great teacher&rdquo; means someone I want to please by doing well on
+the test. Having a &ldquo;bad teacher&rdquo; means I don&rsquo;t care what the teacher thinks of
+me, and frankly I want to do badly to make them feel bad. This is a mean way of
+looking at the world, and I don&rsquo;t do it consciously, but looking back at how I
+approached my classes, this is what I did a lot of the time. Having a &ldquo;great
+teacher&rdquo; is an amazing feeling, and an excellent motivator to really dig into
+the subject. But I certainly <em>don&rsquo;t</em> miss all the other crap that comes from
+having a teacher (even a &ldquo;great&rdquo; one). The main problem with teachers is that
+you need to be respectful of their time and the time of the other students in
+the class. This leads to a huge amount of wasted time on the part of each
+student, because his or her <em>particular</em> questions aren&rsquo;t being answered. I
+could go on about that but I won&rsquo;t. The point is, that I really
+feel like I understand everything that has happened so far in the 150 pages of
+the Compilers book, and it didn&rsquo;t require and physical hand-holding. It is
+exceptionally easy to read a book and think you understand it, and actually
+<em>not</em> be understanding it. So who knows.</p>
+
+<h3>Here on out</h3>
+
+<p>My first &ldquo;real&rdquo; day of my first &ldquo;real&rdquo; job is tomorrow. So I probably won&rsquo;t be
+spending much time just randomly learning whatever I want in the future. But in
+general, these are things that I like to learn about, and methods of learning
+them that I enjoy doing, so as I find time, I will come back to these things.</p>
+
+<h3>The List</h3>
+
+<p>This list contains bullets for each thing I have tried to learn over the past
+few weeks. The sub-bullets contain methods I have used to actually <em>do</em> the
+learning. Many of them are gamified methods of learning (e.g. HackerRank).
+Others, I have tried to gamify on my own (e.g. using test-driven development).</p>
+
+<ul>
+<li>Learn about compilers
+
+<ul>
+<li>read Compilers &ldquo;Dragon Book&rdquo; textbook
+
+<ul>
+<li>avg 8 pages per day for 20 days</li>
+</ul>
+</li>
+<li>do the exercises (on paper)</li>
+</ul>
+</li>
+<li>Review AI &amp; machine learning
+
+<ul>
+<li>earn an AI &ldquo;badge&rdquo; on HackerRank by
+
+<ul>
+<li>doing statistics problems (e.g. &ldquo;find the z-score&rdquo;)</li>
+<li>writing a few programs (e.g. &ldquo;do a multiple linear regression on the
+given data&rdquo;)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Become more familiar with algorithms and their application
+
+<ul>
+<li>do practice problems on Hackerrank</li>
+<li>Read [from] the algorithms textbook &ldquo;CLRS&rdquo;</li>
+</ul>
+</li>
+<li>Become a &ldquo;good programmer&rdquo;
+
+<ul>
+<li>write the programs suggested in &ldquo;Programming Pearls&rdquo; by Jon Bentley</li>
+<li>Beat bots and people at debugging code on <code>codefights.com</code></li>
+</ul>
+</li>
+<li>Learn via observation
+
+<ul>
+<li><code>Livecoding.tv</code> (haven&rsquo;t actually looked into this one yet)</li>
+<li>Annotate the code of small open source projects with comments explaining
+how it is working
+
+<ul>
+<li>substack &mdash; creator of popular modules for Node.js</li>
+<li>Li Haoyi &mdash; Scala projects using concepts from compilers</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Understand P2P networking
+
+<ul>
+<li>Create a personal &ldquo;open source&rdquo; programming project that is a P2P
+networking application
+
+<ul>
+<li>To a large extent using test-driven development</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Learn to use NodeJS
+
+<ul>
+<li>do the <code>learnyounode</code> interactive tutorial</li>
+</ul>
+</li>
+<li>Learn about functional programming
+
+<ul>
+<li>read from Learn you a Haskell</li>
+<li>write some simple haskell programs as part of a &ldquo;learn to code in 30
+days&rdquo; competition on HackerRank</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[First Glimpse of Compilers]]></title>
-    <link href="http://ethanp.github.io/blog/2015/12/27/first-glimpse-of-compilers/"/>
-    <updated>2015-12-27T00:49:00-06:00</updated>
-    <id>http://ethanp.github.io/blog/2015/12/27/first-glimpse-of-compilers</id>
+    <link href="http://ethanp.github.io/blog/2015/12/26/first-glimpse-of-compilers/"/>
+    <updated>2015-12-26T22:49:00-08:00</updated>
+    <id>http://ethanp.github.io/blog/2015/12/26/first-glimpse-of-compilers</id>
     <content type="html"><![CDATA[<p>I am close to two chapters into &ldquo;Compilers&rdquo; (a.k.a. &ldquo;The Dragon Book&rdquo;), by Aho,
 Lam, Sethi, and Ullman. It is an exciting topic to learn about.</p>
 
@@ -73,7 +219,7 @@ not found there, we will continue to check ancestors until we find it.</p>
   <entry>
     <title type="html"><![CDATA[Learning vs Doing]]></title>
     <link href="http://ethanp.github.io/blog/2015/12/19/learning-vs-doing/"/>
-    <updated>2015-12-19T16:05:20-06:00</updated>
+    <updated>2015-12-19T14:05:20-08:00</updated>
     <id>http://ethanp.github.io/blog/2015/12/19/learning-vs-doing</id>
     <content type="html"><![CDATA[<p>The goal of my first project at my first &ldquo;real&rdquo; job is to get something useful
 done within a few days and start to feel like a contributing member of the
@@ -124,7 +270,7 @@ to understanding what I am doing.</p>
   <entry>
     <title type="html"><![CDATA[Very Basics of Jetty]]></title>
     <link href="http://ethanp.github.io/blog/2015/10/27/very-basics-of-jetty/"/>
-    <updated>2015-10-27T11:09:50-05:00</updated>
+    <updated>2015-10-27T09:09:50-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/10/27/very-basics-of-jetty</id>
     <content type="html"><![CDATA[<h3>Jetty has <em>cutting edge</em> HTTP/2 support</h3>
 
@@ -258,7 +404,7 @@ application here so I will not evaluate this difference any further.</p>
   <entry>
     <title type="html"><![CDATA[Intro to HTTP/2]]></title>
     <link href="http://ethanp.github.io/blog/2015/10/26/intro-to-http-slash-2/"/>
-    <updated>2015-10-26T16:11:59-05:00</updated>
+    <updated>2015-10-26T14:11:59-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/10/26/intro-to-http-slash-2</id>
     <content type="html"><![CDATA[<h2>The problem of HTTP/1.1</h2>
 
@@ -459,7 +605,7 @@ Symposium on Networked Systems Design and Implementation (NSDI)</em>. 2014.</li>
   <entry>
     <title type="html"><![CDATA[Why the WiFi Sucks on the Porch]]></title>
     <link href="http://ethanp.github.io/blog/2015/09/24/why-the-wifi-sucks-on-the-porch/"/>
-    <updated>2015-09-24T16:31:30-05:00</updated>
+    <updated>2015-09-24T14:31:30-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/09/24/why-the-wifi-sucks-on-the-porch</id>
     <content type="html"><![CDATA[<h2>Why is WiFi so slow on the porch?</h2>
 
@@ -498,7 +644,7 @@ for that noise.</p>
   <entry>
     <title type="html"><![CDATA[Bit Twiddling: Data Structure Alignment]]></title>
     <link href="http://ethanp.github.io/blog/2015/09/23/bit-twiddling-data-structure-alignment/"/>
-    <updated>2015-09-23T13:44:04-05:00</updated>
+    <updated>2015-09-23T11:44:04-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/09/23/bit-twiddling-data-structure-alignment</id>
     <content type="html"><![CDATA[<p>In order to align a data structure at the nearest word-alignment to a given
 starting address, we&rsquo;d must find the smallest multiple of N (a power of 2)
@@ -599,7 +745,7 @@ will decrement our answer wrt bits N and higher.</p>
   <entry>
     <title type="html"><![CDATA[Avoiding Sign Extension]]></title>
     <link href="http://ethanp.github.io/blog/2015/09/11/avoiding-sign-extension/"/>
-    <updated>2015-09-11T22:12:42-05:00</updated>
+    <updated>2015-09-11T20:12:42-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/09/11/avoiding-sign-extension</id>
     <content type="html"><![CDATA[<p>I was looking at an implementation of file-based mergesort <a href="https://github.com/cowtowncoder/java-merge-sort">from GitHub</a>, and found the following snippet.</p>
 
@@ -743,7 +889,7 @@ is what we wanted.</p>
   <entry>
     <title type="html"><![CDATA[Basics of Wireless Communication]]></title>
     <link href="http://ethanp.github.io/blog/2015/09/07/basics-of-wireless-communication/"/>
-    <updated>2015-09-07T17:45:58-05:00</updated>
+    <updated>2015-09-07T15:45:58-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/09/07/basics-of-wireless-communication</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve been doing the readings for my <a href="http://www.cs.utexas.edu/~lili/classes/F15-CS386W/">Wireless Networking course</a> at
 UTexas, and in the process have dug into much of the basics of radios and
@@ -816,7 +962,7 @@ that&rsquo;s all the time I&rsquo;ve got.</p>
   <entry>
     <title type="html"><![CDATA[A Pattern in the Stone: Review and Summary]]></title>
     <link href="http://ethanp.github.io/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary/"/>
-    <updated>2015-08-23T16:56:25-05:00</updated>
+    <updated>2015-08-23T14:56:25-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary</id>
     <content type="html"><![CDATA[<h3>How I Found it</h3>
 
@@ -967,7 +1113,7 @@ it to be, but rather that a machine can be much, much more.</p></blockquote>
   <entry>
     <title type="html"><![CDATA[A Workflow and Scripts for Learning From Github]]></title>
     <link href="http://ethanp.github.io/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/"/>
-    <updated>2015-08-11T19:48:41-05:00</updated>
+    <updated>2015-08-11T17:48:41-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github</id>
     <content type="html"><![CDATA[<h3>My &ldquo;Learning&rdquo; Workflow</h3>
 
@@ -1137,7 +1283,7 @@ a better understanding of how Git works.</p>
   <entry>
     <title type="html"><![CDATA[How Apm Originally Worked]]></title>
     <link href="http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked/"/>
-    <updated>2015-08-06T22:17:12-05:00</updated>
+    <updated>2015-08-06T20:17:12-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked</id>
     <content type="html"><![CDATA[<p>Over the past few days I have been learning how <code>apm</code>, the Atom Package Manager
 works under the hood. <code>apm</code> is what you use when, in GitHub&rsquo;s (relatively new)
@@ -1231,9 +1377,9 @@ how something was made. I&rsquo;ve got my eye in particular on watching Linus wr
   
   <entry>
     <title type="html"><![CDATA[Further Adventures in Collaboration]]></title>
-    <link href="http://ethanp.github.io/blog/2015/08/06/further-adventures-in-collaboration/"/>
-    <updated>2015-08-06T01:45:05-05:00</updated>
-    <id>http://ethanp.github.io/blog/2015/08/06/further-adventures-in-collaboration</id>
+    <link href="http://ethanp.github.io/blog/2015/08/05/further-adventures-in-collaboration/"/>
+    <updated>2015-08-05T23:45:05-07:00</updated>
+    <id>http://ethanp.github.io/blog/2015/08/05/further-adventures-in-collaboration</id>
     <content type="html"><![CDATA[<h3>Getting to the same page</h3>
 
 <p>When a colleague and I are in a discussion about something and both start to
@@ -1286,9 +1432,9 @@ position is and start to become better at our own roles. That only makes sense.<
   
   <entry>
     <title type="html"><![CDATA[What Is an Abstraction]]></title>
-    <link href="http://ethanp.github.io/blog/2015/07/29/what-is-an-abstraction/"/>
-    <updated>2015-07-29T01:23:05-05:00</updated>
-    <id>http://ethanp.github.io/blog/2015/07/29/what-is-an-abstraction</id>
+    <link href="http://ethanp.github.io/blog/2015/07/28/what-is-an-abstraction/"/>
+    <updated>2015-07-28T23:23:05-07:00</updated>
+    <id>http://ethanp.github.io/blog/2015/07/28/what-is-an-abstraction</id>
     <content type="html"><![CDATA[<p>After some further thought, it has become clear that my previous post about
 abstractions and what makes them good got it all wrong. There, I said roughly
 that an abstraction is something that allows you to simplify a hard mental task
@@ -1382,7 +1528,7 @@ way</li>
   <entry>
     <title type="html"><![CDATA[What Makes a Good Abstraction]]></title>
     <link href="http://ethanp.github.io/blog/2015/07/28/what-makes-a-good-abstraction/"/>
-    <updated>2015-07-28T21:39:27-05:00</updated>
+    <updated>2015-07-28T19:39:27-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/07/28/what-makes-a-good-abstraction</id>
     <content type="html"><![CDATA[<p>Creating good abstractions may have more value than anything else. The more I
 learn about creating a company and writing code, the more important I realize
@@ -1508,7 +1654,7 @@ takes a while to understand the abstraction doesn&rsquo;t mean it is bad.</p>
   <entry>
     <title type="html"><![CDATA[Lesson Learnt About Collaboration]]></title>
     <link href="http://ethanp.github.io/blog/2015/07/22/lesson-learnt-about-collaboration/"/>
-    <updated>2015-07-22T23:16:25-05:00</updated>
+    <updated>2015-07-22T21:16:25-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/07/22/lesson-learnt-about-collaboration</id>
     <content type="html"><![CDATA[<p>Perhaps the greatest lesson of this summer has been in taking advantage of the
 power of collaboration.</p>
@@ -1716,7 +1862,7 @@ problem and mine to fix with his help.</p>
   <entry>
     <title type="html"><![CDATA[Inside Java's BufferedReader]]></title>
     <link href="http://ethanp.github.io/blog/2015/07/01/inside-javas-bufferedreader/"/>
-    <updated>2015-07-01T15:22:50-05:00</updated>
+    <updated>2015-07-01T13:22:50-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/07/01/inside-javas-bufferedreader</id>
     <content type="html"><![CDATA[<p><code>BufferedReader</code> is suprisingly fast for parsing large text files. Why is that?
 In my experience, it is faster for this task than a <code>BufferedInputStream</code>.
@@ -1986,9 +2132,9 @@ an seemingly unecessary block on a lock before bounds checking in
   
   <entry>
     <title type="html"><![CDATA[First Look at MongoDB]]></title>
-    <link href="http://ethanp.github.io/blog/2015/06/20/first-look-at-mongodb/"/>
-    <updated>2015-06-20T01:06:28-05:00</updated>
-    <id>http://ethanp.github.io/blog/2015/06/20/first-look-at-mongodb</id>
+    <link href="http://ethanp.github.io/blog/2015/06/19/first-look-at-mongodb/"/>
+    <updated>2015-06-19T23:06:28-07:00</updated>
+    <id>http://ethanp.github.io/blog/2015/06/19/first-look-at-mongodb</id>
     <content type="html"><![CDATA[<h2>The scenario</h2>
 
 <p>My (augmented todo-list) website has Categories, and <strong>each Category has a set
@@ -2105,7 +2251,7 @@ Category.</p>
   <entry>
     <title type="html"><![CDATA[What Akamai Does]]></title>
     <link href="http://ethanp.github.io/blog/2015/06/10/what-akamai-does/"/>
-    <updated>2015-06-10T21:23:31-05:00</updated>
+    <updated>2015-06-10T19:23:31-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/06/10/what-akamai-does</id>
     <content type="html"><![CDATA[<p>I met someone at a hack night worked for Akamai. He was a cool dude, so I was
 curious what Akamai does. For whatever reason I ended up reading a paper cited
@@ -2196,7 +2342,7 @@ because they still must communicate with the origin server.</p>
   <entry>
     <title type="html"><![CDATA[Brief Overview of Garbage Collection in the HotSpot JVM]]></title>
     <link href="http://ethanp.github.io/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/"/>
-    <updated>2015-06-08T20:50:33-05:00</updated>
+    <updated>2015-06-08T18:50:33-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm</id>
     <content type="html"><![CDATA[<p><strong>Disclaimer:</strong> This post only claims to represent my <em>current understanding</em>
 of the workings of the HotSpot VM&rsquo;s garbage collector. This understanding comes
@@ -2259,77 +2405,6 @@ old space, only the modified ones.</p>
 <li><a href="http://stackoverflow.com/questions/9546392/">StOve</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Summary of 'the Log']]></title>
-    <link href="http://ethanp.github.io/blog/2015/05/29/summary-of-the-log/"/>
-    <updated>2015-05-29T22:57:16-05:00</updated>
-    <id>http://ethanp.github.io/blog/2015/05/29/summary-of-the-log</id>
-    <content type="html"><![CDATA[<p>I read a great article by Jay Kreps, one of the dudes who brought you Apache
-Kafka. The article is called <a href="http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying"><strong>The Log</strong>: What every software engineer should know about real-time data&rsquo;s unifying abstraction</a>. The
-article took me a few hours of mildly challenging reading, so I figure you can
-spend a few minutes reading my summary and decide more clearly whether you want
-to put in the investment of his explanation.</p>
-
-<p>First, he describes the following concept: Let&rsquo;s define a <strong>log</strong> as a <em>total
-order</em> of functions called and the parameters passed to each of those function-
-calls. Let&rsquo;s define a <em>&ldquo;commit log&rdquo;</em> as a <em>log</em> of edits of the contents of a
-database. Kreps notes that we can use a commmit log to build the state of a
-database at any point in history. This is like <code>git</code>; as we patch in each
-commit, we obtain the state of the repo at each time. If we feed the same log
-to the same program on multiple machines in a cluster, (assuming none of the
-functions called are <em>non- deterministic</em> and machines behave as we expect), we
-will certainly have the same state on each machine after they have each
-executed the log. This would be desireable perhaps to provide a &ldquo;reliable&rdquo;
-<em>service</em> for which there are more reads than writes, and more reads than can
-be handled by one node; then we can ensure any node is OK to read from by
-having all nodes play functions as prescribed by the log.</p>
-
-<p>Then, he describes the following situation: getting every part of a tech-
-company&rsquo;s data to every service that needs it is very complicated. In the worst
-and most naive case it would be <em>N<sup>2</sup></em> because each of <em>N</em> places would be sending
-data to each of <em>N</em> places. That&rsquo;s a lot of network bandwidth, and complexity,
-and data formats to understand, and places for things to screw up. So Kreps
-suggests</p>
-
-<!-- more -->
-
-
-<p>just having all data producers standardize a framework for formatting
-the data they produce, then just have all producers append to a single shared
-log. Now, everyone who wants to read data from someone else can be sure to get
-that data in the order it was produced by reading from that one log. Plus there
-are N writers and N readers so getting the data to every where is <em>2N</em>. Now we
-note that 2N &lt; N<sup>2</sup> if N > 2, so most of the time this is advantageous.</p>
-
-<p>Now, the problem is that this single log is not going to be able to handle that
-throughput, and it is going to get way too big way too fast. To build Kafka as
-an implementation of this &ldquo;unified log&rdquo; concept, the key optimization is to
-&ldquo;partition&rdquo; this log, meaning different pieces of it are written to different
-places (machines), and each piece is written in duplicate to multiple machines.
-In general we lose the total ordering across all processes, but in general,
-this total ordering was literally more strict than could possibly be useful.</p>
-
-<blockquote><p>This is the point where I stopped paying as much attention.</p></blockquote>
-
-<p>Then Kreps goes on to talk about how important stream-processing is, because so
-many of the services modern tech companies provide operate on a real-time feed
-of events. Then he notes that log-table duality noted in the second paragraph
-allows us to provide a reliable enriched event stream, ie. one that takes raw
-events, joins each one with data from another table, and inserts some
-maintained state like a counter.</p>
-
-<p>Then Kreps notes that Kafka&rsquo;s cleverest provided algorithm for freeing up log
-space, is to remove &ldquo;records whose primary key has a more recent update.&rdquo; The
-naive provided algorithm is to discard elements that are more than <em>x</em> days
-old.</p>
-
-<p>Then he notes how most companies just exist to manipulate data in a distributed
-system, and how building distributed systems in Java has to a large extent
-become a problem of putting open source lego blocks like Zookeeper, Kafka,
-Netty, etc. together. After that he summarizes and concludes.</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Bit Twiddling | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/bit-twiddling/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-12-27T00:52:17-06:00</updated>
+  <updated>2016-01-03T22:25:26-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Bit Twiddling: Data Structure Alignment]]></title>
     <link href="http://ethanp.github.io/blog/2015/09/23/bit-twiddling-data-structure-alignment/"/>
-    <updated>2015-09-23T13:44:04-05:00</updated>
+    <updated>2015-09-23T11:44:04-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/09/23/bit-twiddling-data-structure-alignment</id>
     <content type="html"><![CDATA[<p>In order to align a data structure at the nearest word-alignment to a given
 starting address, we&rsquo;d must find the smallest multiple of N (a power of 2)

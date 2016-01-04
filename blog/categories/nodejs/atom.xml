@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Nodejs | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-12-27T00:52:17-06:00</updated>
+  <updated>2016-01-03T22:25:26-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[How Apm Originally Worked]]></title>
     <link href="http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked/"/>
-    <updated>2015-08-06T22:17:12-05:00</updated>
+    <updated>2015-08-06T20:17:12-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked</id>
     <content type="html"><![CDATA[<p>Over the past few days I have been learning how <code>apm</code>, the Atom Package Manager
 works under the hood. <code>apm</code> is what you use when, in GitHub&rsquo;s (relatively new)

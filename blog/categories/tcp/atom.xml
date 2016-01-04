@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tcp | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/tcp/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-12-27T00:52:17-06:00</updated>
+  <updated>2016-01-03T22:25:26-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Intro to HTTP/2]]></title>
     <link href="http://ethanp.github.io/blog/2015/10/26/intro-to-http-slash-2/"/>
-    <updated>2015-10-26T16:11:59-05:00</updated>
+    <updated>2015-10-26T14:11:59-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/10/26/intro-to-http-slash-2</id>
     <content type="html"><![CDATA[<h2>The problem of HTTP/1.1</h2>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby on Rails | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/ruby-on-rails/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-12-27T00:52:17-06:00</updated>
+  <updated>2016-01-03T22:25:26-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[First Look at MongoDB]]></title>
-    <link href="http://ethanp.github.io/blog/2015/06/20/first-look-at-mongodb/"/>
-    <updated>2015-06-20T01:06:28-05:00</updated>
-    <id>http://ethanp.github.io/blog/2015/06/20/first-look-at-mongodb</id>
+    <link href="http://ethanp.github.io/blog/2015/06/19/first-look-at-mongodb/"/>
+    <updated>2015-06-19T23:06:28-07:00</updated>
+    <id>http://ethanp.github.io/blog/2015/06/19/first-look-at-mongodb</id>
     <content type="html"><![CDATA[<h2>The scenario</h2>
 
 <p>My (augmented todo-list) website has Categories, and <strong>each Category has a set

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Abstraction | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/abstraction/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-12-27T00:52:17-06:00</updated>
+  <updated>2016-01-03T22:25:26-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[What Is an Abstraction]]></title>
-    <link href="http://ethanp.github.io/blog/2015/07/29/what-is-an-abstraction/"/>
-    <updated>2015-07-29T01:23:05-05:00</updated>
-    <id>http://ethanp.github.io/blog/2015/07/29/what-is-an-abstraction</id>
+    <link href="http://ethanp.github.io/blog/2015/07/28/what-is-an-abstraction/"/>
+    <updated>2015-07-28T23:23:05-07:00</updated>
+    <id>http://ethanp.github.io/blog/2015/07/28/what-is-an-abstraction</id>
     <content type="html"><![CDATA[<p>After some further thought, it has become clear that my previous post about
 abstractions and what makes them good got it all wrong. There, I said roughly
 that an abstraction is something that allows you to simplify a hard mental task
@@ -111,7 +111,7 @@ way</li>
   <entry>
     <title type="html"><![CDATA[What Makes a Good Abstraction]]></title>
     <link href="http://ethanp.github.io/blog/2015/07/28/what-makes-a-good-abstraction/"/>
-    <updated>2015-07-28T21:39:27-05:00</updated>
+    <updated>2015-07-28T19:39:27-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/07/28/what-makes-a-good-abstraction</id>
     <content type="html"><![CDATA[<p>Creating good abstractions may have more value than anything else. The more I
 learn about creating a company and writing code, the more important I realize

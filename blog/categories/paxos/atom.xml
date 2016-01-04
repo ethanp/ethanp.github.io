@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Paxos | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/paxos/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-12-27T00:52:17-06:00</updated>
+  <updated>2016-01-03T22:25:26-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Paxos as a Classroom]]></title>
     <link href="http://ethanp.github.io/blog/2015/05/18/paxos-as-a-classroom/"/>
-    <updated>2015-05-18T19:28:49-05:00</updated>
+    <updated>2015-05-18T17:28:49-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/05/18/paxos-as-a-classroom</id>
     <content type="html"><![CDATA[<pre><code>multi-paxos as a classroom:
 teacher := proposer

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: OOP | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/oop/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-12-27T00:52:17-06:00</updated>
+  <updated>2016-01-03T22:25:26-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Python Class Equivalence]]></title>
     <link href="http://ethanp.github.io/blog/2014/06/29/python-class-equivalence/"/>
-    <updated>2014-06-29T19:32:24-05:00</updated>
+    <updated>2014-06-29T17:32:24-07:00</updated>
     <id>http://ethanp.github.io/blog/2014/06/29/python-class-equivalence</id>
     <content type="html"><![CDATA[<h2><code>vars(self) == vars(other)</code>, it seems too easy</h2>
 

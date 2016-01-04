@@ -4,7 +4,7 @@
   <title><![CDATA[Category: School | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/school/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-12-27T00:52:17-06:00</updated>
+  <updated>2016-01-03T22:25:26-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Why the WiFi Sucks on the Porch]]></title>
     <link href="http://ethanp.github.io/blog/2015/09/24/why-the-wifi-sucks-on-the-porch/"/>
-    <updated>2015-09-24T16:31:30-05:00</updated>
+    <updated>2015-09-24T14:31:30-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/09/24/why-the-wifi-sucks-on-the-porch</id>
     <content type="html"><![CDATA[<h2>Why is WiFi so slow on the porch?</h2>
 
@@ -55,7 +55,7 @@ for that noise.</p>
   <entry>
     <title type="html"><![CDATA[Basics of Wireless Communication]]></title>
     <link href="http://ethanp.github.io/blog/2015/09/07/basics-of-wireless-communication/"/>
-    <updated>2015-09-07T17:45:58-05:00</updated>
+    <updated>2015-09-07T15:45:58-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/09/07/basics-of-wireless-communication</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve been doing the readings for my <a href="http://www.cs.utexas.edu/~lili/classes/F15-CS386W/">Wireless Networking course</a> at
 UTexas, and in the process have dug into much of the basics of radios and
@@ -128,7 +128,7 @@ that&rsquo;s all the time I&rsquo;ve got.</p>
   <entry>
     <title type="html"><![CDATA[Simulating a Distributed System]]></title>
     <link href="http://ethanp.github.io/blog/2015/05/18/simulating-a-distributed-system/"/>
-    <updated>2015-05-18T19:24:37-05:00</updated>
+    <updated>2015-05-18T17:24:37-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/05/18/simulating-a-distributed-system</id>
     <content type="html"><![CDATA[<p>For my Distributed Computing class at school, there were 3 projects that each
 involved implementing a distributed protocol over a simulated distributed
@@ -209,7 +209,7 @@ that didn&rsquo;t work. I guess different ones work for different situations.</p
   <entry>
     <title type="html"><![CDATA[Asynchronous System]]></title>
     <link href="http://ethanp.github.io/blog/2015/05/03/asynchronous-system/"/>
-    <updated>2015-05-03T21:27:36-05:00</updated>
+    <updated>2015-05-03T19:27:36-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/05/03/asynchronous-system</id>
     <content type="html"><![CDATA[<p>Before taking a Distributed Computing course at school, I had written for
 various program environments:</p>
@@ -322,7 +322,7 @@ solving certain problems.</p>
   <entry>
     <title type="html"><![CDATA[Intro to Distributed Computing]]></title>
     <link href="http://ethanp.github.io/blog/2015/05/03/intro-to-distributed-computing/"/>
-    <updated>2015-05-03T21:18:38-05:00</updated>
+    <updated>2015-05-03T19:18:38-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/05/03/intro-to-distributed-computing</id>
     <content type="html"><![CDATA[<p>This semester I have been taking Distributed Computing with Professor Lorenzo
 Alvisi. Distributed computing has been something I have been curious about for

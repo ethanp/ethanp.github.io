@@ -9,10 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="multi-paxos as a classroom:
-teacher := proposer
-students := acceptors
-all := learners teacher to students: may I have your attention for the next 1: &hellip;">
+  <meta name="description" content="I read a great article by Jay Kreps, one of the dudes who brought you Apache
+Kafka. The article is called The Log: What every software engineer &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +74,72 @@ all := learners teacher to students: may I have your attention for the next 1: &
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/05/29/summary-of-the-log/">Summary of &#8216;the Log&#8217;</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-29T20:57:16-07:00" pubdate data-updated="true">May 29<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I read a great article by Jay Kreps, one of the dudes who brought you Apache
+Kafka. The article is called <a href="http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying"><strong>The Log</strong>: What every software engineer should know about real-time data&rsquo;s unifying abstraction</a>. The
+article took me a few hours of mildly challenging reading, so I figure you can
+spend a few minutes reading my summary and decide more clearly whether you want
+to put in the investment of his explanation.</p>
+
+<p>First, he describes the following concept: Let&rsquo;s define a <strong>log</strong> as a <em>total
+order</em> of functions called and the parameters passed to each of those function-
+calls. Let&rsquo;s define a <em>&ldquo;commit log&rdquo;</em> as a <em>log</em> of edits of the contents of a
+database. Kreps notes that we can use a commmit log to build the state of a
+database at any point in history. This is like <code>git</code>; as we patch in each
+commit, we obtain the state of the repo at each time. If we feed the same log
+to the same program on multiple machines in a cluster, (assuming none of the
+functions called are <em>non- deterministic</em> and machines behave as we expect), we
+will certainly have the same state on each machine after they have each
+executed the log. This would be desireable perhaps to provide a &ldquo;reliable&rdquo;
+<em>service</em> for which there are more reads than writes, and more reads than can
+be handled by one node; then we can ensure any node is OK to read from by
+having all nodes play functions as prescribed by the log.</p>
+
+<p>Then, he describes the following situation: getting every part of a tech-
+company&rsquo;s data to every service that needs it is very complicated. In the worst
+and most naive case it would be <em>N<sup>2</sup></em> because each of <em>N</em> places would be sending
+data to each of <em>N</em> places. That&rsquo;s a lot of network bandwidth, and complexity,
+and data formats to understand, and places for things to screw up. So Kreps
+suggests</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/29/summary-of-the-log/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/05/18/paxos-as-a-classroom/">Paxos as a Classroom</a></h1>
     
     
@@ -92,7 +156,7 @@ all := learners teacher to students: may I have your attention for the next 1: &
   
 
 
-<time datetime="2015-05-18T19:28:49-05:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
+<time datetime="2015-05-18T17:28:49-07:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
         
       </p>
     
@@ -156,7 +220,7 @@ teacher:
   
 
 
-<time datetime="2015-05-18T19:24:37-05:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
+<time datetime="2015-05-18T17:24:37-07:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
         
       </p>
     
@@ -266,7 +330,7 @@ that didn&rsquo;t work. I guess different ones work for different situations.</p
   
 
 
-<time datetime="2015-05-03T21:27:36-05:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
+<time datetime="2015-05-03T19:27:36-07:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
         
       </p>
     
@@ -331,7 +395,7 @@ fairly regularly when talking amongst machines.</p>
   
 
 
-<time datetime="2015-05-03T21:18:38-05:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
+<time datetime="2015-05-03T19:18:38-07:00" pubdate data-updated="true">May 3<span>rd</span>, 2015</time>
         
       </p>
     
@@ -395,7 +459,7 @@ feels compelled to respond (while still multi-tasking).</p>
   
 
 
-<time datetime="2014-06-29T19:32:24-05:00" pubdate data-updated="true">Jun 29<span>th</span>, 2014</time>
+<time datetime="2014-06-29T17:32:24-07:00" pubdate data-updated="true">Jun 29<span>th</span>, 2014</time>
         
       </p>
     
@@ -451,7 +515,7 @@ feels compelled to respond (while still multi-tasking).</p>
   
 
 
-<time datetime="2014-05-23T16:06:59-05:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
+<time datetime="2014-05-23T14:06:59-07:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
         
       </p>
     
@@ -596,7 +660,7 @@ Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo
   
 
 
-<time datetime="2014-05-22T20:32:09-05:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
+<time datetime="2014-05-22T18:32:09-07:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
         
       </p>
     
@@ -652,7 +716,7 @@ work (Mac OSX only).</p>
   
 
 
-<time datetime="2014-05-16T21:01:58-05:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
+<time datetime="2014-05-16T19:01:58-07:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
         
       </p>
     
@@ -708,7 +772,7 @@ performs what I&rsquo;m calling a <em>&lsquo;post-order insertion&rsquo;</em> of
   
 
 
-<time datetime="2014-05-14T20:00:02-05:00" pubdate data-updated="true">May 14<span>th</span>, 2014</time>
+<time datetime="2014-05-14T18:00:02-07:00" pubdate data-updated="true">May 14<span>th</span>, 2014</time>
         
       </p>
     
@@ -749,7 +813,11 @@ certainly not well written; that&rsquo;s okay though.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/12/27/first-glimpse-of-compilers/">First Glimpse of Compilers</a>
+        <a href="/blog/2016/01/03/gamified-learning/">Gamified Learning</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/26/first-glimpse-of-compilers/">First Glimpse of Compilers</a>
       </li>
     
       <li class="post">
@@ -762,10 +830,6 @@ certainly not well written; that&rsquo;s okay though.</p>
     
       <li class="post">
         <a href="/blog/2015/10/26/intro-to-http-slash-2/">Intro to HTTP/2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/24/why-the-wifi-sucks-on-the-porch/">Why the WiFi Sucks on the Porch</a>
       </li>
     
   </ul>
@@ -810,7 +874,7 @@ certainly not well written; that&rsquo;s okay though.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Ethan Petuchowski -
+  Copyright &copy; 2016 - Ethan Petuchowski -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

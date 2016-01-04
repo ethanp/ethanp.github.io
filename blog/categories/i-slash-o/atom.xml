@@ -4,7 +4,7 @@
   <title><![CDATA[Category: I/O | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/i-slash-o/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2015-12-27T00:52:17-06:00</updated>
+  <updated>2016-01-03T22:25:26-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Inside Java's BufferedReader]]></title>
     <link href="http://ethanp.github.io/blog/2015/07/01/inside-javas-bufferedreader/"/>
-    <updated>2015-07-01T15:22:50-05:00</updated>
+    <updated>2015-07-01T13:22:50-07:00</updated>
     <id>http://ethanp.github.io/blog/2015/07/01/inside-javas-bufferedreader</id>
     <content type="html"><![CDATA[<p><code>BufferedReader</code> is suprisingly fast for parsing large text files. Why is that?
 In my experience, it is faster for this task than a <code>BufferedInputStream</code>.

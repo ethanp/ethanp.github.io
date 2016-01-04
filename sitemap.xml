@@ -2,144 +2,148 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://ethanp.github.io/blog/2014/05/14/octopress/</loc>
-        <lastmod>2014-05-23T15:52:23-05:00</lastmod>
+        <lastmod>2014-05-23T13:52:23-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2014/05/16/scala-union-beauty/</loc>
-        <lastmod>2014-05-23T15:52:24-05:00</lastmod>
+        <lastmod>2014-05-23T13:52:24-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2014/05/22/multimarkdown-to-latex/</loc>
-        <lastmod>2014-05-31T22:49:32-05:00</lastmod>
+        <lastmod>2014-05-31T20:49:32-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2014/05/23/java-inheritance-issue/</loc>
-        <lastmod>2015-06-20T17:06:21-05:00</lastmod>
+        <lastmod>2015-06-20T15:06:21-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2014/06/29/python-class-equivalence/</loc>
-        <lastmod>2014-06-29T19:57:51-05:00</lastmod>
+        <lastmod>2014-06-29T17:57:51-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/05/03/intro-to-distributed-computing/</loc>
-        <lastmod>2015-05-29T22:55:46-05:00</lastmod>
+        <lastmod>2015-05-29T20:55:46-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/05/03/asynchronous-system/</loc>
-        <lastmod>2015-05-09T12:08:48-05:00</lastmod>
+        <lastmod>2015-05-09T10:08:48-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/05/18/simulating-a-distributed-system/</loc>
-        <lastmod>2015-05-29T22:56:10-05:00</lastmod>
+        <lastmod>2015-05-29T20:56:10-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/05/18/paxos-as-a-classroom/</loc>
-        <lastmod>2015-05-29T23:57:48-05:00</lastmod>
+        <lastmod>2015-05-29T21:57:48-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/05/29/summary-of-the-log/</loc>
-        <lastmod>2015-05-31T18:29:59-05:00</lastmod>
+        <lastmod>2015-05-31T16:29:59-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://ethanp.github.io/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/
         </loc>
-        <lastmod>2015-06-08T21:03:36-05:00</lastmod>
+        <lastmod>2015-06-08T19:03:36-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/06/10/what-akamai-does/</loc>
-        <lastmod>2015-08-23T17:01:18-05:00</lastmod>
+        <lastmod>2015-08-23T15:01:18-07:00</lastmod>
     </url>
     <url>
-        <loc>http://ethanp.github.io/blog/2015/06/20/first-look-at-mongodb/</loc>
-        <lastmod>2015-06-20T02:02:10-05:00</lastmod>
+        <loc>http://ethanp.github.io/blog/2015/06/19/first-look-at-mongodb/</loc>
+        <lastmod>2015-06-20T00:02:10-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/07/01/inside-javas-bufferedreader/</loc>
-        <lastmod>2015-07-01T15:38:44-05:00</lastmod>
+        <lastmod>2015-07-01T13:38:44-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/07/22/lesson-learnt-about-collaboration/</loc>
-        <lastmod>2015-07-23T22:58:56-05:00</lastmod>
+        <lastmod>2015-07-23T20:58:56-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/07/28/what-makes-a-good-abstraction/</loc>
-        <lastmod>2015-07-29T01:23:18-05:00</lastmod>
+        <lastmod>2015-07-28T23:23:18-07:00</lastmod>
     </url>
     <url>
-        <loc>http://ethanp.github.io/blog/2015/07/29/what-is-an-abstraction/</loc>
-        <lastmod>2015-07-29T02:28:27-05:00</lastmod>
+        <loc>http://ethanp.github.io/blog/2015/07/28/what-is-an-abstraction/</loc>
+        <lastmod>2015-07-29T00:28:27-07:00</lastmod>
     </url>
     <url>
-        <loc>http://ethanp.github.io/blog/2015/08/06/further-adventures-in-collaboration/</loc>
-        <lastmod>2015-08-06T01:47:54-05:00</lastmod>
+        <loc>http://ethanp.github.io/blog/2015/08/05/further-adventures-in-collaboration/</loc>
+        <lastmod>2015-08-05T23:47:54-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked/</loc>
-        <lastmod>2015-08-06T23:02:31-05:00</lastmod>
+        <lastmod>2015-08-06T21:02:31-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://ethanp.github.io/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/
         </loc>
-        <lastmod>2015-10-04T13:24:54-05:00</lastmod>
+        <lastmod>2015-10-04T11:24:54-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://ethanp.github.io/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary/
         </loc>
-        <lastmod>2015-08-23T17:01:21-05:00</lastmod>
+        <lastmod>2015-08-23T15:01:21-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/09/07/basics-of-wireless-communication/</loc>
-        <lastmod>2015-09-07T18:42:38-05:00</lastmod>
+        <lastmod>2015-09-07T16:42:38-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/09/11/avoiding-sign-extension/</loc>
-        <lastmod>2015-10-04T01:15:22-05:00</lastmod>
+        <lastmod>2015-10-03T23:15:22-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/09/23/bit-twiddling-data-structure-alignment/</loc>
-        <lastmod>2015-09-23T13:45:47-05:00</lastmod>
+        <lastmod>2015-09-23T11:45:47-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/09/24/why-the-wifi-sucks-on-the-porch/</loc>
-        <lastmod>2015-09-24T16:35:01-05:00</lastmod>
+        <lastmod>2015-09-24T14:35:01-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/10/26/intro-to-http-slash-2/</loc>
-        <lastmod>2015-10-26T16:14:25-05:00</lastmod>
+        <lastmod>2015-10-26T14:14:25-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/10/27/very-basics-of-jetty/</loc>
-        <lastmod>2015-10-27T11:11:18-05:00</lastmod>
+        <lastmod>2015-10-27T09:11:18-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2015/12/19/learning-vs-doing/</loc>
-        <lastmod>2015-12-19T16:08:47-06:00</lastmod>
+        <lastmod>2015-12-19T14:08:47-08:00</lastmod>
     </url>
     <url>
-        <loc>http://ethanp.github.io/blog/2015/12/27/first-glimpse-of-compilers/</loc>
-        <lastmod>2015-12-27T00:52:00-06:00</lastmod>
+        <loc>http://ethanp.github.io/blog/2015/12/26/first-glimpse-of-compilers/</loc>
+        <lastmod>2015-12-27T11:34:45-08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://ethanp.github.io/blog/2016/01/03/gamified-learning/</loc>
+        <lastmod>2016-01-03T22:24:25-08:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/about/</loc>
-        <lastmod>2015-05-30T00:11:56-05:00</lastmod>
+        <lastmod>2015-05-29T22:11:56-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/archives/</loc>
-        <lastmod>2015-12-27T00:52:00-06:00</lastmod>
+        <lastmod>2016-01-03T22:24:25-08:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/</loc>
-        <lastmod>2015-12-27T00:52:00-06:00</lastmod>
+        <lastmod>2016-01-03T22:24:25-08:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/portfolio/</loc>
-        <lastmod>2015-06-07T20:11:59-05:00</lastmod>
+        <lastmod>2015-06-07T18:11:59-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/robots.txt</loc>
-        <lastmod>2014-05-14T12:47:09-05:00</lastmod>
+        <lastmod>2014-05-14T10:47:09-07:00</lastmod>
     </url>
 </urlset>
