@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-01-03T22:25:26-08:00</updated>
+  <updated>2016-01-07T08:46:39-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Tone Makes the Point]]></title>
+    <link href="http://ethanp.github.io/blog/2016/01/07/the-tone-makes-the-point/"/>
+    <updated>2016-01-07T08:40:04-08:00</updated>
+    <id>http://ethanp.github.io/blog/2016/01/07/the-tone-makes-the-point</id>
+    <content type="html"><![CDATA[<p>Recently, hot-shot investor Paul Graham wrote a <a href="http://www.paulgraham.com/ineq.html">piece about economic
+inequality</a>. This essay provoked a lot of dialogue online. I read the
+piece, and a few responses to it. I enjoyed the essay, and I found it very
+persuasive. In fact, I would say my &lsquo;opinion on the matter&rsquo; has been changed by
+reading the essay and its accompanying summary by the author. The responses I
+read were also very interesting. They were from seemingly center-left-wing
+individuals like myself, only they were <em>not</em> persuaded by Graham&rsquo;s arguments.</p>
+
+<p>My point here is not so much to discuss the piece, as the tone of the piece.
+This piece was written with a tone that raises the hair on the back of the
+necks of liberals. This may have been unintentional on the part of Graham,
+&hellip;although considering the follow-up discussions of his previous piece on
+females in tech, may he just likes raising those particular hairs (they&rsquo;re
+called &ldquo;hackles&rdquo;).</p>
+
+<!-- more -->
+
+
+<p>I will now summarize what I took from the essay. Technology increases the
+potential productivity of people at an exponential rate. Since some people do
+not become more productive, this correspondingly increases the <em>variability</em> of
+productivity within the population. Those who are more productive in producing
+innovative goods are benefitting society. They mainly only are interested in
+being more productive <em>because</em> of the possibility of getting rich off of it.
+If we want to help the poor, the problem is <em>not</em> that there are rich people;
+the problem is that there are poor people. To help the poor, instead of taking
+away the ability for the productive to get rich, we should help the poor become
+more productive. This is because economic inequality <em>per se</em> is not the issue,
+poverty is.</p>
+
+<p>For me, this is, as I&rsquo;ve mentioned, both convincing and enlightening. But there
+are two concerns any left-winger is almost certainly going to bring up. First,
+a lot of people&rsquo;s wealth is not made by being productive in a way that benefits
+society; shouldn&rsquo;t we wage class-war against them? Second, even people who
+became rich by benefitting society, are likely to abuse their wealth via some
+form of corruption, so that&rsquo;s why we should prevent them from getting rich in
+the first place. After those two arguments, there are a few other popular
+rebuttals. (E.g.) Third, why should we allow some people to be <em>that</em> much
+richer than everyone else; something about it seems creepy, therefore it should
+be prevented.</p>
+
+<p>These <em>are</em> legitimate concerns, they just don&rsquo;t <em>actually</em> rebut anything
+Graham was saying. That&rsquo;s why, if Graham wants to have a legitimate
+conversation with people who are going to make the above rebuttals, his
+argument should <em>start</em> by saying that those rebuttals are <em>correct</em>, and then
+go into how it is <em>still</em> the case that his original arguments are correct. In
+this way, the hackles are down, and the legitimate points can be heard.</p>
+
+<p>However, maybe Graham wasn&rsquo;t writing the essay for left-wing people to be
+convinced. Maybe he was trying to convince right-wing people. If that is true,
+the essay was pointless, because right-wing people <em>already</em> agree with the
+opinions he stated. Or maybe he was writing the essay for maximum &ldquo;virality&rdquo; to
+increase his fame and international mindshare. In that case, I&rsquo;m not a good
+judge of effective argument technique.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Gamified Learning]]></title>
@@ -26,7 +88,7 @@ knowledge. I have tried various methods of learning over the past few days,
 which I have listed below.</p>
 
 <p>What I have noticed of myself is that gamification <strong>works</strong> for me. I love the
-satisfaction of (in descending order of satisfaction)</p>
+satisfaction of (in descending order of [perceived] satisfaction)</p>
 
 <ul>
 <li>earning a badge</li>
@@ -35,6 +97,9 @@ satisfaction of (in descending order of satisfaction)</p>
 <li>beating robots (similar to &ldquo;beating a boss&rdquo; in a video game)</li>
 <li>getting points</li>
 </ul>
+
+
+<!-- more -->
 
 
 <p>Missing from the list below is Coursera, Udacity, etc. After 6 years of school,
@@ -65,7 +130,7 @@ exceptionally easy to read a book and think you understand it, and actually
 <p>My first &ldquo;real&rdquo; day of my first &ldquo;real&rdquo; job is tomorrow. So I probably won&rsquo;t be
 spending much time just randomly learning whatever I want in the future. But in
 general, these are things that I like to learn about, and methods of learning
-them that I enjoy doing, so as I find time, I will come back to these things.</p>
+them that I enjoy doing; so as I find time, I will come back to these things.</p>
 
 <h3>The List</h3>
 
@@ -2336,75 +2401,6 @@ origin right before before it is requested by the user.</p>
 catalogs (dynamic access of static content), data validation, and data input
 batching. It&rsquo;s not great for apps relying heavily on transactional databases
 because they still must communicate with the origin server.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Brief Overview of Garbage Collection in the HotSpot JVM]]></title>
-    <link href="http://ethanp.github.io/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm/"/>
-    <updated>2015-06-08T18:50:33-07:00</updated>
-    <id>http://ethanp.github.io/blog/2015/06/08/brief-overview-of-garbage-collection-in-the-hotspot-jvm</id>
-    <content type="html"><![CDATA[<p><strong>Disclaimer:</strong> This post only claims to represent my <em>current understanding</em>
-of the workings of the HotSpot VM&rsquo;s garbage collector. This understanding comes
-from reading the <em>references</em> listed below, as well as making some assumptions.
-It is not necessarily fully correct.</p>
-
-<h3>Brief Overview</h3>
-
-<p><strong>The garbage collector <em>separates the heap into 5 sections of 4 types</em>.</strong> I
-don&rsquo;t know whether these spaces are &ldquo;virtual&rdquo; (i.e. remapped to discontiguous
-&ldquo;pages&rdquo; like Linux&rsquo;s <em>virtual memory addresses</em>) or not. I suspect they are
-<em>not</em>.</p>
-
-<ol>
-<li><strong>Eden</strong> &mdash; where objects go when they&rsquo;re first allocated in the running
-program</li>
-<li><strong>Survivors 1 &amp; 2</strong> a.k.a. &ldquo;young space&rdquo; &mdash; objects in Eden are moved here
-if they survive a minor (&ldquo;young&rdquo;) GC</li>
-<li><strong>Tenured</strong> (a.k.a. <strong>Old</strong>) &mdash; long-lived objects (that have survived [a
-configurable number of] minor GCs) are moved and then live in here
-
-<ul>
-<li>We can tell the JVM to allocate all objects larger than <code>n</code> bytes
-directly into the <em>old</em> space.</li>
-</ul>
-</li>
-<li><strong>Permanent</strong> &mdash; this is where the JVM&rsquo;s own objects live (e.g. classes and
-JITed code). It behaves just like the <em>tenured</em> space.</li>
-</ol>
-
-
-<!-- more -->
-
-
-<p>The GC is arranged &ldquo;generationally&rdquo; because (according to the &ldquo;<strong>generational
-hypothesis</strong>&rdquo;) it is assumed the longer objects live, the longer into the
-future their life expectancy is. So if we move the older objects into a
-separate bin, we can do quick, efficient, lucrative &ldquo;minor GCs&rdquo; in which we
-only garbage collect from Eden and the Survivor spaces.</p>
-
-<p><strong>Minor GC</strong> is triggered <em>when Eden becomes full</em>. It uses the root references
-to collect the reference set, and moves all live objects from Eden and one
-survivor space into the other survivor space (a.k.a. &ldquo;mark-and-sweep&rdquo;. I guess
-this means we&rsquo;re physically moving the object in RAM because we have to update
-all the objects references to the new location.</p>
-
-<p><strong>Root references</strong> for minor GC are from the stack (I think this means entire
-stacks for all running threads) and old space. HotSpot uses &ldquo;dirty cards&rdquo; as an
-optimization to not have to trace through references from all members of the
-old space, only the modified ones.</p>
-
-<p><strong>Full GC</strong> would <em>intuitively</em> be triggered by running out of space in the
-&ldquo;tenured&rdquo; or &ldquo;permanent&rdquo; bins, but this is not <em>necessarily</em> the case.</p>
-
-<h4>References</h4>
-
-<ul>
-<li><a href="http://blog.griddynamics.com/2011/06/understanding-gc-pauses-in-jvm-hotspots.html">Grid Dynamics</a></li>
-<li><a href="http://www.cubrid.org/blog/dev-platform/understanding-java-garbage-collection/">Cubrid Blog</a></li>
-<li><a href="http://stackoverflow.com/questions/9546392/">StOve</a></li>
-</ul>
-
 ]]></content>
   </entry>
   
