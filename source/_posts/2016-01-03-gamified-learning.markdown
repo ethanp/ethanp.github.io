@@ -14,13 +14,15 @@ knowledge. I have tried various methods of learning over the past few days,
 which I have listed below.
 
 What I have noticed of myself is that gamification __works__ for me. I love the
-satisfaction of (in descending order of satisfaction)
+satisfaction of (in descending order of [perceived] satisfaction)
 
 * earning a badge
 * getting to the next level
 * beating other humans (directly, or via "percentile" calculation)
 * beating robots (similar to "beating a boss" in a video game)
 * getting points
+
+<!-- more -->
 
 Missing from the list below is Coursera, Udacity, etc. After 6 years of school,
 I'm _really_ of sick of sitting in a lecture hall, even if it's a virtual one.
@@ -50,7 +52,7 @@ _not_ be understanding it. So who knows.
 My first "real" day of my first "real" job is tomorrow. So I probably won't be
 spending much time just randomly learning whatever I want in the future. But in
 general, these are things that I like to learn about, and methods of learning
-them that I enjoy doing, so as I find time, I will come back to these things.
+them that I enjoy doing; so as I find time, I will come back to these things.
 
 ### The List
 
