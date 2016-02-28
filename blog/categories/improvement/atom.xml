@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Improvement | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/improvement/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2016-02-27T16:31:58-08:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Asking for Advice]]></title>
+    <link href="http://ethanp.github.io/blog/2016/02/27/asking-for-advice/"/>
+    <updated>2016-02-27T15:38:06-08:00</updated>
+    <id>http://ethanp.github.io/blog/2016/02/27/asking-for-advice</id>
+    <content type="html"><![CDATA[<p>There are many circumstances in life during which one may feel the need to ask
+for advice. For example, when evaluating a significant decision, or when
+dealing with an emotionally stressful circumstance. Here, I will discuss
+advice about significant decisions.</p>
+
+<p>In giving advice, everyone has a different approach. I generally try to follow
+a line I heard in a rap song by The Streets, &ldquo;If you never tell a lie to her,
+you don&rsquo;t have to remember anything.&rdquo; In other words, lying will only
+complicate your life because you have to remember the lies you made up.
+(Caveat: this may not always the best way to go for emotionally complex
+issues.) I also enjoy helping people rationally and realistically evaluate
+their options for significant decisions, and surely if someone recalls that
+your input was helpful in the past, they will be more likely to ask you in the
+future.</p>
+
+<p>Most people I know don&rsquo;t seem to like giving useful advice. It seems they
+either are (1) too afraid that their honesty will lead you to dislike them, or
+(2) they feel so stressed with their own issues that taking on yours for a few
+minutes would be overwhelming, or (3) they find your problem uninteresting and
+simply have better things to do.</p>
+
+<p>But some people are the opposite. They will patiently listen to your question
+and give what they feel to be an honest evaluation of where you stand and what
+you should do. The advice of people in this category will often be heavily and
+obviously biased by their own experience and ideology. This is simply a
+symptom of &ldquo;being honest&rdquo;.</p>
+
+<p>So if you want good advice, it would be ideal to find someone who is honest,
+not stressed about a similar problem to yours, as well as interested in and
+knowledgeable of the subject; they should generally also be disinterested in
+your particular problem. However, this ideal candidate is not always
+available.</p>
+
+<!-- more -->
+
+
+<p>In that case one can obviously try the timeless &ldquo;pros vs cons&rdquo; list, which
+doesn&rsquo;t necessarily rely on external sources of wisdom, but often external
+sources of wisdom are critical. One can ask unideal candidates for advice, and
+maybe they&rsquo;ll at least have some curt nugget that has some use. That&rsquo;s what I
+usually do, and it is generally not effective at all, but occasionaly that
+curt nugget is exactly the required pithy jewel.</p>
+
+<p>One can consult the Internet, but I kind of assumed that if you needed advice,
+you already checked the Internet for answers. But to go one step further you
+can <em>ask</em> the Internet, treating it like this all knowing Oracle. This will
+work to varying degrees depending on your problem. If your problem is one that
+everyone and their mother has an opinion on, you will end up sifting through
+junk answers, and may or may not get anything useful. In that case, the more
+details you can reveal, the more benefit you will obtain. Of course <em>where</em>
+you ask matters: for example Quora will be more effective than Yahoo Answers.
+If your problem is esoteric, <em>find the people who are into that thing</em>.</p>
+
+<p>For example, I have noticed to my surprise that StackOverflow/StackExchange is
+not always the best place for all programming-related questions, because if
+your question is esoteric to one technological ecosystem, the question-
+answering population on StackOverflow won&rsquo;t necessarily have the flag-bearers
+of the cause of that particular ecosystem. But if it really is an ecosystem,
+it will have a place where the flag-bearers dwell, so <em>find it</em> and they will
+probably help. In my experience, IRC channels tend to be empty; Gitter
+channels may be well-attended; Github issues get a lot of flak for being a
+mess, but are often effective if you&rsquo;re sure your question isn&rsquo;t stupid;
+mailing lists can be high-latency but that&rsquo;s often where the true experts of
+super-technical projects converse. Following <strong>good forum-question-asking
+practices</strong> is <em>crucial</em> in <em>any</em> of these environments, and it can be
+trickier to do that than it sounds. The better you phrase your question, the
+more appealing it is to answer in the eyes of a high-quality potential source
+of advice.</p>
+
+<p>Sometimes the advice you receive from multiple sources will be in direct
+conflict with each other. I have been having this issue a lot lately. Let&rsquo;s
+say one person suggested I do <code>A</code>, and another suggested I do <code>not A</code>. I have
+decided this pair of suggestions implies that <em>either</em> decision is just fine,
+which is basically the ideal outcome; viz. my so-called &ldquo;significant decision&rdquo;
+was not so significant after all and doesn&rsquo;t not need to be balanced
+carefully.</p>
+
+<p>Just some biased thoughts from my experience; take some, leave some, etc.</p>
+]]></content>
+  </entry>
+  
+</feed>

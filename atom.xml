@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-01-07T08:46:39-08:00</updated>
+  <updated>2016-02-27T16:31:58-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,92 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Asking for Advice]]></title>
+    <link href="http://ethanp.github.io/blog/2016/02/27/asking-for-advice/"/>
+    <updated>2016-02-27T15:38:06-08:00</updated>
+    <id>http://ethanp.github.io/blog/2016/02/27/asking-for-advice</id>
+    <content type="html"><![CDATA[<p>There are many circumstances in life during which one may feel the need to ask
+for advice. For example, when evaluating a significant decision, or when
+dealing with an emotionally stressful circumstance. Here, I will discuss
+advice about significant decisions.</p>
+
+<p>In giving advice, everyone has a different approach. I generally try to follow
+a line I heard in a rap song by The Streets, &ldquo;If you never tell a lie to her,
+you don&rsquo;t have to remember anything.&rdquo; In other words, lying will only
+complicate your life because you have to remember the lies you made up.
+(Caveat: this may not always the best way to go for emotionally complex
+issues.) I also enjoy helping people rationally and realistically evaluate
+their options for significant decisions, and surely if someone recalls that
+your input was helpful in the past, they will be more likely to ask you in the
+future.</p>
+
+<p>Most people I know don&rsquo;t seem to like giving useful advice. It seems they
+either are (1) too afraid that their honesty will lead you to dislike them, or
+(2) they feel so stressed with their own issues that taking on yours for a few
+minutes would be overwhelming, or (3) they find your problem uninteresting and
+simply have better things to do.</p>
+
+<p>But some people are the opposite. They will patiently listen to your question
+and give what they feel to be an honest evaluation of where you stand and what
+you should do. The advice of people in this category will often be heavily and
+obviously biased by their own experience and ideology. This is simply a
+symptom of &ldquo;being honest&rdquo;.</p>
+
+<p>So if you want good advice, it would be ideal to find someone who is honest,
+not stressed about a similar problem to yours, as well as interested in and
+knowledgeable of the subject; they should generally also be disinterested in
+your particular problem. However, this ideal candidate is not always
+available.</p>
+
+<!-- more -->
+
+
+<p>In that case one can obviously try the timeless &ldquo;pros vs cons&rdquo; list, which
+doesn&rsquo;t necessarily rely on external sources of wisdom, but often external
+sources of wisdom are critical. One can ask unideal candidates for advice, and
+maybe they&rsquo;ll at least have some curt nugget that has some use. That&rsquo;s what I
+usually do, and it is generally not effective at all, but occasionaly that
+curt nugget is exactly the required pithy jewel.</p>
+
+<p>One can consult the Internet, but I kind of assumed that if you needed advice,
+you already checked the Internet for answers. But to go one step further you
+can <em>ask</em> the Internet, treating it like this all knowing Oracle. This will
+work to varying degrees depending on your problem. If your problem is one that
+everyone and their mother has an opinion on, you will end up sifting through
+junk answers, and may or may not get anything useful. In that case, the more
+details you can reveal, the more benefit you will obtain. Of course <em>where</em>
+you ask matters: for example Quora will be more effective than Yahoo Answers.
+If your problem is esoteric, <em>find the people who are into that thing</em>.</p>
+
+<p>For example, I have noticed to my surprise that StackOverflow/StackExchange is
+not always the best place for all programming-related questions, because if
+your question is esoteric to one technological ecosystem, the question-
+answering population on StackOverflow won&rsquo;t necessarily have the flag-bearers
+of the cause of that particular ecosystem. But if it really is an ecosystem,
+it will have a place where the flag-bearers dwell, so <em>find it</em> and they will
+probably help. In my experience, IRC channels tend to be empty; Gitter
+channels may be well-attended; Github issues get a lot of flak for being a
+mess, but are often effective if you&rsquo;re sure your question isn&rsquo;t stupid;
+mailing lists can be high-latency but that&rsquo;s often where the true experts of
+super-technical projects converse. Following <strong>good forum-question-asking
+practices</strong> is <em>crucial</em> in <em>any</em> of these environments, and it can be
+trickier to do that than it sounds. The better you phrase your question, the
+more appealing it is to answer in the eyes of a high-quality potential source
+of advice.</p>
+
+<p>Sometimes the advice you receive from multiple sources will be in direct
+conflict with each other. I have been having this issue a lot lately. Let&rsquo;s
+say one person suggested I do <code>A</code>, and another suggested I do <code>not A</code>. I have
+decided this pair of suggestions implies that <em>either</em> decision is just fine,
+which is basically the ideal outcome; viz. my so-called &ldquo;significant decision&rdquo;
+was not so significant after all and doesn&rsquo;t not need to be balanced
+carefully.</p>
+
+<p>Just some biased thoughts from my experience; take some, leave some, etc.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Tone Makes the Point]]></title>
@@ -2310,97 +2396,6 @@ Category.</p>
 </span><span class='line'><span class="p">{</span> <span class="s2">&quot;_id&quot;</span> <span class="o">:</span> <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fed0e2c6cdd3813233ef&quot;</span><span class="p">),</span> <span class="s2">&quot;name&quot;</span> <span class="o">:</span> <span class="s2">&quot;second task&quot;</span> <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[What Akamai Does]]></title>
-    <link href="http://ethanp.github.io/blog/2015/06/10/what-akamai-does/"/>
-    <updated>2015-06-10T19:23:31-07:00</updated>
-    <id>http://ethanp.github.io/blog/2015/06/10/what-akamai-does</id>
-    <content type="html"><![CDATA[<p>I met someone at a hack night worked for Akamai. He was a cool dude, so I was
-curious what Akamai does. For whatever reason I ended up reading a paper cited
-as so:</p>
-
-<blockquote><p>Nygren, Erik, Ramesh K. Sitaraman, and Jennifer Sun. “The akamai network: a
-platform for high-performance internet applications.” ACM SIGOPS Operating
-Systems Review 44.3 (2010): 2–19.</p></blockquote>
-
-<p>For whatever reason, everything I know about Akamai is from this paper. I&rsquo;m not
-in any way afiliated with Akamai, etc., though the paper is basically a badly
-designed advertising pamphlet for their services. A small number of sentences
-in this summary may have been lifted directly from that paper. You can consider
-this whole post a paraphrasing of the paper. <strong>The intent of this post is to
-tell you everything important that I learned from the paper</strong> in a form that is
-<em>way</em> easier to digest than you reading the paper itself. To that end, this
-document is maybe 2 pages long, and the original is 17. Clearly much of the
-detail has been removed, but the gist remains. If that appeals to you, welcome
-aboard! Note that the paper is from 2010, so is probably already out of date.</p>
-
-<h2>Introduction</h2>
-
-<p>Akamai invented the <em>Content Delivery Network</em> (CDN) concept in the 1990s,
-because the raw naive Internet implementation is too slow to conduct a global
-business. As of 2010, Akamai delivers 15-20% of global Web traffic.</p>
-
-<h3>The Interwebs is a dangerous place</h3>
-
-<!-- more -->
-
-
-<p>For a web app, downtime and high latency is <em>very</em> costly. Customers won&rsquo;t go
-to your page unless they can see your content <em>right this second</em>. The Internet
-itself can provide no reliability or performance gaurantees.</p>
-
-<p>The Internet is composed of 1000s of individual networks, the largest having
-only 5% of Internet access traffic. It takes 650 networks to get to 90% of all
-access traffic. The Internet-access pricing structure happens to result in a
-situation in which connections between networks (&ldquo;peering points&rdquo;) are
-bottlenecks causing packet loss and increased latency.</p>
-
-<p>The protocol ISPs use to exchange rounting information (BGP) is bad and subject
-to misuse. Internet outages and partitions are regular occurrences. The strict
-ACK policy for TCP adds enough overhead to make video streaming over TCP
-impractical. The high proportion of people still using IE6 means any improved
-algorithms that get implemented have to be backwards compatible with that one
-silly browser.</p>
-
-<h2>Content Delivery Networks</h2>
-
-<p>Originally a CDN&rsquo;s purpose was to cache static site content at the &ldquo;edge&rdquo; of
-the Internet, close to end users, to avoid middle-mile bottlenecks. Now they
-accelerate entire web apps and provide HD live streaming media. They provide
-security, logging, diagnostics, reporting, and management tools</p>
-
-<p>A <strong>delivery network</strong> is a <em>virutal network</em>, i.e. a software layer over the
-actual Internet, to provide reliability, performance, scalability, and
-security. It requires no client software or changes to the underlying networks.
-Akamai&rsquo;s network is made from tens of thousands of globally deployed servers
-running sophisticated algorithms to enable faster content delivery.</p>
-
-<h3>In Greater Detail</h3>
-
-<p>When a user enters a URL into their browser, their DNS routes them to an Akamai
-DNS, which in turn gives them the IP address of an <strong>edge server</strong> chosen via
-machine learning algorithm. The edge server acts as a cache for the <strong>origin
-server</strong>, and if it needs new data, it uses an especially reliable and
-performant <strong>transport system</strong> (described later on), which is a network of
-internal nodes who know best how to connect the <em>edge</em> back to the <em>origin</em>.</p>
-
-<p>The <strong>transport system</strong> connects <em>edge</em> to <em>origin</em> servers with a cache
-pyramid of clusters. Streaming video is <em>branched out</em> to the edge clusters by
-intermediate layers of <em>reflectors</em>.</p>
-
-<p>Edge servers communicate to each other via their own chosen path optimization
-rather than the default one chosen by BGP, and use dynamically optimized TCP
-parameters. They can also intelligently prefetch and cache content from the
-origin right before before it is requested by the user.</p>
-
-<p>Akamai&rsquo;s EdgeComputing product allows you to distribute your web application
-<em>itself</em> &ldquo;to the <em>edge</em>&rdquo;, which is great for content aggregation, product
-catalogs (dynamic access of static content), data validation, and data input
-batching. It&rsquo;s not great for apps relying heavily on transactional databases
-because they still must communicate with the origin server.</p>
 ]]></content>
   </entry>
   
