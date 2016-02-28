@@ -135,16 +135,22 @@
         <lastmod>2016-02-27T16:37:09-08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://ethanp.github.io/blog/2016/02/28/some-java-network-programming-fundamentals/
+        </loc>
+        <lastmod>2016-02-28T15:30:01-08:00</lastmod>
+    </url>
+    <url>
         <loc>http://ethanp.github.io/about/</loc>
         <lastmod>2015-05-29T22:11:56-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/archives/</loc>
-        <lastmod>2016-02-27T16:37:09-08:00</lastmod>
+        <lastmod>2016-02-28T15:30:01-08:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/</loc>
-        <lastmod>2016-02-27T16:37:09-08:00</lastmod>
+        <lastmod>2016-02-28T15:30:01-08:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/portfolio/</loc>

@@ -1,0 +1,599 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Some Java Network Programming Fundamentals - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="Most of what I&rsquo;ve learned and discussed here comes from TCP/IP Sockets in
+Java, a highly recommended book about this stuff by Calvert and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2016/02/28/some-java-network-programming-fundamentals">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>Ethan Petuchowski</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Some Java Network Programming Fundamentals</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-28T15:15:13-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Most of what I&rsquo;ve learned and discussed here comes from <em>TCP/IP Sockets in
+Java</em>, a highly recommended book about this stuff by Calvert and Donahoo. Some
+of it also comes from <em>Java Network Programming</em> by Elliotte Rusty Harold.</p>
+
+<h2>Overview</h2>
+
+<ul>
+<li>The <em>only</em> transport-layer protocols Java supports are TCP &amp; UDP; for
+anything else, you must link to native code via the Java Native Interface</li>
+<li>TCP uses <em>stream</em> sockets, through which one generally just writes to an
+<code>OutputStream</code> and reads from an <code>InputStream</code> of bytes that remain in-order
+and uncorrupted and are (practically) guaranteed delivery by the
+implementation of the protocol by the operating system.
+
+<ul>
+<li>Unless you&rsquo;re using NIO; see below for more on that</li>
+</ul>
+</li>
+<li>UDP uses <em>datagram</em> sockets, through which you <code>send</code> and <code>receive</code> objects
+called <code>DatagramPacket</code>s, which are just a length, a destination, and data</li>
+<li>Unless you&rsquo;re using NIO, everything <em>blocks</em>: e.g. connecting to servers,
+listening for clients, reads, writes, and disconnecting (for TCP)
+
+<ul>
+<li>By default most of these actions may block <em>indefinitely</em></li>
+<li>For reading and connecting, you can configure a timeout, after which you
+will receive an <code>InterruptedIOException</code></li>
+<li>For <em>writing</em> to a TCP stream, you <em>cannot</em> configure a timeout</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Handling multiple clients</h3>
+
+<ul>
+<li>Deal with one at a time, which is simplest, especially if there&rsquo;s some state
+that is shared by all potential clients. Speed may become problematic
+quickly.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kt">void</span> <span class="nf">mainLoop</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Socket</span> <span class="n">s</span> <span class="o">=</span> <span class="n">serverSocket</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">handle</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">Socket</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+</span><span class='line'>    <span class="c1">// process request, etc.</span>
+</span><span class='line'>    <span class="n">s</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Create a new thread to handle each incoming client. This is still pretty
+simple, but will lead to massive overhead if you have many concurrent
+clients, and therefore you&rsquo;re context-switching all the time.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kt">void</span> <span class="nf">mainLoop</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Socket</span> <span class="n">s</span> <span class="o">=</span> <span class="n">serverSocket</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nf">Thread</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+</span><span class='line'>                <span class="c1">// process request, etc.</span>
+</span><span class='line'>                <span class="n">s</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}.</span><span class="na">start</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Use a thread pool to handle requests. Java has abstracted the thread pool
+concept into the <code>Executors</code> factory class. There are a multitude of
+executors to choose from. This <code>newCachedThreadPool()</code> one will execute each
+task on an existing thread if one is idle, and will create a thread
+otherwise. Threads sitting idle in the cache for over one minute are
+terminated.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newCachedThreadPool</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="nf">mainLoop</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Socket</span> <span class="n">s</span> <span class="o">=</span> <span class="n">serverSocket</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">executor</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="n">TheHandler</span><span class="o">(</span><span class="n">s</span><span class="o">));</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="kd">static</span> <span class="kd">class</span> <span class="nc">TheHandler</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Socket</span> <span class="n">s</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">TheHandler</span><span class="o">(</span><span class="n">Socket</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">;</span> <span class="o">}</span>
+</span><span class='line'>    <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+</span><span class='line'>        <span class="c1">// process request, etc.</span>
+</span><span class='line'>        <span class="n">s</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Use NIO (rather complicated) to allow <code>N</code> threads to service <code>M</code>
+clients, where <code>N</code> is small and <code>M</code> is huge. This uses event-based
+programming. We can set all network operations to be non-blocking, and
+only wait as long as we want to for them. An extensive example can be
+found below.</li>
+<li>Use a framework like Netty, Akka, etc. that wraps the NIO stuff up in a
+ribbon and a tie</li>
+</ul>
+
+
+<h3>10K feet above NIO</h3>
+
+<!-- more -->
+
+
+<ul>
+<li>If you&rsquo;re using NIO, you create <code>Channel</code>s of bytes into and out of sockets
+(or file handles)</li>
+<li>You register a <code>Selector</code> to be notified when the <code>Channel</code> is ready to be
+read from or written to</li>
+<li>You query the <code>Selector</code> to tell you which <code>Channel</code> are ready, and may then
+take action on those that are</li>
+<li>You get data in and out by passing a <code>Buffer</code> to the <code>Channel</code></li>
+</ul>
+
+
+<p>Here&rsquo;s an example based on TCP/IP Sockets in Java, a highly recommended book
+about this stuff by Calvert and Donahoo.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Selector</span> <span class="n">slctr</span> <span class="o">=</span> <span class="n">Selector</span><span class="o">.</span><span class="na">open</span><span class="o">();</span> <span class="c1">// factory</span>
+</span><span class='line'><span class="n">ServerSocketChannel</span> <span class="n">chnl</span> <span class="o">=</span> <span class="n">ServerSocketChannel</span><span class="o">.</span><span class="na">open</span><span class="o">();</span> <span class="c1">// factory</span>
+</span><span class='line'><span class="n">chnl</span><span class="o">.</span><span class="na">socket</span><span class="o">().</span><span class="na">bind</span><span class="o">(</span><span class="n">inetAddr</span><span class="o">);</span> <span class="c1">// set address to listen on</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// For some reason Channels block by default. If we want to</span>
+</span><span class='line'><span class="c1">// register with the Selector for notifications, we must turn</span>
+</span><span class='line'><span class="c1">// that off.</span>
+</span><span class='line'><span class="n">chnl</span><span class="o">.</span><span class="na">configureBlocking</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Notify Selector whenever this Channel has a new connection</span>
+</span><span class='line'><span class="c1">// ready to be &quot;accepted&quot;. Such a notification still does</span>
+</span><span class='line'><span class="c1">// *not* guarantee it will work immediately.</span>
+</span><span class='line'><span class="n">chnl</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">slctr</span><span class="o">,</span> <span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_ACCEPT</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="c1">// wait configurable period of time to be notified</span>
+</span><span class='line'>    <span class="c1">// by any registered channel</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">numNotifications</span> <span class="o">=</span> <span class="n">slctr</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">timeoutMS</span><span class="o">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">(</span><span class="n">numNotifications</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="c1">// We timed out without any notification.</span>
+</span><span class='line'>        <span class="c1">// We could do whatever we want here because we&#39;re</span>
+</span><span class='line'>        <span class="c1">// no longer blocked.</span>
+</span><span class='line'>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>        <span class="c1">// numNotifications different channels have notified us of</span>
+</span><span class='line'>        <span class="c1">// being available for Connect, Read, Accept, or Write.</span>
+</span><span class='line'>        <span class="c1">// It is OK to use these keys in concurrent threads.</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">SelectionKey</span> <span class="n">key</span> <span class="o">:</span> <span class="n">slctr</span><span class="o">.</span><span class="na">selectedKeys</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>            <span class="c1">// We&#39;re not sure which channel this key belonged to.</span>
+</span><span class='line'>            <span class="c1">// Also, notification was just a &quot;hint&quot; and we need to</span>
+</span><span class='line'>            <span class="c1">// check again whether the Channel is available.</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">key</span><span class="o">.</span><span class="na">isAcceptable</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// here&#39;s the actual call to accept()</span>
+</span><span class='line'>                <span class="n">SocketChannel</span> <span class="n">clientChnl</span> <span class="o">=</span>
+</span><span class='line'>                    <span class="o">((</span><span class="n">ServerSocketChannel</span><span class="o">)</span> <span class="n">key</span><span class="o">.</span><span class="na">channel</span><span class="o">()).</span><span class="na">accept</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">// similar to the ServerSocketChannel</span>
+</span><span class='line'>                <span class="n">clientChnl</span><span class="o">.</span><span class="na">configureBlocking</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span><span class='line'>                <span class="c1">// Except that here we register to notify Selector</span>
+</span><span class='line'>                <span class="c1">// about being &quot;readable&quot;, and</span>
+</span><span class='line'>                <span class="n">clientChnl</span><span class="o">.</span><span class="na">register</span><span class="o">(</span>
+</span><span class='line'>                    <span class="n">key</span><span class="o">.</span><span class="na">selector</span><span class="o">(),</span>
+</span><span class='line'>                    <span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_READ</span><span class="o">,</span>
+</span><span class='line'>                    <span class="c1">// We must associate an &quot;attachment&quot; with this</span>
+</span><span class='line'>                    <span class="c1">// channel. This is the buffer that will be</span>
+</span><span class='line'>                    <span class="c1">// filled with the incoming bytes rcvd via TCP.</span>
+</span><span class='line'>                    <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">NUM_BYTES</span><span class="o">)</span> <span class="c1">// eg 256?</span>
+</span><span class='line'>                <span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">key</span><span class="o">.</span><span class="na">isReadable</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// retrieve the readable client socket&#39;s channel</span>
+</span><span class='line'>                <span class="n">SocketChannel</span> <span class="n">client</span> <span class="o">=</span>
+</span><span class='line'>                    <span class="o">(</span><span class="n">SocketChannel</span><span class="o">)</span> <span class="n">key</span><span class="o">.</span><span class="na">channel</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">// retrieve the ByteBuffer we associated with</span>
+</span><span class='line'>                <span class="c1">// that channel</span>
+</span><span class='line'>                <span class="n">ByteBuffer</span> <span class="n">buf</span> <span class="o">=</span> <span class="o">(</span><span class="n">ByteBuffer</span><span class="o">)</span> <span class="n">key</span><span class="o">.</span><span class="na">attachment</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">// Attempt to read `buf.remaining()` bytes _from_</span>
+</span><span class='line'>                <span class="c1">// the Channel _into_ the ByteBuffer.</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">bytesRead</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buf</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="c1">// -1 from read() means end-of-stream, which in</span>
+</span><span class='line'>                <span class="c1">// this case means the client closed their output</span>
+</span><span class='line'>                <span class="c1">// side of the TCP connection. We may still be</span>
+</span><span class='line'>                <span class="c1">// able to send data if that side of the connection</span>
+</span><span class='line'>                <span class="c1">// has not been closed yet.</span>
+</span><span class='line'>                <span class="k">if</span> <span class="o">(</span><span class="n">bytesRead</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="n">client</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">bytesRead</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="c1">// if our application has data to write back</span>
+</span><span class='line'>                    <span class="c1">// to the client, we must tell the selector</span>
+</span><span class='line'>                    <span class="c1">// that we&#39;ve now become interested in writing</span>
+</span><span class='line'>                    <span class="n">key</span><span class="o">.</span><span class="na">interestOps</span><span class="o">(</span><span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_READ</span>
+</span><span class='line'>                                    <span class="o">|</span> <span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_WRITE</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="c1">// socket not closed, and is writable</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">key</span><span class="o">.</span><span class="na">isValid</span><span class="o">()</span> <span class="o">&amp;&amp;</span> <span class="n">key</span><span class="o">.</span><span class="na">isWritable</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// beyond the scope of this post.</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Tips for Traps</h2>
+
+<ul>
+<li>Don&rsquo;t write to the network through a <code>PrintStream</code>
+
+<ul>
+<li>It chooses end-of-line chars based on your platform, not the protocol
+(HTTP uses <code>\r\n</code>)</li>
+<li>It uses the default char encoding of your platform (likely UTF-8), not
+whatever the server expects (likely UTF-8)</li>
+<li>It eats all exceptions into this <code>boolean checkError()</code> method, when
+you&rsquo;re better off just using the normal exception hubbub</li>
+</ul>
+</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-28T15:15:13-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/i-slash-o/'>I/O</a>, <a class='category' href='/blog/categories/tcp/'>TCP</a>, <a class='category' href='/blog/categories/tcp-slash-ip/'>TCP/IP</a>, <a class='category' href='/blog/categories/udp/'>UDP</a>, <a class='category' href='/blog/categories/buffers/'>buffers</a>, <a class='category' href='/blog/categories/fundamentals/'>fundamentals</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/networking/'>networking</a>, <a class='category' href='/blog/categories/nio/'>nio</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/streams/'>streams</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/27/asking-for-advice/" title="Previous Post: Asking for advice">&laquo; Asking for advice</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/02/28/some-java-network-programming-fundamentals/">Some Java Network Programming Fundamentals</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/27/asking-for-advice/">Asking for Advice</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/07/the-tone-makes-the-point/">The Tone Makes the Point</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/03/gamified-learning/">Gamified Learning</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/26/first-glimpse-of-compilers/">First Glimpse of Compilers</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Fundamentals | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/fundamentals/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2016-02-28T15:30:21-08:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Some Java Network Programming Fundamentals]]></title>
+    <link href="http://ethanp.github.io/blog/2016/02/28/some-java-network-programming-fundamentals/"/>
+    <updated>2016-02-28T15:15:13-08:00</updated>
+    <id>http://ethanp.github.io/blog/2016/02/28/some-java-network-programming-fundamentals</id>
+    <content type="html"><![CDATA[<p>Most of what I&rsquo;ve learned and discussed here comes from <em>TCP/IP Sockets in
+Java</em>, a highly recommended book about this stuff by Calvert and Donahoo. Some
+of it also comes from <em>Java Network Programming</em> by Elliotte Rusty Harold.</p>
+
+<h2>Overview</h2>
+
+<ul>
+<li>The <em>only</em> transport-layer protocols Java supports are TCP &amp; UDP; for
+anything else, you must link to native code via the Java Native Interface</li>
+<li>TCP uses <em>stream</em> sockets, through which one generally just writes to an
+<code>OutputStream</code> and reads from an <code>InputStream</code> of bytes that remain in-order
+and uncorrupted and are (practically) guaranteed delivery by the
+implementation of the protocol by the operating system.
+
+<ul>
+<li>Unless you&rsquo;re using NIO; see below for more on that</li>
+</ul>
+</li>
+<li>UDP uses <em>datagram</em> sockets, through which you <code>send</code> and <code>receive</code> objects
+called <code>DatagramPacket</code>s, which are just a length, a destination, and data</li>
+<li>Unless you&rsquo;re using NIO, everything <em>blocks</em>: e.g. connecting to servers,
+listening for clients, reads, writes, and disconnecting (for TCP)
+
+<ul>
+<li>By default most of these actions may block <em>indefinitely</em></li>
+<li>For reading and connecting, you can configure a timeout, after which you
+will receive an <code>InterruptedIOException</code></li>
+<li>For <em>writing</em> to a TCP stream, you <em>cannot</em> configure a timeout</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Handling multiple clients</h3>
+
+<ul>
+<li>Deal with one at a time, which is simplest, especially if there&rsquo;s some state
+that is shared by all potential clients. Speed may become problematic
+quickly.</li>
+</ul>
+
+
+<p>```java
+void mainLoop() {</p>
+
+<pre><code>while (true) {
+    Socket s = serverSocket.accept();
+    handle(s);
+}
+</code></pre>
+
+<p>}
+void handle(Socket s) {</p>
+
+<pre><code>InputStream in = s.getInputStream();
+// process request, etc.
+s.close();
+</code></pre>
+
+<p>}
+```
+* Create a new thread to handle each incoming client. This is still pretty
+  simple, but will lead to massive overhead if you have many concurrent
+  clients, and therefore you&rsquo;re context-switching all the time.</p>
+
+<p>```java
+void mainLoop() {</p>
+
+<pre><code>while (true) {
+    Socket s = serverSocket.accept();
+    new Thread() {
+        @Override public void run() {
+            InputStream in = s.getInputStream();
+            // process request, etc.
+            s.close();
+        }
+    }.start()
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<ul>
+<li>Use a thread pool to handle requests. Java has abstracted the thread pool
+concept into the <code>Executors</code> factory class. There are a multitude of
+executors to choose from. This <code>newCachedThreadPool()</code> one will execute each
+task on an existing thread if one is idle, and will create a thread
+otherwise. Threads sitting idle in the cache for over one minute are
+terminated.</li>
+</ul>
+
+
+<p>```java
+ExecutorService executor = Executors.newCachedThreadPool()</p>
+
+<p>void mainLoop() {</p>
+
+<pre><code>while (true) {
+    Socket s = serverSocket.accept();
+    executor.execute(new TheHandler(s));
+}
+</code></pre>
+
+<p>}
+static class TheHandler implements Runnable {</p>
+
+<pre><code>Socket s;
+public TheHandler(Socket s) { this.s = s; }
+@Override public void run() {
+    InputStream in = s.getInputStream();
+    // process request, etc.
+    s.close();
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<ul>
+<li>Use NIO (rather complicated) to allow <code>N</code> threads to service <code>M</code>
+clients, where <code>N</code> is small and <code>M</code> is huge. This uses event-based
+programming. We can set all network operations to be non-blocking, and
+only wait as long as we want to for them. An extensive example can be
+found below.</li>
+<li>Use a framework like Netty, Akka, etc. that wraps the NIO stuff up in a
+ribbon and a tie</li>
+</ul>
+
+
+<h3>10K feet above NIO</h3>
+
+<!-- more -->
+
+
+<ul>
+<li>If you&rsquo;re using NIO, you create <code>Channel</code>s of bytes into and out of sockets
+(or file handles)</li>
+<li>You register a <code>Selector</code> to be notified when the <code>Channel</code> is ready to be
+read from or written to</li>
+<li>You query the <code>Selector</code> to tell you which <code>Channel</code> are ready, and may then
+take action on those that are</li>
+<li>You get data in and out by passing a <code>Buffer</code> to the <code>Channel</code></li>
+</ul>
+
+
+<p>Here&rsquo;s an example based on TCP/IP Sockets in Java, a highly recommended book
+about this stuff by Calvert and Donahoo.</p>
+
+<p>```java
+Selector slctr = Selector.open(); // factory
+ServerSocketChannel chnl = ServerSocketChannel.open(); // factory
+chnl.socket().bind(inetAddr); // set address to listen on</p>
+
+<p>// For some reason Channels block by default. If we want to
+// register with the Selector for notifications, we must turn
+// that off.
+chnl.configureBlocking(false);</p>
+
+<p>// Notify Selector whenever this Channel has a new connection
+// ready to be &ldquo;accepted&rdquo;. Such a notification still does
+// <em>not</em> guarantee it will work immediately.
+chnl.register(slctr, SelectionKey.OP_ACCEPT);</p>
+
+<p>while (true) {</p>
+
+<pre><code>// wait configurable period of time to be notified
+// by any registered channel
+int numNotifications = slctr.select(timeoutMS);
+if (numNotifications == 0) {
+    // We timed out without any notification.
+    // We could do whatever we want here because we're
+    // no longer blocked.
+} else {
+    // numNotifications different channels have notified us of
+    // being available for Connect, Read, Accept, or Write.
+    // It is OK to use these keys in concurrent threads.
+    for (SelectionKey key : slctr.selectedKeys()) {
+        // We're not sure which channel this key belonged to.
+        // Also, notification was just a "hint" and we need to
+        // check again whether the Channel is available.
+        if (key.isAcceptable()) {
+            // here's the actual call to accept()
+            SocketChannel clientChnl =
+                ((ServerSocketChannel) key.channel()).accept();
+
+            // similar to the ServerSocketChannel
+            clientChnl.configureBlocking(false);
+            // Except that here we register to notify Selector
+            // about being "readable", and
+            clientChnl.register(
+                key.selector(),
+                SelectionKey.OP_READ,
+                // We must associate an "attachment" with this
+                // channel. This is the buffer that will be
+                // filled with the incoming bytes rcvd via TCP.
+                ByteBuffer.allocate(NUM_BYTES) // eg 256?
+            );
+        }
+        if (key.isReadable()) {
+            // retrieve the readable client socket's channel
+            SocketChannel client =
+                (SocketChannel) key.channel();
+
+            // retrieve the ByteBuffer we associated with
+            // that channel
+            ByteBuffer buf = (ByteBuffer) key.attachment();
+
+            // Attempt to read `buf.remaining()` bytes _from_
+            // the Channel _into_ the ByteBuffer.
+            int bytesRead = client.read(buf);
+
+            // -1 from read() means end-of-stream, which in
+            // this case means the client closed their output
+            // side of the TCP connection. We may still be
+            // able to send data if that side of the connection
+            // has not been closed yet.
+            if (bytesRead == -1) client.close();
+
+            else if (bytesRead &gt; 0) {
+                // if our application has data to write back
+                // to the client, we must tell the selector
+                // that we've now become interested in writing
+                key.interestOps(SelectionKey.OP_READ
+                                | SelectionKey.OP_WRITE);
+            }
+        }
+        // socket not closed, and is writable
+        if (key.isValid() &amp;&amp; key.isWritable()) {
+            // beyond the scope of this post.
+        }
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>Tips for Traps</h2>
+
+<ul>
+<li>Don&rsquo;t write to the network through a <code>PrintStream</code>
+
+<ul>
+<li>It chooses end-of-line chars based on your platform, not the protocol
+(HTTP uses <code>\r\n</code>)</li>
+<li>It uses the default char encoding of your platform (likely UTF-8), not
+whatever the server expects (likely UTF-8)</li>
+<li>It eats all exceptions into this <code>boolean checkError()</code> method, when
+you&rsquo;re better off just using the normal exception hubbub</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
