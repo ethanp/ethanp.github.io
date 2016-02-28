@@ -70,9 +70,9 @@ mess, but are often effective if you're sure your question isn't stupid;
 mailing lists can be high-latency but that's often where the true experts of
 super-technical projects converse. Following **good forum-question-asking
 practices** is _crucial_ in _any_ of these environments, and it can be
-trickier to do that than it sounds. The better you phrase your question, the
+trickier to do that than it sounds. __The better you phrase your question, the
 more appealing it is to answer in the eyes of a high-quality potential source
-of advice.
+of advice.__
 
 Sometimes the advice you receive from multiple sources will be in direct
 conflict with each other. I have been having this issue a lot lately. Let's
