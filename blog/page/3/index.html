@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="The scenario My (augmented todo-list) website has Categories, and each Category has a set
-of Tasks (aka &ldquo;one-to-many&rdquo;). Using a &hellip;">
+  <meta name="description" content="BufferedReader is suprisingly fast for parsing large text files. Why is that?
+In my experience, it is faster for this task than a BufferedInputStream &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,78 @@ of Tasks (aka &ldquo;one-to-many&rdquo;). Using a &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/01/inside-javas-bufferedreader/">Inside Java&#8217;s BufferedReader</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-01T13:22:50-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>BufferedReader</code> is suprisingly fast for parsing large text files. Why is that?
+In my experience, it is faster for this task than a <code>BufferedInputStream</code>.
+StackOverflow says this is because the <code>BufferedReader</code> uses <code>char</code> internally
+instead of <code>byte</code>.</p>
+
+<p>What follows is a high-level breakdown of what&rsquo;s going on &ldquo;under the hood&rdquo; of
+the <code>BufferedReader</code>, i.e. an overview of the implementation details.
+Details about <code>mark</code> support will be omitted.</p>
+
+<p>For me, the most significant takeaways are the following</p>
+
+<ol>
+<li><strong>There is no magic</strong> &mdash; every time I find this out about something I am
+surpised. This class is probably <em>very</em> similar to the way I would have
+naively written a buffering wrapper for a <code>Reader</code> object.</li>
+<li><strong>Utmost efficiency is sacrificed for code clarity</strong> &mdash; my guess is that the
+reason they left in the inefficiencies I mentioned above is because having
+special cases would have clouded the code. If someone wants an even <em>more</em>
+efficient <code>Reader</code> they are always welcome to write their own.</li>
+<li><strong>Small amount of code</strong> &mdash; there&rsquo;s really not a whole lot to this class. It
+basically just reads into a buffer, then services incoming reads from that
+buffer. There are no &ldquo;niceties&rdquo; or asynchronous callbacks etc. I think the
+attitude of the auther is that if you want to find that, simply look
+elsewhere.
+
+<ul>
+<li>Of particular note: there is no a single mention of <em>character encodings</em>
+anywhere in the class.</li>
+</ul>
+</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/01/inside-javas-bufferedreader/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -774,151 +846,6 @@ feels compelled to respond (while still multi-tasking).</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/23/java-inheritance-issue/">Java Inheritance</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-23T14:06:59-07:00" pubdate data-updated="true">May 23<span>rd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I spent quite a while struggling with the Java class declaration syntax, and
-now I am starting to get it.</p>
-
-<h3>Problem simplification</h3>
-
-<p>I started out writing this post because I was <em>totally right</em> and the Java
-compiler was <em>wrong</em>, and so on, but now I have cleared it up and I was wrong
-and the compiler was right after all (surprise!). I was initially intending to
-use this post as a way of getting satisfaction out of how much smarter I am
-than the compiler, and instead I will use this space to explain to the next
-how to answer similar questions. I started by <em>heavily</em> simplifying my issue
-down to its core, and attacking the simplified problem instead of the original
-one with extraneous variables and interconnections. I&rsquo;ve never approached a
-programming problem like that, and let me tell you: seems like it worked. By a
-twist of fate, the new version looks like a LinkedList, that&rsquo;s not what I
-started out doing, but who knows what&rsquo;ll happen when you keep smushing the
-problem from a larger context into a little jar.</p>
-
-<p>First, we have a <code>Base</code>, which holds an element <code>elem</code> of any type, and a
-reference to another <code>Base</code>, quite like a <em>linked list</em>.</p>
-
-<figure class='code'><figcaption><span>Base.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">T</span> <span class="n">elem</span><span class="o">;</span>
-</span><span class='line'>    <span class="n">Base</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">Base</span><span class="o">(</span><span class="n">T</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">elem</span> <span class="o">=</span> <span class="n">elem</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next, we have an <code>Ord</code>, which is a <code>Base</code> that is <code>Comparable</code>. We require
-that the element contained by an <code>Ord</code> is itself comparable, and furthermore
-that the method of comparing <code>Ord</code>s is to compare their respective <code>elem</code>s:</p>
-
-<figure class='code'><figcaption><span>Ord.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Ord</span><span class="o">&lt;</span><span class="n">U</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span> <span class="kd">extends</span> <span class="n">Base</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;&gt;</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>    <span class="n">Ord</span><span class="o">(</span><span class="n">U</span> <span class="n">elem</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="kd">super</span><span class="o">(</span><span class="n">elem</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Ord</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This works fine, but note the following limitation:</p>
-
-<figure class='code'><figcaption><span>main.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">3</span><span class="o">);</span>
-</span><span class='line'>    <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Ord</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">4</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">b</span><span class="o">);</span>         <span class="c1">// this works just fine</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// this does not work because a.next is of type Base&lt;Integer&gt;</span>
-</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// this DOES work though because a.elem is of type Integer which is Comparable</span>
-</span><span class='line'>    <span class="n">a</span><span class="o">.</span><span class="na">elem</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">next</span><span class="o">.</span><span class="na">elem</span><span class="o">);</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After writing and re-writing this blog post over and over, this makes sense
-now. I used to be confused: &ldquo;shouldn&rsquo;t the compiler <em>know</em> that a.next is an
-Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo;</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/23/java-inheritance-issue/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -936,6 +863,10 @@ Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/06/what-actually-is-ssh/">What Actually Is SSH</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/02/28/some-java-network-programming-fundamentals/">Some Java Network Programming Fundamentals</a>
       </li>
     
@@ -949,10 +880,6 @@ Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo
     
       <li class="post">
         <a href="/blog/2016/01/03/gamified-learning/">Gamified Learning</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/26/first-glimpse-of-compilers/">First Glimpse of Compilers</a>
       </li>
     
   </ul>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: SSH | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/ssh/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2016-03-06T15:14:08-08:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[What Actually Is SSH]]></title>
+    <link href="http://ethanp.github.io/blog/2016/03/06/what-actually-is-ssh/"/>
+    <updated>2016-03-06T14:18:53-08:00</updated>
+    <id>http://ethanp.github.io/blog/2016/03/06/what-actually-is-ssh</id>
+    <content type="html"><![CDATA[<h3>SSH Tunneling</h3>
+
+<p><em>&ldquo;Tunnelling&rdquo;, with two ells, is the British spelling.</em></p>
+
+<p>A few months ago, I downloaded a tool (an ELK stack) that didn&rsquo;t work right
+off the bat due to some sort of misconfiguration. It was running in a Vagrant-
+made virtual machine (VM) on my laptop. The Vagrant setup script had forwarded
+a local port on my laptop into the VM. So in order to debug it, my coworker
+set up a reverse port-forward from my laptop onto an internal server. Then he
+set up a forward port-forward to that server from his laptop. Now commands
+issued at his laptop&rsquo;s terminal were being executed on the VM on my laptop. My
+mind was so utterly blown I became dizzy.</p>
+
+<p>It took me weeks to figure out what the SSH port-forwarding is and how its
+syntax works, and another few weeks to figure out what reverse port-forwarding
+is, and another few weeks to find practical use-cases for each.</p>
+
+<p>Here is my executive summary</p>
+
+<pre><code>ssh -L [&lt;localhost&gt;:]&lt;localport&gt;:&lt;remotehost&gt;:&lt;remoteport&gt; &lt;gateway&gt;
+</code></pre>
+
+<p>By default, <code>&lt;localhost&gt;</code> will be <code>localhost</code>.</p>
+
+<p>What this does is, start a serversocket listening to local address
+<code>localhost:localport</code> using the &ldquo;SSH client&rdquo;. When a client establishes a
+connection to that address, traffic received from that client will be
+encrypted, and forwarded to the <code>sshd</code>[aemon] listening on port 22 of
+<code>gateway</code>. (Only) after the gateway receives this traffic, the <code>sshd</code> will
+establish a (normal, unencrypted) connection to remote address
+<code>remotehost:remoteport</code>, and forward the data originally received by the SSH
+client there. Response traffic originating from <code>remotehost:remoteport</code> will
+go back to the <code>sshd</code>, back through the encrypted tunnel to the SSH client,
+and back to the originating client.</p>
+
+<p>That&rsquo;s a mouthful, but I think it&rsquo;s a pretty clear explanation.</p>
+
+<p><em>Reverse</em> tunneling by contrast, means that traffic <em>originating</em> on the
+remote end will be forwarded to the local end.</p>
+
+<h2>What&rsquo;s SSH</h2>
+
+<p>One thing that confused me about SSH forwarding, is that if I don&rsquo;t use some
+extra flags to disable it, when I set up port forwarding to a another machine,
+I also end up with a shell ready executing commands remotely. What is going on
+here? What does it mean to do remote command execution?</p>
+
+<p>So here&rsquo;s what&rsquo;s happening: SSH is capable of multiplexing multiple
+communication &ldquo;channels&rdquo; over a single encrypted TCP connection. If you just
+execute the normal tunneling command given above, it will create two channels,
+one for forwarding the tcp traffic, and another for executing commands
+visually in your pseudo-terminal but physically in a remote shell.</p>
+
+<p>When you <code>ssh</code> onto a remote machine, a particular sequence of things happen
+that I think really clarify what the heck&rsquo;s going on.</p>
+
+<ol>
+<li>You connect via TCP to the standard SSH-daemon port (22) on the remote
+machine</li>
+<li>You authenticate it via its public key
+
+<ul>
+<li>That&rsquo;s why the first time you connect is says &ldquo;do you want to trust this
+server&rsquo;s fingerprint?&rdquo; or something like that (I think saying &ldquo;yes I
+trust it&rdquo; implies you have verified that the fingerprint does not belong
+to a <em>man-in-the-middle</em> attacker)</li>
+</ul>
+</li>
+<li>It authenticate&rsquo;s you, either by you supplying a password, or by it finding
+your username in its <code>~/.ssh/authorized_keys</code> file, and having you match it
+with your private key</li>
+<li>Y'all negotiate an encryption for the session, over which future
+communications will take place</li>
+<li>Now that communications are encrypted, control and channel data are
+transferred using a binary packet format that contains
+
+<ul>
+<li>Encrypted packet length</li>
+<li>Various random paddings</li>
+<li>The encrypted (and possibly compressed) payload</li>
+<li>A message authentication code (MAC)</li>
+<li>Recipient&rsquo;s integer identifier for this channel</li>
+</ul>
+</li>
+<li>To setup a remote shell, your SSH client requests to create a &ldquo;shell&rdquo; channel
+
+<ul>
+<li>At this point you tell the server which ID you&rsquo;re allocating to this
+channel</li>
+<li>Since each channel has flow-controlling, you also state your window size
+
+<ul>
+<li>Both sides maintain a receive window, and once the sender has sent
+enough bytes to fill it, they will not send more data until you say
+that your window now has more room</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>If the server supports &ldquo;shell&rdquo; channels, it will tell you which ID it has
+allocated to this channel, so that you can put the ID in SSH packets in
+this channel</li>
+<li>Then you tell the server your psuedo-terminal&rsquo;s display specifics
+(characters horizontally and vertically, as well as pixels horizontally and
+vertically)
+
+<ul>
+<li>For X11, you would tell the server your screen&rsquo;s specifics</li>
+<li>If your dimensions change, you can send an update message to the server</li>
+</ul>
+</li>
+<li>Then you can send the server the values of environment variables to use</li>
+<li>Then you request that the server initiate a shell in which to execute the
+commands you&rsquo;re going to give it. You can specify the path to the specific
+shell to use.</li>
+<li>Then you start sending commands to execute, which the server will pass to
+the shell it created</li>
+<li>The server will send you back output received from the shell, formatted
+for your terminal</li>
+<li>You can also send signals for the server to pass to its shell</li>
+<li>When the remote shell command terminates, the server will send you its
+&ldquo;exit-status&rdquo;, or if there was a violent termination, it will send an
+&ldquo;exit-signal&rdquo;</li>
+</ol>
+
+
+<!-- more -->
+
+
+<p>Note this communication only used one channel, and there can be however many
+channels open over the same SSH connection because of the framing layer and
+the channel identifiers. So another channel might be used for forwarding
+packets received on a port to which the SSH program is listening, and that&rsquo;s
+how we&rsquo;d end up with the &ldquo;-L&rdquo; feature described above.</p>
+
+<h3>It&rsquo;s like HTTP/2</h3>
+
+<p>I don&rsquo;t know many protocols, so it was fun to look into this one. I started on
+the Wikipedia page, and then moved on to the IETF RFC cited by the Wikipedia
+page. As I&rsquo;ve noticed many times recently, the RFC is <em>easier</em> to understand
+than the Wikipedia page. The reason for that is probably similar to the reason
+why the RFC is easier to understand than my explanation above, and is
+potentially related to the fact that the RFC&rsquo;s authors are familiar with
+explaning such concepts, and spent months working as a team to increase the
+document&rsquo;s utter clarity so that there can be no miscommunication.</p>
+
+<p>Another protocol that I have looked at is the new HTTP/2 IETF RFC. That
+protocol contains a similar framing layer over TCP that allows it to multiplex
+multiple channels concurrently over a single underlying TCP socket. The reason
+for that was to ease issues with &ldquo;head-of-line blocking&rdquo; which is where one
+channel&rsquo;s being slow ends up slowing down all the other channels because of
+TCP unecessarily guaranteeing order over multiplexed channels that have no
+globally-defined order. After having seen this framing-layer thing in two
+protocols, now I understand it to be some sort of &ldquo;pattern&rdquo; for allowing
+multiplexing communications over a single TCP link. An advantage to this is
+decreased port usage on the server who may be handling multiple channels for
+many different clients at once. Another advantage is that the TCP algorithm
+has a &ldquo;ramp up&rdquo; time, i.e. the congestion control starts out with a rather
+pessimistic window size. By using only one socket, that ramp up only must be
+done once. I&rsquo;m sure there are many other advantages that if I had a better
+grasp of TCP would be obvious.</p>
+
+<p>I don&rsquo;t like using tools when I really have <em>no clue</em> what they&rsquo;re doing.
+However doing so is inevitable because the modern stack of technologies is so
+vast and the &ldquo;lyfe so shorte&rdquo;. Since my first computer science class I was
+taught to press my &ldquo;I believe&rdquo; button when something seemed like magic. Still,
+lifting some of the veil on one of the tools I use everyday is very
+satisfying, and hopefully the time taken for others to get to my (still
+minimal) level of understanding is reduced by the explanations above.</p>
+]]></content>
+  </entry>
+  
+</feed>

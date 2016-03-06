@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-02-28T15:30:21-08:00</updated>
+  <updated>2016-03-06T15:14:08-08:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,183 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What Actually Is SSH]]></title>
+    <link href="http://ethanp.github.io/blog/2016/03/06/what-actually-is-ssh/"/>
+    <updated>2016-03-06T14:18:53-08:00</updated>
+    <id>http://ethanp.github.io/blog/2016/03/06/what-actually-is-ssh</id>
+    <content type="html"><![CDATA[<h3>SSH Tunneling</h3>
+
+<p><em>&ldquo;Tunnelling&rdquo;, with two ells, is the British spelling.</em></p>
+
+<p>A few months ago, I downloaded a tool (an ELK stack) that didn&rsquo;t work right
+off the bat due to some sort of misconfiguration. It was running in a Vagrant-
+made virtual machine (VM) on my laptop. The Vagrant setup script had forwarded
+a local port on my laptop into the VM. So in order to debug it, my coworker
+set up a reverse port-forward from my laptop onto an internal server. Then he
+set up a forward port-forward to that server from his laptop. Now commands
+issued at his laptop&rsquo;s terminal were being executed on the VM on my laptop. My
+mind was so utterly blown I became dizzy.</p>
+
+<p>It took me weeks to figure out what the SSH port-forwarding is and how its
+syntax works, and another few weeks to figure out what reverse port-forwarding
+is, and another few weeks to find practical use-cases for each.</p>
+
+<p>Here is my executive summary</p>
+
+<pre><code>ssh -L [&lt;localhost&gt;:]&lt;localport&gt;:&lt;remotehost&gt;:&lt;remoteport&gt; &lt;gateway&gt;
+</code></pre>
+
+<p>By default, <code>&lt;localhost&gt;</code> will be <code>localhost</code>.</p>
+
+<p>What this does is, start a serversocket listening to local address
+<code>localhost:localport</code> using the &ldquo;SSH client&rdquo;. When a client establishes a
+connection to that address, traffic received from that client will be
+encrypted, and forwarded to the <code>sshd</code>[aemon] listening on port 22 of
+<code>gateway</code>. (Only) after the gateway receives this traffic, the <code>sshd</code> will
+establish a (normal, unencrypted) connection to remote address
+<code>remotehost:remoteport</code>, and forward the data originally received by the SSH
+client there. Response traffic originating from <code>remotehost:remoteport</code> will
+go back to the <code>sshd</code>, back through the encrypted tunnel to the SSH client,
+and back to the originating client.</p>
+
+<p>That&rsquo;s a mouthful, but I think it&rsquo;s a pretty clear explanation.</p>
+
+<p><em>Reverse</em> tunneling by contrast, means that traffic <em>originating</em> on the
+remote end will be forwarded to the local end.</p>
+
+<h2>What&rsquo;s SSH</h2>
+
+<p>One thing that confused me about SSH forwarding, is that if I don&rsquo;t use some
+extra flags to disable it, when I set up port forwarding to a another machine,
+I also end up with a shell ready executing commands remotely. What is going on
+here? What does it mean to do remote command execution?</p>
+
+<p>So here&rsquo;s what&rsquo;s happening: SSH is capable of multiplexing multiple
+communication &ldquo;channels&rdquo; over a single encrypted TCP connection. If you just
+execute the normal tunneling command given above, it will create two channels,
+one for forwarding the tcp traffic, and another for executing commands
+visually in your pseudo-terminal but physically in a remote shell.</p>
+
+<p>When you <code>ssh</code> onto a remote machine, a particular sequence of things happen
+that I think really clarify what the heck&rsquo;s going on.</p>
+
+<ol>
+<li>You connect via TCP to the standard SSH-daemon port (22) on the remote
+machine</li>
+<li>You authenticate it via its public key
+
+<ul>
+<li>That&rsquo;s why the first time you connect is says &ldquo;do you want to trust this
+server&rsquo;s fingerprint?&rdquo; or something like that (I think saying &ldquo;yes I
+trust it&rdquo; implies you have verified that the fingerprint does not belong
+to a <em>man-in-the-middle</em> attacker)</li>
+</ul>
+</li>
+<li>It authenticate&rsquo;s you, either by you supplying a password, or by it finding
+your username in its <code>~/.ssh/authorized_keys</code> file, and having you match it
+with your private key</li>
+<li>Y&#8217;all negotiate an encryption for the session, over which future
+communications will take place</li>
+<li>Now that communications are encrypted, control and channel data are
+transferred using a binary packet format that contains
+
+<ul>
+<li>Encrypted packet length</li>
+<li>Various random paddings</li>
+<li>The encrypted (and possibly compressed) payload</li>
+<li>A message authentication code (MAC)</li>
+<li>Recipient&rsquo;s integer identifier for this channel</li>
+</ul>
+</li>
+<li>To setup a remote shell, your SSH client requests to create a &ldquo;shell&rdquo; channel
+
+<ul>
+<li>At this point you tell the server which ID you&rsquo;re allocating to this
+channel</li>
+<li>Since each channel has flow-controlling, you also state your window size
+
+<ul>
+<li>Both sides maintain a receive window, and once the sender has sent
+enough bytes to fill it, they will not send more data until you say
+that your window now has more room</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>If the server supports &ldquo;shell&rdquo; channels, it will tell you which ID it has
+allocated to this channel, so that you can put the ID in SSH packets in
+this channel</li>
+<li>Then you tell the server your psuedo-terminal&rsquo;s display specifics
+(characters horizontally and vertically, as well as pixels horizontally and
+vertically)
+
+<ul>
+<li>For X11, you would tell the server your screen&rsquo;s specifics</li>
+<li>If your dimensions change, you can send an update message to the server</li>
+</ul>
+</li>
+<li>Then you can send the server the values of environment variables to use</li>
+<li>Then you request that the server initiate a shell in which to execute the
+commands you&rsquo;re going to give it. You can specify the path to the specific
+shell to use.</li>
+<li>Then you start sending commands to execute, which the server will pass to
+the shell it created</li>
+<li>The server will send you back output received from the shell, formatted
+for your terminal</li>
+<li>You can also send signals for the server to pass to its shell</li>
+<li>When the remote shell command terminates, the server will send you its
+&ldquo;exit-status&rdquo;, or if there was a violent termination, it will send an
+&ldquo;exit-signal&rdquo;</li>
+</ol>
+
+
+<!-- more -->
+
+
+<p>Note this communication only used one channel, and there can be however many
+channels open over the same SSH connection because of the framing layer and
+the channel identifiers. So another channel might be used for forwarding
+packets received on a port to which the SSH program is listening, and that&rsquo;s
+how we&rsquo;d end up with the &ldquo;-L&rdquo; feature described above.</p>
+
+<h3>It&rsquo;s like HTTP/2</h3>
+
+<p>I don&rsquo;t know many protocols, so it was fun to look into this one. I started on
+the Wikipedia page, and then moved on to the IETF RFC cited by the Wikipedia
+page. As I&rsquo;ve noticed many times recently, the RFC is <em>easier</em> to understand
+than the Wikipedia page. The reason for that is probably similar to the reason
+why the RFC is easier to understand than my explanation above, and is
+potentially related to the fact that the RFC&rsquo;s authors are familiar with
+explaning such concepts, and spent months working as a team to increase the
+document&rsquo;s utter clarity so that there can be no miscommunication.</p>
+
+<p>Another protocol that I have looked at is the new HTTP/2 IETF RFC. That
+protocol contains a similar framing layer over TCP that allows it to multiplex
+multiple channels concurrently over a single underlying TCP socket. The reason
+for that was to ease issues with &ldquo;head-of-line blocking&rdquo; which is where one
+channel&rsquo;s being slow ends up slowing down all the other channels because of
+TCP unecessarily guaranteeing order over multiplexed channels that have no
+globally-defined order. After having seen this framing-layer thing in two
+protocols, now I understand it to be some sort of &ldquo;pattern&rdquo; for allowing
+multiplexing communications over a single TCP link. An advantage to this is
+decreased port usage on the server who may be handling multiple channels for
+many different clients at once. Another advantage is that the TCP algorithm
+has a &ldquo;ramp up&rdquo; time, i.e. the congestion control starts out with a rather
+pessimistic window size. By using only one socket, that ramp up only must be
+done once. I&rsquo;m sure there are many other advantages that if I had a better
+grasp of TCP would be obvious.</p>
+
+<p>I don&rsquo;t like using tools when I really have <em>no clue</em> what they&rsquo;re doing.
+However doing so is inevitable because the modern stack of technologies is so
+vast and the &ldquo;lyfe so shorte&rdquo;. Since my first computer science class I was
+taught to press my &ldquo;I believe&rdquo; button when something seemed like magic. Still,
+lifting some of the veil on one of the tools I use everyday is very
+satisfying, and hopefully the time taken for others to get to my (still
+minimal) level of understanding is reduced by the explanations above.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Some Java Network Programming Fundamentals]]></title>
@@ -2378,277 +2555,6 @@ we&rsquo;re from different societal cultures, and my first impressions of people
 always notoriously off-base. However, now it is clear that the responsibility
 is my own to make sure any future road-bumps are known to be my fault and my
 problem and mine to fix with his help.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Inside Java's BufferedReader]]></title>
-    <link href="http://ethanp.github.io/blog/2015/07/01/inside-javas-bufferedreader/"/>
-    <updated>2015-07-01T13:22:50-07:00</updated>
-    <id>http://ethanp.github.io/blog/2015/07/01/inside-javas-bufferedreader</id>
-    <content type="html"><![CDATA[<p><code>BufferedReader</code> is suprisingly fast for parsing large text files. Why is that?
-In my experience, it is faster for this task than a <code>BufferedInputStream</code>.
-StackOverflow says this is because the <code>BufferedReader</code> uses <code>char</code> internally
-instead of <code>byte</code>.</p>
-
-<p>What follows is a high-level breakdown of what&rsquo;s going on &ldquo;under the hood&rdquo; of
-the <code>BufferedReader</code>, i.e. an overview of the implementation details.
-Details about <code>mark</code> support will be omitted.</p>
-
-<p>For me, the most significant takeaways are the following</p>
-
-<ol>
-<li><strong>There is no magic</strong> &mdash; every time I find this out about something I am
-surpised. This class is probably <em>very</em> similar to the way I would have
-naively written a buffering wrapper for a <code>Reader</code> object.</li>
-<li><strong>Utmost efficiency is sacrificed for code clarity</strong> &mdash; my guess is that the
-reason they left in the inefficiencies I mentioned above is because having
-special cases would have clouded the code. If someone wants an even <em>more</em>
-efficient <code>Reader</code> they are always welcome to write their own.</li>
-<li><strong>Small amount of code</strong> &mdash; there&rsquo;s really not a whole lot to this class. It
-basically just reads into a buffer, then services incoming reads from that
-buffer. There are no &ldquo;niceties&rdquo; or asynchronous callbacks etc. I think the
-attitude of the auther is that if you want to find that, simply look
-elsewhere.
-
-<ul>
-<li>Of particular note: there is no a single mention of <em>character encodings</em>
-anywhere in the class.</li>
-</ul>
-</li>
-</ol>
-
-
-<!-- more -->
-
-
-<p>Starting with the obvious, a <code>java.io.BufferedReader</code> is <code>java.io.Reader</code> that
-holds a buffer to make operations faster. A <code>Reader</code> is an object that reads
-character streams. Any subclasser of the <code>abstract class Reader</code> must implement
-(at a minimum) <code>read(char[], int, int)</code> and <code>close()</code>. Other reader methods
-basically just use these methods to put together the rest of the interface. The
-only public method that <code>BufferedReader</code> adds to the <code>Reader</code> interface is
-<code>String readLine()</code>, which is described below.</p>
-
-<p>Let&rsquo;s look at some of the fields, with my annotations about what they actually
-mean.</p>
-
-<h3>Reader in</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="n">Reader</span> <span class="n">in</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is the <code>Reader</code> whose reads we are buffering. <code>BufferedReader</code> is an
-example of the <em>&ldquo;Decorator Pattern&rdquo;</em> and this <code>Reader</code> is whom we&rsquo;re
-decorating. Both <code>BufferedReader</code> constructors require <code>in</code> to be passed as a
-parameter, and it cannot be changed. Calling <code>this.close()</code> calls</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-</span><span class='line'><span class="n">in</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Setting <code>in = null</code> might be to help prevent garbage accumulation when the
-client of <code>BufferedReader</code> doesn&rsquo;t properly get rid of the reference to the
-<code>BufferedReader</code>.</p>
-
-<h3>char[] cb</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">cb</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">char</span><span class="o">[</span><span class="mi">8192</span><span class="o">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This of course is the char buffer itself. We respond to read requests directly
-from here as often as possible. We fill it up by issuing <code>in.read(cb, int,
-int)</code> requests on the underlying <code>Reader in</code> annotated above.</p>
-
-<p>Here I&rsquo;m showing <em>default</em> internal char buffer size of 8kb. This happens to be
-2 disk sectors of an HDD using the first generation of the Advanced Format. I
-don&rsquo;t know if that&rsquo;s how 8kb was chosen; perhaps it was chosen using benchmark
-comparisons.</p>
-
-<h3>int nChars</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">int</span> <span class="n">nChars</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is the index in <code>cb</code> corresponding to the last unread <code>char</code> that we may
-<code>read()</code> before we need to <code>fill()</code> it again from <code>in</code>.</p>
-
-<h3>int nextChar</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">int</span> <span class="n">nextChar</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is the index in <code>cb</code> corresponding to the next <code>char</code> that should be
-returned by a <code>read()</code>.</p>
-
-<h3>void fill()</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kt">void</span> <span class="nf">fill</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here we block until successfully reading from <code>in</code> into <code>cb</code>, and set <code>nChars</code>
-to the end of the valid range of <code>cb</code> and <code>nextChar</code> to zero.</p>
-
-<h3>int read()</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Returns a single character of the stream, or -1 if the end of the stream has
-already been reached.</p>
-
-<p>Basically just does</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="k">return</span> <span class="n">cb</span><span class="o">[</span><span class="n">nextChar</span><span class="o">++];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However if <code>nextChar &gt;= nChars</code>, we have already read to the end of the
-existing <code>cb</code>, so we call <code>fill()</code>. Now if <code>fill()</code> fails, we&rsquo;ve reached the
-end of the stream, so <code>return -1</code>.</p>
-
-<h3>int read(char[], int, int)</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">(</span><span class="kt">char</span> <span class="n">cbuf</span><span class="o">[],</span> <span class="kt">int</span> <span class="n">off</span><span class="o">,</span> <span class="kt">int</span> <span class="n">len</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This entire method is <code>synchronized</code> behind a <code>lock</code> owned by the parent
-<code>Reader</code> class. In <code>Reader</code> it says to use this <code>lock</code> instead of synchronizing
-on <code>this</code> &ldquo;for efficiency&rdquo;. I&rsquo;m not sure why that would be any more efficient.</p>
-
-<p>After acquiring the lock, we do bounds checks. I&rsquo;m not sure why this isn&rsquo;t done
-<em>before</em> acquiring the lock because all checks are done on the parameters,
-which can&rsquo;t change between the time the method is called and the lock is
-acquired. So if we did this check before acquiring the lock, we would never
-wait on the lock for no reason. Maybe this is so that any concurrent operation
-using the lock gets to finish before the exception is thrown on this thread?
-That&rsquo;s my best guess at this point.</p>
-
-<p>The documentation says</p>
-
-<blockquote><p>As an additional convenience, it attempts to read as many characters as
-possible by repeatedly invoking the <code>read</code> method of the underlying stream.</p></blockquote>
-
-<p>This is accomplished by first copying the rest of the current buffer into the
-passed-in <code>cbuf</code>. If this has not yet filled <code>cbuf</code>, keep calling <code>fill()</code> and
-then dumping the new buffer contents into <code>cbuf</code>. Seems to me there is an
-<strong>extra copying step</strong> into the buffer in this case, where it would perhaps be
-faster and more memory efficient copy <em>directly</em> into <code>cbuf</code>. But hey, what do
-I know.</p>
-
-<h3>String readline()</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="n">String</span> <span class="nf">readLine</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Returns the next segment of text from the stream terminated by <code>\n</code>, <code>\r</code>, or
-<code>\r\n</code>.</p>
-
-<p>This method operates inside a synchronized endless loop building up a
-<code>StringBuffer s</code>.</p>
-
-<p>The loop is like this:</p>
-
-<ol>
-<li><code>fill()</code> the underlying <code>cb</code> buffer</li>
-<li>If the stream ended
-
-<ul>
-<li><code>return s.toString()</code></li>
-</ul>
-</li>
-<li>Otherwise, iterate through <code>cb</code> looking for a line ending</li>
-<li>If a line ending is found
-
-<ul>
-<li>append <code>cb</code> through the line ending to <code>s</code> and return it.</li>
-</ul>
-</li>
-<li>Otherwise, repeat the loop.</li>
-</ol>
-
-
-<h3>long skip(long)</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">long</span> <span class="nf">skip</span><span class="o">(</span><span class="kt">long</span> <span class="n">n</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In a synchronized loop:</p>
-
-<ol>
-<li>If the buffer has all been read <code>fill()</code> it
-
-<ul>
-<li><strong>Why?</strong> Why copy memory into the buffer unecessarily? We&rsquo;re just going
-to skip some or all of these bytes!</li>
-</ul>
-</li>
-<li>If the buffer is larger than the number of bytes remaining to skip
-
-<ul>
-<li>Skip that many bytes into the buffer and return</li>
-</ul>
-</li>
-<li>Otherwise skip over the entire buffer and repeat the loop</li>
-</ol>
-
-
-<h3>boolean ready()</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">ready</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>Tells whether the stream is ready to be read</p></blockquote>
-
-<p>After acquiring the lock, return try if either the buffer still has unread
-data, or <code>in.ready()</code> is true (on the underlying <code>Reader in</code> described above).</p>
-
-<h3>void close()</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Inside the lock, close and release the underlying <code>Reader in</code>, and release
-<code>cb</code>.</p>
-
-<h3>Conclusion</h3>
-
-<p>Those are all the important methods of <code>BufferedReader</code> that don&rsquo;t involve
-<code>mark</code> support.</p>
-
-<p>At this point the reader may have a somewhat deeper understanding of how
-<code>BufferedReader</code> manages to achieve such high speeds. I also pointed out
-potential inefficiencies in <code>read(char[],int,int)</code> and <code>skip(long)</code>, as well as
-an seemingly unecessary block on a lock before bounds checking in
-<code>read(char[],int,int)</code>.</p>
-
-<p>You may want to refer back to the takeaways in the introduction.</p>
 ]]></content>
   </entry>
   
