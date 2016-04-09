@@ -146,7 +146,11 @@
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/2016/04/09/simple-first-deployment/</loc>
-        <lastmod>2016-04-09T14:04:12-07:00</lastmod>
+        <lastmod>2016-04-09T14:06:03-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://ethanp.github.io/blog/2016/04/09/what-is-a-rails-application/</loc>
+        <lastmod>2016-04-09T14:49:21-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/about/</loc>
@@ -154,11 +158,11 @@
     </url>
     <url>
         <loc>http://ethanp.github.io/blog/archives/</loc>
-        <lastmod>2016-04-09T14:04:12-07:00</lastmod>
+        <lastmod>2016-04-09T14:49:21-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/</loc>
-        <lastmod>2016-04-09T14:04:12-07:00</lastmod>
+        <lastmod>2016-04-09T14:49:21-07:00</lastmod>
     </url>
     <url>
         <loc>http://ethanp.github.io/portfolio/</loc>

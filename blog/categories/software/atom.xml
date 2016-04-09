@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Software | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/software/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-04-09T14:04:56-07:00</updated>
+  <updated>2016-04-09T14:49:58-07:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -49,7 +49,7 @@ deployed, and that I had <em>no idea</em> how to craft any of these components.<
 
 <p>There are <em>too many</em> guides out there about how to develop and deploy software
 systems. For me, the most important ended up being <a href="https://medium.com/@jlouis666/how-to-build-stable-systems-6fe9dcf32fc4">a Medium article</a> by
-Jeser L. Andersen (no idea who that is). I think I found the article on Hacker
+Jesper L. Andersen (no idea who that is). I think I found the article on Hacker
 News a month and a half ago. I will summarize my takaways from it</p>
 
 <ul>

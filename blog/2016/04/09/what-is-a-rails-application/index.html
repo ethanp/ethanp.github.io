@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>What Is a Rails Application - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="What is a server and how does it relate to my Rails app? I learned the basics of Ruby on Rails web application development a few years
+ago. At that &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2016/04/09/what-is-a-rails-application">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>Ethan Petuchowski</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">What Is a Rails Application</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-04-09T14:47:14-07:00" pubdate data-updated="true">Apr 9<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>What is a server and how does it relate to my Rails app?</h1>
+
+<p>I learned the basics of Ruby on Rails web application development a few years
+ago. At that time, my understanding how that system works was as follows</p>
+
+<ol>
+<li>Find articles describing things Rails allows you to do easily</li>
+<li>Decide on an app that requires only those things</li>
+<li>Follow the instructions in those articles to implement your app idea</li>
+<li>Push the app to Heroku</li>
+<li>Now the app is accessible to anyone on the World Wide Web</li>
+</ol>
+
+
+<p>The fact that it is <em>so</em> easy to do such a thing is nothing short of magical.
+Especially while you have <em>no idea</em> how any of it works. Now that I am
+slightly more knowledgeable about how software systems are put together and
+deployed, I&rsquo;d like to take a slightly more nuanced stab at what really was
+going on when the above 5 steps were executed.</p>
+
+<!-- more -->
+
+
+<h2>How Rails makes things so easy</h2>
+
+<p>Ruby on Rails was created out of frustration with &ldquo;heavyweight&rdquo; web
+application development frameworks, such as ones from the late 90&rsquo;s that use
+Java. It gives you base-classes for all the important parts of your program so
+that you only need to write (and even <em>see</em>) code for the pieces that are
+unique to your system. It generates a base project with everything you need
+already included in a well-structured layout that helps you make sense of what
+is going on. Through some clever usage of the Ruby programming language, it
+creates methods named after the components you implemented, and makes them
+available in the places you may need them. This has led to a culture of
+natural-language inspired community-built APIs that enable you to easily do
+things only the most modern websites have.</p>
+
+<h2>How does traffic get into and out of Rails?</h2>
+
+<p>Maybe there is another way to do it, but at least by default Rails uses Rack.
+Rack is a &ldquo;webserver interface&rdquo;. A Rack application has a Ruby object that has
+a method that receives parsed HTTP requests in a well-specified format, and
+then calls a method (called <code>call</code>) which receives the parsed HTTP request as
+a Ruby object, and returns a parsed HTTP response in a well-specified format
+(specifically a Ruby array structured like <code>[response_code, {headers_map},
+[body_lines]]</code>).</p>
+
+<p>A Rails application implements Rack&rsquo;s <code>call</code> method. What that <code>call</code> method
+actually returns for any given HTTP request argument is defined by all your
+Rails code, e.g. your router, controllers, models, views, etc.</p>
+
+<h3>What about Rack then?</h3>
+
+<p>Fine, now we understand that Rack passes the HTTP request to Rails, and Rails
+returns the HTTP response to Rack. But how did Rack get the HTTP request in
+the first place? Answer: from a Web Server.</p>
+
+<p>A web server suitable for Rack would be a program that</p>
+
+<ul>
+<li>listens on a TCP port</li>
+<li>connects to clients on that port</li>
+<li>receives the HTTP requests from those clients</li>
+<li>parses them into the format that Rack expects</li>
+<li>Calls the Rack method <code>call</code> using that format</li>
+<li>Receives the HTTP response from Rack</li>
+<li>Converts that into the raw HTTP response format</li>
+<li>Sends the response to the client</li>
+</ul>
+
+
+<p>There are many such suitable web servers, such as Unicorn and Thin.</p>
+
+<h3>So what is nginx?</h3>
+
+<p>It seems to me that one does not typically use nginx to call Rack&rsquo;s <code>call</code>
+method (though this might be possible to do). One typically uses nginx as a
+waypoint of traffic bound for the application, but in need of some sort of
+pre-processing. That pre-processing could take multiple forms. Maybe there is
+a cache sitting outside of Rails itself, and nginx can be setup to return
+results from the cache instead of proxying requests into the server which
+interacts with Rails itself. This will improve performance for each client who
+hits such a cache, and will increase the load the system is capable of
+supporting overall. Nginx might know of multiple servers connected to
+different instances of the Rails app running concurrently, and will choose
+which server to send each request to in such a way as to distribute load
+across the Rails applications (&ldquo;load balancing&rdquo;). Nginx might &ldquo;terminate SSL&rdquo;,
+meaning that clients connect to the address on which nginx is listening, and
+will send their request to nginx over the TLS protocol, but nginx will decrypt
+that request before passing it wherever it will go next; then nginx will
+encrypt the response according to the TLS state and the client will know how
+to decrypt the response (and ideally no one else will know how to decrypt it).</p>
+
+<h2>What Heroku does</h2>
+
+<p>Using the simple <code>git push heroku</code> workflow, Heroku takes care of all the
+aspects of managing the deployment of your Rails server. It will provide a
+virtual server to run your Rails code. It will provide a server which speaks
+Rack to receive requests, invoke your Rails code, and return the response to
+the client. It has DNS entries installed in the relevant places on the
+internet so that you can choose a name for your app to be accessed by your
+friends in their homes using their browsers. It will do a whole lot more, such
+as autoscaling, caching, and other things beyond the scope of this post
+because I don&rsquo;t know about them.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-04-09T14:47:14-07:00" pubdate data-updated="true">Apr 9<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/deployment/'>deployment</a>, <a class='category' href='/blog/categories/heroku/'>heroku</a>, <a class='category' href='/blog/categories/nginx/'>nginx</a>, <a class='category' href='/blog/categories/rack/'>rack</a>, <a class='category' href='/blog/categories/ruby-on-rails/'>ruby on rails</a>, <a class='category' href='/blog/categories/server/'>server</a>, <a class='category' href='/blog/categories/thin/'>thin</a>, <a class='category' href='/blog/categories/web-application/'>web application</a>, <a class='category' href='/blog/categories/web-development/'>web development</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/04/09/simple-first-deployment/" title="Previous Post: Simple First Deployment">&laquo; Simple First Deployment</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/04/09/what-is-a-rails-application/">What Is a Rails Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/09/simple-first-deployment/">Simple First Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/06/what-actually-is-ssh/">What Actually Is SSH</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/28/some-java-network-programming-fundamentals/">Some Java Network Programming Fundamentals</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/27/asking-for-advice/">Asking for Advice</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

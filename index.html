@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="I just had my first experience of &ldquo;deploying my system into production&rdquo;. I
-have been learning about software engineering for a few years &hellip;">
+  <meta name="description" content="What is a server and how does it relate to my Rails app? I learned the basics of Ruby on Rails web application development a few years
+ago. At that &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,65 @@ have been learning about software engineering for a few years &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/04/09/what-is-a-rails-application/">What Is a Rails Application</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-04-09T14:47:14-07:00" pubdate data-updated="true">Apr 9<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>What is a server and how does it relate to my Rails app?</h1>
+
+<p>I learned the basics of Ruby on Rails web application development a few years
+ago. At that time, my understanding how that system works was as follows</p>
+
+<ol>
+<li>Find articles describing things Rails allows you to do easily</li>
+<li>Decide on an app that requires only those things</li>
+<li>Follow the instructions in those articles to implement your app idea</li>
+<li>Push the app to Heroku</li>
+<li>Now the app is accessible to anyone on the World Wide Web</li>
+</ol>
+
+
+<p>The fact that it is <em>so</em> easy to do such a thing is nothing short of magical.
+Especially while you have <em>no idea</em> how any of it works. Now that I am
+slightly more knowledgeable about how software systems are put together and
+deployed, I&rsquo;d like to take a slightly more nuanced stab at what really was
+going on when the above 5 steps were executed.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/04/09/what-is-a-rails-application/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -891,64 +950,6 @@ and some mucking around.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/10/26/intro-to-http-slash-2/">Intro to HTTP/2</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-26T14:11:59-07:00" pubdate data-updated="true">Oct 26<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>The problem of HTTP/1.1</h2>
-
-<h3>HTTP/1.1 is from an earlier Web</h3>
-
-<p>For the past several years, Google, Mozilla, Akamai, the IETF, the academic
-research community, and others have been engaged in efforts to reduce PLTs
-experienced by users of the WWW. One bottleneck in apparent need of an update
-is the now-&ldquo;ancient&rdquo; HTTP/1.1 (H1) protocol, published in 1999.</p>
-
-<p>From the beginning, one of the major design goals of the original HTTP protocol
-was simplicity to implement and adopt, to encourage growth of the WWW.
-Evidently, this technique worked. However, over the past 16 years, the way
-people create, distribute, and view pages on the WWW has changed drastically.
-Pages today have far more Javascript, CSS, images, and other content to go
-along with the vanilla HTML. In the course of this evolution, numerous issues
-with H1 have come up, mostly pertaining to the number of sequential round-trips
-it requires to fully download the data for each web page. These round-trips
-introduce unnecessary latency.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/10/26/intro-to-http-slash-2/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -964,6 +965,10 @@ introduce unnecessary latency.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/04/09/what-is-a-rails-application/">What Is a Rails Application</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/04/09/simple-first-deployment/">Simple First Deployment</a>
       </li>
     
@@ -977,10 +982,6 @@ introduce unnecessary latency.</p>
     
       <li class="post">
         <a href="/blog/2016/02/27/asking-for-advice/">Asking for Advice</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/07/the-tone-makes-the-point/">The Tone Makes the Point</a>
       </li>
     
   </ul>
