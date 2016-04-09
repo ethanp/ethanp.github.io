@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="In order to align a data structure at the nearest word-alignment to a given
-starting address, we&rsquo;d must find the smallest multiple of N (a &hellip;">
+  <meta name="description" content="Why is WiFi so slow on the porch? The problem at my house is that WiFi connectivity is generally fine inside the
+house, but while sitting on the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,72 @@ starting address, we&rsquo;d must find the smallest multiple of N (a &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/09/24/why-the-wifi-sucks-on-the-porch/">Why the WiFi Sucks on the Porch</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-24T14:31:30-07:00" pubdate data-updated="true">Sep 24<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Why is WiFi so slow on the porch?</h2>
+
+<p>The problem at my house is that WiFi connectivity is generally fine inside the
+house, but while sitting on the porch it is nearly impossible for anyone to
+browse the Hinternets. I think a lesson of my <a href="http://www.cs.utexas.edu/~lili/classes/F15-CS386W/">Wireless Networking</a> course
+explains this observation.</p>
+
+<p>In Wireless networking we have the situation called the <a href="http://www.wikiwand.com/en/Hidden_node_problem"><strong>Hidden Terminal
+Problem</strong></a>, which is the following. Node <code>A</code> is too far from node <code>C</code> to
+hear its transmissions, but both are in range of node <code>B</code> which sits between
+<code>A</code> and <code>C</code>. Suppose <code>C</code> is currently transmitting data to <code>B</code>. Now <code>A</code> checks
+whether any transmissions are currently happening, and finds that there are
+none (because it is out of range of <code>C</code>). So <code>A</code> goes ahead and sends data to
+<code>B</code>. Now <code>B</code> can&rsquo;t understand either data packet because they collided and
+interfered with each other in an unrecoverable way because they were both sent
+in the same channel.</p>
+
+<p>I think the porch scenario is simply an example of the <em>Hidden Terminal
+Problem</em> above. In my room, my laptop can hear many of my neighbors&#8217; WiFi LAN
+networks, but it&rsquo;s the same set that my WiFi router sitting in the closet can
+hear. However outside, where there&rsquo;s less cause for signal attenuation, my
+laptop can hear many more WiFi LAN networks than the router inside. So the
+router checks whether there is congestion, doesn&rsquo;t hear any, and sends the
+data. But there <em>is</em>, in fact, congestion, and my computer doesn&rsquo;t receive the
+data properly. The data is therefore not <em>ACKd</em>, the router times out on the
+<em>ACK</em>, and has to retransmit, and so on. This makes for a <em>far</em> slower
+Hinterconnectivity outside on the porch than in my room.</p>
+
+<p>Maybe the lesson learnt is that the WiFi router should be situated in a place
+where it can hear more of the outside noise so that it can compensate better
+for that noise.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -722,66 +788,6 @@ the same result.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/22/lesson-learnt-about-collaboration/">Lesson Learnt About Collaboration</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-07-22T21:16:25-07:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Perhaps the greatest lesson of this summer has been in taking advantage of the
-power of collaboration.</p>
-
-<p>When my boss decided to hire me, he told me that it was in large part because
-of my communication skills. I don&rsquo;t know if he still agrees with this, but I
-like to think it is true.</p>
-
-<p>One of my greatest prides is the ability to openly lose an argument. For a long
-time, this has quite often been my reason for entering an argument, and I try
-to make it easy to lose. If someone seems to know they&rsquo;re right, we must
-together find the bridge of what I&rsquo;m missing that will be convincing beyond a
-reasonable doubt of their correctness. Making it easy to lose means figuring
-out what you <em>actually</em> think, making that clear, and not wavering from that
-initial point of view even when more facts come to light. Or at least
-acknowledging that the original viewpoint was incorrect, and now <em>this</em> is what
-I [honestly] believe to be true. A regrettable human tendancy is to change
-one&rsquo;s opinion during an argument as the facts come to light because &ldquo;with these
-facts, my original point of view was wrong, and clearly I wasn&rsquo;t wrong, so that
-couldn&rsquo;t have been my real point of view.&rdquo; This needs to be consciously
-avoided.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/22/lesson-learnt-about-collaboration/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -799,6 +805,10 @@ avoided.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/04/09/simple-first-deployment/">Simple First Deployment</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/06/what-actually-is-ssh/">What Actually Is SSH</a>
       </li>
     
@@ -812,10 +822,6 @@ avoided.</p>
     
       <li class="post">
         <a href="/blog/2016/01/07/the-tone-makes-the-point/">The Tone Makes the Point</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/03/gamified-learning/">Gamified Learning</a>
       </li>
     
   </ul>

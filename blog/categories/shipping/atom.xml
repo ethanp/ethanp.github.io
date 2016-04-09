@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Shipping | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/shipping/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2016-04-09T14:04:56-07:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Simple First Deployment]]></title>
+    <link href="http://ethanp.github.io/blog/2016/04/09/simple-first-deployment/"/>
+    <updated>2016-04-09T13:45:39-07:00</updated>
+    <id>http://ethanp.github.io/blog/2016/04/09/simple-first-deployment</id>
+    <content type="html"><![CDATA[<p>I just had my first experience of &ldquo;deploying my system into production&rdquo;. I
+have been learning about software engineering for a few years now, and I have
+seen this term &ldquo;deploy into production&rdquo; many times, but never experienced it
+myself. The &ldquo;software system&rdquo; that was deployed is an internal tool, almost 3
+months in development by yours truly. This article is a retrospective of the
+development of this system so far.</p>
+
+<!-- more -->
+
+
+<p>The system itself uses many APIs with which I was previously unfamiliar;
+Kafka, Elasticsearch, HDFS, ZooKeeper, Spray, CouchDB, etc.; but I have glued
+together unfamiliar APIs on many previous occasions. The system is
+&ldquo;distributed&rdquo; and has in-built fault-tolerance in various ways; but I have
+included that feature in previous projects. The thing that is new for me about
+this project is that it was written with maintainability as a goal, and
+&ldquo;released&rdquo; in such a way that it runs continuously as a service, and its
+output can serve as input for the daily work of other human beings. This is my
+first project for my first job, and it is finally working.</p>
+
+<p>There were <em>many</em> times during the development of this project when I figured
+it would probably be deployed within the next few days. At those points, I
+told my manager to begin finding me something interesting to work on next. He
+always sounded more skeptical than I expected about the project actually being
+nearly done. On each of those occasions, I realized within the next few hours
+after announcing my near-completion, that there was still, in fact, a <em>slew</em>
+of components still needing to be worked out before the software could be
+deployed, and that I had <em>no idea</em> how to craft any of these components.</p>
+
+<p>There are <em>too many</em> guides out there about how to develop and deploy software
+systems. For me, the most important ended up being <a href="https://medium.com/@jlouis666/how-to-build-stable-systems-6fe9dcf32fc4">a Medium article</a> by
+Jeser L. Andersen (no idea who that is). I think I found the article on Hacker
+News a month and a half ago. I will summarize my takaways from it</p>
+
+<ul>
+<li>The developer is responsible for every aspect of the software</li>
+<li>Make sure the project makes sense to tackle</li>
+<li>Choose the right libraries, frameworks etc. to use
+
+<ul>
+<li>This requires a small amount of experimentation which should be done up
+front in a separated/extracted code-base</li>
+</ul>
+</li>
+<li>Limit scope
+
+<ul>
+<li>E.g. create a list of problems you&rsquo;re <em>not</em> solving</li>
+</ul>
+</li>
+<li>Limit external dependencies</li>
+<li>Create a transition plan from the previous system to the new one</li>
+<li>Design for future extension</li>
+<li>Prefer correctness and elegance to efficiency of execution
+
+<ul>
+<li>This is especially true for my project because it is network bound anyway</li>
+<li>But still, understand which parts must be more correct than others</li>
+</ul>
+</li>
+<li>Collect metrics about system performance</li>
+<li>Write automated tests of whether
+
+<ul>
+<li>The components that need to do something correctly are</li>
+<li>The different components of the system can communicate with each other
+effectively</li>
+</ul>
+</li>
+</ul>
+
+
+<p>There are still aspects of my system that are not perfect. For example, I
+occasionaly see errors about a timeout in some library used by a library I am
+using. I don&rsquo;t know whether those errors are corrupting my data, or killing
+JVM threads, or whatever else. The system is already a vast improvement over
+what was in place before in terms of correctness and latency of the data
+produced, so having the occasional issue was not a good enough reason to delay
+deployment any further.</p>
+
+<p>The system was deployed in a manner one might describe as &ldquo;by hand&rdquo;. I rsync
+the code onto a server, build the code on the server, open up two <code>tmux</code>
+windows, run one JVM which produces to Kafka, run another JVM which consumes
+from Kafka, make sure everything that is <em>supposed</em> to be happening <em>is</em>
+happening, and detach from tmux. According to the blog post I linked above, it
+is desirable to be able to hit a button and see it deploy itself
+automatically. In my case this conflicts with the other suggestion in that
+article, which is to stick to limit the number of things you have to learn in
+order to get the first version of your software working, which I believe the
+author meant to be more important than a one-click deployment scheme.</p>
+
+<p>The system is not exactly &ldquo;done&rdquo; in the sense that it doesn&rsquo;t have all the
+features it is supposed to have. But at least I know now that the system works
+in its production environment and is able to interact successfully and
+(demonstrably) correctly with all the external infrastructure that it relies
+upon. But to be sure, many corners were cut, many pieces are <em>kind of</em> there
+but not really, the metrics are not collected well, and configurations (e.g.
+of Kafka, ZooKeeper, and Elasticsearch) were chosen on a &ldquo;that&rsquo;ll probably get
+us running&rdquo; basis. As it turns out, there have already been issues with
+Elasticsearch not being able to handle the load of multiple of my colleagues
+querying it at once.</p>
+
+<p>A problem with having deployed it without a larger share of the issues worked-
+out is that I now need to be more careful to make my changes behave as
+transitions from &ldquo;working state&rdquo; to &ldquo;working state&rdquo;. There are pieces of the
+system that if they are left not-working for more than 24 hours, data will be
+irretrievably lost, and people will be sad. But by design of the software, the
+piece that <em>must</em> be left running properly is mostly disentangled from the
+rest of the system, so that it can run while the rest of the system is
+offline, and none of the data will be lost. This is accomplished by buffering
+data in Kafka.</p>
+
+<p>Since I have no previous experience deploying a software system like this, I
+did not have a good basis to evaluate which libraries to build my system upon,
+except for the buzz that I see on Hacker News, and my own intuition and
+background. I like the Scala programming language best, and because of Spark,
+some people I work with already use Scala, so I chose Scala. Is Go a better
+tool for the job? According to the relative buzzes of the two ecosystems on
+Hacker News, maybe it is. Would Docker have provided a better mechanism for
+deployment? Most-likely it would have, but that can be added at any time if it
+turns out that deployment is a <em>problem</em> which needs to be <em>solved</em>, which at
+this simple stage, it is not.</p>
+
+<p>It is exciting to final have real people relying on code that I wrote. I am
+excited to continue making this system better-meet the needs of its users. I
+am even more excited by the shift in the way I look at writing software now
+that I have seen more of the lifecycle of a single project.</p>
+]]></content>
+  </entry>
+  
+</feed>
