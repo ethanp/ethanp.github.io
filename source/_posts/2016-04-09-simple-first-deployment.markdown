@@ -36,7 +36,7 @@ deployed, and that I had _no idea_ how to craft any of these components.
 
 There are _too many_ guides out there about how to develop and deploy software
 systems. For me, the most important ended up being [a Medium article][stbl] by
-Jeser L. Andersen (no idea who that is). I think I found the article on Hacker
+Jesper L. Andersen (no idea who that is). I think I found the article on Hacker
 News a month and a half ago. I will summarize my takaways from it
 
 * The developer is responsible for every aspect of the software
