@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Protocols | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/protocols/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-04-09T14:49:58-07:00</updated>
+  <updated>2016-04-10T22:05:56-07:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -27,7 +27,7 @@ off the bat due to some sort of misconfiguration. It was running in a Vagrant-
 made virtual machine (VM) on my laptop. The Vagrant setup script had forwarded
 a local port on my laptop into the VM. So in order to debug it, my coworker
 set up a reverse port-forward from my laptop onto an internal server. Then he
-set up a forward port-forward to that server from his laptop. Now commands
+set up a forward port-forward from his laptop to that server. Now commands
 issued at his laptop&rsquo;s terminal were being executed on the VM on my laptop. My
 mind was so utterly blown I became dizzy.</p>
 

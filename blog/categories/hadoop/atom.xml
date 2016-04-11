@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Hadoop | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/hadoop/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2016-04-10T22:05:56-07:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Bigtable Paper Summary]]></title>
+    <link href="http://ethanp.github.io/blog/2016/04/10/bigtable-paper-summary/"/>
+    <updated>2016-04-10T22:02:12-07:00</updated>
+    <id>http://ethanp.github.io/blog/2016/04/10/bigtable-paper-summary</id>
+    <content type="html"><![CDATA[<p>When looking into what Cassandra and HBase are, and their relative strengths
+and weaknesses, people often seem to think they can get away with the
+following very succinct characterizations: &ldquo;Cassandra is like is Dynamo plus
+Bigtable, and HBase is just Bigtable&rdquo;. I don&rsquo;t know much about Dynamo <em>or</em>
+BigTable because we skipped those papers in my systems courses. So to get
+started understanding what&rsquo;s going on with all this mess, I decided to read
+the Bigtable paper. What follows is a brief summarization/retelling of the
+<a href="http://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf">Bigtable paper</a>. It follows roughly the form of the paper, especially in
+that it starts high level, and then digs slightly lower-down into the
+implementation.</p>
+
+<h3>What problem are we solving?</h3>
+
+<p>Bigtable provides an API for storing and retrieving data.</p>
+
+<p>It is most useful if</p>
+
+<ul>
+<li>there is a <em>lot</em> of data coming in at a high rate over time</li>
+<li>there is no need to join each data table with another</li>
+<li>data might need to be updated</li>
+<li>range queries are common</li>
+</ul>
+
+
+<p>Bigtable is a distributed database. It is a database management system which
+allows you to define tables, write and update data, and run queries against
+the stored data. It is similar to a relational database, except that it is not
+&ldquo;relational&rdquo; in the sense denoted by the term &ldquo;relational database&rdquo;. Instead,
+it brings its own type of data model, where instead of storing data in normal
+two-dimensional table cells, you store it according to a new set of rules that
+allows for flexibility in the shape of each record, while still enabling
+overall efficiency.</p>
+
+<!-- more -->
+
+
+<h3>Go on&hellip;</h3>
+
+<p>In the Bigtable data model, data is grouped in tables. Each record in one
+table must have a string identifier unique in that table. Each table is
+defined to have a set of &ldquo;column families&rdquo;. This is where the data goes. A
+record has values, that is the point of having a record. Each of those values
+is associated with a timestamp when it was created. This can either be defined
+by Bigtable or by the user inserting the data. Having two versions of a record
+means it was updated. Each value has its own key (a string) pointing to it.
+That key has two components, a &ldquo;family&rdquo; and a &ldquo;qualifier&rdquo;. Each table has a
+finite set of families with known names. However, the qualifier segment of a
+value&rsquo;s key may be an arbitrary string. There may be any number of anchors for
+each family in each record. You can hint whether you want Bigtable to prefer
+disk locality when writing many values in the same column family.</p>
+
+<p>Rows are stored on disk in alphabetically by row key, and for each value, in
+<em>descending</em> order of timestamps (i.e. most recent first). All reads and
+writes over a single key are atomic with respect to each other, but not with
+respect to changes in other rows. (This is something the client must be
+careful about.) All the rows for a given table are chopped up (dynamically)
+into &ldquo;tablets&rdquo; which each are stored in by exactly one &ldquo;tablet server&rdquo; node in
+the cluster. One can specify garbage collection to either only keep the last
+<em>n</em> versions, or to only keep everything for a specified duration.</p>
+
+<p>When reading the data, one might e.g. just fetch the data for one column
+family within a particular range of row names, but get all currently known
+versions of that data. This type of query is what was optimized by the
+creators of Bigtable. One might for example want to execute this type of query
+to feed as input to a MapReduce job. One could do that, and then also be able
+to enjoy the intentionally efficient writing of MapReduce results into a
+different Bigtable table.</p>
+
+<p>Bigtable data is stored in the SSTable file format. In this format, each file
+represents what in Scala would be called a <code>immutable.Map[String, String]</code>. A
+file is made of blocks, each containing a continuous interval of the keys that
+is listed in the file&rsquo;s &ldquo;block index&rdquo;. Each SSTable file is stored in Google
+File System (GFS), which I will not describe in detail here, and is similar to
+the Hadoop File System (HDFS).</p>
+
+<p>Bigtable relies on Chubby (similar to Apache Zookeeper) to ensure there is &ldquo;at
+most one active aster at any time&rdquo; and for bootstrapping.</p>
+
+<p>A Bigtable instance has a single master node, and a potentially dynamic number
+of tablet servers. A tablet is a complete alphabetical interval of all the
+data in a table. The master manages tablet assignment, server cluster
+membership changes (with help from Chubby), load-balancing of tablets among servers, garbage
+collection, and schema changes. The tablet server handles read and write
+requests to its tablets, and splits tablets when they get too big.</p>
+
+<p>Clients only need to communicate with the master to find the relevant tablet
+servers. The relative amount of this sort of communication compared to the
+actual data transfers is such that this practice is not a system-wide
+bottleneck. Clients also cache this data until a server says the information
+is stale.</p>
+
+<p>Tablet location information (across all tables being managed by a single
+Bigtable instance) is stored in one big 3-level hierarchical B+-tree type
+thing (i.e. it&rsquo;s a sorted <em>n</em>-way tree, where you go down the appropriate
+pointer from an internal node based on what it says about the interval of row
+IDs contained in its leaves. The root is stored in Chubby. At the third level
+I think you have the locations of all the tablets and what keys are owned by
+each.</p>
+
+<p>As previously mentioned, persistent tablet state is stored in GFS, but what is
+that &ldquo;tablet state&rdquo;. Each write or update is appended a commit log (with a
+unique mutation identifier to resolve duplication caused by tricky crash
+scenarios). It also modifies the (copy-on-write) in-memory representation of
+the current state of this chunk of the table. One can always reconstruct the
+in-memory representation by playing back the commit log, but ideally most
+reads are serviced from memory. Every once in a while the in-memory state gets
+too big, and <em>it</em> is written out as an SSTable into GFS. Every once in a
+while, multiple SSTables are read back into, and since some might be updates
+to others, they are merged together, and the sources deleted.</p>
+
+<p>In practice, the authors found that applying a very computationally efficient
+compression algorithm (rather than one with a top-notch compression ratio)
+increased overall system efficiency in many cases. They also added bloom
+filters to the SSTables to reduce the number of unecessary disk reads of non-
+existent data.</p>
+
+<p>The paper says Google has used Bigtable as a backend for its Google Analytics
+product, Google Earth, Personalized Search, and storing websites for
+retrieving results for its Search Engine.</p>
+
+<p>As future work they want to be able to provide better (but not full) support
+for transactions (I think this is addressed in the Spanner paper released a
+few years later).</p>
+
+<p>Their lessons learned include</p>
+
+<ul>
+<li>&ldquo;delay adding new features until it is clear how the new features will be
+used&rdquo;</li>
+<li>&ldquo;the importance of proper system-level monitoring&rdquo;</li>
+<li>&ldquo;the value of simple designs&hellip;code and design clarity are of immennse
+help in code maintenance and debugging&rdquo;</li>
+</ul>
+
+
+<p>They conclude by noting that this system bears some resemblance to the C-Store
+column-oriented database system, for which there is another good paper that I
+ought to finish reading at some point. They also note that people who are used
+to &ldquo;traditional&rdquo; relational databases find the Bigtable interface awkward, but
+that it works so much better than the alternatives that people end up using it
+anyway.</p>
+
+<h3>References</h3>
+
+<ul>
+<li>Chang, Fay, et al. &ldquo;Bigtable: A distributed storage system for structured
+data.&rdquo; ACM Transactions on Computer Systems (TOCS) 26.2 (2008): 4.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

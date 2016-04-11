@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="What is a server and how does it relate to my Rails app? I learned the basics of Ruby on Rails web application development a few years
-ago. At that &hellip;">
+  <meta name="description" content="When looking into what Cassandra and HBase are, and their relative strengths
+and weaknesses, people often seem to think they can get away with the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,79 @@ ago. At that &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/04/10/bigtable-paper-summary/">Bigtable Paper Summary</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-04-10T22:02:12-07:00" pubdate data-updated="true">Apr 10<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When looking into what Cassandra and HBase are, and their relative strengths
+and weaknesses, people often seem to think they can get away with the
+following very succinct characterizations: &ldquo;Cassandra is like is Dynamo plus
+Bigtable, and HBase is just Bigtable&rdquo;. I don&rsquo;t know much about Dynamo <em>or</em>
+BigTable because we skipped those papers in my systems courses. So to get
+started understanding what&rsquo;s going on with all this mess, I decided to read
+the Bigtable paper. What follows is a brief summarization/retelling of the
+<a href="http://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf">Bigtable paper</a>. It follows roughly the form of the paper, especially in
+that it starts high level, and then digs slightly lower-down into the
+implementation.</p>
+
+<h3>What problem are we solving?</h3>
+
+<p>Bigtable provides an API for storing and retrieving data.</p>
+
+<p>It is most useful if</p>
+
+<ul>
+<li>there is a <em>lot</em> of data coming in at a high rate over time</li>
+<li>there is no need to join each data table with another</li>
+<li>data might need to be updated</li>
+<li>range queries are common</li>
+</ul>
+
+
+<p>Bigtable is a distributed database. It is a database management system which
+allows you to define tables, write and update data, and run queries against
+the stored data. It is similar to a relational database, except that it is not
+&ldquo;relational&rdquo; in the sense denoted by the term &ldquo;relational database&rdquo;. Instead,
+it brings its own type of data model, where instead of storing data in normal
+two-dimensional table cells, you store it according to a new set of rules that
+allows for flexibility in the shape of each record, while still enabling
+overall efficiency.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/04/10/bigtable-paper-summary/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -211,7 +284,7 @@ off the bat due to some sort of misconfiguration. It was running in a Vagrant-
 made virtual machine (VM) on my laptop. The Vagrant setup script had forwarded
 a local port on my laptop into the VM. So in order to debug it, my coworker
 set up a reverse port-forward from my laptop onto an internal server. Then he
-set up a forward port-forward to that server from his laptop. Now commands
+set up a forward port-forward from his laptop to that server. Now commands
 issued at his laptop&rsquo;s terminal were being executed on the VM on my laptop. My
 mind was so utterly blown I became dizzy.</p>
 
@@ -885,71 +958,6 @@ to understanding what I am doing.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/10/27/very-basics-of-jetty/">Very Basics of Jetty</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-27T09:09:50-07:00" pubdate data-updated="true">Oct 27<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Jetty has <em>cutting edge</em> HTTP/2 support</h3>
-
-<p>For my Wireless Networking project, I&rsquo;m going to compare HTTP/1.1 and HTTP/2
-with respect to performance metrics when talking to a mobile phone over the
-cellular network. There are not so many <a href="https://github.com/http2/http2-spec/wiki/Implementations">implementations</a> of HTTP/2 right
-now, and some of them seem a bit shaky. At the end of the day, it seems to me
-that the easiest way to run this sort of experiment in a reliable fashion is to
-use Java&rsquo;s <a href="http://www.eclipse.org/jetty/">Jetty</a> project. It has well-tested HTTP/1.1 support, many
-heavyweight framework users, implements HTTP/2&rsquo;s server push and all sorts of
-HTTP/2 negotation mechanisms, and I like static types.</p>
-
-<h3>Jetty is hard to find tutorials for</h3>
-
-<p>So I need to learn the basics of Jetty; and there&rsquo;s a lot to learn, and I
-haven&rsquo;t found a stellar resource, so I&rsquo;ve been reading the <a href="http://www.eclipse.org/jetty/documentation/current/embedding-jetty.html">embedded
-examples</a>, which are decent. I&rsquo;m usng &ldquo;embedded&rdquo; Jetty because that means
-I can write type-safe Java rather than XML. Perhaps XML would be a good choice
-for a long-standing app, but I&rsquo;m making a prototype and it&rsquo;s easier to just
-write code.</p>
-
-<p>Here&rsquo;s a brief overview of what I&rsquo;ve learned so far, which may come in handy
-for someone else wanting to understand the very basics of Jetty (version 9).
-This is not a detailed overview because I don&rsquo;t know what I&rsquo;m talking about.
-I&rsquo;m just explaining the things I have learned from the tutorial linked above
-and some mucking around.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/10/27/very-basics-of-jetty/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -965,6 +973,10 @@ and some mucking around.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/04/10/bigtable-paper-summary/">Bigtable Paper Summary</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/04/09/what-is-a-rails-application/">What Is a Rails Application</a>
       </li>
     
@@ -978,10 +990,6 @@ and some mucking around.</p>
     
       <li class="post">
         <a href="/blog/2016/02/28/some-java-network-programming-fundamentals/">Some Java Network Programming Fundamentals</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/27/asking-for-advice/">Asking for Advice</a>
       </li>
     
   </ul>
