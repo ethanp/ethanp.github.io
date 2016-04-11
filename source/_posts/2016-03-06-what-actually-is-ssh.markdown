@@ -15,7 +15,7 @@ off the bat due to some sort of misconfiguration. It was running in a Vagrant-
 made virtual machine (VM) on my laptop. The Vagrant setup script had forwarded
 a local port on my laptop into the VM. So in order to debug it, my coworker
 set up a reverse port-forward from my laptop onto an internal server. Then he
-set up a forward port-forward to that server from his laptop. Now commands
+set up a forward port-forward from his laptop to that server. Now commands
 issued at his laptop's terminal were being executed on the VM on my laptop. My
 mind was so utterly blown I became dizzy.
 
