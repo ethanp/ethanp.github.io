@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Google | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/google/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-04-10T22:05:56-07:00</updated>
+  <updated>2016-04-10T23:33:38-07:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -27,7 +27,9 @@ started understanding what&rsquo;s going on with all this mess, I decided to rea
 the Bigtable paper. What follows is a brief summarization/retelling of the
 <a href="http://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf">Bigtable paper</a>. It follows roughly the form of the paper, especially in
 that it starts high level, and then digs slightly lower-down into the
-implementation.</p>
+implementation. It contains basically only and all of the parts of the paper
+that I found illuminating, but broken down into sentences that are hopefully
+easier to understand.</p>
 
 <h3>What problem are we solving?</h3>
 

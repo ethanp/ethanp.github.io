@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Networking | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/networking/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-04-10T22:05:56-07:00</updated>
+  <updated>2016-04-10T23:33:38-07:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -26,14 +26,13 @@
 off the bat due to some sort of misconfiguration. It was running in a Vagrant-
 made virtual machine (VM) on my laptop. The Vagrant setup script had forwarded
 a local port on my laptop into the VM. So in order to debug it, my coworker
-set up a reverse port-forward from my laptop onto an internal server. Then he
-set up a forward port-forward from his laptop to that server. Now commands
-issued at his laptop&rsquo;s terminal were being executed on the VM on my laptop. My
-mind was so utterly blown I became dizzy.</p>
+configured a chain of tunnels that enabled him to SSH into the VM on my
+laptop.</p>
 
-<p>It took me weeks to figure out what the SSH port-forwarding is and how its
-syntax works, and another few weeks to figure out what reverse port-forwarding
-is, and another few weeks to find practical use-cases for each.</p>
+<p>In the back of my mind, I spent the next few weeks trying to figure out what
+SSH port-forwarding is and how its syntax works, then another few weeks to
+figure out what reverse port-forwarding is, and another few weeks to find
+practical use-cases for each.</p>
 
 <p>Here is my executive summary</p>
 
@@ -53,8 +52,6 @@ client there. Response traffic originating from <code>remotehost:remoteport</cod
 go back to the <code>sshd</code>, back through the encrypted tunnel to the SSH client,
 and back to the originating client.</p>
 
-<p>That&rsquo;s a mouthful, but I think it&rsquo;s a pretty clear explanation.</p>
-
 <p><em>Reverse</em> tunneling by contrast, means that traffic <em>originating</em> on the
 remote end will be forwarded to the local end.</p>
 
@@ -63,16 +60,20 @@ remote end will be forwarded to the local end.</p>
 <p>One thing that confused me about SSH forwarding, is that if I don&rsquo;t use some
 extra flags to disable it, when I set up port forwarding to a another machine,
 I also end up with a shell ready executing commands remotely. What is going on
-here? What does it mean to do remote command execution?</p>
+here? It turns out it is doing what is called &ldquo;remote command execution&rdquo;.</p>
 
-<p>So here&rsquo;s what&rsquo;s happening: SSH is capable of multiplexing multiple
-communication &ldquo;channels&rdquo; over a single encrypted TCP connection. If you just
-execute the normal tunneling command given above, it will create two channels,
-one for forwarding the tcp traffic, and another for executing commands
-visually in your pseudo-terminal but physically in a remote shell.</p>
+<!-- more -->
+
+
+<p>Here&rsquo;s what&rsquo;s happening: SSH is capable of multiplexing multiple communication
+&ldquo;channels&rdquo; over a single encrypted TCP connection. If you just execute the
+normal tunneling command given above, it will create two channels, one for
+forwarding the tcp traffic, and another for executing commands visually in
+your pseudo-terminal but physically in a remote shell.</p>
 
 <p>When you <code>ssh</code> onto a remote machine, a particular sequence of things happen
-that I think really clarify what the heck&rsquo;s going on.</p>
+that I think really clarify what the heck&rsquo;s going on. You can see it happening
+if you turn on verbose mode (<code>-v</code>).</p>
 
 <ol>
 <li>You connect via TCP to the standard SSH-daemon port (22) on the remote
@@ -86,28 +87,36 @@ trust it&rdquo; implies you have verified that the fingerprint does not belong
 to a <em>man-in-the-middle</em> attacker)</li>
 </ul>
 </li>
-<li>It authenticate&rsquo;s you, either by you supplying a password, or by it finding
-your username in its <code>~/.ssh/authorized_keys</code> file, and having you match it
-with your private key</li>
+<li>It authenticates you, either by you supplying a password, or by it finding
+your username in its <code>~/.ssh/authorized_keys</code> file, and [using what protocol?] you match it with your private key</li>
 <li>Y'all negotiate an encryption for the session, over which future
-communications will take place</li>
+communications will take place
+
+<ul>
+<li>[Maybe you have to choose a specific cryptographic algorithm like in TLS?]</li>
+</ul>
+</li>
 <li>Now that communications are encrypted, control and channel data are
 transferred using a binary packet format that contains
 
 <ul>
-<li>Encrypted packet length</li>
-<li>Various random paddings</li>
-<li>The encrypted (and possibly compressed) payload</li>
-<li>A message authentication code (MAC)</li>
-<li>Recipient&rsquo;s integer identifier for this channel</li>
+<li>Encrypted packet length &mdash; answers: when does this packet end?</li>
+<li>Various random paddings &mdash; to fool the bad guys</li>
+<li>The encrypted (and possibly compressed) payload &mdash; here&rsquo;s the good stuff</li>
+<li>A message authentication code (MAC) &mdash; find evidence of corruption/tampering</li>
+<li>Recipient&rsquo;s integer identifier for this channel &mdash; answers: what <em>channel</em>
+did this data come in from?</li>
 </ul>
 </li>
-<li>To setup a remote shell, your SSH client requests to create a &ldquo;shell&rdquo; channel
+<li>To setup a remote shell, your SSH client requests permission to create a
+special channel specifically designed for the purpose of remote shells
 
 <ul>
 <li>At this point you tell the server which ID you&rsquo;re allocating to this
-channel</li>
-<li>Since each channel has flow-controlling, you also state your window size
+channel, so that it knows how to fill the last item in the format
+specified above</li>
+<li>Since each channel performs its own flow-control, you also state your
+&ldquo;window size&rdquo; (similar to TCP)
 
 <ul>
 <li>Both sides maintain a receive window, and once the sender has sent
@@ -117,19 +126,23 @@ that your window now has more room</li>
 </li>
 </ul>
 </li>
-<li>If the server supports &ldquo;shell&rdquo; channels, it will tell you which ID it has
-allocated to this channel, so that you can put the ID in SSH packets in
-this channel</li>
-<li>Then you tell the server your psuedo-terminal&rsquo;s display specifics
-(characters horizontally and vertically, as well as pixels horizontally and
-vertically)
+<li>If the server supports &ldquo;shell&rdquo; channels, it will tell you which ID it
+allocates for the new shell channel
 
 <ul>
-<li>For X11, you would tell the server your screen&rsquo;s specifics</li>
+<li>so that you can put the correct ID in SSH packets in this channel</li>
+</ul>
+</li>
+<li>Then you tell the server your psuedo-terminal&rsquo;s display specifics
+
+<ul>
+<li>characters horizontally and vertically, as well as pixels horizontally and
+vertically</li>
+<li>If you were using X11, you would tell the server your screen&rsquo;s specifics</li>
 <li>If your dimensions change, you can send an update message to the server</li>
 </ul>
 </li>
-<li>Then you can send the server the values of environment variables to use</li>
+<li>Now you can send the server the values of environment variables to use</li>
 <li>Then you request that the server initiate a shell in which to execute the
 commands you&rsquo;re going to give it. You can specify the path to the specific
 shell to use.</li>
@@ -144,47 +157,52 @@ for your terminal</li>
 </ol>
 
 
-<!-- more -->
-
-
 <p>Note this communication only used one channel, and there can be however many
-channels open over the same SSH connection because of the framing layer and
-the channel identifiers. So another channel might be used for forwarding
-packets received on a port to which the SSH program is listening, and that&rsquo;s
-how we&rsquo;d end up with the &ldquo;-L&rdquo; feature described above.</p>
+channels open over the same SSH connection. This is implemented using the
+framing layer that puts the data into the higher-level datagram format
+described in list item 5 above. Datagrams are then demultiplexed by the
+receiver according to the the channel identifiers in the datagram. So one
+channel might be used for forwarding packets received on a port registered
+with SSH for forwarding, while another is used for the normal SSH remote shell
+execution terminals. So that&rsquo;s how we see the effects of the &ldquo;-L&rdquo; feature of
+SSH described in the beginning.</p>
 
 <h3>It&rsquo;s like HTTP/2</h3>
 
-<p>I don&rsquo;t know many protocols, so it was fun to look into this one. I started on
-the Wikipedia page, and then moved on to the IETF RFC cited by the Wikipedia
-page. As I&rsquo;ve noticed many times recently, the RFC is <em>easier</em> to understand
-than the Wikipedia page. The reason for that is probably similar to the reason
-why the RFC is easier to understand than my explanation above, and is
-potentially related to the fact that the RFC&rsquo;s authors are familiar with
-explaning such concepts, and spent months working as a team to increase the
-document&rsquo;s utter clarity so that there can be no miscommunication.</p>
+<p>I don&rsquo;t know many protocols, so a lot of this stuff is new territory for me.
+When I got curious, to find out more, I started by reading the Wikipedia page,
+because in addition to having its explanation, it often has good references
+and links to related topics. From there I followed the reference to the IETF
+RFC. Maybe it was because I read the Wikipedia page first, but I found the RFC
+much easier to follow, and with a better enunciation of what is going on than
+the Wikipedia page. I didn&rsquo;t read the RFC word for word except for the first
+few sections, but then, based on its structure and formatting, was able to
+find the pieces I was interested in surprisingly fast. The reason for that is
+the RFC&rsquo;s authors are familiar with explaning such concepts, and spent months
+working as a team to increase the document&rsquo;s utter clarity to reduce the
+possibility of miscommunication.</p>
 
-<p>Another protocol that I have looked at is the new HTTP/2 IETF RFC. That
-protocol contains a similar framing layer over TCP that allows it to multiplex
-multiple channels concurrently over a single underlying TCP socket. The reason
-for that was to ease issues with &ldquo;head-of-line blocking&rdquo; which is where one
-channel&rsquo;s being slow ends up slowing down all the other channels because of
-TCP unecessarily guaranteeing order over multiplexed channels that have no
-globally-defined order. After having seen this framing-layer thing in two
-protocols, now I understand it to be some sort of &ldquo;pattern&rdquo; for allowing
-multiplexing communications over a single TCP link. An advantage to this is
-decreased port usage on the server who may be handling multiple channels for
-many different clients at once. Another advantage is that the TCP algorithm
-has a &ldquo;ramp up&rdquo; time, i.e. the congestion control starts out with a rather
-pessimistic window size. By using only one socket, that ramp up only must be
-done once. I&rsquo;m sure there are many other advantages that if I had a better
-grasp of TCP would be obvious.</p>
+<p>In a previous post I looked at the new HTTP/2 IETF RFC. That protocol contains
+a similar framing layer over TCP that allows it to multiplex multiple channels
+concurrently over a single underlying TCP socket. IIRC, the reason for that
+was to ease issues with &ldquo;head-of-line blocking&rdquo;, which is where one channel&rsquo;s
+being slow ends up slowing down all the other channels because of TCP
+unecessarily guaranteeing maintaining FIFO order of packets across multiplexed
+channels that have no globally-defined order. At the same time opening up many
+TCP connections per client is undesirable for the server. So after having seen
+this framing-layer thing in two protocols, now I understand it to be some sort
+of &ldquo;pattern&rdquo; for allowing multiplexing communications over a single TCP link.
+One big advantage is less connections per client on the server side. Also, the
+TCP algorithm has a &ldquo;ramp up&rdquo; time, i.e. the congestion control starts out
+with a rather pessimistic window size. By using only one socket, that ramp up
+only must be done once. Surely, better knowledge of TCP would lead to more
+insight here.</p>
 
-<p>I don&rsquo;t like using tools when I really have <em>no clue</em> what they&rsquo;re doing.
-However doing so is inevitable because the modern stack of technologies is so
-vast and the &ldquo;lyfe so shorte&rdquo;. Since my first computer science class I was
-taught to press my &ldquo;I believe&rdquo; button when something seemed like magic. Still,
-lifting some of the veil on one of the tools I use everyday is very
+<p>I like to get at least a basic idea of what my favorite tools are actually
+doing. This sort of investigation can only go so far because the modern stack
+of technologies is so vast and the &ldquo;lyfe so shorte&rdquo;. My first computer science
+professor encouraged us to press the &ldquo;I believe&rdquo; button when something seemed
+like magic. Still, lifting some of the veil on one tool I use everyday is
 satisfying, and hopefully the time taken for others to get to my (still
 minimal) level of understanding is reduced by the explanations above.</p>
 ]]></content>
