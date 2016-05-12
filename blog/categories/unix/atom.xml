@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/unix/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-05-12T15:10:40-07:00</updated>
+  <updated>2016-05-12T15:16:35-07:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -19,7 +19,7 @@
     <updated>2016-05-12T15:08:16-07:00</updated>
     <id>http://ethanp.github.io/blog/2016/05/12/name-according-to-function</id>
     <content type="html"><![CDATA[<p>Over the past few months, I wrote a kind of crappy program. Now I need to make
-additions to that program and there is a lot of internals about the program
+additions to that program and there are a lot of internals about the program
 that I need to recall to be able to implement the additions efficiently and
 robustly. This is not a world I want to continue to live in, so my crappy
 program requires improvement. No one I asked had advice that I could put into
@@ -120,9 +120,9 @@ collected by the producer side.</p>
 <p>Because I haven&rsquo;t thought this through completely or written the code yet,
 there is still room for fundamental issues to come up with plugging this model
 into my codebase which will make it impossible for this major refactoring to
-complete, but what I expect is that this model allows us to express what is
-really going in such a way that by looking at the <em>names</em> of the components, we
-know <em>what</em> is going on <em>where</em>.</p>
+complete. But really, what I expect is that this model allows us to express
+what is really going in such a way that by looking at the <em>names</em> of the
+components, we know <em>what</em> is going on <em>where</em>.</p>
 ]]></content>
   </entry>
   
