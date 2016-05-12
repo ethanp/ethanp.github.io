@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Name According to Function - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="Over the past few months, I wrote a kind of crappy program. Now I need to make
+additions to that program and there is a lot of internals about the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2016/05/12/name-according-to-function">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>Ethan Petuchowski</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Name According to Function</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-12T15:08:16-07:00" pubdate data-updated="true">May 12<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Over the past few months, I wrote a kind of crappy program. Now I need to make
+additions to that program and there is a lot of internals about the program
+that I need to recall to be able to implement the additions efficiently and
+robustly. This is not a world I want to continue to live in, so my crappy
+program requires improvement. No one I asked had advice that I could put into
+practice, so I looked to Amazon for a book with the answers on &ldquo;what
+<em>specifically</em> to do&rdquo;. Based on its cover, title, and reviews, I ended up with
+the book <strong>Clean Code: A Handbook of Agile Software Craftsmanship</strong>, put
+together from multiple authors by a guy who refers to himself as &ldquo;Uncle Bob&rdquo;.
+The book is frankly a big part of the answer I was looking for.</p>
+
+<p>I don&rsquo;t know a whole lot about Uncle Bob, but he seems to be <em>very</em>
+experienced with designing, writing, maintaining, refactoring, etc. large Java
+projects. He also is very well-read on modern software engineering, but
+manages to stay away from the over-use of terminology I&rsquo;m not familiar with.
+He also talks about his conversations with (the only) guys in this arena that
+I have heard of, including Fred Brooks and Martin Fowler.</p>
+
+<p>His writing tone can be characterized as follows, &ldquo;I have read and written
+sooo much more code than you, and over time, I have taken the time to think
+about the best way to make the code &#8220;clean&rdquo;. Herein, I shall share with you
+what I have learned, using the best didactic methods I can think of. I hope
+you benefit as much as possible from my wisdom.&#8221;</p>
+
+<p>So far (over the past 3 days) I have read perhaps 1/3 of the book, but I have
+already come up with a design for my program that is <strong>so much</strong> better than
+the old design, and a rough prototype implementation is already running. That
+is an incredible return on investment.</p>
+
+<p>The main thing I have understood from the book is that <strong>parts of programs
+should do what they say they do</strong>. Put most-briefly, there are two parts of
+making that possible</p>
+
+<ol>
+<li><strong>Components should be simple enough to be described by just a few words</strong></li>
+<li><strong>The <em>name</em> of a component should be the few words that describe it</strong></li>
+</ol>
+
+
+<p>It is embarrassing to say that I never thought of that myself, but the truth
+is I didn&rsquo;t, and that is reflected all-too-obviously in the program that I
+wrote. I can come up with countless excuses for why I wrote the program that
+way, but that doesn&rsquo;t fix the problem. The only way to fix the problem is to
+reorganize the program to conform to the above two rules.</p>
+
+<!-- more -->
+
+
+<p>My program is a pipeline that takes multiple data sources, transforms them,
+mashes them together, and writes them to multiple locations. It does this in a
+somewhat resilient way by using Kafka as an internal buffer and data bus.
+However you can&rsquo;t tell from the structure of the program that that is what is
+going on.</p>
+
+<p>Since I&rsquo;m using Scala, the new design makes this look more like a Unix
+program:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">val</span> <span class="n">src1</span><span class="k">:</span> <span class="kt">DataSource</span><span class="o">[</span><span class="kt">Type1</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Type1Source</span><span class="o">()</span>
+</span><span class='line'><span class="k">val</span> <span class="n">src2</span><span class="k">:</span> <span class="kt">DataSource</span><span class="o">[</span><span class="kt">Type2</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Type2Source</span><span class="o">()</span>
+</span><span class='line'><span class="k">val</span> <span class="n">merger</span><span class="k">:</span> <span class="kt">Merger</span><span class="o">[</span><span class="kt">Type1</span>, <span class="kt">Type2</span>, <span class="kt">Type3</span><span class="o">]</span> <span class="k">=</span> <span class="nc">OneAndTwoMerger</span><span class="o">()</span>
+</span><span class='line'><span class="k">val</span> <span class="n">output1</span><span class="k">:</span> <span class="kt">DataSink</span><span class="o">[</span><span class="kt">Type3</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Dest1Sink</span><span class="o">()</span>
+</span><span class='line'><span class="k">val</span> <span class="n">output2</span><span class="k">:</span> <span class="kt">DataSink</span><span class="o">[</span><span class="kt">Type3</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Dest2Sink</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">Merge</span><span class="o">(</span><span class="n">src1</span><span class="o">,</span> <span class="n">src2</span><span class="o">)</span> <span class="o">|</span> <span class="n">merger</span> <span class="n">tee</span> <span class="o">(</span><span class="n">output1</span><span class="o">,</span> <span class="n">output2</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// or desugared:</span>
+</span><span class='line'><span class="nc">Merge</span><span class="o">(</span><span class="n">src1</span><span class="o">,</span> <span class="n">src2</span><span class="o">).|(</span><span class="n">merger</span><span class="o">).</span><span class="n">tee</span><span class="o">(</span><span class="n">output1</span><span class="o">,</span> <span class="n">output2</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&rsquo;s not a lot of code required to create those interfaces and methods.
+Basically any number of <code>DataSink[T]</code>s can be &ldquo;observers&rdquo; of a
+<code>DataSource[T]</code>. So now we have an asynchronous, &ldquo;reactive&rdquo;, typesafe pipeline
+where components can be swapped in an out by data sources calling their
+<code>publishMsgs(msgs: Seq[T])</code> method, and data sinks implementing their
+<code>receiveMsgs(msgs: Seq[T])</code> function.</p>
+
+<p>The biggest influence on this design is the Akka Streaming library, which I
+have not tried out yet. Instead of taking the time to learn it, I have
+implemented a very basic version of their design. Of course the Akka team
+didn&rsquo;t invent the design either, it is similar to &ldquo;flow-based programming&rdquo;
+which is in-turn inspired by the practice of electrical engineering.</p>
+
+<p>With this approach, each component has a single responsibility: to produce the
+data it says it does, or merge the two types it says it does, or write a type
+to the place it says it does. Then in the &ldquo;main&rdquo; function we just assemble the
+data flow of the program.</p>
+
+<p>In this model, a Kafka topic can be implemented as an object (i.e. Singleton)
+that has two ends: a producer (which is a DataSink, since it writes data out of
+the program), and a corresponding consumer (a DataSource for the program).</p>
+
+<p>So if the program has two &ldquo;main&rdquo; functions, one connects to the producer side
+of a Kafka topic, and the other connects to the consumer side, all using this
+Unix-like Scala DSL, then we have integrated Kafka as a resilient buffer
+connecting two stages of the pipeline. This means the consumer side can be
+taken offline for fixing or augmentation without losing ephemeral data
+collected by the producer side.</p>
+
+<p>Because I haven&rsquo;t thought this through completely or written the code yet,
+there is still room for fundamental issues to come up with plugging this model
+into my codebase which will make it impossible for this major refactoring to
+complete, but what I expect is that this model allows us to express what is
+really going in such a way that by looking at the <em>names</em> of the components, we
+know <em>what</em> is going on <em>where</em>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-12T15:08:16-07:00" pubdate data-updated="true">May 12<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dsl/'>DSL</a>, <a class='category' href='/blog/categories/scala/'>Scala</a>, <a class='category' href='/blog/categories/unix/'>Unix</a>, <a class='category' href='/blog/categories/books/'>books</a>, <a class='category' href='/blog/categories/clean-code/'>clean code</a>, <a class='category' href='/blog/categories/convention/'>convention</a>, <a class='category' href='/blog/categories/data-flow-programming/'>data-flow programming</a>, <a class='category' href='/blog/categories/naming/'>naming</a>, <a class='category' href='/blog/categories/pipeline/'>pipeline</a>, <a class='category' href='/blog/categories/refactoring/'>refactoring</a>, <a class='category' href='/blog/categories/software-engineering/'>software engineering</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/04/10/bigtable-paper-summary/" title="Previous Post: Bigtable paper summary">&laquo; Bigtable paper summary</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/05/12/name-according-to-function/">Name According to Function</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/10/bigtable-paper-summary/">Bigtable Paper Summary</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/09/what-is-a-rails-application/">What Is a Rails Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/09/simple-first-deployment/">Simple First Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/06/what-actually-is-ssh/">What Actually Is SSH</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

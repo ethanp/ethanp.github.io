@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="After some further thought, it has become clear that my previous post about
-abstractions and what makes them good got it all wrong. There, I said &hellip;">
+  <meta name="description" content="Getting to the same page When a colleague and I are in a discussion about something and both start to
+get very excited about where it is going, I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,58 @@ abstractions and what makes them good got it all wrong. There, I said &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/05/further-adventures-in-collaboration/">Further Adventures in Collaboration</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-05T23:45:05-07:00" pubdate data-updated="true">Aug 5<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Getting to the same page</h3>
+
+<p>When a colleague and I are in a discussion about something and both start to
+get very excited about where it is going, I start to believe that we both must
+be seeing things in the same way. This is a fantasy. You start to feel that
+&ldquo;connection&rdquo;; it gets palpable. It feels like we&rsquo;re really communicating
+consciousness to consciousness. It feels like thoughts are pipelining across
+thin air. Sometimes it&rsquo;s true, but I&rsquo;d posit that usually it is not. And this
+misunderstanding of the true level of agreement can later be a cause of grief.
+You feel like the other person abandoned your shared vision when they take the
+result of your conversation and make something different from what you
+intended.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/08/05/further-adventures-in-collaboration/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -742,116 +794,6 @@ teacher:
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/05/18/simulating-a-distributed-system/">Simulating a Distributed System</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-05-18T17:24:37-07:00" pubdate data-updated="true">May 18<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>For my Distributed Computing class at school, there were 3 projects that each
-involved implementing a distributed protocol over a simulated distributed
-cluster of computers that are only &lsquo;connected&rsquo; to one another in that they know
-each other&rsquo;s IP address and must communicate over TCP sockets. For each of the
-3 projects, I had a <em>completely</em> different method of implementing the system.</p>
-
-<h3>Implementation One: A True Distributed System in Vanilla Java</h3>
-
-<p>The first project (Three Phase Commit) was the only one for which I worked with
-a partner. We were unclear how to attack the problem of building a distributed
-system in a simple way, so we went ahead and implemented a truly distributable
-Java application, in which you could spin up processes on any computer and it
-would connect in to the master server, who would tell the new node the
-listening ports of other servers in the cluster manually, etc. This turned out
-to be perhaps overly ambitious. When a node was expecting a message from
-someone else, it would fire a timer thread, which on completion would report to
-the master to restart the failed process. This system did work properly
-(somehow) but it seemed to be living-on-the-edge. It also required two weeks of
-a lot of working on it and learning aspects of Java, unit testing, mocks, which
-<code>Exception</code> would get thrown by which network event &amp; when, etc.</p>
-
-<h3>Implementation Two: Lightweight System Simulation</h3>
-
-<p>For the second project (Paxos), I said &ldquo;Hooey&rdquo; to all the Java hubbub, which
-while I enjoyed its low-level-ness, forcing me to peak further under the hood,
-it required a larger time commitment than I was prepared to make. I realized
-that my class&rsquo;s requirements only specified that system &ldquo;nodes&rdquo; run
-concurrently, share no memory, and talk over TCP. So in Scala, I made a <code>Node</code>
-class state machine, and ran different instances of it on separate threads.
-This was too easy though, and I was disappointed to find my implementation
-complete more than two weeks before the due date.</p>
-
-<h3>Implementation Three: Akka Cluster</h3>
-
-<p>Akka Cluster is a Scala-based framework for building a distributed system, in
-which you define the address of a set of &ldquo;seed&rdquo; nodes, of whom at least one is
-supposed be available at all times. Then when other nodes start up, they become
-a &ldquo;member&rdquo; of the cluster by contacting any seed node. So for me (the &ldquo;client&rdquo;
-of Akka Cluster), all there is left to do is define the protocol to run on top
-of the cluster. (In this case the protocol was the simple eventually-consistent
-database protocol &ldquo;Bayou&rdquo;.)</p>
-
-<p>Akka nodes follow the &ldquo;Actor Model&rdquo;, meaning they share no state with any other
-part of your program, making them &ldquo;simple&rdquo; to run on remote machines (I didn&rsquo;t
-try that, the docs say it is easy though). The only way actors can communicate
-is via message passing, for which there is a dedicated syntax, <code>!</code>. For
-example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">data</span><span class="k">:</span> <span class="kt">DataElem</span><span class="o">)</span>
-</span><span class='line'><span class="n">anotherActor</span> <span class="o">!</span> <span class="nc">MyMessage</span><span class="o">(</span><span class="n">theData</span><span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The code above would have the actor running this code, send <code>anotherActor</code> an
-instance of the case class <code>MyMessage</code> with the <code>DataElem</code> that was passed in.</p>
-
-<p>Inter-actor communcation is guaranteed <em>FIFO</em> by Akka, meaning that for any
-pair of actors <code>A, B</code>, if <code>A</code> sends <code>n</code> messages to <code>B</code>, <code>B</code> will receive those
-messages in the same order that <code>A</code> sent them. NB this says nothing about the
-order with respect to other actors in the system.</p>
-
-<p>Using Akka trivialized all sorts of implementation details I&rsquo;d had to worry
-about in the first project, and then ignored for the second project.</p>
-
-<p>If there had been a 4th project for this class, it&rsquo;s clear to me that I would
-use Akka again. For some reason my code ran <em>very</em> slowly, and it probably had
-to do with some configuration-setting that I did not set in the Akka config
-file. That was really the only problem I had that I did not fix. One problem I
-did fix that took a while, was figuring out a good way to shut the system down.
-There were various options discussed online, and eventually I found one that
-worked for me, which was to call <code>system.shutdown()</code> on every instance System I
-instantiate. Another option was to send <code>self ! PoisonPill</code> but for some reason
-that didn&rsquo;t work. I guess different ones work for different situations.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -869,6 +811,10 @@ that didn&rsquo;t work. I guess different ones work for different situations.</p
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/05/12/name-according-to-function/">Name According to Function</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/04/10/bigtable-paper-summary/">Bigtable Paper Summary</a>
       </li>
     
@@ -882,10 +828,6 @@ that didn&rsquo;t work. I guess different ones work for different situations.</p
     
       <li class="post">
         <a href="/blog/2016/03/06/what-actually-is-ssh/">What Actually Is SSH</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/28/some-java-network-programming-fundamentals/">Some Java Network Programming Fundamentals</a>
       </li>
     
   </ul>

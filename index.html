@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="When looking into what Cassandra and HBase are, and their relative strengths
-and weaknesses, people often seem to think they can get away with the &hellip;">
+  <meta name="description" content="Over the past few months, I wrote a kind of crappy program. Now I need to make
+additions to that program and there is a lot of internals about the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,90 @@ and weaknesses, people often seem to think they can get away with the &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/05/12/name-according-to-function/">Name According to Function</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-12T15:08:16-07:00" pubdate data-updated="true">May 12<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Over the past few months, I wrote a kind of crappy program. Now I need to make
+additions to that program and there is a lot of internals about the program
+that I need to recall to be able to implement the additions efficiently and
+robustly. This is not a world I want to continue to live in, so my crappy
+program requires improvement. No one I asked had advice that I could put into
+practice, so I looked to Amazon for a book with the answers on &ldquo;what
+<em>specifically</em> to do&rdquo;. Based on its cover, title, and reviews, I ended up with
+the book <strong>Clean Code: A Handbook of Agile Software Craftsmanship</strong>, put
+together from multiple authors by a guy who refers to himself as &ldquo;Uncle Bob&rdquo;.
+The book is frankly a big part of the answer I was looking for.</p>
+
+<p>I don&rsquo;t know a whole lot about Uncle Bob, but he seems to be <em>very</em>
+experienced with designing, writing, maintaining, refactoring, etc. large Java
+projects. He also is very well-read on modern software engineering, but
+manages to stay away from the over-use of terminology I&rsquo;m not familiar with.
+He also talks about his conversations with (the only) guys in this arena that
+I have heard of, including Fred Brooks and Martin Fowler.</p>
+
+<p>His writing tone can be characterized as follows, &ldquo;I have read and written
+sooo much more code than you, and over time, I have taken the time to think
+about the best way to make the code &#8220;clean&rdquo;. Herein, I shall share with you
+what I have learned, using the best didactic methods I can think of. I hope
+you benefit as much as possible from my wisdom.&#8221;</p>
+
+<p>So far (over the past 3 days) I have read perhaps 1/3 of the book, but I have
+already come up with a design for my program that is <strong>so much</strong> better than
+the old design, and a rough prototype implementation is already running. That
+is an incredible return on investment.</p>
+
+<p>The main thing I have understood from the book is that <strong>parts of programs
+should do what they say they do</strong>. Put most-briefly, there are two parts of
+making that possible</p>
+
+<ol>
+<li><strong>Components should be simple enough to be described by just a few words</strong></li>
+<li><strong>The <em>name</em> of a component should be the few words that describe it</strong></li>
+</ol>
+
+
+<p>It is embarrassing to say that I never thought of that myself, but the truth
+is I didn&rsquo;t, and that is reflected all-too-obviously in the program that I
+wrote. I can come up with countless excuses for why I wrote the program that
+way, but that doesn&rsquo;t fix the problem. The only way to fix the problem is to
+reorganize the program to conform to the above two rules.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/05/12/name-according-to-function/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -800,84 +884,6 @@ not found there, we will continue to check ancestors until we find it.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/19/learning-vs-doing/">Learning vs Doing</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-12-19T14:05:20-08:00" pubdate data-updated="true">Dec 19<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The goal of my first project at my first &ldquo;real&rdquo; job is to get something useful
-done within a few days and start to feel like a contributing member of the
-team. However it has been about a week, and I still have not finished that
-project.</p>
-
-<p>From my experience talking with some of my colleagues so far, their collective
-attitude might be summed up with, &ldquo;Google it, then copy-paste it, but don&rsquo;t
-worry about what it does.&rdquo; In my life, I have worked with and met <em>many</em> people
-having that attitude. Partially because of my experience working with those
-people, it happens to decidedly <em>not</em> be <em>my</em> attitude. My attitude is more
-like &ldquo;google it, learn what to do, learn why that is the right approach, take
-notes, and then copy-paste and modify the best solution to make the final
-solution as clean as possible.&rdquo; This strategy got me through many tough
-situations, so I have built up faith in it.</p>
-
-<p>So, after seeing me spend <em>days</em> learning about ssh tunnelling, ansible, and
-vagrant &mdash; and not finishing my simple project &mdash; they finally said something
-along the lines of</p>
-
-<blockquote><p>At this rate it will take you weeks to learn how to automate deployment of a
-virtual machine. Why don&rsquo;t you just deploy <em>one</em> copy and then learn about
-how to automate it on your <em>own</em> time?</p></blockquote>
-
-<p>Now, &ldquo;weeks&rdquo; is probably an overstatement, but they pointed out to me that I
-had sort of assumed out of nowhere that I was hired as some sort of devops role
-for the company, even though what I&rsquo;m actually interested in is what one might
-call &ldquo;big data engineering&rdquo;. They said, &ldquo;<em>If</em> you find yourself repeating the
-same tasks over and over, <em>then</em> you should learn to automate them.&rdquo; It is now
-obvious that they are in the right.</p>
-
-<p>At the time, I was startled by the way they approached me about what I consider
-to be largely a difference in personalities. But I can see that they are
-concerned that someone who reads too much never gets anything done, and so far
-I have fit that stereotype. At the same time, I am concerned that a person who
-<em>doesn&rsquo;t</em> read will do their work quickly and incorrectly and will then spend
-the next few weeks rejiggering a broken project, and so far they have fit that
-stereotype. In short, it seems that we are all prejudiced and have plenty to
-learn from each other.</p>
-
-<p>Going forward I shall take their advice and do the more mundane tasks as fast
-as possible and only learn things that come up more than once. If that doesn&rsquo;t
-work out for me because I&rsquo;m just cranking out shitty work, I will revert back
-to understanding what I am doing.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -893,6 +899,10 @@ to understanding what I am doing.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/05/12/name-according-to-function/">Name According to Function</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/04/10/bigtable-paper-summary/">Bigtable Paper Summary</a>
       </li>
     
@@ -906,10 +916,6 @@ to understanding what I am doing.</p>
     
       <li class="post">
         <a href="/blog/2016/03/06/what-actually-is-ssh/">What Actually Is SSH</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/28/some-java-network-programming-fundamentals/">Some Java Network Programming Fundamentals</a>
       </li>
     
   </ul>
