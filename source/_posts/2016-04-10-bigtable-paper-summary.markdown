@@ -15,7 +15,9 @@ started understanding what's going on with all this mess, I decided to read
 the Bigtable paper. What follows is a brief summarization/retelling of the
 [Bigtable paper][btp]. It follows roughly the form of the paper, especially in
 that it starts high level, and then digs slightly lower-down into the
-implementation.
+implementation. It contains basically only and all of the parts of the paper
+that I found illuminating, but broken down into sentences that are hopefully
+easier to understand.
 
 ### What problem are we solving?
 
