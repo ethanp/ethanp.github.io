@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-05-12T15:16:35-07:00</updated>
+  <updated>2016-05-14T14:47:42-07:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -14,66 +14,65 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Name According to Function]]></title>
-    <link href="http://ethanp.github.io/blog/2016/05/12/name-according-to-function/"/>
-    <updated>2016-05-12T15:08:16-07:00</updated>
-    <id>http://ethanp.github.io/blog/2016/05/12/name-according-to-function</id>
-    <content type="html"><![CDATA[<p>Over the past few months, I wrote a kind of crappy program. Now I need to make
-additions to that program and there are a lot of internals about the program
-that I need to recall to be able to implement the additions efficiently and
-robustly. This is not a world I want to continue to live in, so my crappy
-program requires improvement. No one I asked had advice that I could put into
-practice, so I looked to Amazon for a book with the answers on &ldquo;what
-<em>specifically</em> to do&rdquo;. Based on its cover, title, and reviews, I ended up with
-the book <strong>Clean Code: A Handbook of Agile Software Craftsmanship</strong>, put
-together from multiple authors by a guy who refers to himself as &ldquo;Uncle Bob&rdquo;.
-The book is frankly a big part of the answer I was looking for.</p>
+    <title type="html"><![CDATA[Ramblings on Insight]]></title>
+    <link href="http://ethanp.github.io/blog/2016/05/14/ramblings-on-insight/"/>
+    <updated>2016-05-14T14:46:12-07:00</updated>
+    <id>http://ethanp.github.io/blog/2016/05/14/ramblings-on-insight</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m re-designing a program I&rsquo;ve been working on for a few months. I&rsquo;ve
+implemented a prototype for the new design and also started implementing it.
+Because I haven&rsquo;t thought this through completely or written much of the code
+yet, there is still room for fundamental issues to come up with plugging this
+model into my codebase which will make it impossible for this major
+refactoring to complete. But really, what I expect is that this model allows
+us to express what is really going on in such a way that by looking at the
+<em>names</em> of the components, we know <em>where</em> to start looking for code
+describing <em>what</em> is really happening. If that is true, and we write function
+names from the top-down (i.e. <strong>start with &ldquo;main&rdquo; and go down, as a breadth-
+first search</strong>), then whole bunches of code will be isolated in that they
+survive to create the capability of some unique higher-level function (or a
+small set of functions).</p>
 
-<p>I don&rsquo;t know a whole lot about Uncle Bob, but he seems to be <em>very</em>
-experienced with designing, writing, maintaining, refactoring, etc. large Java
-projects. He also is very well-read on modern software engineering, but
-manages to stay away from the over-use of terminology I&rsquo;m not familiar with.
-He also talks about his conversations with (the only) guys in this arena that
-I have heard of, including Fred Brooks and Martin Fowler.</p>
+<p>Even though I have a clearer conception of how to go forward than I did when
+first writing the program. I still find it hard to think through the whole
+problem without just trying it. But if I just try it then I don&rsquo;t know what
+I&rsquo;m doing. Then, after I learn what the pieces I need <em>are</em>, I can start from
+the top-level design and then go down.</p>
 
-<p>His writing tone can be characterized as follows, &ldquo;I have read and written
-sooo much more code than you, and over time, I have taken the time to think
-about the best way to make the code &#8220;clean&rdquo;. Herein, I shall share with you
-what I have learned, using the best didactic methods I can think of. I hope
-you benefit as much as possible from my wisdom.&#8221;</p>
+<p>I don&rsquo;t know if there&rsquo;s a particular <em>moment</em> when I am <em>ready</em> to see the
+problem more fully. In this case, it seemed to happen because I <em>had</em> to find
+a better way. The program was going to be a lot of trouble to keep dealing
+with if I didn&rsquo;t figure out a better way to name and organize the different
+concerns it actually addresses. By naming and organizing things better, we get
+a little &ldquo;registry&rdquo; of package, class, method, and value names that reveal the
+solution&rsquo;s structure.</p>
 
-<p>So far (over the past 3 days) I have read perhaps 1/3 of the book, but I have
-already come up with a design for my program that is <strong>so much</strong> better than
-the old design, and a rough prototype implementation is already running. That
-is an incredible return on investment.</p>
-
-<p>The main thing I have understood from the book is that <strong>parts of programs
-should do what they say they do</strong>. Put most-briefly, there are two parts of
-making that possible</p>
-
-<ol>
-<li><strong>Components should be simple enough to be described by just a few words</strong></li>
-<li><strong>The <em>name</em> of a component should be the few words that describe it</strong></li>
-</ol>
-
-
-<p>It is embarrassing to say that I never thought of that myself, but the truth
-is I didn&rsquo;t, and that is reflected all-too-obviously in the program that I
-wrote. I can come up with countless excuses for why I wrote the program that
-way, but that doesn&rsquo;t fix the problem. The only way to fix the problem is to
-reorganize the program to conform to the above two rules.</p>
-
-<!-- more -->
-
-
-<p>My program is a pipeline that takes multiple data sources, transforms them,
+<p>Refactoring can get a bit tedious. But maybe the most tedious bits are often
+not really worth doing. I hope to build up a better intuition for it. But for
+now, it&rsquo;s one of those things where I don&rsquo;t know the words to describe what
+I&rsquo;m really making. I can see how knowing a bunch of &ldquo;patterns&rdquo; would make this
+easier. Especially considering that the crux of the pipeline I implemented is
+the &ldquo;observer&rdquo; pattern, one of the only patterns I know. But I think the main
+thing is to just try things out, see what works, and what doesn&rsquo;t, then go
+back and learn the &ldquo;patterns&rdquo; after I&rsquo;ve read and written a bunch of different
+designs <em>in the code</em>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Form in 'Main' Follows Program Function]]></title>
+    <link href="http://ethanp.github.io/blog/2016/05/14/form-in-main-follows-program-function/"/>
+    <updated>2016-05-14T14:44:11-07:00</updated>
+    <id>http://ethanp.github.io/blog/2016/05/14/form-in-main-follows-program-function</id>
+    <content type="html"><![CDATA[<p>My program is a pipeline that takes multiple data sources, transforms them,
 mashes them together, and writes them to multiple locations. It does this in a
 somewhat resilient way by using Kafka as an internal buffer and data bus.
-However you can&rsquo;t tell from the structure of the program that that is what is
-going on.</p>
+However you would have no idea from the structure of the program that that is
+what is going on. In the &ldquo;main&rdquo; method, all that happens is a few
+configuration settings are overridden, and a server is started. That doesn&rsquo;t
+tell the reader <em>anything</em> about what&rsquo;s happening.</p>
 
-<p>Since I&rsquo;m using Scala, the new design makes this look more like a Unix
-program:</p>
+<p>Since I&rsquo;m using Scala, the new design makes the &ldquo;main&rdquo; function look more like
+a Unix program:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -93,46 +92,145 @@ program:</p>
 </span><span class='line'>
 </span><span class='line'><span class="nc">Merge</span><span class="o">(</span><span class="n">src1</span><span class="o">,</span> <span class="n">src2</span><span class="o">)</span> <span class="o">|</span> <span class="n">merger</span> <span class="n">tee</span> <span class="o">(</span><span class="n">output1</span><span class="o">,</span> <span class="n">output2</span><span class="o">)</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1">// or desugared:</span>
+</span><span class='line'><span class="c1">// desugared to show there is no magic</span>
 </span><span class='line'><span class="nc">Merge</span><span class="o">(</span><span class="n">src1</span><span class="o">,</span> <span class="n">src2</span><span class="o">).|(</span><span class="n">merger</span><span class="o">).</span><span class="n">tee</span><span class="o">(</span><span class="n">output1</span><span class="o">,</span> <span class="n">output2</span><span class="o">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p>Ok, so data streams emanating from source-1 and source-2 are merged together
+by a type-compatible &ldquo;merger&rdquo; class, who writes its output stream into both
+output-1 and output-2.</p>
+
 <p>There&rsquo;s not a lot of code required to create those interfaces and methods.
 Basically any number of <code>DataSink[T]</code>s can be &ldquo;observers&rdquo; of a
-<code>DataSource[T]</code>. So now we have an asynchronous, &ldquo;reactive&rdquo;, typesafe pipeline
-where components can be swapped in an out by data sources calling their
-<code>publishMsgs(msgs: Seq[T])</code> method, and data sinks implementing their
-<code>receiveMsgs(msgs: Seq[T])</code> function.</p>
+<code>DataSource[T]</code>. Whenever a <code>DataSource</code> finds itself with data to publish, it
+calls the <code>receiveMsgs(msgs: Seq[T])</code> method of all the observing <code>DataSink</code>s.
+So now we have a &ldquo;reactive&rdquo; (sources produce data whenever it is available to
+them), and typesafe pipeline where components can be swapped in an out.
+Communication between sources and sinks by default is just function calls
+(i.e. synchronous), but their calls could be wrapped with Futures or Akka
+actors. Using function-calls makes coding, testing, debugging easier, has
+better type-checking, and doesn&rsquo;t need backpressure. Increased asynchrony
+would allow for higher speeds, but is not needed yet, and will be hooked-in
+as-needed.</p>
 
-<p>The biggest influence on this design is the Akka Streaming library, which I
-have not tried out yet. Instead of taking the time to learn it, I have
-implemented a very basic version of their design. Of course the Akka team
-didn&rsquo;t invent the design either, it is similar to &ldquo;flow-based programming&rdquo;
-which is in-turn inspired by the practice of electrical engineering.</p>
+<p>The biggest influences on this design are the Unix shell, and the Akka
+Streaming library, which I saw some presentations about. I think both were
+inspired by electrical engineering (e.g. circuits and signal processing).</p>
 
-<p>With this approach, each component has a single responsibility: to produce the
-data it says it does, or merge the two types it says it does, or write a type
-to the place it says it does. Then in the &ldquo;main&rdquo; function we just assemble the
-data flow of the program.</p>
+<p>With this approach, each component has a single responsibility: to ingest,
+filter, transform, aggregate, or output streams of data. Then in the &ldquo;main&rdquo;
+function we just assemble the data flow of the program by hooking components
+together. This means to test the program, we just need to test that each
+component produces or consumes the data that it says it does properly.</p>
 
-<p>In this model, a Kafka topic can be implemented as an object (i.e. Singleton)
-that has two ends: a producer (which is a DataSink, since it writes data out of
-the program), and a corresponding consumer (a DataSource for the program).</p>
+<p>Before, almost all of my tests involved at least three separate major program
+components. I think I will start by re-writing those, and wherever things
+don&rsquo;t work, write lower-level tests of one thing, and keep zooming in like
+that. That way, testing effort is spent on the parts that are hard to get
+right. I&rsquo;m not writing the tests first because most of the code for the
+program is simple hooking things into each other. Testing that would be an
+unecessary duplication of effort. If the main logic is so plain to see and
+understand and will not undergo heavy modification, it does not need to be
+written twice. Then there are a few bits that use some pretty difficult
+external APIs that can be used well and can be used badly. I want to make sure
+that I&rsquo;m using those at least as well as is necessary for the program to
+function properly. Most of the issues I&rsquo;ve had in the past are with the HDFS
+API. With HDFS, it takes to take a little while sometimes for opens, writes,
+and closes to propagate properly to all the replicas. Before I knew that, I
+was using the API sub-optimally, and the program would crash every twelve
+hours or so. That problem itself would not be simple to test against, but it
+gives the impression that interaction ith these external APIs is where the
+main complexity in my program lives.</p>
 
-<p>So if the program has two &ldquo;main&rdquo; functions, one connects to the producer side
-of a Kafka topic, and the other connects to the consumer side, all using this
-Unix-like Scala DSL, then we have integrated Kafka as a resilient buffer
-connecting two stages of the pipeline. This means the consumer side can be
-taken offline for fixing or augmentation without losing ephemeral data
-collected by the producer side.</p>
+<p>In this new &ldquo;source-to-sink&rdquo; program model, a single Kafka &ldquo;topic&rdquo; can be
+implemented as an <code>object</code> (i.e. Singleton) that has two ends (fields): a
+<code>Producer</code> (which is a <code>DataSink[T]</code>, since it writes data out of the
+program), and a corresponding <code>Consumer</code> (a <code>DataSource[T]</code> for the program).</p>
 
-<p>Because I haven&rsquo;t thought this through completely or written the code yet,
-there is still room for fundamental issues to come up with plugging this model
-into my codebase which will make it impossible for this major refactoring to
-complete. But really, what I expect is that this model allows us to express
-what is really going in such a way that by looking at the <em>names</em> of the
-components, we know <em>what</em> is going on <em>where</em>.</p>
+<p>So if the program has two &ldquo;main&rdquo; functions, one connects to the <code>Producer</code>
+side of a Kafka topic, and the other connects to the <code>Consumer</code> side, all
+using this Unix-like Scala DSL, then we have integrated Kafka as a resilient
+buffer connecting two stages of the pipeline. This means the computation
+subgraph connected within-JVM to the Consumer side can be taken offline for
+fixing or augmentation without losing ephemeral data being collected by the
+Producer side.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Name According to Function]]></title>
+    <link href="http://ethanp.github.io/blog/2016/05/12/name-according-to-function/"/>
+    <updated>2016-05-12T15:08:16-07:00</updated>
+    <id>http://ethanp.github.io/blog/2016/05/12/name-according-to-function</id>
+    <content type="html"><![CDATA[<p>Over the past few months, I wrote a kind of crappy program. Now I need to make
+additions to that program and there are a lot of internals about the program
+that I need to recall in order to be able to implement the additions
+efficiently and robustly. This is not a world I want to continue to live in,
+so my crappy program requires some sort of improvement. I looked to Amazon for
+a book with the answers on &ldquo;what <em>specifically</em> to do&rdquo;. Based on its cover,
+title, and reviews, I ended up with the book <strong>Clean Code: A Handbook of Agile
+Software Craftsmanship</strong>, put together from multiple authors by a guy who
+refers to himself as &ldquo;Uncle Bob&rdquo; (real name Robert C Martin). The book is
+frankly a big part of the answer I was looking for.</p>
+
+<p>I don&rsquo;t know a whole lot about Uncle Bob, but he seems to be <em>very</em>
+experienced with designing, writing, maintaining, refactoring, etc. large Java
+projects. He also is very well-read on modern software engineering, but for
+the first quarter of the book, manages to stay away from the over-use of
+terminology I&rsquo;m not familiar with. After that it goes into things like agile,
+test driven development, behavior driven development, cohesion, object
+oriented programming patterns (e.g. Gang of Four), plain old Java objects,
+data access objects, etc. that I don&rsquo;t have much familiarity with. He also
+talks about his conversations with (the only) guys in this arena that I have
+heard of, including Fred Brooks and Martin Fowler.</p>
+
+<p>His writing tone can be characterized as follows</p>
+
+<ul>
+<li>I have read and written sooo much more code than you</li>
+<li>Over time, I have taken the time to think about the best way to make the
+code &lsquo;clean&rsquo;</li>
+<li>Herein, I shall share with you what I have learned</li>
+<li>I&rsquo;ll use the best didactic methods I can think of</li>
+<li>I hope you benefit as much as possible from my wisdom</li>
+</ul>
+
+
+<p>His main didactic method can be characterized as</p>
+
+<ul>
+<li>Here is an example of some bad code</li>
+<li>This is how it goes wrong</li>
+<li>This is why that is bad</li>
+<li>Let&rsquo;s improve it in these areas</li>
+<li>Here is the improved code</li>
+<li>Note how this new code doesn&rsquo;t have the flaws of the previous</li>
+</ul>
+
+
+<p>So far I have read perhaps &frac12; of the book, and I have already come up with
+and partially implemented a design for my problematic program that is <strong>so
+much</strong> better than the old design, and a rough prototype implementation is
+already running, and I have much more &ldquo;direction/vision&rdquo; for how it is going
+to progress. That shows me that the <em>Clean Code</em> book has produced an
+incredible return on investment.</p>
+
+<p>The main thing I have understood from the book is that <strong>parts of programs
+should do what they say they do</strong>. Put most briefly, there are two parts of
+making that possible</p>
+
+<ol>
+<li><strong>Components should be simple enough to be described by just a few words</strong></li>
+<li><strong>The <em>name</em> of a component should be the few words that describe it</strong></li>
+</ol>
+
+
+<p>It is embarrassing to say that I never thought of that myself, but the truth
+is I didn&rsquo;t, and that is reflected all-too-obviously in the program that I
+wrote. I can come up with countless excuses for why I wrote the program that
+way, but that doesn&rsquo;t fix the problem. The only way to fix the problem is to
+reorganize the program to conform to the above two rules.</p>
 ]]></content>
   </entry>
   
@@ -2354,271 +2452,6 @@ of a machine. I do not believe that a human mind is less than what we imagine
 it to be, but rather that a machine can be much, much more.</p></blockquote>
 
 <p>What a beauty.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Workflow and Scripts for Learning From Github]]></title>
-    <link href="http://ethanp.github.io/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github/"/>
-    <updated>2015-08-11T17:48:41-07:00</updated>
-    <id>http://ethanp.github.io/blog/2015/08/11/a-workflow-and-scripts-for-learning-from-github</id>
-    <content type="html"><![CDATA[<h3>My &ldquo;Learning&rdquo; Workflow</h3>
-
-<p>As I wrote about <a href="http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked/">before</a>, I have developed an interesting method of learning
-from experts, which can be summarized as follows:</p>
-
-<ol>
-<li>Fork their repo on GitHub</li>
-<li>Clone the repo locally and &ldquo;detach the <code>HEAD</code>&rdquo; to the &ldquo;inital commmit&rdquo;</li>
-<li>Now repeat the following <code>while (curious)</code>
-
-<ol>
-<li>Open the working tree in an editor/IDE</li>
-<li>If there&rsquo;s something runnable, run it</li>
-<li>Understand everything going on in the working tree
-
-<ul>
-<li>Take hints from the commit message</li>
-</ul>
-</li>
-<li>Advance <code>HEAD</code> one commit</li>
-<li>View the diff from the previous commit</li>
-</ol>
-</li>
-</ol>
-
-
-<!-- more -->
-
-
-<h3>SourceTree cannot handle this workload</h3>
-
-<p>I have always used Atlassian&rsquo;s Git GUI called SourceTree for all of my Git
-usage because it is a <em>great</em> application, but the fact is, it will not work
-for the workflow above. SourceTree has to rebuild the list of commits <em>all the
-time</em> (startingfrom the most recent), and when there are thousands of commits,
-that can take about a minute. But since I&rsquo;m always operating at the beginning
-of the reverse end of the commit log, using SourceTree is untenable. For
-whatever reason they decided it was a better idea not to keep all these commits
-in memory after they are loaded the first time. I&rsquo;m not saying that was a bad
-decision, because my workflow here may be <em>atypical</em>.</p>
-
-<h3>Git is a DAG pointing back in time</h3>
-
-<p>From what I understand&mdash;which is not (yet) a whole lot&mdash;Git is a DAG of
-&ldquo;snapshots&rdquo; of the state of your project. Each snapshot points to its parents.</p>
-
-<p>In a typical case, you&rsquo;ll load a snapshot, edit your working directory, add the
-changes into the staging area, and <strong>commit</strong> a new snapshot which equals the
-previous snapshot, plus the staged changes. Now your new commit has <em>one</em>
-parent: the previous snapshot.</p>
-
-<p>A <strong>merge commit</strong> would have <strong>two parents</strong>: the previous commit on the
-branch being committed to, and the previous commit on the branch being merged-
-in.</p>
-
-<h3>The Learning workflow flows the wrong way</h3>
-
-<p>The Learning worflow would require pointers to the <em>next</em> commit, not just
-back-pointers. So it doesn&rsquo;t quite fit the Git mold, and we require a
-workaround.</p>
-
-<p>That&rsquo;s where StackOverflow saves the day. <a href="http://stackoverflow.com/questions/2121230/git-how-to-move-back-and-forth-between-commits/23172256#23172256">Here</a> someone modified
-a StackOverflow answer by someone else to a <em>related</em> question, and produced
-wrappers that help you traverse back and forth between commits. I reproduce an
-explicated and slightly simplified version below which may be added to your
-shell config file.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">#</span> <span class="n">checkout</span> <span class="n">prev</span> <span class="o">(</span><span class="n">older</span><span class="o">)</span> <span class="n">revision</span>
-</span><span class='line'><span class="n">git_prev</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">#</span> <span class="n">move</span> <span class="nc">HEAD</span> <span class="s">&quot;one&quot;</span> <span class="n">generation</span> <span class="n">back</span> <span class="n">along</span> <span class="o">*</span><span class="k">this</span><span class="o">*</span> <span class="n">branch</span>
-</span><span class='line'>    <span class="n">git</span> <span class="n">checkout</span> <span class="nc">HEAD</span><span class="o">~</span><span class="mi">1</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">#</span> <span class="n">checkout</span> <span class="n">next</span> <span class="o">(</span><span class="n">newer</span><span class="o">)</span> <span class="n">commit</span>
-</span><span class='line'><span class="n">git_next</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">show</span> <span class="n">ref</span><span class="k">:</span>
-</span><span class='line'>    <span class="k">#</span>       <span class="kt">show</span> <span class="o">(</span><span class="kt">commit-sha</span><span class="o">,</span> <span class="kt">ref-name</span><span class="o">)</span> <span class="n">pairs</span> <span class="k">for</span> <span class="n">current</span><span class="o">-</span><span class="n">versions</span> <span class="n">of</span> <span class="n">all</span>
-</span><span class='line'>    <span class="k">#</span>       <span class="s">&quot;refs&quot;</span><span class="o">;</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">tags</span><span class="o">,</span> <span class="n">remote</span> <span class="n">branches</span><span class="o">,</span> <span class="n">and</span> <span class="n">local</span> <span class="n">branches</span>
-</span><span class='line'>    <span class="k">#</span>
-</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">show</span><span class="o">-</span><span class="n">ref</span> <span class="o">-</span><span class="n">s</span> <span class="nc">HEAD</span><span class="k">:</span>
-</span><span class='line'>    <span class="k">#</span>       <span class="kt">get</span> <span class="kt">sha</span> <span class="kt">of</span> <span class="kt">latest</span> <span class="kt">commit</span> <span class="kt">on</span> <span class="kt">branch</span> <span class="kt">pointed</span> <span class="kt">to</span> <span class="kt">by</span> <span class="kt">HEAD</span>
-</span><span class='line'>    <span class="k">#</span>
-</span><span class='line'>    <span class="k">#</span> <span class="nc">BRANCH</span><span class="o">=...</span><span class="k">:</span>
-</span><span class='line'>    <span class="k">#</span>       <span class="kt">get</span> <span class="kt">the</span> <span class="kt">name</span> <span class="kt">of</span> <span class="kt">the</span> <span class="kt">branch</span> <span class="kt">HEAD</span> <span class="kt">is</span> <span class="kt">on</span>
-</span><span class='line'>    <span class="k">#</span>
-</span><span class='line'>    <span class="nc">BRANCH</span><span class="o">=</span><span class="n">`git show-ref | grep $(git show-ref -s HEAD) | sed &#39;s|.*/||&#39; | grep -v HEAD | sort -u`</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">#</span> <span class="n">get</span> <span class="n">the</span> <span class="n">hash</span> <span class="n">of</span> <span class="n">the</span> <span class="n">latest</span> <span class="n">commit</span> <span class="n">on</span> <span class="n">the</span> <span class="n">current</span> <span class="n">branch</span>
-</span><span class='line'>    <span class="nc">HASH</span><span class="o">=</span><span class="n">`git rev-parse $BRANCH`</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">#</span> <span class="n">git</span> <span class="n">rev</span><span class="o">-</span><span class="n">list</span> <span class="o">--</span><span class="n">topo</span><span class="o">-</span><span class="n">order</span> <span class="nc">HEAD</span><span class="o">..</span><span class="nc">$HASH</span><span class="k">:</span>
-</span><span class='line'>    <span class="k">#</span>       <span class="kt">list</span> <span class="kt">all</span> <span class="kt">commit</span> <span class="kt">sha</span><span class="err">&#39;</span><span class="kt">s</span> <span class="kt">in</span> <span class="kt">order</span> <span class="kt">on</span> <span class="kt">the</span> <span class="kt">current</span> <span class="kt">branch</span> <span class="kt">from</span>
-</span><span class='line'>    <span class="k">#</span>       <span class="nc">HEAD</span> <span class="n">until</span> <span class="n">now</span>
-</span><span class='line'>    <span class="k">#</span>
-</span><span class='line'>    <span class="k">#</span> <span class="nd">@return</span> <span class="n">the</span> <span class="n">commit</span> <span class="n">sha</span> <span class="k">for</span> <span class="n">the</span> <span class="n">commit</span> <span class="n">after</span> <span class="nc">HEAD</span> <span class="n">on</span> <span class="n">branch</span>
-</span><span class='line'>    <span class="k">#</span>
-</span><span class='line'>    <span class="nc">PREV</span><span class="o">=</span><span class="n">`git rev-list --topo-order HEAD..$HASH | tail -1`</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">#</span> <span class="n">move</span> <span class="n">head</span> <span class="n">to</span> <span class="n">the</span> <span class="n">next</span> <span class="n">commit</span>
-</span><span class='line'>    <span class="n">git</span> <span class="n">checkout</span> <span class="nc">$PREV</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With that knowledge in tow, I also made a little command to jump to the <em>i</em>&lsquo;th
-commit on master. If you&rsquo;re trying to jump to the <em>i</em>&#8216;th commit on the current
-branch, get the current branch using the <code>BRANCH=...</code> code above, and pass it
-to <code>rev-list</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="n">gitj</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="n">git</span> <span class="n">checkout</span> <span class="n">`git rev-list master | tail -n$1 | head -n1`</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">$</span> <span class="n">gitj</span> <span class="mi">1</span>    <span class="k">#</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">initial</span> <span class="n">commit</span> <span class="n">of</span> <span class="n">master</span>
-</span><span class='line'><span class="n">$</span> <span class="n">gitj</span> <span class="mi">3</span>    <span class="k">#</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">third</span> <span class="n">commit</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Wrappin it up</h3>
-
-<p>So yeah, now the workflow is simpler to use and it was made possible by gaining
-a better understanding of how Git works.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How Apm Originally Worked]]></title>
-    <link href="http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked/"/>
-    <updated>2015-08-06T20:17:12-07:00</updated>
-    <id>http://ethanp.github.io/blog/2015/08/06/how-apm-originally-worked</id>
-    <content type="html"><![CDATA[<p>Over the past few days I have been learning how <code>apm</code>, the Atom Package Manager
-works under the hood. <code>apm</code> is what you use when, in GitHub&rsquo;s (relatively new)
-&ldquo;Atom&rdquo; text editor, you go to the nice gui package installation interface under
-<code>settings=&gt;packages</code>.</p>
-
-<p>Atom is a &ldquo;hackable&rdquo; text editor built on top of Chromium, using Node.js and
-Coffeescript. I believe they call it hackable because all the code is open
-source, and you can add plugins to do whatever you want. Your plugins can even
-be written in C++ if that&rsquo;s more your style.</p>
-
-<p>My goal was to figure out how <code>apm</code> works, and I wasn&rsquo;t sure how best to do
-that. My knowledge of Node.js was minimal, and I was no expert in Coffeescript.
-What I decided to do was fork the <code>apm</code> GitHub repo, clone it onto my computer,
-and set my local HEAD to the <a href="https://github.com/atom/apm/commit/b8f4ce0d0cda458853eb280fde39fdeb2de38ebd">&ldquo;initial commit&rdquo;</a>, and see if I could
-understand that. The complete contents are as follows</p>
-
-<figure class='code'><figcaption><span>README.md</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'># APM - Atom Package Manager
-</span><span class='line'>
-</span><span class='line'>Discover and install Atom packages.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>At this stage I pretty confident that I understood everthing the author Kevin
-Sawicki was doing. Lucky for me, it seems Kevin is rather unique on GitHub&rsquo;s
-Atom development team for having smaller commits. I can justify this by noting
-that on Atom-core&rsquo;s <a href="https://github.com/atom/atom/graphs/contributors">list of developer contributions</a>, he has 2x more
-commits than the next guy, but is not in the top 5 in terms of LOC added.</p>
-
-<p>So with my head fully wrapped around the &ldquo;initial commit&rdquo; I moved my HEAD past
-the 2nd commit (a typo fix) into the first commit of any substance, <a href="https://github.com/atom/apm/commit/31294702b11061e60214357f4529fb9b00a7068d">&ldquo;Add
-initial Gruntfile, binary, and ignores&rdquo;</a>. At this point there was some
-investigation to do.</p>
-
-<!-- more -->
-
-
-<p>I learned how he&rsquo;s setting his default <code>grunt</code> task to
-compile his Coffeescript source files from the <code>src</code> directory into a <code>lib</code>
-directory to be generated at compile time. I learned the basics of <a href="http://browsenpm.org/package.json">what a
-<code>package.json</code> is</a> and what it&rsquo;s basic fields do. And I learned how
-<code>require('path')</code> command works by loading the <code>module.exports</code> object of
-either the file at the specified path, or in the dependencies, etc. <a href="https://nodejs.org/api/modules.html">as
-specified here</a>. At this point I was good to go on understanding
-the first half-hour of development on this project by mister Sawicki.</p>
-
-<p>Basically, I continued in this manner, covering test-driven-development and
-unit-testing using <code>jasmine-node</code>, a primitive API with only two endpoints
-using <code>express.js</code> as part of a test-case, test fixtures, asynchronous vs
-synchronous I/O APIs in various Node modules, and so on, and in the process
-learned how <code>apm</code> originally <em>worked</em>.</p>
-
-<h3>How APM originally worked</h3>
-
-<p>It basically just wraps the normal <code>npm</code> command to pull from a different
-registry set up presumably by Mr. Sawicki. An <code>npm</code> registry is a CouchDB
-instance, where module names, versions, and other metadata are mapped to the
-relevant gzipped-tarball.</p>
-
-<p>At first, there was a bit of complicated code where <code>apm</code> was downloading and
-installing <code>node</code>, <code>npm</code>, and <code>node-gyp</code> itself, but eventually, these last two
-were just <a href="https://github.com/atom/apm/commit/aa480a05e52d14baf56c06517826babd17ae4182">added as dependencies</a>. This involved an
-<a href="https://github.com/caolan/async#waterfalltasks-callback"><code>async.waterfall</code></a> which to my naive judgement about such a simple
-script seemed to be a bit of overkill.</p>
-
-<p>One thing I noticed was that a <em>lot</em> of the more complicated bits tended to
-disapear over time, getting replaced by packages (e.g. <code>wrench</code>, <code>rimraf</code>,
-etc.) or replaced by finding a simpler way to do the same thing (like passing
-the appropriate command line option to the underlying <code>npm</code>).</p>
-
-<p>It has felt, watching the first stage of this project come together, like I
-have been able to peer over the shoulder of a far superior coder as he writes
-what eventually has come to be one of the <a href="http://qr.ae/RA68mn">main selling points</a> of the
-Atom text editor itself. I have learned countless lessons. It is like that
-tutorial that he never had the chance to write. When someone writes a tutorial
-they generally are nervous and keep trying to explain the same thing in
-different ways and it never quite makes sense. When someone is writing a
-significant piece of a public work, they are strictly getting down to business.
-Kevin may not have expected anyone to come along and piece through his thought
-process, but he left it out on the table anyway and I just grabbed it.</p>
-
-<p>I will continue to go through this git history to find out what happens in the
-next chapter. I will also keep this in mind for the future as a way to find out
-how something was made. I&rsquo;ve got my eye in particular on watching Linus write
-<a href="https://github.com/git/git/commit/e83c5163316f89bfbde7d9ab23ca2e25604af290">git itself</a>.</p>
 ]]></content>
   </entry>
   

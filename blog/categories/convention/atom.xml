@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Convention | With Pith]]></title>
   <link href="http://ethanp.github.io/blog/categories/convention/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-05-12T15:16:35-07:00</updated>
+  <updated>2016-05-14T14:47:42-07:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -14,41 +14,200 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Ramblings on Insight]]></title>
+    <link href="http://ethanp.github.io/blog/2016/05/14/ramblings-on-insight/"/>
+    <updated>2016-05-14T14:46:12-07:00</updated>
+    <id>http://ethanp.github.io/blog/2016/05/14/ramblings-on-insight</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m re-designing a program I&rsquo;ve been working on for a few months. I&rsquo;ve
+implemented a prototype for the new design and also started implementing it.
+Because I haven&rsquo;t thought this through completely or written much of the code
+yet, there is still room for fundamental issues to come up with plugging this
+model into my codebase which will make it impossible for this major
+refactoring to complete. But really, what I expect is that this model allows
+us to express what is really going on in such a way that by looking at the
+<em>names</em> of the components, we know <em>where</em> to start looking for code
+describing <em>what</em> is really happening. If that is true, and we write function
+names from the top-down (i.e. <strong>start with &ldquo;main&rdquo; and go down, as a breadth-
+first search</strong>), then whole bunches of code will be isolated in that they
+survive to create the capability of some unique higher-level function (or a
+small set of functions).</p>
+
+<p>Even though I have a clearer conception of how to go forward than I did when
+first writing the program. I still find it hard to think through the whole
+problem without just trying it. But if I just try it then I don&rsquo;t know what
+I&rsquo;m doing. Then, after I learn what the pieces I need <em>are</em>, I can start from
+the top-level design and then go down.</p>
+
+<p>I don&rsquo;t know if there&rsquo;s a particular <em>moment</em> when I am <em>ready</em> to see the
+problem more fully. In this case, it seemed to happen because I <em>had</em> to find
+a better way. The program was going to be a lot of trouble to keep dealing
+with if I didn&rsquo;t figure out a better way to name and organize the different
+concerns it actually addresses. By naming and organizing things better, we get
+a little &ldquo;registry&rdquo; of package, class, method, and value names that reveal the
+solution&rsquo;s structure.</p>
+
+<p>Refactoring can get a bit tedious. But maybe the most tedious bits are often
+not really worth doing. I hope to build up a better intuition for it. But for
+now, it&rsquo;s one of those things where I don&rsquo;t know the words to describe what
+I&rsquo;m really making. I can see how knowing a bunch of &ldquo;patterns&rdquo; would make this
+easier. Especially considering that the crux of the pipeline I implemented is
+the &ldquo;observer&rdquo; pattern, one of the only patterns I know. But I think the main
+thing is to just try things out, see what works, and what doesn&rsquo;t, then go
+back and learn the &ldquo;patterns&rdquo; after I&rsquo;ve read and written a bunch of different
+designs <em>in the code</em>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Form in 'Main' Follows Program Function]]></title>
+    <link href="http://ethanp.github.io/blog/2016/05/14/form-in-main-follows-program-function/"/>
+    <updated>2016-05-14T14:44:11-07:00</updated>
+    <id>http://ethanp.github.io/blog/2016/05/14/form-in-main-follows-program-function</id>
+    <content type="html"><![CDATA[<p>My program is a pipeline that takes multiple data sources, transforms them,
+mashes them together, and writes them to multiple locations. It does this in a
+somewhat resilient way by using Kafka as an internal buffer and data bus.
+However you would have no idea from the structure of the program that that is
+what is going on. In the &ldquo;main&rdquo; method, all that happens is a few
+configuration settings are overridden, and a server is started. That doesn&rsquo;t
+tell the reader <em>anything</em> about what&rsquo;s happening.</p>
+
+<p>Since I&rsquo;m using Scala, the new design makes the &ldquo;main&rdquo; function look more like
+a Unix program:</p>
+
+<p>```scala
+val src1: DataSource[Type1] = Type1Source()
+val src2: DataSource[Type2] = Type2Source()
+val merger: Merger[Type1, Type2, Type3] = OneAndTwoMerger()
+val output1: DataSink[Type3] = Dest1Sink()
+val output2: DataSink[Type3] = Dest2Sink()</p>
+
+<p>Merge(src1, src2) | merger tee (output1, output2)</p>
+
+<p>// desugared to show there is no magic
+Merge(src1, src2).|(merger).tee(output1, output2)
+```</p>
+
+<p>Ok, so data streams emanating from source-1 and source-2 are merged together
+by a type-compatible &ldquo;merger&rdquo; class, who writes its output stream into both
+output-1 and output-2.</p>
+
+<p>There&rsquo;s not a lot of code required to create those interfaces and methods.
+Basically any number of <code>DataSink[T]</code>s can be &ldquo;observers&rdquo; of a
+<code>DataSource[T]</code>. Whenever a <code>DataSource</code> finds itself with data to publish, it
+calls the <code>receiveMsgs(msgs: Seq[T])</code> method of all the observing <code>DataSink</code>s.
+So now we have a &ldquo;reactive&rdquo; (sources produce data whenever it is available to
+them), and typesafe pipeline where components can be swapped in an out.
+Communication between sources and sinks by default is just function calls
+(i.e. synchronous), but their calls could be wrapped with Futures or Akka
+actors. Using function-calls makes coding, testing, debugging easier, has
+better type-checking, and doesn&rsquo;t need backpressure. Increased asynchrony
+would allow for higher speeds, but is not needed yet, and will be hooked-in
+as-needed.</p>
+
+<p>The biggest influences on this design are the Unix shell, and the Akka
+Streaming library, which I saw some presentations about. I think both were
+inspired by electrical engineering (e.g. circuits and signal processing).</p>
+
+<p>With this approach, each component has a single responsibility: to ingest,
+filter, transform, aggregate, or output streams of data. Then in the &ldquo;main&rdquo;
+function we just assemble the data flow of the program by hooking components
+together. This means to test the program, we just need to test that each
+component produces or consumes the data that it says it does properly.</p>
+
+<p>Before, almost all of my tests involved at least three separate major program
+components. I think I will start by re-writing those, and wherever things
+don&rsquo;t work, write lower-level tests of one thing, and keep zooming in like
+that. That way, testing effort is spent on the parts that are hard to get
+right. I&rsquo;m not writing the tests first because most of the code for the
+program is simple hooking things into each other. Testing that would be an
+unecessary duplication of effort. If the main logic is so plain to see and
+understand and will not undergo heavy modification, it does not need to be
+written twice. Then there are a few bits that use some pretty difficult
+external APIs that can be used well and can be used badly. I want to make sure
+that I&rsquo;m using those at least as well as is necessary for the program to
+function properly. Most of the issues I&rsquo;ve had in the past are with the HDFS
+API. With HDFS, it takes to take a little while sometimes for opens, writes,
+and closes to propagate properly to all the replicas. Before I knew that, I
+was using the API sub-optimally, and the program would crash every twelve
+hours or so. That problem itself would not be simple to test against, but it
+gives the impression that interaction ith these external APIs is where the
+main complexity in my program lives.</p>
+
+<p>In this new &ldquo;source-to-sink&rdquo; program model, a single Kafka &ldquo;topic&rdquo; can be
+implemented as an <code>object</code> (i.e. Singleton) that has two ends (fields): a
+<code>Producer</code> (which is a <code>DataSink[T]</code>, since it writes data out of the
+program), and a corresponding <code>Consumer</code> (a <code>DataSource[T]</code> for the program).</p>
+
+<p>So if the program has two &ldquo;main&rdquo; functions, one connects to the <code>Producer</code>
+side of a Kafka topic, and the other connects to the <code>Consumer</code> side, all
+using this Unix-like Scala DSL, then we have integrated Kafka as a resilient
+buffer connecting two stages of the pipeline. This means the computation
+subgraph connected within-JVM to the Consumer side can be taken offline for
+fixing or augmentation without losing ephemeral data being collected by the
+Producer side.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Name According to Function]]></title>
     <link href="http://ethanp.github.io/blog/2016/05/12/name-according-to-function/"/>
     <updated>2016-05-12T15:08:16-07:00</updated>
     <id>http://ethanp.github.io/blog/2016/05/12/name-according-to-function</id>
     <content type="html"><![CDATA[<p>Over the past few months, I wrote a kind of crappy program. Now I need to make
 additions to that program and there are a lot of internals about the program
-that I need to recall to be able to implement the additions efficiently and
-robustly. This is not a world I want to continue to live in, so my crappy
-program requires improvement. No one I asked had advice that I could put into
-practice, so I looked to Amazon for a book with the answers on &ldquo;what
-<em>specifically</em> to do&rdquo;. Based on its cover, title, and reviews, I ended up with
-the book <strong>Clean Code: A Handbook of Agile Software Craftsmanship</strong>, put
-together from multiple authors by a guy who refers to himself as &ldquo;Uncle Bob&rdquo;.
-The book is frankly a big part of the answer I was looking for.</p>
+that I need to recall in order to be able to implement the additions
+efficiently and robustly. This is not a world I want to continue to live in,
+so my crappy program requires some sort of improvement. I looked to Amazon for
+a book with the answers on &ldquo;what <em>specifically</em> to do&rdquo;. Based on its cover,
+title, and reviews, I ended up with the book <strong>Clean Code: A Handbook of Agile
+Software Craftsmanship</strong>, put together from multiple authors by a guy who
+refers to himself as &ldquo;Uncle Bob&rdquo; (real name Robert C Martin). The book is
+frankly a big part of the answer I was looking for.</p>
 
 <p>I don&rsquo;t know a whole lot about Uncle Bob, but he seems to be <em>very</em>
 experienced with designing, writing, maintaining, refactoring, etc. large Java
-projects. He also is very well-read on modern software engineering, but
-manages to stay away from the over-use of terminology I&rsquo;m not familiar with.
-He also talks about his conversations with (the only) guys in this arena that
-I have heard of, including Fred Brooks and Martin Fowler.</p>
+projects. He also is very well-read on modern software engineering, but for
+the first quarter of the book, manages to stay away from the over-use of
+terminology I&rsquo;m not familiar with. After that it goes into things like agile,
+test driven development, behavior driven development, cohesion, object
+oriented programming patterns (e.g. Gang of Four), plain old Java objects,
+data access objects, etc. that I don&rsquo;t have much familiarity with. He also
+talks about his conversations with (the only) guys in this arena that I have
+heard of, including Fred Brooks and Martin Fowler.</p>
 
-<p>His writing tone can be characterized as follows, &ldquo;I have read and written
-sooo much more code than you, and over time, I have taken the time to think
-about the best way to make the code "clean&rdquo;. Herein, I shall share with you
-what I have learned, using the best didactic methods I can think of. I hope
-you benefit as much as possible from my wisdom."</p>
+<p>His writing tone can be characterized as follows</p>
 
-<p>So far (over the past 3 days) I have read perhaps 1/3 of the book, but I have
-already come up with a design for my program that is <strong>so much</strong> better than
-the old design, and a rough prototype implementation is already running. That
-is an incredible return on investment.</p>
+<ul>
+<li>I have read and written sooo much more code than you</li>
+<li>Over time, I have taken the time to think about the best way to make the
+code &lsquo;clean&rsquo;</li>
+<li>Herein, I shall share with you what I have learned</li>
+<li>I&rsquo;ll use the best didactic methods I can think of</li>
+<li>I hope you benefit as much as possible from my wisdom</li>
+</ul>
+
+
+<p>His main didactic method can be characterized as</p>
+
+<ul>
+<li>Here is an example of some bad code</li>
+<li>This is how it goes wrong</li>
+<li>This is why that is bad</li>
+<li>Let&rsquo;s improve it in these areas</li>
+<li>Here is the improved code</li>
+<li>Note how this new code doesn&rsquo;t have the flaws of the previous</li>
+</ul>
+
+
+<p>So far I have read perhaps &frac12; of the book, and I have already come up with
+and partially implemented a design for my problematic program that is <strong>so
+much</strong> better than the old design, and a rough prototype implementation is
+already running, and I have much more &ldquo;direction/vision&rdquo; for how it is going
+to progress. That shows me that the <em>Clean Code</em> book has produced an
+incredible return on investment.</p>
 
 <p>The main thing I have understood from the book is that <strong>parts of programs
-should do what they say they do</strong>. Put most-briefly, there are two parts of
+should do what they say they do</strong>. Put most briefly, there are two parts of
 making that possible</p>
 
 <ol>
@@ -62,67 +221,6 @@ is I didn&rsquo;t, and that is reflected all-too-obviously in the program that I
 wrote. I can come up with countless excuses for why I wrote the program that
 way, but that doesn&rsquo;t fix the problem. The only way to fix the problem is to
 reorganize the program to conform to the above two rules.</p>
-
-<!-- more -->
-
-
-<p>My program is a pipeline that takes multiple data sources, transforms them,
-mashes them together, and writes them to multiple locations. It does this in a
-somewhat resilient way by using Kafka as an internal buffer and data bus.
-However you can&rsquo;t tell from the structure of the program that that is what is
-going on.</p>
-
-<p>Since I&rsquo;m using Scala, the new design makes this look more like a Unix
-program:</p>
-
-<p>```scala
-val src1: DataSource[Type1] = Type1Source()
-val src2: DataSource[Type2] = Type2Source()
-val merger: Merger[Type1, Type2, Type3] = OneAndTwoMerger()
-val output1: DataSink[Type3] = Dest1Sink()
-val output2: DataSink[Type3] = Dest2Sink()</p>
-
-<p>Merge(src1, src2) | merger tee (output1, output2)</p>
-
-<p>// or desugared:
-Merge(src1, src2).|(merger).tee(output1, output2)
-```</p>
-
-<p>There&rsquo;s not a lot of code required to create those interfaces and methods.
-Basically any number of <code>DataSink[T]</code>s can be &ldquo;observers&rdquo; of a
-<code>DataSource[T]</code>. So now we have an asynchronous, &ldquo;reactive&rdquo;, typesafe pipeline
-where components can be swapped in an out by data sources calling their
-<code>publishMsgs(msgs: Seq[T])</code> method, and data sinks implementing their
-<code>receiveMsgs(msgs: Seq[T])</code> function.</p>
-
-<p>The biggest influence on this design is the Akka Streaming library, which I
-have not tried out yet. Instead of taking the time to learn it, I have
-implemented a very basic version of their design. Of course the Akka team
-didn&rsquo;t invent the design either, it is similar to &ldquo;flow-based programming&rdquo;
-which is in-turn inspired by the practice of electrical engineering.</p>
-
-<p>With this approach, each component has a single responsibility: to produce the
-data it says it does, or merge the two types it says it does, or write a type
-to the place it says it does. Then in the &ldquo;main&rdquo; function we just assemble the
-data flow of the program.</p>
-
-<p>In this model, a Kafka topic can be implemented as an object (i.e. Singleton)
-that has two ends: a producer (which is a DataSink, since it writes data out of
-the program), and a corresponding consumer (a DataSource for the program).</p>
-
-<p>So if the program has two &ldquo;main&rdquo; functions, one connects to the producer side
-of a Kafka topic, and the other connects to the consumer side, all using this
-Unix-like Scala DSL, then we have integrated Kafka as a resilient buffer
-connecting two stages of the pipeline. This means the consumer side can be
-taken offline for fixing or augmentation without losing ephemeral data
-collected by the producer side.</p>
-
-<p>Because I haven&rsquo;t thought this through completely or written the code yet,
-there is still room for fundamental issues to come up with plugging this model
-into my codebase which will make it impossible for this major refactoring to
-complete. But really, what I expect is that this model allows us to express
-what is really going in such a way that by looking at the <em>names</em> of the
-components, we know <em>what</em> is going on <em>where</em>.</p>
 ]]></content>
   </entry>
   

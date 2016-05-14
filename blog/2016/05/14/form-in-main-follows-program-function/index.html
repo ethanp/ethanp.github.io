@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Form in 'Main' Follows Program Function - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="My program is a pipeline that takes multiple data sources, transforms them,
+mashes them together, and writes them to multiple locations. It does this &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2016/05/14/form-in-main-follows-program-function">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>Ethan Petuchowski</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Form in 'Main' Follows Program Function</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-14T14:44:11-07:00" pubdate data-updated="true">May 14<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>My program is a pipeline that takes multiple data sources, transforms them,
+mashes them together, and writes them to multiple locations. It does this in a
+somewhat resilient way by using Kafka as an internal buffer and data bus.
+However you would have no idea from the structure of the program that that is
+what is going on. In the &ldquo;main&rdquo; method, all that happens is a few
+configuration settings are overridden, and a server is started. That doesn&rsquo;t
+tell the reader <em>anything</em> about what&rsquo;s happening.</p>
+
+<p>Since I&rsquo;m using Scala, the new design makes the &ldquo;main&rdquo; function look more like
+a Unix program:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">val</span> <span class="n">src1</span><span class="k">:</span> <span class="kt">DataSource</span><span class="o">[</span><span class="kt">Type1</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Type1Source</span><span class="o">()</span>
+</span><span class='line'><span class="k">val</span> <span class="n">src2</span><span class="k">:</span> <span class="kt">DataSource</span><span class="o">[</span><span class="kt">Type2</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Type2Source</span><span class="o">()</span>
+</span><span class='line'><span class="k">val</span> <span class="n">merger</span><span class="k">:</span> <span class="kt">Merger</span><span class="o">[</span><span class="kt">Type1</span>, <span class="kt">Type2</span>, <span class="kt">Type3</span><span class="o">]</span> <span class="k">=</span> <span class="nc">OneAndTwoMerger</span><span class="o">()</span>
+</span><span class='line'><span class="k">val</span> <span class="n">output1</span><span class="k">:</span> <span class="kt">DataSink</span><span class="o">[</span><span class="kt">Type3</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Dest1Sink</span><span class="o">()</span>
+</span><span class='line'><span class="k">val</span> <span class="n">output2</span><span class="k">:</span> <span class="kt">DataSink</span><span class="o">[</span><span class="kt">Type3</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Dest2Sink</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">Merge</span><span class="o">(</span><span class="n">src1</span><span class="o">,</span> <span class="n">src2</span><span class="o">)</span> <span class="o">|</span> <span class="n">merger</span> <span class="n">tee</span> <span class="o">(</span><span class="n">output1</span><span class="o">,</span> <span class="n">output2</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// desugared to show there is no magic</span>
+</span><span class='line'><span class="nc">Merge</span><span class="o">(</span><span class="n">src1</span><span class="o">,</span> <span class="n">src2</span><span class="o">).|(</span><span class="n">merger</span><span class="o">).</span><span class="n">tee</span><span class="o">(</span><span class="n">output1</span><span class="o">,</span> <span class="n">output2</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ok, so data streams emanating from source-1 and source-2 are merged together
+by a type-compatible &ldquo;merger&rdquo; class, who writes its output stream into both
+output-1 and output-2.</p>
+
+<p>There&rsquo;s not a lot of code required to create those interfaces and methods.
+Basically any number of <code>DataSink[T]</code>s can be &ldquo;observers&rdquo; of a
+<code>DataSource[T]</code>. Whenever a <code>DataSource</code> finds itself with data to publish, it
+calls the <code>receiveMsgs(msgs: Seq[T])</code> method of all the observing <code>DataSink</code>s.
+So now we have a &ldquo;reactive&rdquo; (sources produce data whenever it is available to
+them), and typesafe pipeline where components can be swapped in an out.
+Communication between sources and sinks by default is just function calls
+(i.e. synchronous), but their calls could be wrapped with Futures or Akka
+actors. Using function-calls makes coding, testing, debugging easier, has
+better type-checking, and doesn&rsquo;t need backpressure. Increased asynchrony
+would allow for higher speeds, but is not needed yet, and will be hooked-in
+as-needed.</p>
+
+<p>The biggest influences on this design are the Unix shell, and the Akka
+Streaming library, which I saw some presentations about. I think both were
+inspired by electrical engineering (e.g. circuits and signal processing).</p>
+
+<p>With this approach, each component has a single responsibility: to ingest,
+filter, transform, aggregate, or output streams of data. Then in the &ldquo;main&rdquo;
+function we just assemble the data flow of the program by hooking components
+together. This means to test the program, we just need to test that each
+component produces or consumes the data that it says it does properly.</p>
+
+<p>Before, almost all of my tests involved at least three separate major program
+components. I think I will start by re-writing those, and wherever things
+don&rsquo;t work, write lower-level tests of one thing, and keep zooming in like
+that. That way, testing effort is spent on the parts that are hard to get
+right. I&rsquo;m not writing the tests first because most of the code for the
+program is simple hooking things into each other. Testing that would be an
+unecessary duplication of effort. If the main logic is so plain to see and
+understand and will not undergo heavy modification, it does not need to be
+written twice. Then there are a few bits that use some pretty difficult
+external APIs that can be used well and can be used badly. I want to make sure
+that I&rsquo;m using those at least as well as is necessary for the program to
+function properly. Most of the issues I&rsquo;ve had in the past are with the HDFS
+API. With HDFS, it takes to take a little while sometimes for opens, writes,
+and closes to propagate properly to all the replicas. Before I knew that, I
+was using the API sub-optimally, and the program would crash every twelve
+hours or so. That problem itself would not be simple to test against, but it
+gives the impression that interaction ith these external APIs is where the
+main complexity in my program lives.</p>
+
+<p>In this new &ldquo;source-to-sink&rdquo; program model, a single Kafka &ldquo;topic&rdquo; can be
+implemented as an <code>object</code> (i.e. Singleton) that has two ends (fields): a
+<code>Producer</code> (which is a <code>DataSink[T]</code>, since it writes data out of the
+program), and a corresponding <code>Consumer</code> (a <code>DataSource[T]</code> for the program).</p>
+
+<p>So if the program has two &ldquo;main&rdquo; functions, one connects to the <code>Producer</code>
+side of a Kafka topic, and the other connects to the <code>Consumer</code> side, all
+using this Unix-like Scala DSL, then we have integrated Kafka as a resilient
+buffer connecting two stages of the pipeline. This means the computation
+subgraph connected within-JVM to the Consumer side can be taken offline for
+fixing or augmentation without losing ephemeral data being collected by the
+Producer side.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-05-14T14:44:11-07:00" pubdate data-updated="true">May 14<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dsl/'>DSL</a>, <a class='category' href='/blog/categories/scala/'>Scala</a>, <a class='category' href='/blog/categories/unix/'>Unix</a>, <a class='category' href='/blog/categories/clean-code/'>clean code</a>, <a class='category' href='/blog/categories/convention/'>convention</a>, <a class='category' href='/blog/categories/data-flow-programming/'>data-flow programming</a>, <a class='category' href='/blog/categories/naming/'>naming</a>, <a class='category' href='/blog/categories/pipeline/'>pipeline</a>, <a class='category' href='/blog/categories/refactoring/'>refactoring</a>, <a class='category' href='/blog/categories/software-engineering/'>software engineering</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/05/12/name-according-to-function/" title="Previous Post: Name According to Function">&laquo; Name According to Function</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/05/14/ramblings-on-insight/" title="Next Post: ramblings on insight">ramblings on insight &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/05/14/ramblings-on-insight/">Ramblings on Insight</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/05/14/form-in-main-follows-program-function/">Form in 'Main' Follows Program Function</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/05/12/name-according-to-function/">Name According to Function</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/10/bigtable-paper-summary/">Bigtable Paper Summary</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/09/what-is-a-rails-application/">What Is a Rails Application</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
