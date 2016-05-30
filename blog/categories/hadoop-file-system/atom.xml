@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Hadoop File System | With Pith]]></title>
+  <link href="http://ethanp.github.io/blog/categories/hadoop-file-system/atom.xml" rel="self"/>
+  <link href="http://ethanp.github.io/"/>
+  <updated>2016-05-30T14:02:31-07:00</updated>
+  <id>http://ethanp.github.io/</id>
+  <author>
+    <name><![CDATA[Ethan Petuchowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hdfs Output Stream Api Semantics]]></title>
+    <link href="http://ethanp.github.io/blog/2016/05/30/hdfs-output-stream-api-semantics/"/>
+    <updated>2016-05-30T14:00:09-07:00</updated>
+    <id>http://ethanp.github.io/blog/2016/05/30/hdfs-output-stream-api-semantics</id>
+    <content type="html"><![CDATA[<p>Writing to files can get tricky. You have to think about the semantics you
+want, versus any performance imperatives, etc. Here, we look a briefly at the
+Linux file system API, and then contrast it with a brief look at the Hadoop
+File System (HDFS) Java API.</p>
+
+<h2>Linux file API</h2>
+
+<p>In the normal Linux file system API, there are various ways to &ldquo;flush&rdquo; a file.
+Here are a few of the ones I have seen.</p>
+
+<p>We have <code>fflush(3)</code>, which flushes all user-space buffers via the
+stream&rsquo;s underlying write function. This data may still exist in the kernel
+(e.g. buffer cache and page cache [since 2.4, Linux buffer cache usually just
+points to an entry in the page cache <a href="">see quora</a>]).</p>
+
+<p>We have <code>fsync(2)</code>, which flushes modified pages of data from the operating
+system&rsquo;s buffer cache to the actual disk device, and blocks until this has
+completed. Modified metadata (e.g. file size) is also written out to the
+file&rsquo;s inode&rsquo;s metadata section.</p>
+
+<p>We have <code>close(2)</code>, which closes a file descriptor, but does not cause
+flushing of any kernel buffers.</p>
+
+<p>We have <code>fclose(3)</code>, which closes the file descriptor, <em>and</em> flushes its <em>user
+space</em> buffers (like <code>fflush(3)</code>).</p>
+
+<p><a href="https://www.quora.com/What-is-the-major-difference-between-the-buffer-cache-and-the-page-cache/answer/Robert-Love-1?srid=zA4O">https://www.quora.com/What-is-the-major-difference-between-the-buffer-cache-and-the-page-cache/answer/Robert-Love-1?srid=zA4O</a></p>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="http://man7.org/linux/man-pages/man3/fflush.3.html">man fflush(3)</a></li>
+<li><a href="http://man7.org/linux/man-pages/man2/fsync.2.html">man fsync(2)</a></li>
+<li><a href="https://www.wikiwand.com/en/Inode#/POSIX_inode_description">wiki inode</a></li>
+<li><a href="http://linux.die.net/man/2/close">man close(2)</a></li>
+<li><a href="http://linux.die.net/man/3/fclose">man fclose(3)</a></li>
+</ul>
+
+
+<h2>Hadoop File System (HDFS) file Java API</h2>
+
+<p>In this API the names of the functions are similar, but the semantics are
+quite different.</p>
+
+<p>In HDFS, a &ldquo;file&rdquo; is stored as a sequence of &ldquo;blocks&rdquo;, and each block is is
+globally-configured to be e.g. either 64MB or 128MB in size. Each block is
+separately stored on the configured number of machines, according to the
+chosen HDFS &ldquo;replication factor&rdquo;. For the instance of Linux running on a
+particular node in the HDFS cluster, a block is a file that Linux must track
+just like it would any other file: with a page/buffer cache (see above),
+inode, etc. Tracking and deciding which blocks belong to each HDFS file, and
+on which nodes each of those blocks are stored is the responsibility of the
+HDFS NameNode (i.e. the single master node).</p>
+
+<p>But the whole block-level view of HDFS is not (directly) visible to the HDFS
+client API. Instead, a client simply opens an <code>OutputStream</code> to a file by
+telling the name node that it either wants to create a new file, or append to
+an existing file. The NameNode responds with nodes that should accept the
+first block of data. The client starts writing to the first DataNode willing
+to take its data. That DataNode, pipelines this incoming data to the other
+DataNodes responsible for replicating this block.</p>
+
+<p>Similar to the Linux file system API above, just because bytes are being
+&ldquo;written&rdquo; by the client, does <strong>not</strong> mean they&rsquo;ll necessarily:</p>
+
+<ol>
+<li>be visible to someone who now tries to the read the file</li>
+<li>be reflected in the current metadata available about the file (which lives
+in the NameNode)</li>
+<li>survive crashes of</li>
+<li>the client or</li>
+<li>the DataNode(s)</li>
+</ol>
+
+
+<p>Similar to the Linux file system API above, we have a few methods we can use
+to decide the buffering semantics we want of our pending writes.</p>
+
+<p>We have <code>hflush()</code>, which flushes data in the client&rsquo;s user buffer all the way
+out to the nodes which are responsible for storing the relevant <em>&ldquo;blocks&rdquo;</em> of
+this file. The metadata in the NameNode is <strong>not</strong> updated. Data is <em>not</em>
+necessily flushed from the DataNodes' buffer caches to the actual disk device.</p>
+
+<p>We have <code>hsync()</code>, which is <em>just</em> an alias for <code>hflush</code>.</p>
+
+<p>We have <code>close()</code>, which closes the stream, makes sure all the data has arrived
+at all the relevant nodes, and updates the metadata in the NameNode (e.g.
+updates the file-length as seen from the <code>hadoop fs -ls myFile.txt</code> command
+line interface).</p>
+
+<p>In my experience, <strong>it is not safe to be opening and closing the same files
+from the same instance of the Hadoop client on different threads</strong>. Maybe I
+was naive in thinking this would be OK, as the Linux man pages given above
+seem to suggest that this would be problematic even with the direct Linux file
+system API.</p>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://hadoop.apache.org/docs/r2.6.1/api/org/apache/hadoop/fs/FSDataOutputStream.html">HDFS output stream API</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -4,7 +4,7 @@
   <title><![CDATA[With Pith]]></title>
   <link href="http://ethanp.github.io/atom.xml" rel="self"/>
   <link href="http://ethanp.github.io/"/>
-  <updated>2016-05-14T14:47:42-07:00</updated>
+  <updated>2016-05-30T14:02:31-07:00</updated>
   <id>http://ethanp.github.io/</id>
   <author>
     <name><![CDATA[Ethan Petuchowski]]></name>
@@ -12,6 +12,116 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hdfs Output Stream Api Semantics]]></title>
+    <link href="http://ethanp.github.io/blog/2016/05/30/hdfs-output-stream-api-semantics/"/>
+    <updated>2016-05-30T14:00:09-07:00</updated>
+    <id>http://ethanp.github.io/blog/2016/05/30/hdfs-output-stream-api-semantics</id>
+    <content type="html"><![CDATA[<p>Writing to files can get tricky. You have to think about the semantics you
+want, versus any performance imperatives, etc. Here, we look a briefly at the
+Linux file system API, and then contrast it with a brief look at the Hadoop
+File System (HDFS) Java API.</p>
+
+<h2>Linux file API</h2>
+
+<p>In the normal Linux file system API, there are various ways to &ldquo;flush&rdquo; a file.
+Here are a few of the ones I have seen.</p>
+
+<p>We have <code>fflush(3)</code>, which flushes all user-space buffers via the
+stream&rsquo;s underlying write function. This data may still exist in the kernel
+(e.g. buffer cache and page cache [since 2.4, Linux buffer cache usually just
+points to an entry in the page cache <a href="">see quora</a>]).</p>
+
+<p>We have <code>fsync(2)</code>, which flushes modified pages of data from the operating
+system&rsquo;s buffer cache to the actual disk device, and blocks until this has
+completed. Modified metadata (e.g. file size) is also written out to the
+file&rsquo;s inode&rsquo;s metadata section.</p>
+
+<p>We have <code>close(2)</code>, which closes a file descriptor, but does not cause
+flushing of any kernel buffers.</p>
+
+<p>We have <code>fclose(3)</code>, which closes the file descriptor, <em>and</em> flushes its <em>user
+space</em> buffers (like <code>fflush(3)</code>).</p>
+
+<p><a href="https://www.quora.com/What-is-the-major-difference-between-the-buffer-cache-and-the-page-cache/answer/Robert-Love-1?srid=zA4O">https://www.quora.com/What-is-the-major-difference-between-the-buffer-cache-and-the-page-cache/answer/Robert-Love-1?srid=zA4O</a></p>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="http://man7.org/linux/man-pages/man3/fflush.3.html">man fflush(3)</a></li>
+<li><a href="http://man7.org/linux/man-pages/man2/fsync.2.html">man fsync(2)</a></li>
+<li><a href="https://www.wikiwand.com/en/Inode#/POSIX_inode_description">wiki inode</a></li>
+<li><a href="http://linux.die.net/man/2/close">man close(2)</a></li>
+<li><a href="http://linux.die.net/man/3/fclose">man fclose(3)</a></li>
+</ul>
+
+
+<h2>Hadoop File System (HDFS) file Java API</h2>
+
+<p>In this API the names of the functions are similar, but the semantics are
+quite different.</p>
+
+<p>In HDFS, a &ldquo;file&rdquo; is stored as a sequence of &ldquo;blocks&rdquo;, and each block is is
+globally-configured to be e.g. either 64MB or 128MB in size. Each block is
+separately stored on the configured number of machines, according to the
+chosen HDFS &ldquo;replication factor&rdquo;. For the instance of Linux running on a
+particular node in the HDFS cluster, a block is a file that Linux must track
+just like it would any other file: with a page/buffer cache (see above),
+inode, etc. Tracking and deciding which blocks belong to each HDFS file, and
+on which nodes each of those blocks are stored is the responsibility of the
+HDFS NameNode (i.e. the single master node).</p>
+
+<p>But the whole block-level view of HDFS is not (directly) visible to the HDFS
+client API. Instead, a client simply opens an <code>OutputStream</code> to a file by
+telling the name node that it either wants to create a new file, or append to
+an existing file. The NameNode responds with nodes that should accept the
+first block of data. The client starts writing to the first DataNode willing
+to take its data. That DataNode, pipelines this incoming data to the other
+DataNodes responsible for replicating this block.</p>
+
+<p>Similar to the Linux file system API above, just because bytes are being
+&ldquo;written&rdquo; by the client, does <strong>not</strong> mean they&rsquo;ll necessarily:</p>
+
+<ol>
+<li>be visible to someone who now tries to the read the file</li>
+<li>be reflected in the current metadata available about the file (which lives
+in the NameNode)</li>
+<li>survive crashes of</li>
+<li>the client or</li>
+<li>the DataNode(s)</li>
+</ol>
+
+
+<p>Similar to the Linux file system API above, we have a few methods we can use
+to decide the buffering semantics we want of our pending writes.</p>
+
+<p>We have <code>hflush()</code>, which flushes data in the client&rsquo;s user buffer all the way
+out to the nodes which are responsible for storing the relevant <em>&ldquo;blocks&rdquo;</em> of
+this file. The metadata in the NameNode is <strong>not</strong> updated. Data is <em>not</em>
+necessily flushed from the DataNodes&#8217; buffer caches to the actual disk device.</p>
+
+<p>We have <code>hsync()</code>, which is <em>just</em> an alias for <code>hflush</code>.</p>
+
+<p>We have <code>close()</code>, which closes the stream, makes sure all the data has arrived
+at all the relevant nodes, and updates the metadata in the NameNode (e.g.
+updates the file-length as seen from the <code>hadoop fs -ls myFile.txt</code> command
+line interface).</p>
+
+<p>In my experience, <strong>it is not safe to be opening and closing the same files
+from the same instance of the Hadoop client on different threads</strong>. Maybe I
+was naive in thinking this would be OK, as the Linux man pages given above
+seem to suggest that this would be problematic even with the direct Linux file
+system API.</p>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://hadoop.apache.org/docs/r2.6.1/api/org/apache/hadoop/fs/FSDataOutputStream.html">HDFS output stream API</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ramblings on Insight]]></title>
@@ -2301,157 +2411,6 @@ and <em>code</em>.</p>
 
 <p>Of course, I&rsquo;ve only scratched the very surface of what&rsquo;s going on here, but
 that&rsquo;s all the time I&rsquo;ve got.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Pattern in the Stone: Review and Summary]]></title>
-    <link href="http://ethanp.github.io/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary/"/>
-    <updated>2015-08-23T14:56:25-07:00</updated>
-    <id>http://ethanp.github.io/blog/2015/08/23/a-pattern-in-the-stone-review-and-summary</id>
-    <content type="html"><![CDATA[<h3>How I Found it</h3>
-
-<p>I was watching a biography of Richard Feynman, and they interviewed this guy W.
-Daniel Hillis, and he seemed like a cool dude so I looked him up on Google, and
-came across his book, <strong><em>The Pattern in the Stone: The Simple Ideas that Make
-Computers Work</em></strong> (1999). On Amazon it was compared to <strong><em>Code: The Hidden
-Language of Computer Hardware and Software</em></strong>, by Charles Petzold, an
-encredibly well- written book about how computers work. I would gladly read any
-book considered comparable in lucidity to <em>Code</em>, so I got <em>The Pattern in the
-Stone</em>.</p>
-
-<h3>What it says</h3>
-
-<p>The first few chapters are meant to give a basic understanding of what a
-computer is actually doing, and he spends some time noting the Universality of
-computers, which he says shows that &ldquo;all computers are alike in what they can
-and cannot do&rdquo;. Personally, my intuition of the workings of a computer comes
-mainly from an explanation by Richard Feynman himself (<a href="https://www.youtube.com/watch?v=EKWGGDXe5MA">as seen on the
-YouTubes</a>) which is &ldquo;heuristic&rdquo; rather than mechanical. Basically
-Feynman gradually turns a human being into a computer, and then talks about how
-this mechanistic person can be implemented using logic gates built from water
-pipes that he sketches on a whiteboard. In <em>Pattern in the Stone&#8221;</em>, he builds
-logic gates out of parallel and series wires, and also out of springs and
-pivots.</p>
-
-<p>Then he introduces finite state machines and programming in LOGO. Then he
-mentions how machine code can be thought of as <em>control instructions</em>,
-specifying the next instruction to fetch and execute, and <em>processing
-instructions</em>, moving data to and from memory, and through the Arithmetic Logic
-Unit.</p>
-
-<p>Then he starts really getting into what I think is the main point of the book,
-to convince the reader that there is no magical process occurring in our brains
-that a mechanical computer cannot replicate, meaning that</p>
-
-<blockquote><p>As far as we know, no device built in the physical universe can have any more
-computational power than a Turing machine&hellip;[so] a universal computer with
-the proper programming should be able to simulate the function of a human
-brain.</p></blockquote>
-
-<!-- more -->
-
-
-<p>Then he explains a bit about quantum computing. He notes that when a water
-molecule is formed, its atoms must &ldquo;know&rdquo;/&ldquo;compute&rdquo; the appropriate angle
-between their bonds. Computational approximation methods of determining this
-angle are slow, but the water molecule does it &ldquo;almost instantaneously&rdquo;.</p>
-
-<blockquote><p>One way of explaining how the water molecule can make the same calculation is
-to imagine it trying out every possible configuration simultaneously— in
-other words, using parallel processing. Could we harness this simultaneous
-computing capability of quantum mechanical objects to produce a more powerful
-computer? Nobody knows for sure.</p></blockquote>
-
-<p>He notes that although it would certainly be possible, &ldquo;there is no evidence
-whatsoever&rdquo; of the human brain leveraging quantum mechanics in its operation.</p>
-
-<p>Then he defines an algorithm as a procedure for provably solving a problem, and
-a heuristic as a rule that <em>tends</em> to get the right answer. Then he uses this
-to describe a chess-playing AI using alpha-beta pruning.</p>
-
-<p>After discussing encryption and encodings, he moves on to parallelism. He notes
-that a computer analyzing a photo has to look at the image pixel-by-pixel, but
-the human brain seems to process the entire photo, even comparing it to
-previously seen photos, very quickly, even though neurons themselves are
-comparatively slow.</p>
-
-<p>Then he goes into one of those bold claims of an expert that are very fun to
-read:</p>
-
-<blockquote><p>As computers on the network begin to exchange interacting programs instead of
-just electronic mail, I suspect that the Internet will start to behave less
-like a network and more like a parallel computer. I suspect that the emergent
-behavior of the Internet will get a good deal more interesting.</p>
-
-<p>As the information available on the Internet becomes richer, and the types of
-interaction among the connected computers become more complex, I expect that
-the Internet will begin to exhibit emergent behavior going beyond any that
-has been explicitly programmed into the system.</p></blockquote>
-
-<p>To me this statement seems vague enough to <em>definitely</em> be true. I would
-imagine that already, the interaction between different high-frequency-trading
-systems display emergent behaviors, though I have no idea.</p>
-
-<p>Then he gets to machine learning. He notes that computers need three
-ingredients for learning: a goal, a measure of how far off they are from that
-goal, and a way to reduce that distance. He describes the similarities of
-&ldquo;artificial neural networks&rdquo; with the human brain. He mentions that by building
-up a multi-layer artificial neural network larger abstractions can be encoded
-in the weights connecting the neurons.</p>
-
-<p>Finally, he gets to my favorite part of the book: how to build AI that understands humanity</p>
-
-<blockquote><p>I believe that we may be able create an artificial intelligence long before
-we understand natural intelligence, and I suspect that the creation process
-will be one in which we arrange for intelligence to emerge from a complex
-series of interactions that we do not understand in detail— that is, a
-process less like engineering a machine and more like baking a cake or
-growing a garden. We will not engineer an artificial intelligence; rather, we
-will set up the right conditions under which an intelligence can emerge.</p>
-
-<p>[The practice in systems engineering] of &ldquo;divide and conquer&rdquo; works very
-well, but an evolved object like the brain does not necessarily have this
-kind of hierarchical structure.</p>
-
-<p>The brain is much more complicated than a computer, yet it is much less prone
-to catastrophic failure. The contrast in reliability between the brain and
-the computer illustrates the difference between the products of evolution and
-those of engineering. A single error in a computer’s program can cause it to
-crash, but the brain is usually able to tolerate bad ideas and incorrect
-information and even malfunctioning components.</p>
-
-<p>So, in creating an artificial intelligence, what is the alternative to
-engineering? One approach is to mimic within the computer the process of
-biological evolution.</p></blockquote>
-
-<p>He notes how he created a sorting algorithm that outperformed quicksort by <em>evolving</em> it using sequences of computer instructions. <em>Whoa!</em></p>
-
-<blockquote><p>One of the interesting things about the sorting programs that evolved in my
-experiment is that I do not understand how they work. I have carefully
-examined their instruction sequences, but I do not understand them.</p>
-
-<p>If the safety of the airplane depended on sorting numbers correctly, I would
-rather depend on an evolved sorting program than on one written by a team of
-programmers.</p></blockquote>
-
-<p>This book is super cool.</p>
-
-<blockquote><p>I suspect that consciousness is a consequence of the action of normal
-physical laws, and a manifestation of a complex computation</p></blockquote>
-
-<p>This is the same conclusion me and some friends reached this past spring at the
-end of a weeks-long discussion.</p>
-
-<blockquote><p>but to me this makes consciousness no less mysterious and wonderful— if
-anything, it makes it more so. Between the signals of our neurons and the
-sensations of our thoughts lies a gap so great that it may never be bridged
-by human understanding. So when I say that the brain is a machine, it is
-meant not as an insult to the mind but as an acknowledgment of the potential
-of a machine. I do not believe that a human mind is less than what we imagine
-it to be, but rather that a machine can be much, much more.</p></blockquote>
-
-<p>What a beauty.</p>
 ]]></content>
   </entry>
   
