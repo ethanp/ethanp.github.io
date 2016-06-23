@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>First Glance at Genomics With ADAM and Spark - With Pith</title>
+  <meta name="author" content="Ethan Petuchowski">
+
+  
+  <meta name="description" content="At work, we have a Spark cluster. One of my first responsibilities was to make
+it more reliable and efficient. So I looked on Github to see how &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ethanp.github.io/blog/2016/06/19/first-glance-at-genomics-with-adam-and-spark">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="With Pith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">With Pith</a></h1>
+  
+    <h2>Ethan Petuchowski</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ethanp.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">First Glance at Genomics With ADAM and Spark</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-19T14:15:22-07:00" pubdate data-updated="true">Jun 19<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>At work, we have a Spark cluster. One of my first responsibilities was to make
+it more reliable and efficient. So I looked on Github to see how people
+actually use Spark, and what magic they use to get their clusters not to crash
+in the process. This is how I found <a href="https://github.com/bigdatagenomics/adam/">ADAM</a>, &ldquo;a genomics analysis platform
+built using Avro, Spark, and Parquet&rdquo;. Then I looked in the repo&rsquo;s
+<em>contributors</em> list, and watched a few lectures by Frank Nothaft and Matt
+Massie, two of the project&rsquo;s main contributors. What I heard there was pretty
+cool.</p>
+
+<p>In short, they&rsquo;re looking to build systems that will &ldquo;one day&rdquo; recommend more
+effective treatments for diseases including cancer and Alzheimer&rsquo;s within an
+hour of receiving a patient&rsquo;s DNA sample. They describe several components of
+what needs to be done to make [research toward] this possible.</p>
+
+<!-- more -->
+
+
+<h3>ADAM according to YouTube</h3>
+
+<p>See the <strong>references</strong> at the bottom of this post.</p>
+
+<p>They didn&rsquo;t explain much of the actual genomics, though what they did explain
+of that, they did with laudable clarity. In essence, the first step is to
+assemble (&ldquo;sequence&rdquo;) a large number of small strips of DNA into a single
+massive (250 GB) chain (per sample per person), even in the presence of small
+errors in the small strips. Ok now the the second step is to take the data from
+multiple samples from multiple people, and find anomalies that correlate
+historically with the likelihood to end up being diagnosed with a particular
+disease. These anomalies may be on the scale of a few single-character changes
+scattered around the DNA, again in the presence of mistakes in the
+transcription of the DNA. So statistical techniques are used (from what I
+remember, Poisson random sampling methods and binomial Bayesian methods, and
+Chi-squared independence tests) to evaluate the confidence in the correlations.</p>
+
+<p>According to the lecturers, currently, techniques for doing this sort of
+computation and analysis relies on code written by PhD students in genomics,
+who are not so interested in writing high quality code, as learning about
+genomics and finishing their dissertations. Therefore, there are many
+(compressed) file formats, and processing subsystems written in every
+programming language you can think of. These subsystems are assembled together
+by piping data through the filesystem between each compoenent. Many of these
+subsystems are inherent unscalable.</p>
+
+<p>All these are issues the researchers at the <em>Big Data Genomics</em> project are
+trying to solve using <strong>ADAM</strong>. They <a href="https://amplab.cs.berkeley.edu/wp-content/uploads/2015/03/adam.pdf">reported in <em>SIGMOD 2015</em></a> to
+have achieved a 28x speedup and 63% cost reduction over current genomics
+pipelines. The <em>Big Data Genomics</em> project is a collaboration between
+researchers at the AMPLab at UC Berkeley, and other genetics and cloud-
+computing research institutions and companies. They note that their ADAM
+pipeline infrustructure is able to accommodate analyses from other areas of
+scientific research as well, including astronomy and neuroscience.</p>
+
+<p>Producing a high-quality human genome currently takes 120 hours using a
+&ldquo;single, beefy node&rdquo;. Their improvements involve using map-reduce (via Spark),
+and columnar storage (via Avro &amp; Parquet) to distribute the workload across a
+scalable cluster, so their 28x speedup is probably something people are happy
+about.</p>
+
+<p>A major issue faced by genomics researchers is the proprietary nature of the
+data. This means that researchers must collect and process their own data,
+which is heavily human and computer labor intensive. The humongous (I mean
+really&hellip;) nature of the datasets means that the only practical means of
+transferring them is by shipping boxes of hard drives. As data collection gets
+easier, and the amount of data available explodes, even shipping boxes will
+become impractical. So the vision is to keep the data in the Simple Storage
+Service (S3) hosted by Amazon Web Services (AWS) so that it can be operated on
+via Spark without being copied into an institution&rsquo;s private data center. This
+is currently more dream than reality, but seems like the logical step because
+of how Big the Data is.</p>
+
+<p>Another major issue faced by genomics researchers is the large number of (open
+and proprietary) genomics data formats, and the quirks/bugs in their
+implementations. The ADAM team&rsquo;s solution to this is their large, fixed schema,
+created using Apache Avro. This schema is designed to be able to accommodate
+whatever genetics research you may want to do. To allow ADAM to ingest your
+format, you write a transformation from your format to their standard Avro
+schema. Then all the applications built-in to ADAM for analyzing the data are
+available to you.</p>
+
+<h3>ADAM, according to the paper</h3>
+
+<p>The software architecture is (explicitly) based to a large extent on the
+Internet&rsquo;s OSI model. It also has 7 layers, starting with a few storage layers,
+going to a schema layer, going to compute and transform layers, then to an
+application layer. The point is, like the OSI model, to make it easier to
+implement on top of existing components, to make it portable in the important
+dimensions across scientific disciplines and execution environments; and also
+to allow the implementations of each layer to be swapped out over time as the
+hardware, compute software, and relevant scientific algorithm ecosystems
+evolve.</p>
+
+<p>They proceed to discuss several pipelines (one genomics, the other astronomy)
+that they implemented (mainly) around the needs of Spark and their AWS
+(virtual) hardware. They note that their re-implementation provides several
+bug-fixes with respect to algorithm implementations in reference genetics
+software components. Plus, each of the reference components can only
+communicate through disk I/O, while the Spark data pipeline keeps data in
+memory until the end. This is reminiscent of the original insight of Spark:
+speedup over Hadoop MapReduce by keeping as much data in memory as possible
+throughout the job.</p>
+
+<p>Datasets in genomics, astronomy, and many other scientific fields involve a
+coordinate system. In genomics, it is generally a 1-dimensional string of
+<em>nucleotides</em> (A, C, G, T), which serves as a convenient abstraction over what
+is really a collection of molecules, each containing a packaged collection of
+DNA polymers in a complex 3D shape, crammed into the nucleus of a cell (I
+think, pg. 8). There is an assumed independence of data between distant regions
+of the 1D string.</p>
+
+<h4>The Region Join Algorithm</h4>
+
+<p>To figure out which regions of the 1D space were acquired by this sample from
+this &ldquo;non-reference&rdquo; human being, it is matched up with a &ldquo;reference&rdquo; (a.k.a.
+&ldquo;idealized&rdquo;) human genome, generated by aggregating many people together. What
+they use Spark for is to figure out which regions of the reference genome were
+sequenced in <em>this</em> real DNA sample. They call it &ldquo;convex hull&rdquo; (see below for
+definition), because to generalize to multi-dimensional spaces that&rsquo;s the right
+way to see it, but for 1-Dimension, you&rsquo;re really just looking to line-up sub-
+lines along a big line, and that would have been a simpler way to explain it if
+I&rsquo;m not mistaken.</p>
+
+<p>This &ldquo;region join&rdquo; can be implemented by (a) shipping the reference genome to
+each node, and having them output which part was matched for each input data-
+strip, or (b) repartitioning and sorting the datasets in such a way that puts
+the joinable data from each dataset on the same machine in sorted order (which
+I believe is part of the Spark API), and then iterating through both, and
+&ldquo;zipping&rdquo; them together.</p>
+
+<p>The output of that stage is a powerful primitive for higher-level algorithms
+that researchers will want to run.</p>
+
+<h4>Storage</h4>
+
+<p>Part of the Hadoop concept is that you get data locality because MapReduce (or
+Spark) schedules your computations on the HDFS nodes that already happen to be
+holding the relevant data. However, this conflicts with their goal of being
+able to store like 100s of <em>petabytes</em> of data. They can&rsquo;t really maintain the
+cost of having enough (even virtual) machines up and storing their giant
+datasets. So they opted to store the data in Amazon S3 (distributed storage)
+&ldquo;buckets&rdquo;. This increases job start (and sometimes finish) duration, but lowers
+costs.</p>
+
+<p>This reminds me of how the default method for using the &ldquo;Databricks cloud
+platform&rdquo; assumes that you are storing your dataset in S3 buckets, and the data
+will be loaded (remotely) into the relevant EMR (virtual machine) nodes when
+the user of an interactive Spark session (or scheduled script) asks for them.</p>
+
+<p>They store the data as in Parquet files. They wrote their own Parquet &ldquo;row
+chunk&rdquo; index file, that Spark then uses to figure out how to intelligently
+paralellize file [system block] reads, and not read (too much) more of the
+files than is really necessary. This is done with the help of a query predicate
+pushdown mechanism. If I&rsquo;m not mistaken, all this stuff is really cool, but now
+it&rsquo;s built-in to Spark with the help of the Catalyst optimizer, which I think
+came out after this paper did.</p>
+
+<h4>Cost and Performance</h4>
+
+<p>In their experiments, ADAM is way faster and cheaper than existing
+implementations of each of its components in almost all genomic situations.
+Taking the whole pipeline as a single system, then it&rsquo;s always way cheaper and
+faster. This is also true for the astronomy dataset and task. They achieve near
+linear performance scaling (i.e. when adding more machines to the cluster) in
+almost all components.</p>
+
+<h3>Diversion: Convex Hull</h3>
+
+<ul>
+<li><strong>Convex set/shape</strong> &mdash; for any two points in the shape, the line connecting
+them is also part of the shape</li>
+<li><strong>Convex hull</strong> &mdash; the smallest convex set that contains a given subset of
+points in the space</li>
+<li><strong>Convex hull in 1-Dimension</strong>
+
+<ul>
+<li>given a set of lines, the smallest range of the line that contains the
+start and end of every given line (right?)</li>
+<li>given a set of points, just find the line connecting the smallest and
+largest point (right?)</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>References</h3>
+
+<ul>
+<li>Nothaft, Frank Austin, et al. <a href="https://scholar.google.com/scholar?hl=en&amp;q=Next-Generation+Genomics+Analysis+Using+Spark+and+ADAM-+Timothy+Danford+(AMPLab%2C+UC+Berkeley)&amp;btnG=&amp;as_sdt=1%2C44&amp;as_sdtp=">&ldquo;Rethinking data-intensive science using scalable analytics systems.&rdquo; Proceedings of the 2015 ACM SIGMOD International Conference on Management of Data. ACM, 2015.</a></li>
+<li>Youtube: <a href="https://www.youtube.com/watch?v=axLEBM_PZeI">Next-Generation Genomics Analysis Using Spark and ADAM- Timothy Danford (AMPLab, UC Berkeley)</a></li>
+<li>Youtube: <a href="https://www.youtube.com/watch?v=dJX-bphMZRs">ADAM: Fast, Scalable Genomic Analysis &ndash; Frank Austin Nothaft (UC Berkeley)</a></li>
+<li>Youtube: <a href="https://www.youtube.com/watch?v=ctLyjYw0BOg">sfspark.org: Frank Nothaft, Scalable Genome Analysis With ADAM </a></li>
+<li><a href="https://github.com/bigdatagenomics/adam">Github project</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ethan Petuchowski</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-19T14:15:22-07:00" pubdate data-updated="true">Jun 19<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/adam/'>adam</a>, <a class='category' href='/blog/categories/avro/'>avro</a>, <a class='category' href='/blog/categories/aws/'>aws</a>, <a class='category' href='/blog/categories/dna-sequencing/'>dna sequencing</a>, <a class='category' href='/blog/categories/genomics/'>genomics</a>, <a class='category' href='/blog/categories/parquet/'>parquet</a>, <a class='category' href='/blog/categories/s3/'>s3</a>, <a class='category' href='/blog/categories/science/'>science</a>, <a class='category' href='/blog/categories/spark/'>spark</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/05/30/hdfs-output-stream-api-semantics/" title="Previous Post: hdfs output stream api semantics">&laquo; hdfs output stream api semantics</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/06/19/first-glance-at-genomics-with-adam-and-spark/">First Glance at Genomics With ADAM and Spark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/05/30/hdfs-output-stream-api-semantics/">Hdfs Output Stream Api Semantics</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/05/14/ramblings-on-insight/">Ramblings on Insight</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/05/14/form-in-main-follows-program-function/">Form in 'Main' Follows Program Function</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/05/12/name-according-to-function/">Name According to Function</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ethanp">@ethanp</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ethanp',
+            count: 8,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Ethan Petuchowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

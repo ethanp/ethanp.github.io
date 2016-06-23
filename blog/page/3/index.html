@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="How I Found it I was watching a biography of Richard Feynman, and they interviewed this guy W.
-Daniel Hillis, and he seemed like a cool dude so I &hellip;">
+  <meta name="description" content="I&rsquo;ve been doing the readings for my Wireless Networking course at
+UTexas, and in the process have dug into much of the basics of radios and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,60 @@ Daniel Hillis, and he seemed like a cool dude so I &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/09/07/basics-of-wireless-communication/">Basics of Wireless Communication</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-07T15:45:58-07:00" pubdate data-updated="true">Sep 7<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&rsquo;ve been doing the readings for my <a href="http://www.cs.utexas.edu/~lili/classes/F15-CS386W/">Wireless Networking course</a> at
+UTexas, and in the process have dug into much of the basics of radios and
+networks that I had ignored in the past. Here, I will try briefly describe what
+I have learned. Maybe not everything I will say here is exactly correct, but I
+think it&rsquo;s at least <em>mostly</em> correct.</p>
+
+<p>Let&rsquo;s try to start somewhere near the beginning. Our <strong>goal</strong> is to transfer a
+<em>information</em> from one location <code>LocSND</code> to another <code>LocRCV</code> <em>conveniently</em>.
+The way we will accomplish that is by having <code>LocSND</code> manipulate the
+<em>electromagnetic field</em> around <code>LocRCV</code>. More specifically, we will <em>encode</em> a
+binary <em>dataframe</em> as <em>modulations</em> of a <em>radio signal</em> around a pre-determined
+<em>carrier frequency</em>.</p>
+
+<p>How do we <em>do</em> that?</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/09/07/basics-of-wireless-communication/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -748,72 +802,6 @@ Category.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/10/what-akamai-does/">What Akamai Does</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-10T19:23:31-07:00" pubdate data-updated="true">Jun 10<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I met someone at a hack night worked for Akamai. He was a cool dude, so I was
-curious what Akamai does. For whatever reason I ended up reading a paper cited
-as so:</p>
-
-<blockquote><p>Nygren, Erik, Ramesh K. Sitaraman, and Jennifer Sun. “The akamai network: a
-platform for high-performance internet applications.” ACM SIGOPS Operating
-Systems Review 44.3 (2010): 2–19.</p></blockquote>
-
-<p>For whatever reason, everything I know about Akamai is from this paper. I&rsquo;m not
-in any way afiliated with Akamai, etc., though the paper is basically a badly
-designed advertising pamphlet for their services. A small number of sentences
-in this summary may have been lifted directly from that paper. You can consider
-this whole post a paraphrasing of the paper. <strong>The intent of this post is to
-tell you everything important that I learned from the paper</strong> in a form that is
-<em>way</em> easier to digest than you reading the paper itself. To that end, this
-document is maybe 2 pages long, and the original is 17. Clearly much of the
-detail has been removed, but the gist remains. If that appeals to you, welcome
-aboard! Note that the paper is from 2010, so is probably already out of date.</p>
-
-<h2>Introduction</h2>
-
-<p>Akamai invented the <em>Content Delivery Network</em> (CDN) concept in the 1990s,
-because the raw naive Internet implementation is too slow to conduct a global
-business. As of 2010, Akamai delivers 15-20% of global Web traffic.</p>
-
-<h3>The Interwebs is a dangerous place</h3>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/10/what-akamai-does/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -831,6 +819,10 @@ business. As of 2010, Akamai delivers 15-20% of global Web traffic.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/06/19/first-glance-at-genomics-with-adam-and-spark/">First Glance at Genomics With ADAM and Spark</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/05/30/hdfs-output-stream-api-semantics/">Hdfs Output Stream Api Semantics</a>
       </li>
     
@@ -844,10 +836,6 @@ business. As of 2010, Akamai delivers 15-20% of global Web traffic.</p>
     
       <li class="post">
         <a href="/blog/2016/05/12/name-according-to-function/">Name According to Function</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/04/10/bigtable-paper-summary/">Bigtable Paper Summary</a>
       </li>
     
   </ul>
