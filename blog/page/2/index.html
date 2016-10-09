@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="There are many circumstances in life during which one may feel the need to ask
-for advice. For example, when evaluating a significant decision, or &hellip;">
+  <meta name="description" content="Most of what I&rsquo;ve learned and discussed here comes from TCP/IP Sockets in
+Java, a highly recommended book about this stuff by Calvert and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,206 @@ for advice. For example, when evaluating a significant decision, or &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/02/28/some-java-network-programming-fundamentals/">Some Java Network Programming Fundamentals</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-02-28T15:15:13-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Most of what I&rsquo;ve learned and discussed here comes from <em>TCP/IP Sockets in
+Java</em>, a highly recommended book about this stuff by Calvert and Donahoo. Some
+of it also comes from <em>Java Network Programming</em> by Elliotte Rusty Harold.</p>
+
+<h2>Overview</h2>
+
+<ul>
+<li>The <em>only</em> transport-layer protocols Java supports are TCP &amp; UDP; for
+anything else, you must link to native code via the Java Native Interface</li>
+<li>TCP uses <em>stream</em> sockets, through which one generally just writes to an
+<code>OutputStream</code> and reads from an <code>InputStream</code> of bytes that remain in-order
+and uncorrupted and are (practically) guaranteed delivery by the
+implementation of the protocol by the operating system.
+
+<ul>
+<li>Unless you&rsquo;re using NIO; see below for more on that</li>
+</ul>
+</li>
+<li>UDP uses <em>datagram</em> sockets, through which you <code>send</code> and <code>receive</code> objects
+called <code>DatagramPacket</code>s, which are just a length, a destination, and data</li>
+<li>Unless you&rsquo;re using NIO, everything <em>blocks</em>: e.g. connecting to servers,
+listening for clients, reads, writes, and disconnecting (for TCP)
+
+<ul>
+<li>By default most of these actions may block <em>indefinitely</em></li>
+<li>For reading and connecting, you can configure a timeout, after which you
+will receive an <code>InterruptedIOException</code></li>
+<li>For <em>writing</em> to a TCP stream, you <em>cannot</em> configure a timeout</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Handling multiple clients</h3>
+
+<ul>
+<li>Deal with one at a time, which is simplest, especially if there&rsquo;s some state
+that is shared by all potential clients. Speed may become problematic
+quickly.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kt">void</span> <span class="nf">mainLoop</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Socket</span> <span class="n">s</span> <span class="o">=</span> <span class="n">serverSocket</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">handle</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">Socket</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+</span><span class='line'>    <span class="c1">// process request, etc.</span>
+</span><span class='line'>    <span class="n">s</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Create a new thread to handle each incoming client. This is still pretty
+simple, but will lead to massive overhead if you have many concurrent
+clients, and therefore you&rsquo;re context-switching all the time.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kt">void</span> <span class="nf">mainLoop</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Socket</span> <span class="n">s</span> <span class="o">=</span> <span class="n">serverSocket</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nf">Thread</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+</span><span class='line'>                <span class="c1">// process request, etc.</span>
+</span><span class='line'>                <span class="n">s</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}.</span><span class="na">start</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Use a thread pool to handle requests. Java has abstracted the thread pool
+concept into the <code>Executors</code> factory class. There are a multitude of
+executors to choose from. This <code>newCachedThreadPool()</code> one will execute each
+task on an existing thread if one is idle, and will create a thread
+otherwise. Threads sitting idle in the cache for over one minute are
+terminated.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newCachedThreadPool</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="nf">mainLoop</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">Socket</span> <span class="n">s</span> <span class="o">=</span> <span class="n">serverSocket</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">executor</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="n">TheHandler</span><span class="o">(</span><span class="n">s</span><span class="o">));</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="kd">static</span> <span class="kd">class</span> <span class="nc">TheHandler</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">Socket</span> <span class="n">s</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">TheHandler</span><span class="o">(</span><span class="n">Socket</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">;</span> <span class="o">}</span>
+</span><span class='line'>    <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">InputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+</span><span class='line'>        <span class="c1">// process request, etc.</span>
+</span><span class='line'>        <span class="n">s</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Use NIO (rather complicated) to allow <code>N</code> threads to service <code>M</code>
+clients, where <code>N</code> is small and <code>M</code> is huge. This uses event-based
+programming. We can set all network operations to be non-blocking, and
+only wait as long as we want to for them. An extensive example can be
+found below.</li>
+<li>Use a framework like Netty, Akka, etc. that wraps the NIO stuff up in a
+ribbon and a tie</li>
+</ul>
+
+
+<h3>10K feet above NIO</h3>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/02/28/some-java-network-programming-fundamentals/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -702,105 +902,6 @@ X: 01101
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/09/11/avoiding-sign-extension/">Avoiding Sign Extension</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-09-11T20:12:42-07:00" pubdate data-updated="true">Sep 11<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was looking at an implementation of file-based mergesort <a href="https://github.com/cowtowncoder/java-merge-sort">from GitHub</a>, and found the following snippet.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> * Author: cowtowncoder</span>
-</span><span class='line'><span class="cm"> * https://github.com/cowtowncoder/java-merge-sort/blob/master/src/main/java/com/fasterxml/sort/std/ByteArrayComparator.java</span>
-</span><span class='line'><span class="cm"> * </span>
-</span><span class='line'><span class="cm"> * Simple implementation of comparator for byte arrays which</span>
-</span><span class='line'><span class="cm"> * will compare using &lt;code&gt;unsigned&lt;/code&gt; byte values (meaning</span>
-</span><span class='line'><span class="cm"> * that 0xFF is creator than 0x00, for example).</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ByteArrayComparator</span>
-</span><span class='line'>    <span class="kd">implements</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">[]&gt;</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>    <span class="nd">@Override</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">o1</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">o2</span><span class="o">)</span>
-</span><span class='line'>    <span class="o">{</span>
-</span><span class='line'>        <span class="kd">final</span> <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">length</span><span class="o">,</span> <span class="n">o2</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
-</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>            <span class="c1">// alas, sign extension means we must do masking...</span>
-</span><span class='line'>            <span class="kt">int</span> <span class="n">diff</span> <span class="o">=</span> <span class="o">(</span><span class="n">o1</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="o">)</span> <span class="o">-</span> <span class="o">(</span><span class="n">o2</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="o">);</span>
-</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">diff</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>                <span class="k">return</span> <span class="n">diff</span><span class="o">;</span>
-</span><span class='line'>            <span class="o">}</span>
-</span><span class='line'>        <span class="o">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">o1</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">o2</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What is the meaning of the remark &ldquo;<code>// alas, sign extension means we must do
-masking...</code>&rdquo;? What&rsquo;s the deal with the masking?</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/09/11/avoiding-sign-extension/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -818,6 +919,10 @@ masking...</code>&rdquo;? What&rsquo;s the deal with the masking?</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/10/09/on-learning/">On Learning</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/06/19/first-glance-at-genomics-with-adam-and-spark/">First Glance at Genomics With ADAM and Spark</a>
       </li>
     
@@ -831,10 +936,6 @@ masking...</code>&rdquo;? What&rsquo;s the deal with the masking?</p>
     
       <li class="post">
         <a href="/blog/2016/05/14/form-in-main-follows-program-function/">Form in &#8216;Main&#8217; Follows Program Function</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/05/12/name-according-to-function/">Name According to Function</a>
       </li>
     
   </ul>

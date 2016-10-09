@@ -9,8 +9,8 @@
   <meta name="author" content="Ethan Petuchowski">
 
   
-  <meta name="description" content="I met someone at a hack night worked for Akamai. He was a cool dude, so I was
-curious what Akamai does. For whatever reason I ended up reading a &hellip;">
+  <meta name="description" content="The scenario My (augmented todo-list) website has Categories, and each Category has a set
+of Tasks (aka &ldquo;one-to-many&rdquo;). Using a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +68,151 @@ curious what Akamai does. For whatever reason I ended up reading a &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/19/first-look-at-mongodb/">First Look at MongoDB</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-19T23:06:28-07:00" pubdate data-updated="true">Jun 19<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>The scenario</h2>
+
+<p>My (augmented todo-list) website has Categories, and <strong>each Category has a set
+of Tasks</strong> (aka <em>&ldquo;one-to-many&rdquo;</em>).</p>
+
+<blockquote><p>Using a relational database, one does not simply store references to all the
+Tasks directly in each Category. With Mongo, one may do exactly that.</p></blockquote>
+
+<p>After looking at various <strong>&ldquo;embedded vs references&rdquo;</strong>
+<a href="http://docs.mongodb.org/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/">documents</a>, I have decided to go with the hybrid
+model (the second of the three on that linked page), and <strong>embed references to
+Tasks in an array in each Category</strong>.</p>
+
+<h3>The console shall reveal the way to accomplish this</h3>
+
+<p>My lack of sustained googling didn&rsquo;t turn up any online resources about how to
+do it, so here you go.</p>
+
+<h4>Install MongoDB</h4>
+
+<p>After installing MongoDB with Homebrew, it became clear that the configuration
+was still incomplete (perhaps because brew lacks root access to the root
+directory). StackOverflow told me how to finish. I show you.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew install mongodb
+</span><span class='line'>sudo mkdir -p /data/db
+</span><span class='line'>sudo chmod 755 /data/db
+</span><span class='line'>sudo chown -R <span class="sb">`</span>id -u<span class="sb">`</span> /data/db
+</span><span class='line'>
+</span><span class='line'><span class="c"># now run</span>
+</span><span class='line'>mongod <span class="c"># in one window (server daemon)</span>
+</span><span class='line'>mongo  <span class="c"># in another window (interactive console)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Write the code</h4>
+
+<p>Now let&rsquo;s do an example of having a one-to-many relationship between Categories
+and Tasks, where in particular, we are storing an array of Task id&rsquo;s in each
+Category. In the end we will write a query to get all Tasks belonging to a
+Category.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="cm">/* create the collections */</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">db</span><span class="p">.</span><span class="nx">createCollection</span><span class="p">(</span><span class="s2">&quot;categories&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">db</span><span class="p">.</span><span class="nx">categories</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">count</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">categories</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">db</span><span class="p">.</span><span class="nx">createCollection</span><span class="p">(</span><span class="s2">&quot;tasks&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">tasks</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/* insert some elements into them */</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;first category&quot;</span><span class="p">,</span> <span class="nx">tasks</span><span class="o">:</span> <span class="p">[]})</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;first task&quot;</span><span class="p">})</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;second task&quot;</span><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/* add the references from the coll to the tasks */</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;first category&quot;</span><span class="p">},</span> <span class="p">{</span><span class="nx">$addToSet</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;tasks&quot;</span><span class="o">:</span><span class="nx">t</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;first task&quot;</span><span class="p">}).</span><span class="nx">_id</span><span class="p">}})</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;first category&quot;</span><span class="p">},</span> <span class="p">{</span><span class="nx">$addToSet</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;tasks&quot;</span><span class="o">:</span><span class="nx">t</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;second task&quot;</span><span class="p">}).</span><span class="nx">_id</span><span class="p">}})</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">c</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">pretty</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="s2">&quot;_id&quot;</span> <span class="o">:</span> <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fe86e2c6cdd3813233ed&quot;</span><span class="p">),</span>
+</span><span class='line'>    <span class="s2">&quot;name&quot;</span> <span class="o">:</span> <span class="s2">&quot;first category&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;tasks&quot;</span> <span class="o">:</span> <span class="p">[</span>
+</span><span class='line'>        <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fec9e2c6cdd3813233ee&quot;</span><span class="p">),</span>
+</span><span class='line'>        <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fed0e2c6cdd3813233ef&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">/*</span> <span class="nx">get</span> <span class="nx">all</span> <span class="nx">task</span> <span class="nx">documents</span> <span class="nx">referenced</span> <span class="nx">by</span> <span class="nx">the</span> <span class="s2">&quot;first category&quot;</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span><span class="nx">_id</span><span class="o">:</span> <span class="p">{</span><span class="nx">$in</span><span class="o">:</span> <span class="nx">c</span><span class="p">.</span><span class="nx">findOne</span><span class="p">().</span><span class="nx">tasks</span><span class="p">}})</span>
+</span><span class='line'><span class="p">{</span> <span class="s2">&quot;_id&quot;</span> <span class="o">:</span> <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fec9e2c6cdd3813233ee&quot;</span><span class="p">),</span> <span class="s2">&quot;name&quot;</span> <span class="o">:</span> <span class="s2">&quot;first task&quot;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">{</span> <span class="s2">&quot;_id&quot;</span> <span class="o">:</span> <span class="nx">ObjectId</span><span class="p">(</span><span class="s2">&quot;5584fed0e2c6cdd3813233ef&quot;</span><span class="p">),</span> <span class="s2">&quot;name&quot;</span> <span class="o">:</span> <span class="s2">&quot;second task&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -774,62 +919,6 @@ Ord<Integer>?&rdquo; And the answer is (now obvious) &ldquo;Of course not.&rdquo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/22/multimarkdown-to-latex/">Markdown to LaTeX</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-22T18:32:09-07:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Installation guide for Mac OSX</h3>
-
-<p>One day, I thought, &ldquo;Wouldn&rsquo;t it be nice to have a Markdown to LaTeX
-converter.&rdquo; Theoretically, one could combine these two tools to quickly create
-beautiful documents. That&rsquo;s how I found <a href="http://fletcherpenney.net/multimarkdown/">Multimarkdown</a> which is basically a
-souped up version of regular markdown. The documentation made it sound like
-this would be a breeze, but it actually took me way to long to get this to
-work on my machine. So I made a step-by-step guide.</p>
-
-<p>For the uninitiated, <a href="http://daringfireball.net/projects/markdown/">Markdown</a> is a simplified way of writing html markup.
-If you don&rsquo;t know about it please check it out. It is in fact how this very
-webpage was created.</p>
-
-<p>Then today I had to install it all over again on a different computer. To
-save my future self and you a lot of trouble, this time I noted what I did to get it to
-work (Mac OSX only).</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/22/multimarkdown-to-latex/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -847,6 +936,10 @@ work (Mac OSX only).</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/10/09/on-learning/">On Learning</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/06/19/first-glance-at-genomics-with-adam-and-spark/">First Glance at Genomics With ADAM and Spark</a>
       </li>
     
@@ -860,10 +953,6 @@ work (Mac OSX only).</p>
     
       <li class="post">
         <a href="/blog/2016/05/14/form-in-main-follows-program-function/">Form in &#8216;Main&#8217; Follows Program Function</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/05/12/name-according-to-function/">Name According to Function</a>
       </li>
     
   </ul>
